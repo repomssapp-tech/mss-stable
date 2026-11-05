@@ -30,7 +30,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    final unreadCount = provider.notifications.where((n) => !n['read']).length;
+    final unreadCount = provider.unreadNotificationCount;
 
     return Scaffold(
       backgroundColor: AppColors.background,

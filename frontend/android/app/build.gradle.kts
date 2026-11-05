@@ -48,10 +48,8 @@ android {
         versionName = flutter.versionName
     }
 
-    // MSS currently ships English and Tamil. Excluding unused dependency
-    // locales keeps direct-download APKs smaller without changing fallback
-    // resources.
-    androidResources.localeFilters += listOf("en", "ta")
+    // Keep native Android resources for the four supported app languages.
+    androidResources.localeFilters += listOf("en", "ta", "hi", "mr")
 
     signingConfigs.getByName("debug") {
         // Use repo-specific debug.keystore if available, otherwise fall back to standard Android debug keystore.

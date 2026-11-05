@@ -11,6 +11,7 @@ import '../../utils/app_radius.dart';
 import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/feedback_helper.dart';
+import '../../widgets/common/app_icon_button.dart';
 import '../../widgets/common/app_tappable.dart';
 import '../../widgets/scheme/inactive_scheme_badge.dart';
 import '../../utils/app_text.dart';
@@ -25,15 +26,11 @@ class SavedSchemesScreen extends StatefulWidget {
 
 class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
   int _activeTab = 0; // 0 = All Saved, 1 = Recently viewed
-  bool _isManageMode = false;
 
   void _selectTab(int index) {
     if (_activeTab == index) return;
     AppFeedback.selection();
-    setState(() {
-      _activeTab = index;
-      _isManageMode = false;
-    });
+    setState(() => _activeTab = index);
   }
 
   /// Two-segment switch between the saved list and recently viewed.
@@ -229,83 +226,36 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     ),
                   ),
                 ),
-                _isManageMode
-                    ? IconButton(
-                        icon: const Icon(
-                          Icons.delete_outline_rounded,
-                          color: AppColors.dangerStrong,
-                          size: AppSize.icon,
-                        ),
-                        tooltip: recentTab
-                            ? context.l10n.savedRemoveFromRecentTooltip
-                            : context.l10n.savedRemoveFromSavedTooltip,
-                        onPressed: () => _remove(provider, scheme, recentTab),
-                      )
-                    : PopupMenuButton<String>(
-                        icon: const Icon(
-                          Icons.more_vert_rounded,
-                          color: AppColors.iconMuted,
-                          size: AppSize.icon,
-                        ),
-                        onSelected: (value) {
-                          if (value == 'remove') {
-                            _remove(provider, scheme, recentTab);
-                          }
-                        },
-                        itemBuilder: (context) => [
-                          PopupMenuItem(
-                            value: 'remove',
-                            child: Text(
-                              recentTab
-                                  ? context.l10n.savedRemoveFromRecentTooltip
-                                  : context.l10n.removeSaved,
-                            ),
-                          ),
-                        ],
+                if (recentTab)
+                  PopupMenuButton<String>(
+                    icon: const Icon(
+                      Icons.more_vert_rounded,
+                      color: AppColors.iconMuted,
+                      size: AppSize.icon,
+                    ),
+                    onSelected: (value) {
+                      if (value == 'remove') {
+                        _remove(provider, scheme, recentTab);
+                      }
+                    },
+                    itemBuilder: (context) => [
+                      PopupMenuItem(
+                        value: 'remove',
+                        child: Text(context.l10n.savedRemoveFromRecentTooltip),
                       ),
+                    ],
+                  )
+                else
+                  AppIconButton(
+                    icon: Icons.bookmark_rounded,
+                    color: AppColors.primary,
+                    semanticLabel: context.l10n.removeSaved,
+                    onPressed: () => _remove(provider, scheme, recentTab),
+                  ),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _buildManageListBanner() {
-    return Container(
-      margin: const EdgeInsets.only(top: AppSpacing.sm),
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceMuted,
-        borderRadius: AppRadius.lgAll,
-      ),
-      child: Wrap(
-        spacing: AppSpacing.md,
-        runSpacing: AppSpacing.md,
-        crossAxisAlignment: WrapCrossAlignment.center,
-        alignment: WrapAlignment.spaceBetween,
-        children: [
-          Text(
-            context.l10n.savedRemoveNoLongerInterested,
-            style: context.text.bodySmall.copyWith(
-              color: AppColors.textSecondary,
-            ),
-          ),
-          OutlinedButton.icon(
-            onPressed: () => setState(() => _isManageMode = !_isManageMode),
-            icon: Icon(
-              _isManageMode
-                  ? Icons.check_rounded
-                  : Icons.delete_outline_rounded,
-              size: AppSize.iconSm,
-            ),
-            label: Text(
-              _isManageMode
-                  ? context.l10n.doneManaging
-                  : context.l10n.manageSaved,
-            ),
-          ),
-        ],
       ),
     );
   }
@@ -440,11 +390,8 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                         AppSpacing.lg,
                         AppSpacing.lg,
                       ),
-                      itemCount: displaySchemes.length + 1,
+                      itemCount: displaySchemes.length,
                       itemBuilder: (context, index) {
-                        if (index == displaySchemes.length) {
-                          return _buildManageListBanner();
-                        }
                         return _buildSchemeCard(
                           context,
                           displaySchemes[index],

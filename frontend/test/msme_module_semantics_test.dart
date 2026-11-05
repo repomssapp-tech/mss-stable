@@ -1,6 +1,3 @@
-// #149 s1: the MSME module page has an empty app bar title, so the route must
-// be named for assistive technology via a scopesRoute/namesRoute Semantics.
-
 import 'package:flutter/material.dart';
 import 'package:flutter/semantics.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -47,16 +44,24 @@ void main() {
     ('schemes', 'Government Schemes'),
   ];
 
-  for (final lang in ['en', 'ta']) {
+  for (final lang in ['en', 'ta', 'hi', 'mr']) {
     for (final (id, title) in cases) {
       testWidgets('$id [$lang] route is named, back kept, title not doubled', (
         tester,
       ) async {
+        tester.view.physicalSize = const Size(320, 720);
+        tester.view.devicePixelRatio = 1;
+        tester.platformDispatcher.textScaleFactorTestValue = 2;
+        addTearDown(tester.view.reset);
+        addTearDown(tester.platformDispatcher.clearTextScaleFactorTestValue);
         final handle = tester.ensureSemantics();
         await tester.pumpWidget(_host(Locale(lang), id, title));
         await tester.pumpAndSettle();
 
-        final localized = CentralizedTranslator.instance.localize(title);
+        final localized = CentralizedTranslator.instance.localizeFor(
+          lang,
+          title,
+        );
         final back = AppLocalizations.of(
           tester.element(find.byType(MSMEModuleDetailsScreen)),
         )!.back;
@@ -78,23 +83,13 @@ void main() {
         // (b) back button keeps its label.
         expect(find.bySemanticsLabel(back), findsWidgets);
 
-        // (c) the title is exposed once as a header, and no app-bar node
-        // repeats it as a separate label.
-        final headers = nodes.where((n) {
-          final d = n.getSemanticsData();
-          return d.flagsCollection.isHeader && d.label.contains(localized);
-        });
-        expect(headers.length, 1);
-        // The app bar region is the subtree holding the back button.
-        final barNode = tester
-            .getSemantics(find.bySemanticsLabel(back).first)
-            .parent!;
-        final barNodes = <SemanticsNode>[];
-        _collect(barNode, barNodes);
-        final inBar = barNodes.where(
-          (n) => n.getSemanticsData().label.contains(localized),
+        final titleText = find.text(localized);
+        expect(titleText, findsOneWidget);
+        expect(
+          find.descendant(of: find.byType(AppBar), matching: titleText),
+          findsOneWidget,
         );
-        expect(inBar, isEmpty);
+        expect(tester.takeException(), isNull);
         handle.dispose();
       });
     }

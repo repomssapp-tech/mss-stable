@@ -87,10 +87,6 @@ void main() {
             en.savedKeepListUpdated,
             ta.savedKeepListUpdated,
           ],
-          'savedRemoveFromSavedTooltip': [
-            en.savedRemoveFromSavedTooltip,
-            ta.savedRemoveFromSavedTooltip,
-          ],
         };
 
         pairs.forEach((key, values) {
@@ -157,5 +153,4 @@ void main() {
       expect(ta.searchResultsShareHeader('PMEGP'), contains('PMEGP'));
     });
   });
-
 }

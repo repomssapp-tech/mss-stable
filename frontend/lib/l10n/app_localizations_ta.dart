@@ -9,6 +9,13 @@ class AppLocalizationsTa extends AppLocalizations {
   AppLocalizationsTa([String locale = 'ta']) : super(locale);
 
   @override
+  String get startupConfigErrorBody =>
+      'இந்தச் செயலிப் பதிப்பில் சேவை அமைப்புகள் இல்லை.';
+
+  @override
+  String get startupConfigError => 'செயலி அமைப்புப் பிழை';
+
+  @override
   String get goodMorning => 'காலை வணக்கம்,';
 
   @override
@@ -543,12 +550,6 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get savedRecentlyViewedEmptyDesc =>
       'நீங்கள் திறக்கும் திட்டங்கள் இங்கே தோன்றும்';
-
-  @override
-  String get manageSaved => 'நிர்வகித்தல்';
-
-  @override
-  String get doneManaging => 'முடிந்தது';
 
   @override
   String get clearAllSaved => 'அனைத்தையும் நீக்குக';
@@ -2436,6 +2437,137 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get catRenewableEnergyEfficiency =>
       'புதுப்பிக்கத்தக்க எரிசக்தி & எரிசக்தி திறன்';
+
+  @override
+  String get privacyGrievanceContact =>
+      'தரவுத் தனியுரிமை, உரிமைகள் அல்லது குறைகள் குறித்த கேள்விகள் இருந்தால், எங்கள் குறை தீர்ப்பு அதிகாரியை mssschemessearch@gmail.com என்ற முகவரியில் தொடர்புகொள்ளவும்.';
+
+  @override
+  String get privacyQuestionsHeading => 'தனியுரிமை குறித்த கேள்விகள் உள்ளனவா?';
+
+  @override
+  String get privacyPolicyIntroduction =>
+      'MSS செயலி (“MSS”, “நாங்கள்”, “எங்களை”) உங்கள் தனியுரிமையை மதிக்கிறது; டிஜிட்டல் தனிப்பட்ட தரவுப் பாதுகாப்புச் சட்டம், 2023 மற்றும் பொருந்தும் விதிகளுக்கு இணங்க உங்கள் தனிப்பட்ட தரவைப் பாதுகாக்க உறுதிபூண்டுள்ளது.';
+
+  @override
+  String get privacyPolicyEffectiveDate =>
+      'நடைமுறைக்கு வரும் தேதி: 1 செப்டம்பர் 2026 • DPDPA 2023';
+
+  @override
+  String get privacyCommitmentHeading => 'MSS செயலியின் தனியுரிமை உறுதிமொழி';
+
+  @override
+  String get termsAgreementBody =>
+      'MSS செயலியைத் தொடர்ந்து பயன்படுத்துவது இந்தப் பயன்பாட்டு விதிமுறைகளை நீங்கள் ஏற்றுக்கொண்டதைக் குறிக்கிறது.';
+
+  @override
+  String get termsAgreementHeading => 'விதிமுறைகள் ஒப்பந்தம்';
+
+  @override
+  String get termsIntroduction =>
+      'MSS-க்கு வரவேற்கிறோம். MSS என்பது பயனர்களுக்குப் பொருத்தமாக இருக்கக்கூடிய அரசுத் திட்டங்களைக் கண்டறிந்து, புரிந்துகொண்டு, ஆராய உதவும் ஒரு டிஜிட்டல் தளம். MSS செயலியை அணுகுவதன் மூலமாகவோ பயன்படுத்துவதன் மூலமாகவோ, இந்தப் பயன்பாட்டு விதிமுறைகளைப் படித்துப் புரிந்துகொண்டு அவற்றுக்குக் கட்டுப்பட ஒப்புக்கொள்வதாக நீங்கள் ஏற்கிறீர்கள்.';
+
+  @override
+  String get termsEffectiveDate => 'நடைமுறைக்கு வரும் தேதி: 1 செப்டம்பர் 2026';
+
+  @override
+  String get termsOfUseHeading => 'MSS செயலியின் பயன்பாட்டு விதிமுறைகள்';
+
+  @override
+  String get msmeSearchClusters => 'கிளஸ்டர் / தொழில்நுட்ப திட்டங்களைத் தேடுக';
+
+  @override
+  String get msmeClustersDescription =>
+      'கிளஸ்டர் மேம்பாடு, தொழில்நுட்ப மேம்பாடு மற்றும் இன்குபேட்டர் மானியங்களை வழங்கும் திட்டங்களை தேடுங்கள்.';
+
+  @override
+  String get msmeClustersHeading =>
+      'CSR மற்றும் தொழில்நுட்ப கிளஸ்டர்களை ஆராயுங்கள்';
+
+  @override
+  String get msmeSearchFunding => 'எம் எஸ் எம் ஈ கடன்கள் & நிதியுதவி தேடுக';
+
+  @override
+  String get msmeFundingDescription =>
+      'கடன் உதவி, பிணையமற்ற தொழில் கடன்கள் மற்றும் SIDBI திட்டங்களுக்காக எங்கள் தரவுத்தளத்தில் உடனடி தேடல் செய்யுங்கள்.';
+
+  @override
+  String get msmeFundingHeading => 'நிதியுதவி விருப்பங்களைக் கண்டறியவும்';
+
+  @override
+  String get msmeExportReadinessDescription =>
+      'சர்வதேச வர்த்தகப் பதிவிற்கான விடுபட்டத் தேவைகளைக் கண்டறிய இந்த சரிபார்ப்புப் பட்டியலைப் பூர்த்தி செய்யுங்கள்.';
+
+  @override
+  String get msmeExportReadinessHeading => 'ஏற்றுமதி தயார்நிலை மதிப்பீடு';
+
+  @override
+  String get msmeAuthoritiesTreeHeading => 'அரசு அதிகார அமைப்புகள் படிநிலை';
+
+  @override
+  String get msmeTredsFlowHeading => 'TReDS இன்வாய்ஸ் தள்ளுபடி செயல்முறை';
+
+  @override
+  String get benefitsOfficialSourceFallback =>
+      'அதிகாரப்பூர்வ மூலத்தில் நன்மை விவரங்கள் கிடைக்கும்.';
+
+  @override
+  String get dataProcessingNoticeHeading => 'தயவுசெய்து புரிந்துகொள்ளவும்';
+
+  @override
+  String get dataProcessingUseSummary =>
+      'உங்கள் தகவல் இவற்றுக்குப் பயன்படுத்தப்படலாம்:';
+
+  @override
+  String get dataProcessingUseHeading => 'உங்கள் தகவலை ஏன் பயன்படுத்துகிறோம்';
+
+  @override
+  String get dataProcessingConsentIntroduction =>
+      'உங்கள் சுயவிவரத்தை நிறைவு செய்வதன் மூலம், உங்கள் Google உள்நுழைவிலிருந்து கிடைக்கும் தகவலையும், நீங்கள் அளிக்கும் தனிப்பட்ட தகவலையும் — பின்வருவன உள்பட — MSS சேகரித்துச் செயலாக்க நீங்கள் தானாக முன்வந்து ஒப்புதல் அளிக்கிறீர்கள்:';
+
+  @override
+  String get dataProcessingConsentSummary =>
+      'உங்கள் ஒப்புதல் உங்கள் அனுபவத்தைத் தனிப்பயனாக்க MSS-க்கு உதவுகிறது.';
+
+  @override
+  String get dataProcessingConsentHeading =>
+      'தனிப்பட்ட தரவுச் செயலாக்கத்திற்கான ஒப்புதல்';
+
+  @override
+  String get msmeValueSchemes =>
+      'உங்கள் சுயவிவர விவரங்களின் அடிப்படையில் நீங்கள் தகுதியான அரசு மானியங்கள், உதவித்தொகைகள் மற்றும் பதிவு திட்டங்களை கண்டறியுங்கள்.';
+
+  @override
+  String get msmeValueFinance =>
+      'உங்கள் தொழிலுக்கு நிதியளிக்கவும் விரிவாக்கவும் கடன் விருப்பங்கள், கடன் உத்தரவாதங்கள், உபகரண கடன்கள் மற்றும் SIDBI திட்டங்களை அணுகுங்கள்.';
+
+  @override
+  String get msmeValueTaxGst =>
+      'கார்ப்பரேட் வரி குறைப்புகள், GST வரம்பு விலக்குகள், காம்போசிஷன் திட்டங்கள் மற்றும் தாமதமான செலுத்துகைகளுக்கான சட்டப்பூர்வ வட்டி உரிமைக்கோரல்கள் பற்றி அறியுங்கள்.';
+
+  @override
+  String get msmeValueExport =>
+      'உங்கள் தொழிலை உலகளவில் விரிவாக்க ஏற்றுமதி சலுகைகள், நிதி கடன்கள், கடன் காப்பீடு மற்றும் ஒழுங்குமுறை முகமைகளை கண்டறியுங்கள்.';
+
+  @override
+  String get msmeValueTreds =>
+      'பிணையமின்றி உடனடி பணப்புழக்கத்தைப் பெற வங்கிகள் மற்றும் நிதி நிறுவனங்களின் ஆன்லைன் ஏலம் மூலம் உங்கள் வர்த்தக இன்வாய்ஸ்களை தள்ளுபடி செய்யுங்கள்.';
+
+  @override
+  String get msmeValueCsr =>
+      'கார்ப்பரேட் சமூகப் பொறுப்பு (CSR) திட்டங்கள், தொழில்நுட்ப இன்குபேஷன் மானியங்கள் மற்றும் சிறப்பு திறன் மேம்பாட்டு கிளஸ்டர்களுடன் இணையுங்கள்.';
+
+  @override
+  String get msmeValueGovt =>
+      'அரசுத் துறைகளின் பொறுப்புகளைப் புரிந்து கொண்டு தொழில் உதவிக்காக பொருத்தமான அதிகார அமைப்பை (மத்திய அமைச்சகம், மாநில இயக்ககம் அல்லது மாவட்ட DIC) தொடர்பு கொள்ளுங்கள்.';
+
+  @override
+  String get msmeValueInstitutions =>
+      'சரியான நிறுவனங்களை (SIDBI, NSIC, DIC, KVIC போன்றவை) அடையாளம் கண்டு அவற்றின் சேவைப் பட்டியல்கள், தொடர்பு வழிகள் மற்றும் திட்டங்களை ஆராயுங்கள்.';
+
+  @override
+  String get msmeValueUdyam =>
+      'முன்னுரிமைத் துறை வங்கிக் கடன்கள், 15% மூலதன மானியம், பிணையில்லாக் கடன் (CGTMSE) மற்றும் அரசு ஒப்பந்தப் புள்ளி விலக்குகளைப் பெற, அதிகாரப்பூர்வ எம் எஸ் எம் ஈ உத்யம் பதிவை இலவசமாக முடிக்கவும்.';
 
   @override
   String get msmeWhatTheUserGets => 'பயனர் பெறும் நன்மைகள்';
@@ -4603,6 +4735,10 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
+  String get notifReadSyncPending =>
+      'இணைப்பு கிடைத்ததும் படித்த நிலை ஒத்திசைக்கப்படும்.';
+
+  @override
   String get notifMarkAllAsRead => 'அனைத்தையும் படித்ததாகக் குறி';
 
   @override
@@ -4712,9 +4848,6 @@ class AppLocalizationsTa extends AppLocalizations {
   }
 
   @override
-  String get savedRemoveFromSavedTooltip => 'சேமித்தவற்றிலிருந்து அகற்று';
-
-  @override
   String get savedRemoveFromRecentTooltip =>
       'சமீபத்தில் பார்த்தவற்றிலிருந்து அகற்று';
 
@@ -4728,10 +4861,6 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get savedKeepListUpdated =>
       'உங்கள் பட்டியலைப் புதுப்பித்து வைத்திருங்கள்!';
-
-  @override
-  String get savedRemoveNoLongerInterested =>
-      'இனி உங்களுக்கு விருப்பமில்லாத திட்டங்களை அகற்றவும்';
 
   @override
   String get eduSchool => 'பள்ளி (10 / 12ம்)';

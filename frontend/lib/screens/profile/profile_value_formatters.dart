@@ -7,7 +7,7 @@ class ProfileValueFormatters {
   const ProfileValueFormatters._();
 
   // Onboarding stores the *label* the user tapped, so a profile created in
-  // Hindi holds "पुरुष" and one created in Tamil holds "ஆண்". Showing such a
+  // Hindi holds "पुरुष" and one created in Tamil holds the Tamil word. Showing such a
   // value in another language means recognising it by its label in any
   // supported language and re-rendering it in the current one.
   static final List<String Function(AppLocalizations)> _labelKeys = [

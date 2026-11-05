@@ -79,9 +79,7 @@ class HomeJourneySection extends StatelessWidget {
     String? categoryName,
   }) async {
     // Route on the language-stable moduleId / categoryName, never the
-    // localized `title` -- in Tamil a title like "உத்யம் பதிவு" contains
-    // no "udyam"/"export" substring, so the old checks silently fell
-    // through and every card returned the same generic fallback list.
+    // localized title, whose text may use a different script.
 
     // 1. Register Udyam -> interactive Udyam Registration module
     if (moduleId == 'udyam') {

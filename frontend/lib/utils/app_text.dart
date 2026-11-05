@@ -17,11 +17,15 @@ abstract final class AppFonts {
 /// Colour is never baked in -- callers `.copyWith(color: AppColors.x)`.
 @immutable
 class AppTextStyles {
-  const AppTextStyles._(this._tamilBump);
+  const AppTextStyles._(this._tamilBump, {double sizeFactor = 1})
+    : _sizeFactor = sizeFactor;
   final double _tamilBump;
+  final double _sizeFactor;
+
+  double _size(double size) => (size * _sizeFactor).clamp(12.0, size);
 
   static const en = AppTextStyles._(0);
-  static const ta = AppTextStyles._(0.10);
+  static const ta = AppTextStyles._(0.10, sizeFactor: 0.92);
   // Devanagari carries headline strokes and above/below-base matras, so it
   // needs the same extra leading as Tamil to avoid clipped or cramped lines.
   static const hi = AppTextStyles._(0.10);
@@ -45,31 +49,31 @@ class AppTextStyles {
   TextStyle _h(double size, double h, FontWeight w) => TextStyle(
     fontFamily: AppFonts.heading,
     fontFamilyFallback: AppFonts.fallback,
-    fontSize: size,
+    fontSize: _size(size),
     fontWeight: w,
     height: h + _tamilBump,
   );
   TextStyle _b(double size, double h, FontWeight w) => TextStyle(
     fontFamily: AppFonts.body,
     fontFamilyFallback: AppFonts.fallback,
-    fontSize: size,
+    fontSize: _size(size),
     fontWeight: w,
     fontVariations: [FontVariation('wght', w.value.toDouble())],
     height: h + _tamilBump,
   );
 
-  TextStyle get display => _h(28, 1.25, FontWeight.w700);
-  TextStyle get headline => _h(24, 1.30, FontWeight.w700);
-  TextStyle get titleLarge => _h(20, 1.30, FontWeight.w700);
-  TextStyle get titleMedium => _h(18, 1.30, FontWeight.w700);
-  TextStyle get titleSmall => _h(16, 1.35, FontWeight.w700);
-  TextStyle get cardTitle => _h(14, 1.35, FontWeight.w700);
+  TextStyle get display => _h(28, 1.25, FontWeight.w600);
+  TextStyle get headline => _h(24, 1.30, FontWeight.w600);
+  TextStyle get titleLarge => _h(20, 1.30, FontWeight.w600);
+  TextStyle get titleMedium => _h(18, 1.30, FontWeight.w600);
+  TextStyle get titleSmall => _h(16, 1.35, FontWeight.w600);
+  TextStyle get cardTitle => _h(14, 1.35, FontWeight.w600);
   TextStyle get bodyLarge => _b(16, 1.50, FontWeight.w400);
   TextStyle get body => _b(14, 1.50, FontWeight.w400);
   TextStyle get bodySmall => _b(12, 1.45, FontWeight.w400);
   TextStyle get label => _b(12, 1.40, FontWeight.w600);
   TextStyle get button => _b(14, 1.30, FontWeight.w600);
-  TextStyle get buttonLarge => _b(16, 1.30, FontWeight.w700);
+  TextStyle get buttonLarge => _b(16, 1.30, FontWeight.w600);
 }
 
 /// Usage: `Text(l10n.savedTitle, style: context.text.headline.copyWith(color: AppColors.textPrimary))`.

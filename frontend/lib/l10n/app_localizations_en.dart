@@ -9,6 +9,13 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get startupConfigErrorBody =>
+      'This app build is missing its service settings.';
+
+  @override
+  String get startupConfigError => 'App configuration error';
+
+  @override
   String get goodMorning => 'Good Morning,';
 
   @override
@@ -536,12 +543,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedRecentlyViewedEmptyDesc => 'Schemes you open appear here';
-
-  @override
-  String get manageSaved => 'Manage';
-
-  @override
-  String get doneManaging => 'Done';
 
   @override
   String get clearAllSaved => 'Clear All';
@@ -2400,6 +2401,135 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get catRenewableEnergyEfficiency => 'Renewable & Energy Efficiency';
+
+  @override
+  String get privacyGrievanceContact =>
+      'If you have questions regarding data privacy, rights, or grievances, contact our Grievance Officer at mssschemessearch@gmail.com.';
+
+  @override
+  String get privacyQuestionsHeading => 'Have Privacy Questions?';
+
+  @override
+  String get privacyPolicyIntroduction =>
+      'MSS App (“MSS”, “we”, “us”) respects your privacy and is committed to protecting your personal data in accordance with the Digital Personal Data Protection Act, 2023 and applicable rules.';
+
+  @override
+  String get privacyPolicyEffectiveDate =>
+      'Effective Date: 1 September 2026 • DPDPA 2023';
+
+  @override
+  String get privacyCommitmentHeading => 'MSS App Privacy Commitment';
+
+  @override
+  String get termsAgreementBody =>
+      'Continued use of the MSS App signifies your acceptance of these Terms of Use.';
+
+  @override
+  String get termsAgreementHeading => 'Terms Agreement';
+
+  @override
+  String get termsIntroduction =>
+      'Welcome to MSS. MSS is a digital platform designed to help users discover, understand and explore Government schemes that may be relevant to them. By accessing or using the MSS application, you acknowledge that you have read, understood and agree to be bound by these Terms of Use.';
+
+  @override
+  String get termsEffectiveDate => 'Effective Date: 1 September 2026';
+
+  @override
+  String get termsOfUseHeading => 'MSS App Terms of Use';
+
+  @override
+  String get msmeSearchClusters => 'Search Cluster / Tech Schemes';
+
+  @override
+  String get msmeClustersDescription =>
+      'Search for schemes offering cluster development, technology upgrades, and incubator grants.';
+
+  @override
+  String get msmeClustersHeading => 'Explore CSR & Technology Clusters';
+
+  @override
+  String get msmeSearchFunding => 'Search MSME Loans & Funding';
+
+  @override
+  String get msmeFundingDescription =>
+      'Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.';
+
+  @override
+  String get msmeFundingHeading => 'Find Funding Options';
+
+  @override
+  String get msmeExportReadinessDescription =>
+      'Complete this checklist to identify missing links for international trade registration.';
+
+  @override
+  String get msmeExportReadinessHeading => 'Export Readiness Assessment';
+
+  @override
+  String get msmeAuthoritiesTreeHeading => 'Government Authorities Tree';
+
+  @override
+  String get msmeTredsFlowHeading => 'TReDS Invoice Discounting Flow';
+
+  @override
+  String get benefitsOfficialSourceFallback =>
+      'Benefit details are available from the official source.';
+
+  @override
+  String get dataProcessingNoticeHeading => 'PLEASE UNDERSTAND';
+
+  @override
+  String get dataProcessingUseSummary => 'Your information may be used for:';
+
+  @override
+  String get dataProcessingUseHeading => 'WHY WE USE YOUR INFORMATION';
+
+  @override
+  String get dataProcessingConsentIntroduction =>
+      'By completing your profile, you voluntarily consent to MSS collecting and processing information from your Google Sign-In and the personal information you provide, including:';
+
+  @override
+  String get dataProcessingConsentSummary =>
+      'Your consent helps MSS personalize your experience.';
+
+  @override
+  String get dataProcessingConsentHeading =>
+      'Consent to Processing of Personal Data';
+
+  @override
+  String get msmeValueSchemes =>
+      'Find government subsidies, grants, and registration schemes you are eligible for, customized to your profile details.';
+
+  @override
+  String get msmeValueFinance =>
+      'Access loan options, credit guarantees, equipment loans, and SIDBI schemes to finance and expand your enterprise.';
+
+  @override
+  String get msmeValueTaxGst =>
+      'Learn about corporate tax reductions, GST threshold relief, composition schemes, and legal interest claims for payment delays.';
+
+  @override
+  String get msmeValueExport =>
+      'Discover export incentives, financial credits, credit insurance, and regulatory agencies to expand your business globally.';
+
+  @override
+  String get msmeValueTreds =>
+      'Discount your trade invoices through online bidding with banks and financial institutions to get immediate cash flow without collateral.';
+
+  @override
+  String get msmeValueCsr =>
+      'Connect with corporate social responsibility (CSR) programs, tech incubation grants, and specialized skill development clusters.';
+
+  @override
+  String get msmeValueGovt =>
+      'Understand government department responsibilities and reach the appropriate authority (Central Ministry, State Directorate, or District DIC) for business help.';
+
+  @override
+  String get msmeValueInstitutions =>
+      'Identify the right institutions (SIDBI, NSIC, DIC, KVIC, etc.) and explore their service catalogs, contact avenues, and programs.';
+
+  @override
+  String get msmeValueUdyam =>
+      'Complete official MSME Udyam registration for free to unlock priority sector bank loans, 15% capital subsidies, collateral-free credit (CGTMSE), and Government tender exemptions.';
 
   @override
   String get msmeWhatTheUserGets => 'WHAT THE USER GETS';
@@ -4521,6 +4651,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get notifReadSyncPending =>
+      'Read status will sync when the connection is available.';
+
+  @override
   String get notifMarkAllAsRead => 'Mark all as read';
 
   @override
@@ -4627,9 +4761,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get savedRemoveFromSavedTooltip => 'Remove from saved';
-
-  @override
   String get savedRemoveFromRecentTooltip => 'Remove from recently viewed';
 
   @override
@@ -4641,10 +4772,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get savedKeepListUpdated => 'Keep your list updated!';
-
-  @override
-  String get savedRemoveNoLongerInterested =>
-      'Remove schemes you\'re no longer interested in';
 
   @override
   String get eduSchool => 'School (10th / 12th)';

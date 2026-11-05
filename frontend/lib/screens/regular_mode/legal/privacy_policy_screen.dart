@@ -35,7 +35,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
-          CentralizedTranslator.instance.localize('Privacy Policy'),
+          context.l10n.privacyPolicy,
           style: context.text.titleMedium.copyWith(color: kSlate900),
         ),
         centerTitle: true,
@@ -77,18 +77,14 @@ class PrivacyPolicyScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            CentralizedTranslator.instance.localize(
-                              'MSS App Privacy Commitment',
-                            ),
+                            context.l10n.privacyCommitmentHeading,
                             style: context.text.titleSmall.copyWith(
                               color: kSlate900,
                             ),
                           ),
                           const SizedBox(height: AppSpacing.xs),
                           Text(
-                            CentralizedTranslator.instance.localize(
-                              'Effective Date: 1 September 2026 • DPDPA 2023',
-                            ),
+                            context.l10n.privacyPolicyEffectiveDate,
                             style: context.text.bodySmall.copyWith(
                               color: kSlate500,
                             ),
@@ -102,9 +98,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
               const SizedBox(height: AppSpacing.xxl),
 
               Text(
-                CentralizedTranslator.instance.localize(
-                  'MSS App (“MSS”, “we”, “us”) respects your privacy and is committed to protecting your personal data in accordance with the Digital Personal Data Protection Act, 2023 and applicable rules.',
-                ),
+                context.l10n.privacyPolicyIntroduction,
                 style: context.text.body.copyWith(color: kSlate700),
               ),
               const SizedBox(height: AppSpacing.xl),
@@ -248,9 +242,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                         const SizedBox(width: AppSpacing.sm),
                         Expanded(
                           child: Text(
-                            CentralizedTranslator.instance.localize(
-                              'Have Privacy Questions?',
-                            ),
+                            context.l10n.privacyQuestionsHeading,
                             style: context.text.cardTitle.copyWith(
                               color: kSlate900,
                             ),
@@ -260,9 +252,7 @@ class PrivacyPolicyScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.tight),
                     Text(
-                      CentralizedTranslator.instance.localize(
-                        'If you have questions regarding data privacy, rights, or grievances, contact our Grievance Officer at mssschemessearch@gmail.com.',
-                      ),
+                      context.l10n.privacyGrievanceContact,
                       style: context.text.bodySmall.copyWith(color: kSlate500),
                     ),
                   ],

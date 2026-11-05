@@ -39,7 +39,10 @@ class SchemeBenefitsContent extends StatelessWidget {
         (
           icon: Icons.account_balance_wallet_outlined,
           label: l10n.benefitMaximum,
-          value: formatInr(scheme.maxFunding!, decimals: 0),
+          value: formatInr(
+            scheme.maxFunding!,
+            decimals: scheme.maxFunding! % 1 == 0 ? 0 : 2,
+          ),
         ),
       if (scheme.schemeType.isNotEmpty)
         (
@@ -77,9 +80,7 @@ class SchemeBenefitsContent extends StatelessWidget {
         ],
         Text(
           scheme.benefits.isEmpty
-              ? CentralizedTranslator.instance.localize(
-                  'Benefit details are available from the official source.',
-                )
+              ? context.l10n.benefitsOfficialSourceFallback
               : scheme.benefits,
           style: context.text.body.copyWith(color: AppColors.textBody),
         ),
@@ -127,7 +128,7 @@ class _FigureTile extends StatelessWidget {
           const SizedBox(height: AppSpacing.xs),
           Text(
             value,
-            style: context.text.titleSmall.copyWith(
+            style: context.text.cardTitle.copyWith(
               color: AppTagStyle.benefit.text,
               fontFeatures: const [FontFeature.tabularFigures()],
             ),

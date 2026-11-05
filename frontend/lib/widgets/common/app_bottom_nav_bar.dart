@@ -39,7 +39,7 @@ const List<(IconData, IconData)> _icons = [
 ];
 
 /// The app's five-tab bottom bar: a floating white pill with outline icons,
-/// each in a soft lavender circle. The active tab is a round frosted purple
+/// each in a soft lavender circle. The active tab is a round frosted blue
 /// glass bubble (white icon, a light rim); while it moves it stretches and
 /// grows a droplet tail trailing behind it.
 ///

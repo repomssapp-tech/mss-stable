@@ -3,12 +3,12 @@ import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 
 class MsmeHeaderSection extends StatelessWidget {
   final String moduleId;
-  final String title;
   final String description;
   final IconData icon;
   final Color iconColor;
@@ -17,7 +17,6 @@ class MsmeHeaderSection extends StatelessWidget {
   const MsmeHeaderSection({
     super.key,
     required this.moduleId,
-    required this.title,
     required this.description,
     required this.icon,
     required this.iconColor,
@@ -50,45 +49,15 @@ class MsmeHeaderSection extends StatelessWidget {
         border: Border(bottom: BorderSide(color: AppColors.border)),
       ),
       padding: const EdgeInsets.all(AppSpacing.xl),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
-            children: [
-              Container(
-                width: 60,
-                height: 60,
-                decoration: BoxDecoration(
-                  color: themeColor.withValues(alpha: 0.1),
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(icon, color: iconColor, size: 32),
-              ),
-              const SizedBox(width: AppSpacing.lg),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Semantics(
-                      header: true,
-                      child: Text(
-                        CentralizedTranslator.instance.localize(title),
-                        style: context.text.titleMedium.copyWith(
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: AppSpacing.xs),
-                    Text(
-                      CentralizedTranslator.instance.localize(description),
-                      style: context.text.body.copyWith(
-                        color: AppColors.textMuted,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
+          Icon(icon, color: iconColor, size: AppSize.icon),
+          const SizedBox(width: AppSpacing.lg),
+          Expanded(
+            child: Text(
+              CentralizedTranslator.instance.localize(description),
+              style: context.text.body.copyWith(color: AppColors.textMuted),
+            ),
           ),
         ],
       ),
@@ -96,45 +65,18 @@ class MsmeHeaderSection extends StatelessWidget {
   }
 
   Widget _buildWhatUserGets(BuildContext context) {
-    String valueText = '';
-    switch (moduleId) {
-      case 'schemes':
-        valueText =
-            'Find government subsidies, grants, and registration schemes you are eligible for, customized to your profile details.';
-        break;
-      case 'finance':
-        valueText =
-            'Access loan options, credit guarantees, equipment loans, and SIDBI schemes to finance and expand your enterprise.';
-        break;
-      case 'tax_gst':
-        valueText =
-            'Learn about corporate tax reductions, GST threshold relief, composition schemes, and legal interest claims for payment delays.';
-        break;
-      case 'export':
-        valueText =
-            'Discover export incentives, financial credits, credit insurance, and regulatory agencies to expand your business globally.';
-        break;
-      case 'treds':
-        valueText =
-            'Discount your trade invoices through online bidding with banks and financial institutions to get immediate cash flow without collateral.';
-        break;
-      case 'csr':
-        valueText =
-            'Connect with corporate social responsibility (CSR) programs, tech incubation grants, and specialized skill development clusters.';
-        break;
-      case 'govt':
-        valueText =
-            'Understand government department responsibilities and reach the appropriate authority (Central Ministry, State Directorate, or District DIC) for business help.';
-        break;
-      case 'institutions':
-        valueText =
-            'Identify the right institutions (SIDBI, NSIC, DIC, KVIC, etc.) and explore their service catalogs, contact avenues, and programs.';
-        break;
-      case 'udyam':
-        valueText =
-            'Complete official MSME Udyam registration for free to unlock priority sector bank loans, 15% capital subsidies, collateral-free credit (CGTMSE), and Government tender exemptions.';
-        break;
-    }
+    final valueText = switch (moduleId) {
+      'schemes' => context.l10n.msmeValueSchemes,
+      'finance' => context.l10n.msmeValueFinance,
+      'tax_gst' => context.l10n.msmeValueTaxGst,
+      'export' => context.l10n.msmeValueExport,
+      'treds' => context.l10n.msmeValueTreds,
+      'csr' => context.l10n.msmeValueCsr,
+      'govt' => context.l10n.msmeValueGovt,
+      'institutions' => context.l10n.msmeValueInstitutions,
+      'udyam' => context.l10n.msmeValueUdyam,
+      _ => '',
+    };
 
     return Container(
       width: double.infinity,
@@ -169,7 +111,7 @@ class MsmeHeaderSection extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.sm),
           Text(
-            CentralizedTranslator.instance.localize(valueText),
+            valueText,
             style: context.text.button.copyWith(color: AppColors.textPrimary),
           ),
         ],

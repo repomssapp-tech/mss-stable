@@ -6,7 +6,6 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
-import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
 import '../search_results_screen.dart';
 import '../../../utils/app_text.dart';
@@ -101,16 +100,14 @@ class FinanceInteractivePanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              CentralizedTranslator.instance.localize('Find Funding Options'),
+              context.l10n.msmeFundingHeading,
               style: context.text.titleSmall.copyWith(
                 color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              CentralizedTranslator.instance.localize(
-                'Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.',
-              ),
+              context.l10n.msmeFundingDescription,
               style: context.text.bodySmall.copyWith(
                 color: AppColors.textMuted,
               ),
@@ -139,9 +136,7 @@ class FinanceInteractivePanel extends StatelessWidget {
                       // Wraps and centres instead of shrinking: a one-line
                       // fit squeezed long Tamil labels to an unreadable size.
                       child: Text(
-                        CentralizedTranslator.instance.localize(
-                          'Search MSME Loans & Funding',
-                        ),
+                        context.l10n.msmeSearchFunding,
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
@@ -178,18 +173,14 @@ class CsrInteractivePanel extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              CentralizedTranslator.instance.localize(
-                'Explore CSR & Technology Clusters',
-              ),
+              context.l10n.msmeClustersHeading,
               style: context.text.titleSmall.copyWith(
                 color: AppColors.textPrimary,
               ),
             ),
             const SizedBox(height: AppSpacing.sm),
             Text(
-              CentralizedTranslator.instance.localize(
-                'Search for schemes offering cluster development, technology upgrades, and incubator grants.',
-              ),
+              context.l10n.msmeClustersDescription,
               style: context.text.bodySmall.copyWith(
                 color: AppColors.textMuted,
               ),
@@ -218,9 +209,7 @@ class CsrInteractivePanel extends StatelessWidget {
                       // Wraps and centres instead of shrinking: a one-line
                       // fit squeezed long Tamil labels to an unreadable size.
                       child: Text(
-                        CentralizedTranslator.instance.localize(
-                          'Search Cluster / Tech Schemes',
-                        ),
+                        context.l10n.msmeSearchClusters,
                         textAlign: TextAlign.center,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,

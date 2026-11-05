@@ -102,6 +102,18 @@ abstract class AppLocalizations {
     Locale('ta'),
   ];
 
+  /// No description provided for @startupConfigErrorBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This app build is missing its service settings.'**
+  String get startupConfigErrorBody;
+
+  /// No description provided for @startupConfigError.
+  ///
+  /// In en, this message translates to:
+  /// **'App configuration error'**
+  String get startupConfigError;
+
   /// No description provided for @goodMorning.
   ///
   /// In en, this message translates to:
@@ -1055,18 +1067,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Schemes you open appear here'**
   String get savedRecentlyViewedEmptyDesc;
-
-  /// No description provided for @manageSaved.
-  ///
-  /// In en, this message translates to:
-  /// **'Manage'**
-  String get manageSaved;
-
-  /// No description provided for @doneManaging.
-  ///
-  /// In en, this message translates to:
-  /// **'Done'**
-  String get doneManaging;
 
   /// No description provided for @clearAllSaved.
   ///
@@ -4553,6 +4553,222 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Renewable & Energy Efficiency'**
   String get catRenewableEnergyEfficiency;
+
+  /// No description provided for @privacyGrievanceContact.
+  ///
+  /// In en, this message translates to:
+  /// **'If you have questions regarding data privacy, rights, or grievances, contact our Grievance Officer at mssschemessearch@gmail.com.'**
+  String get privacyGrievanceContact;
+
+  /// No description provided for @privacyQuestionsHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Have Privacy Questions?'**
+  String get privacyQuestionsHeading;
+
+  /// No description provided for @privacyPolicyIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS App (“MSS”, “we”, “us”) respects your privacy and is committed to protecting your personal data in accordance with the Digital Personal Data Protection Act, 2023 and applicable rules.'**
+  String get privacyPolicyIntroduction;
+
+  /// No description provided for @privacyPolicyEffectiveDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Effective Date: 1 September 2026 • DPDPA 2023'**
+  String get privacyPolicyEffectiveDate;
+
+  /// No description provided for @privacyCommitmentHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS App Privacy Commitment'**
+  String get privacyCommitmentHeading;
+
+  /// No description provided for @termsAgreementBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Continued use of the MSS App signifies your acceptance of these Terms of Use.'**
+  String get termsAgreementBody;
+
+  /// No description provided for @termsAgreementHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms Agreement'**
+  String get termsAgreementHeading;
+
+  /// No description provided for @termsIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome to MSS. MSS is a digital platform designed to help users discover, understand and explore Government schemes that may be relevant to them. By accessing or using the MSS application, you acknowledge that you have read, understood and agree to be bound by these Terms of Use.'**
+  String get termsIntroduction;
+
+  /// No description provided for @termsEffectiveDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Effective Date: 1 September 2026'**
+  String get termsEffectiveDate;
+
+  /// No description provided for @termsOfUseHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS App Terms of Use'**
+  String get termsOfUseHeading;
+
+  /// No description provided for @msmeSearchClusters.
+  ///
+  /// In en, this message translates to:
+  /// **'Search Cluster / Tech Schemes'**
+  String get msmeSearchClusters;
+
+  /// No description provided for @msmeClustersDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Search for schemes offering cluster development, technology upgrades, and incubator grants.'**
+  String get msmeClustersDescription;
+
+  /// No description provided for @msmeClustersHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Explore CSR & Technology Clusters'**
+  String get msmeClustersHeading;
+
+  /// No description provided for @msmeSearchFunding.
+  ///
+  /// In en, this message translates to:
+  /// **'Search MSME Loans & Funding'**
+  String get msmeSearchFunding;
+
+  /// No description provided for @msmeFundingDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.'**
+  String get msmeFundingDescription;
+
+  /// No description provided for @msmeFundingHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Find Funding Options'**
+  String get msmeFundingHeading;
+
+  /// No description provided for @msmeExportReadinessDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete this checklist to identify missing links for international trade registration.'**
+  String get msmeExportReadinessDescription;
+
+  /// No description provided for @msmeExportReadinessHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Export Readiness Assessment'**
+  String get msmeExportReadinessHeading;
+
+  /// No description provided for @msmeAuthoritiesTreeHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Government Authorities Tree'**
+  String get msmeAuthoritiesTreeHeading;
+
+  /// No description provided for @msmeTredsFlowHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'TReDS Invoice Discounting Flow'**
+  String get msmeTredsFlowHeading;
+
+  /// No description provided for @benefitsOfficialSourceFallback.
+  ///
+  /// In en, this message translates to:
+  /// **'Benefit details are available from the official source.'**
+  String get benefitsOfficialSourceFallback;
+
+  /// No description provided for @dataProcessingNoticeHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'PLEASE UNDERSTAND'**
+  String get dataProcessingNoticeHeading;
+
+  /// No description provided for @dataProcessingUseSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Your information may be used for:'**
+  String get dataProcessingUseSummary;
+
+  /// No description provided for @dataProcessingUseHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'WHY WE USE YOUR INFORMATION'**
+  String get dataProcessingUseHeading;
+
+  /// No description provided for @dataProcessingConsentIntroduction.
+  ///
+  /// In en, this message translates to:
+  /// **'By completing your profile, you voluntarily consent to MSS collecting and processing information from your Google Sign-In and the personal information you provide, including:'**
+  String get dataProcessingConsentIntroduction;
+
+  /// No description provided for @dataProcessingConsentSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'Your consent helps MSS personalize your experience.'**
+  String get dataProcessingConsentSummary;
+
+  /// No description provided for @dataProcessingConsentHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Consent to Processing of Personal Data'**
+  String get dataProcessingConsentHeading;
+
+  /// No description provided for @msmeValueSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Find government subsidies, grants, and registration schemes you are eligible for, customized to your profile details.'**
+  String get msmeValueSchemes;
+
+  /// No description provided for @msmeValueFinance.
+  ///
+  /// In en, this message translates to:
+  /// **'Access loan options, credit guarantees, equipment loans, and SIDBI schemes to finance and expand your enterprise.'**
+  String get msmeValueFinance;
+
+  /// No description provided for @msmeValueTaxGst.
+  ///
+  /// In en, this message translates to:
+  /// **'Learn about corporate tax reductions, GST threshold relief, composition schemes, and legal interest claims for payment delays.'**
+  String get msmeValueTaxGst;
+
+  /// No description provided for @msmeValueExport.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover export incentives, financial credits, credit insurance, and regulatory agencies to expand your business globally.'**
+  String get msmeValueExport;
+
+  /// No description provided for @msmeValueTreds.
+  ///
+  /// In en, this message translates to:
+  /// **'Discount your trade invoices through online bidding with banks and financial institutions to get immediate cash flow without collateral.'**
+  String get msmeValueTreds;
+
+  /// No description provided for @msmeValueCsr.
+  ///
+  /// In en, this message translates to:
+  /// **'Connect with corporate social responsibility (CSR) programs, tech incubation grants, and specialized skill development clusters.'**
+  String get msmeValueCsr;
+
+  /// No description provided for @msmeValueGovt.
+  ///
+  /// In en, this message translates to:
+  /// **'Understand government department responsibilities and reach the appropriate authority (Central Ministry, State Directorate, or District DIC) for business help.'**
+  String get msmeValueGovt;
+
+  /// No description provided for @msmeValueInstitutions.
+  ///
+  /// In en, this message translates to:
+  /// **'Identify the right institutions (SIDBI, NSIC, DIC, KVIC, etc.) and explore their service catalogs, contact avenues, and programs.'**
+  String get msmeValueInstitutions;
+
+  /// No description provided for @msmeValueUdyam.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete official MSME Udyam registration for free to unlock priority sector bank loans, 15% capital subsidies, collateral-free credit (CGTMSE), and Government tender exemptions.'**
+  String get msmeValueUdyam;
 
   /// No description provided for @msmeWhatTheUserGets.
   ///
@@ -8358,6 +8574,12 @@ abstract class AppLocalizations {
   /// **'{count} Selected'**
   String notifSelectedCount(Object count);
 
+  /// No description provided for @notifReadSyncPending.
+  ///
+  /// In en, this message translates to:
+  /// **'Read status will sync when the connection is available.'**
+  String get notifReadSyncPending;
+
   /// No description provided for @notifMarkAllAsRead.
   ///
   /// In en, this message translates to:
@@ -8532,12 +8754,6 @@ abstract class AppLocalizations {
   /// **'Explore {title} on MSME Scheme Sahayak:'**
   String searchResultsShareHeader(Object title);
 
-  /// No description provided for @savedRemoveFromSavedTooltip.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove from saved'**
-  String get savedRemoveFromSavedTooltip;
-
   /// No description provided for @savedRemoveFromRecentTooltip.
   ///
   /// In en, this message translates to:
@@ -8561,12 +8777,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Keep your list updated!'**
   String get savedKeepListUpdated;
-
-  /// No description provided for @savedRemoveNoLongerInterested.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove schemes you\'re no longer interested in'**
-  String get savedRemoveNoLongerInterested;
 
   /// No description provided for @eduSchool.
   ///

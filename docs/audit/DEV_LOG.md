@@ -65,6 +65,7 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-03 | Roger-Chris | #179 | unspecified | fix(language): translate the remaining Marathi screen text |
 | 2026-11-03 | Roger-Chris | #180 | unspecified | chore(release): 2.3.1+21 |
 | 2026-11-03 | Roger-Chris | #181 | unspecified | fix(language): correct Hindi, Tamil and Marathi screen text |
+| 2026-11-04 | Roger-Chris | #182 | frontend/UI | Applies the app design tokens across regular screens and onboarding, removes unreachable screens and widgets, and corrects scheme labels and amount displays. |
 | 2026-11-04 | Anto-Merary | #183 | unspecified | Fix Saarthi suggestions to match spoken and typed replies |
 | 2026-11-04 | Roger-Chris | #184 | release | Bumps the app to 2.4.0+23 and adds the changelog entry for the redesign (#182) and Saarthi scheme-card matching (#183). The full test suite passed on the merged tree (1,757 passed, 3 skipped). |
 | 2026-11-05 | Roger-Chris | #185 | frontend/saarthi | The Saarthi screens drifted from the Saarathi redesign canvas: a later commit swapped its Ashoka navy, saffron and green for the apps generic blue, and regular Homes Ask Saarthi still opened the old v2 Type screen. This restores the canvas look on Home, Conversation, Listening, Typing and Old sessions, routes Ask Saarthi to the redesigned home, and removes the unreachable old Type screen. |

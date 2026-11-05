@@ -73,17 +73,13 @@ class DataProcessingConsentModal extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        CentralizedTranslator.instance.localize(
-                          'Consent to Processing of Personal Data',
-                        ),
+                        context.l10n.dataProcessingConsentHeading,
                         style: context.text.titleSmall.copyWith(
                           color: AppColors.textPrimary,
                         ),
                       ),
                       Text(
-                        CentralizedTranslator.instance.localize(
-                          'Your consent helps MSS personalize your experience.',
-                        ),
+                        context.l10n.dataProcessingConsentSummary,
                         style: context.text.bodySmall.copyWith(
                           color: AppColors.textMuted,
                         ),
@@ -110,9 +106,7 @@ class DataProcessingConsentModal extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    CentralizedTranslator.instance.localize(
-                      'By completing your profile, you voluntarily consent to MSS collecting and processing information from your Google Sign-In and the personal information you provide, including:',
-                    ),
+                    context.l10n.dataProcessingConsentIntroduction,
                     style: context.text.body.copyWith(
                       color: AppColors.textBody,
                     ),
@@ -147,18 +141,14 @@ class DataProcessingConsentModal extends StatelessWidget {
 
                   // Section 1: WHY WE USE YOUR INFORMATION
                   Text(
-                    CentralizedTranslator.instance.localize(
-                      'WHY WE USE YOUR INFORMATION',
-                    ),
+                    context.l10n.dataProcessingUseHeading,
                     style: context.text.cardTitle.copyWith(
                       color: AppColors.textPrimary,
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xs),
                   Text(
-                    CentralizedTranslator.instance.localize(
-                      'Your information may be used for:',
-                    ),
+                    context.l10n.dataProcessingUseSummary,
                     style: context.text.body.copyWith(
                       color: AppColors.textBody,
                     ),
@@ -185,9 +175,7 @@ class DataProcessingConsentModal extends StatelessWidget {
 
                   // Section 2: PLEASE UNDERSTAND
                   Text(
-                    CentralizedTranslator.instance.localize(
-                      'PLEASE UNDERSTAND',
-                    ),
+                    context.l10n.dataProcessingNoticeHeading,
                     style: context.text.cardTitle.copyWith(
                       color: AppColors.textPrimary,
                     ),

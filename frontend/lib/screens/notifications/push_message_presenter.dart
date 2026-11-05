@@ -150,7 +150,7 @@ class PushMessagePresenter {
   Future<void> openById(String notificationId) async {
     final owner = AppSession.instance.userId;
     if (owner == null) return;
-    await _openItem(notificationId.toLowerCase(), owner);
+    await _openItem(notificationId, owner);
   }
 
   /// Refreshes the inbox, then opens the inbox with [id]'s details on top. If
@@ -191,7 +191,7 @@ class PushMessagePresenter {
   Future<NotificationItemDto?> _findInInbox(String id) async {
     final page = await _api.getNotifications(limit: 20);
     for (final item in page.items) {
-      if (item.id.toLowerCase() == id) return item;
+      if (item.id.toLowerCase() == id.toLowerCase()) return item;
     }
     return null;
   }

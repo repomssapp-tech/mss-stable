@@ -9,6 +9,13 @@ class AppLocalizationsHi extends AppLocalizations {
   AppLocalizationsHi([String locale = 'hi']) : super(locale);
 
   @override
+  String get startupConfigErrorBody =>
+      'ऐप के इस संस्करण में सेवा की सेटिंग मौजूद नहीं है।';
+
+  @override
+  String get startupConfigError => 'ऐप की कॉन्फ़िगरेशन में गड़बड़ी';
+
+  @override
   String get goodMorning => 'शुभ प्रभात,';
 
   @override
@@ -537,12 +544,6 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get savedRecentlyViewedEmptyDesc =>
       'आपके द्वारा खोली गई योजनाएं यहां दिखाई देती हैं';
-
-  @override
-  String get manageSaved => 'प्रबंधित करें';
-
-  @override
-  String get doneManaging => 'हो गया';
 
   @override
   String get clearAllSaved => 'सभी साफ करें';
@@ -2410,6 +2411,137 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get catRenewableEnergyEfficiency => 'नवीकरणीय एवं ऊर्जा दक्षता';
+
+  @override
+  String get privacyGrievanceContact =>
+      'यदि आपके पास डेटा गोपनीयता, अधिकारों या शिकायतों से जुड़े प्रश्न हैं, तो हमारे शिकायत अधिकारी से mssschemessearch@gmail.com पर संपर्क करें।';
+
+  @override
+  String get privacyQuestionsHeading => 'गोपनीयता से जुड़े प्रश्न हैं?';
+
+  @override
+  String get privacyPolicyIntroduction =>
+      'एमएसएस ऐप (“एमएसएस”, “हम”, “हमें”) आपकी गोपनीयता का सम्मान करता है और डिजिटल व्यक्तिगत डेटा संरक्षण अधिनियम, 2023 तथा लागू नियमों के अनुसार आपके व्यक्तिगत डेटा की सुरक्षा के लिए प्रतिबद्ध है।';
+
+  @override
+  String get privacyPolicyEffectiveDate =>
+      'प्रभावी तिथि: 1 सितंबर 2026 • डीपीडीपीए 2023';
+
+  @override
+  String get privacyCommitmentHeading => 'एमएसएस ऐप की गोपनीयता प्रतिबद्धता';
+
+  @override
+  String get termsAgreementBody =>
+      'एमएसएस ऐप का निरंतर उपयोग इन उपयोग की शर्तों की आपकी स्वीकृति माना जाएगा।';
+
+  @override
+  String get termsAgreementHeading => 'शर्तों पर सहमति';
+
+  @override
+  String get termsIntroduction =>
+      'एमएसएस में आपका स्वागत है। एमएसएस एक डिजिटल मंच है, जो उपयोगकर्ताओं को उनके लिए प्रासंगिक हो सकने वाली सरकारी योजनाओं को खोजने, समझने और जानने में मदद करता है। एमएसएस ऐप्लिकेशन का उपयोग करके या उसे खोलकर, आप स्वीकार करते हैं कि आपने इन उपयोग की शर्तों को पढ़ और समझ लिया है और उनसे बाध्य होने के लिए सहमत हैं।';
+
+  @override
+  String get termsEffectiveDate => 'प्रभावी तिथि: 1 सितंबर 2026';
+
+  @override
+  String get termsOfUseHeading => 'एमएसएस ऐप की उपयोग की शर्तें';
+
+  @override
+  String get msmeSearchClusters => 'क्लस्टर / प्रौद्योगिकी योजनाएं खोजें';
+
+  @override
+  String get msmeClustersDescription =>
+      'क्लस्टर विकास, प्रौद्योगिकी उन्नयन और इन्क्यूबेटर अनुदान देने वाली योजनाएं खोजें।';
+
+  @override
+  String get msmeClustersHeading => 'सीएसआर और प्रौद्योगिकी क्लस्टर देखें';
+
+  @override
+  String get msmeSearchFunding => 'एमएसएमई ऋण और फंडिंग खोजें';
+
+  @override
+  String get msmeFundingDescription =>
+      'ऋण सहायता, बिना गारंटी व्यावसायिक ऋण और सिडबी कार्यक्रमों के लिए हमारे डेटाबेस में तुरंत खोजें।';
+
+  @override
+  String get msmeFundingHeading => 'फंडिंग विकल्प खोजें';
+
+  @override
+  String get msmeExportReadinessDescription =>
+      'अंतरराष्ट्रीय व्यापार पंजीकरण के लिए छूटी हुई कड़ियां पहचानने हेतु यह जांच-सूची पूरी करें।';
+
+  @override
+  String get msmeExportReadinessHeading => 'निर्यात तैयारी का आकलन';
+
+  @override
+  String get msmeAuthoritiesTreeHeading => 'सरकारी प्राधिकरणों का ढांचा';
+
+  @override
+  String get msmeTredsFlowHeading => 'टीआरईडीएस बिल डिस्काउंटिंग प्रक्रिया';
+
+  @override
+  String get benefitsOfficialSourceFallback =>
+      'लाभ का विवरण आधिकारिक स्रोत पर उपलब्ध है।';
+
+  @override
+  String get dataProcessingNoticeHeading => 'कृपया ध्यान दें';
+
+  @override
+  String get dataProcessingUseSummary =>
+      'आपकी जानकारी का उपयोग इनके लिए किया जा सकता है:';
+
+  @override
+  String get dataProcessingUseHeading =>
+      'हम आपकी जानकारी का उपयोग क्यों करते हैं';
+
+  @override
+  String get dataProcessingConsentIntroduction =>
+      'प्रोफ़ाइल पूरी करके, आप स्वेच्छा से एमएसएस को अपने Google साइन-इन से मिली जानकारी और आपके द्वारा दी गई व्यक्तिगत जानकारी, जिसमें ये शामिल हैं, एकत्र और प्रसंस्कृत करने की सहमति देते हैं:';
+
+  @override
+  String get dataProcessingConsentSummary =>
+      'आपकी सहमति एमएसएस को आपका अनुभव बेहतर बनाने में मदद करती है।';
+
+  @override
+  String get dataProcessingConsentHeading =>
+      'व्यक्तिगत डेटा के प्रसंस्करण के लिए सहमति';
+
+  @override
+  String get msmeValueSchemes =>
+      'अपनी प्रोफ़ाइल के अनुसार वे सरकारी सब्सिडी, अनुदान और पंजीकरण योजनाएं खोजें जिनके आप पात्र हैं।';
+
+  @override
+  String get msmeValueFinance =>
+      'अपने उद्यम को वित्त देने और बढ़ाने के लिए ऋण विकल्प, क्रेडिट गारंटी, उपकरण ऋण और सिडबी योजनाएं देखें।';
+
+  @override
+  String get msmeValueTaxGst =>
+      'कॉर्पोरेट कर में कमी, जीएसटी सीमा में राहत, कंपोज़िशन योजनाओं और भुगतान में देरी पर कानूनी ब्याज के दावों के बारे में जानें।';
+
+  @override
+  String get msmeValueExport =>
+      'अपने व्यवसाय को विश्व स्तर पर बढ़ाने के लिए निर्यात प्रोत्साहन, वित्तीय सहायता, क्रेडिट बीमा और नियामक एजेंसियों की जानकारी पाएं।';
+
+  @override
+  String get msmeValueTreds =>
+      'बिना गारंटी तुरंत नकदी पाने के लिए बैंकों और वित्तीय संस्थानों के साथ ऑनलाइन बोली लगाकर अपने व्यापार बिलों पर छूट लें।';
+
+  @override
+  String get msmeValueCsr =>
+      'कॉर्पोरेट सामाजिक उत्तरदायित्व (सीएसआर) कार्यक्रमों, प्रौद्योगिकी इन्क्यूबेशन अनुदानों और विशेष कौशल विकास क्लस्टरों से जुड़ें।';
+
+  @override
+  String get msmeValueGovt =>
+      'सरकारी विभागों की ज़िम्मेदारियां समझें और व्यावसायिक सहायता के लिए सही प्राधिकरण (केंद्रीय मंत्रालय, राज्य निदेशालय या ज़िला उद्योग केंद्र) तक पहुंचें।';
+
+  @override
+  String get msmeValueInstitutions =>
+      'सही संस्थानों (सिडबी, एनएसआईसी, डीआईसी, केवीआईसी आदि) की पहचान करें और उनकी सेवाएं, संपर्क माध्यम और कार्यक्रम देखें।';
+
+  @override
+  String get msmeValueUdyam =>
+      'प्राथमिकता क्षेत्र के बैंक ऋण, 15% पूंजी सब्सिडी, बिना गारंटी ऋण (सीजीटीएमएसई) और सरकारी निविदा छूट पाने के लिए आधिकारिक एमएसएमई उद्यम पंजीकरण निःशुल्क पूरा करें।';
 
   @override
   String get msmeWhatTheUserGets => 'उपयोगकर्ता को क्या मिलता है';
@@ -4531,6 +4663,10 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
+  String get notifReadSyncPending =>
+      'कनेक्शन मिलने पर पढ़ने की स्थिति सिंक हो जाएगी।';
+
+  @override
   String get notifMarkAllAsRead => 'सभी को पढ़ा हुआ मार्क करें';
 
   @override
@@ -4638,9 +4774,6 @@ class AppLocalizationsHi extends AppLocalizations {
   }
 
   @override
-  String get savedRemoveFromSavedTooltip => 'सहेजे गए से हटाएँ';
-
-  @override
   String get savedRemoveFromRecentTooltip => 'हाल ही में देखी गई सूची से हटाएँ';
 
   @override
@@ -4651,10 +4784,6 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get savedKeepListUpdated => 'अपनी सूची अद्यतन रखें!';
-
-  @override
-  String get savedRemoveNoLongerInterested =>
-      'जिन योजनाओं में अब रुचि नहीं है, उन्हें हटा दें';
 
   @override
   String get eduSchool => 'स्कूल (10वीं/12वीं)';
