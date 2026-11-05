@@ -11,6 +11,14 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.4.4+27] - 2026-11-05
+
+### Fixed
+- Android navigation buttons stay visible while reading the terms or privacy documents.
+- Accept stays greyed out until you reach the end of the terms or privacy policy.
+- Language badges fit inside their circles with larger text.
+- Institution cards show feedback when tapped.
+
 ## [2.4.3+26] - 2026-11-05
 
 ### Fixed

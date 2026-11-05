@@ -1,8 +1,10 @@
 import '../../services/catalog/centralized_translator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
+import '../../utils/app_system_ui_style.dart';
 import '../../utils/app_text.dart';
 
 class LegalSectionItem {
@@ -20,9 +22,8 @@ class LegalSectionItem {
 /// A legal document shown in a bottom sheet.
 ///
 /// "Accept" works only after the user has scrolled to the end of the document:
-/// before that a hint says so, and tapping Accept shows an alert (in the app's
-/// language) instead of accepting. A document short enough to be fully visible
-/// counts as read.
+/// before that it is disabled and a hint explains how to enable it. A document
+/// short enough to be fully visible counts as read.
 class LegalDocumentModal extends StatefulWidget {
   final String title;
   final String subtitle;
@@ -274,25 +275,10 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
 
   void _checkEnd() {
     if (!mounted || _reachedEnd || !_scroll.hasClients) return;
-    final position = _scroll.position;
-    if (position.maxScrollExtent <= 0 ||
-        position.pixels >= position.maxScrollExtent - 24) {
+    if (_scroll.position.extentAfter == 0) {
       setState(() => _reachedEnd = true);
     }
   }
-
-  Future<void> _explainScrollRequirement() => showDialog<void>(
-    context: context,
-    builder: (dialogContext) => AlertDialog(
-      content: Text(dialogContext.l10n.legalScrollToEndNotice),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(dialogContext).pop(),
-          child: Text(dialogContext.l10n.ok),
-        ),
-      ],
-    ),
-  );
 
   @override
   void dispose() {
@@ -305,7 +291,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
     final mediaQuery = MediaQuery.of(context);
     final sheetHeight = mediaQuery.size.height * 0.88;
 
-    return Container(
+    final sheet = Container(
       height: sheetHeight,
       decoration: const BoxDecoration(
         color: Colors.white,
@@ -494,7 +480,7 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
             ),
           ),
 
-          // Sticky Bottom Close Button
+          // Keep Accept visible while the document scrolls.
           Container(
             padding: const EdgeInsets.fromLTRB(
               AppSpacing.xl,
@@ -524,11 +510,10 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
                     ),
                   SizedBox(
                     width: double.infinity,
-                    height: 48,
                     child: ElevatedButton(
                       onPressed: _reachedEnd
                           ? () => Navigator.of(context).pop(true)
-                          : _explainScrollRequirement,
+                          : null,
                       child: Text(
                         context.l10n.legalAccept,
                         style: context.text.bodyLarge,
@@ -541,6 +526,10 @@ class _LegalDocumentModalState extends State<LegalDocumentModal> {
           ),
         ],
       ),
+    );
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: appSystemUiStyle,
+      child: sheet,
     );
   }
 }

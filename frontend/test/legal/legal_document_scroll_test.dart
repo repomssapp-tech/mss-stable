@@ -1,28 +1,36 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/services/account/app_session.dart';
 import 'package:frontend/services/account/onboarding_api_service.dart';
 import 'package:frontend/services/account/token_storage.dart';
 import 'package:frontend/services/network/api_client.dart';
+import 'package:frontend/utils/app_colors.dart';
+import 'package:frontend/utils/app_theme.dart';
 import 'package:frontend/widgets/legal/legal_document_modal.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-Widget _app({required Locale locale, required void Function(bool?) onResult}) {
+Widget _app({
+  required Locale locale,
+  required void Function(bool?) onResult,
+  Future<bool?> Function(BuildContext) openDocument =
+      LegalDocumentModal.showTermsOfUse,
+}) {
   return MaterialApp(
     locale: locale,
+    theme: AppTheme.light,
     localizationsDelegates: AppLocalizations.localizationsDelegates,
     supportedLocales: AppLocalizations.supportedLocales,
     home: Scaffold(
       body: Builder(
         builder: (context) => Center(
           child: ElevatedButton(
-            onPressed: () async =>
-                onResult(await LegalDocumentModal.showTermsOfUse(context)),
+            onPressed: () async => onResult(await openDocument(context)),
             child: const Text('open'),
           ),
         ),
@@ -39,39 +47,75 @@ void main() {
   });
 
   group('LegalDocumentModal requires reading to the end', () {
-    testWidgets('Accept before the end only shows the alert', (tester) async {
-      bool? result = false;
-      var closed = false;
-      await tester.pumpWidget(
-        _app(
-          locale: const Locale('en'),
-          onResult: (value) {
-            result = value;
-            closed = true;
-          },
-        ),
-      );
-      await tester.tap(find.text('open'));
-      await tester.pumpAndSettle();
-      final l10n = AppLocalizations.of(
-        tester.element(find.byType(LegalDocumentModal)),
-      )!;
+    for (final (name, openDocument) in [
+      ('Terms of Use', LegalDocumentModal.showTermsOfUse),
+      ('Privacy Policy', LegalDocumentModal.showPrivacyPolicy),
+    ]) {
+      testWidgets('$name enables Accept only at the bottom', (tester) async {
+        bool? result;
+        await tester.pumpWidget(
+          _app(
+            locale: const Locale('en'),
+            onResult: (value) => result = value,
+            openDocument: openDocument,
+          ),
+        );
+        await tester.tap(find.text('open'));
+        await tester.pumpAndSettle();
+        final sheet = find.byType(LegalDocumentModal);
+        final l10n = AppLocalizations.of(tester.element(sheet))!;
+        final accept = find.widgetWithText(ElevatedButton, l10n.legalAccept);
 
-      // The hint is visible while the end has not been reached.
-      expect(find.text(l10n.legalScrollToEndHint), findsOneWidget);
+        final overlay = tester.widget<AnnotatedRegion<SystemUiOverlayStyle>>(
+          find.descendant(
+            of: sheet,
+            matching: find.byType(AnnotatedRegion<SystemUiOverlayStyle>),
+          ),
+        );
+        expect(
+          overlay.value.systemNavigationBarIconBrightness,
+          Brightness.dark,
+        );
+        expect(overlay.value.systemNavigationBarContrastEnforced, isTrue);
+        expect(tester.widget<ElevatedButton>(accept).onPressed, isNull);
+        expect(
+          tester
+              .widget<Material>(
+                find
+                    .descendant(of: accept, matching: find.byType(Material))
+                    .first,
+              )
+              .color,
+          AppColors.disabledBg,
+        );
+        expect(find.text(l10n.legalScrollToEndHint), findsOneWidget);
 
-      await tester.tap(find.text(l10n.legalAccept));
-      await tester.pumpAndSettle();
+        await tester.tap(accept);
+        await tester.pumpAndSettle();
+        expect(sheet, findsOneWidget);
+        expect(result, isNull);
 
-      expect(find.text(l10n.legalScrollToEndNotice), findsOneWidget);
-      expect(closed, isFalse, reason: 'the document was not accepted');
+        final scroll = tester
+            .widget<SingleChildScrollView>(
+              find.descendant(
+                of: sheet,
+                matching: find.byType(SingleChildScrollView),
+              ),
+            )
+            .controller!;
+        scroll.jumpTo(scroll.position.maxScrollExtent - 8);
+        await tester.pumpAndSettle();
+        expect(tester.widget<ElevatedButton>(accept).onPressed, isNull);
 
-      await tester.tap(find.text(l10n.ok));
-      await tester.pumpAndSettle();
-      expect(find.text(l10n.legalScrollToEndNotice), findsNothing);
-      expect(find.byType(LegalDocumentModal), findsOneWidget);
-      expect(result, isFalse);
-    });
+        scroll.jumpTo(scroll.position.maxScrollExtent);
+        await tester.pumpAndSettle();
+        expect(tester.widget<ElevatedButton>(accept).onPressed, isNotNull);
+        expect(find.text(l10n.legalScrollToEndHint), findsNothing);
+        await tester.tap(accept);
+        await tester.pumpAndSettle();
+        expect(result, isTrue);
+      });
+    }
 
     testWidgets('after scrolling to the end Accept closes with true', (
       tester,
@@ -125,24 +169,18 @@ void main() {
       expect(result, isNull);
     });
 
-    test('the alert and hint exist in English, Tamil and Hindi', () async {
+    test('the hint exists in all four locales', () async {
       final english = await AppLocalizations.delegate.load(const Locale('en'));
-      for (final code in ['ta', 'hi']) {
+      for (final code in ['ta', 'hi', 'mr']) {
         final localized = await AppLocalizations.delegate.load(Locale(code));
-        expect(localized.legalScrollToEndNotice, isNotEmpty, reason: code);
         expect(localized.legalScrollToEndHint, isNotEmpty, reason: code);
-        expect(
-          localized.legalScrollToEndNotice,
-          isNot(english.legalScrollToEndNotice),
-          reason: '$code must not fall back to English',
-        );
         expect(
           localized.legalScrollToEndHint,
           isNot(english.legalScrollToEndHint),
           reason: code,
         );
       }
-      expect(english.legalScrollToEndNotice, contains('end'));
+      expect(english.legalScrollToEndHint, contains('end'));
     });
   });
 
@@ -206,22 +244,28 @@ void main() {
       },
     );
 
-    test('the sign-in agreement records Terms and Privacy Policy once', () async {
-      await signIn(configured: true);
-      await LegalConsentStore.markLoginAgreement();
+    test(
+      'the sign-in agreement records Terms and Privacy Policy once',
+      () async {
+        await signIn(configured: true);
+        await LegalConsentStore.markLoginAgreement();
 
-      await LegalConsentStore.recordFromLoginAgreement(service);
+        await LegalConsentStore.recordFromLoginAgreement(service);
 
-      expect(seen, ['GET /v1/me/legal-documents']);
-      final accepted = await LegalConsentStore.accepted();
-      expect(accepted.map((d) => d.documentType), ['terms', 'privacy_policy']);
-      expect(accepted.map((d) => d.documentVersion), ['v7', 'v3']);
-      expect(await LegalConsentStore.hasLoginAgreement(), isFalse);
-      expect(await LegalConsentStore.isComplete(), isFalse);
+        expect(seen, ['GET /v1/me/legal-documents']);
+        final accepted = await LegalConsentStore.accepted();
+        expect(accepted.map((d) => d.documentType), [
+          'terms',
+          'privacy_policy',
+        ]);
+        expect(accepted.map((d) => d.documentVersion), ['v7', 'v3']);
+        expect(await LegalConsentStore.hasLoginAgreement(), isFalse);
+        expect(await LegalConsentStore.isComplete(), isFalse);
 
-      await LegalConsentStore.recordFromLoginAgreement(service);
-      expect(seen.length, 1, reason: 'already recorded: no second request');
-    });
+        await LegalConsentStore.recordFromLoginAgreement(service);
+        expect(seen.length, 1, reason: 'already recorded: no second request');
+      },
+    );
 
     test('completing the profile records the data-use page', () async {
       await signIn(configured: true);
@@ -241,15 +285,17 @@ void main() {
       expect(await LegalConsentStore.isComplete(), isTrue);
     });
 
-    test('the data-use page is not recorded without the sign-in documents',
-        () async {
-      await signIn(configured: true);
+    test(
+      'the data-use page is not recorded without the sign-in documents',
+      () async {
+        await signIn(configured: true);
 
-      await LegalConsentStore.recordFromProfileCompletion(service);
+        await LegalConsentStore.recordFromProfileCompletion(service);
 
-      expect(seen, isEmpty);
-      expect(await LegalConsentStore.accepted(), isEmpty);
-    });
+        expect(seen, isEmpty);
+        expect(await LegalConsentStore.accepted(), isEmpty);
+      },
+    );
 
     test('documents not configured yet: the agreement waits', () async {
       await signIn(configured: false);
