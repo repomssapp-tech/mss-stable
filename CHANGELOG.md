@@ -11,6 +11,14 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.4.2+25] - 2026-11-05
+
+### Fixed
+- Opened notifications stay read after a refresh or app restart. The unread badge updates immediately, and failed syncs retry.
+- MSME support pages show their name in the top bar. Saved schemes can be removed from the bookmark on each card.
+- The selected bottom navigation tab uses the app's blue palette. Profile headings and scheme benefit cards are easier to read.
+- More screen text follows the selected language, and the profile form accepts Hindi and Marathi place names.
+
 ## [2.4.1+24] - 2026-11-05
 
 ### Fixed
