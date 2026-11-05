@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 import '../../utils/app_colors.dart';
 
-/// The active tab's bubble: translucent purple over a light blur of what is
+/// The active tab's bubble: translucent blue over a light blur of what is
 /// under it (frosted glass), a highlight toward the top-left, a light rim
 /// and, while moving, a droplet tail on the [tailDir] side.
 class NavFrostedBubble extends StatelessWidget {
@@ -117,7 +117,7 @@ class _BubblePainter extends CustomPainter {
     final path = shape.pathFor(size);
     final bounds = Offset.zero & size;
 
-    // Translucent purple body: lets the blur underneath show through.
+    // Translucent blue body: lets the blur underneath show through.
     canvas.drawPath(
       path,
       Paint()

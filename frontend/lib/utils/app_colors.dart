@@ -81,9 +81,9 @@ abstract final class AppColors {
   static const accent = Color(0xFFFF9933);
 
   /// Gradient helper, moved from `AppConstants.blueGradient`.
-  // Bottom bar: white pill, frosted purple bubble on the active tab.
-  static const navBubbleLight = Color(0xFFA47BFF);
-  static const navBubbleDeep = Color(0xFF6A2CF5);
+  // Bottom bar: white pill, frosted blue bubble on the active tab.
+  static const navBubbleLight = primary;
+  static const navBubbleDeep = primaryStrong;
   static const navWell = Color(0xFFF3F0FB); // idle icon circle
   static const navIconIdle = Color(0xFF3D3A4F); // 11:1 on navWell
 
