@@ -5,6 +5,8 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:frontend/main.dart';
@@ -26,5 +28,26 @@ void main() {
     );
 
     expect(find.byType(SplashScreen), findsOneWidget);
+    final styles = tester
+        .widgetList<AnnotatedRegion<SystemUiOverlayStyle>>(
+          find.byType(AnnotatedRegion<SystemUiOverlayStyle>),
+        )
+        .map((region) => region.value);
+    expect(
+      styles.any(
+        (style) =>
+            style.systemNavigationBarIconBrightness == Brightness.dark &&
+            style.systemNavigationBarContrastEnforced == true,
+      ),
+      isTrue,
+    );
+    expect(
+      styles.any(
+        (style) =>
+            style.systemNavigationBarIconBrightness == Brightness.light &&
+            style.systemNavigationBarContrastEnforced == false,
+      ),
+      isTrue,
+    );
   });
 }

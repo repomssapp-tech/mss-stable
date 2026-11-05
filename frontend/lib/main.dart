@@ -126,6 +126,7 @@ class _StartupErrorApp extends StatelessWidget {
           systemNavigationBarColor: AppColors.textPrimary,
           systemNavigationBarDividerColor: AppColors.textPrimary,
           systemNavigationBarIconBrightness: Brightness.light,
+          systemNavigationBarContrastEnforced: false,
         ),
         child: child!,
       ),
