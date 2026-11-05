@@ -11,6 +11,15 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.4.1+24] - 2026-11-05
+
+### Fixed
+- Saarthi looks the way it was designed again: Ashoka navy text and buttons on white, saffron and green rings round Saarthi's picture, your name in saffron and a saffron glow round the mic. The old sessions list is a plain list with a search box.
+- Ask Saarthi on the Home screen opens Saarthi's new home, with the mic and keyboard, instead of the old chat screen.
+
+### Removed
+- The old Saarthi chat screen with the Type and Voice switch.
+
 ## [2.4.0+23] - 2026-11-04
 
 ### Changed
