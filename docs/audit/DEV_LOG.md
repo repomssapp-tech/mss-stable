@@ -73,3 +73,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-05 | Anto-Merary | #187 | Flutter UI, localization, notifications | Updates the navigation, MSME, Saved and Profile screens, localizes app copy and keeps opened notifications read across refreshes and restarts. |
 | 2026-11-05 | Anto-Merary | #188 | Developer Change Log workflow | Apostrophes in the app's PR summary now survive the developer log parser. Restore the missing entry for #187. |
 | 2026-11-05 | Anto-Merary | #189 | Android release | Prepare MSS 2.4.2 build 25 for the UI, localization, and notification read fixes in #187. |
+| 2026-11-05 | Anto-Merary | #190 | unspecified | Fix profile layout, MSME headers, and Android navigation |
