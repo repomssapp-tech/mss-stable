@@ -278,6 +278,12 @@ jobs:
           name: app-apk-${{ needs.build.outputs.version }}-${{ github.sha }}
           path: release-apk
 
+      - uses: actions/setup-java@v4
+        if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' }}
+        with:
+          distribution: temurin
+          java-version: "21"
+
       # Every verified signed main build becomes an update: a release in the PUBLIC
       # releases-only repo (this repo is private, so its own releases 404 for
       # users). The app's update check reads that repo's releases and shows
@@ -296,9 +302,21 @@ jobs:
           build="${VERSION##*+}"
           short="${name%.0}"
           source_apk="release-apk/app-release.apk"
-          build_tools="$(find "$ANDROID_HOME/build-tools" -mindepth 1 -maxdepth 1 -type d | sort -V | tail -n 1)"
-          "$build_tools/apksigner" verify --print-certs "$source_apk" |
-            grep -Fx 'Signer #1 certificate SHA-256 digest: cc58f15af1edd4a4d2aa8d3109953fcfc1acf57843d195e0a7ec04a5de847af1'
+          build_tools="$ANDROID_HOME/build-tools/36.0.0"
+          if [ ! -x "$build_tools/apksigner" ] || [ ! -x "$build_tools/aapt2" ]; then
+            sdkmanager 'build-tools;36.0.0'
+          fi
+          if ! signature="$("$build_tools/apksigner" verify --print-certs "$source_apk")"; then
+            echo "$signature"
+            echo "::error::APK signature verification failed."
+            exit 1
+          fi
+          signer="$(printf '%s\n' "$signature" | awk -F ': ' '/^Signer #[0-9]+ certificate SHA-256 digest:/ { print tolower($2) }')"
+          if [ "$signer" != 'cc58f15af1edd4a4d2aa8d3109953fcfc1acf57843d195e0a7ec04a5de847af1' ]; then
+            echo "::error::APK signer does not match the expected release certificate."
+            exit 1
+          fi
+          echo "Verified the release certificate."
           "$build_tools/aapt2" dump badging "$source_apk" |
             grep -F "package: name='com.inschemes.app' versionCode='$build' versionName='$name'"
 
