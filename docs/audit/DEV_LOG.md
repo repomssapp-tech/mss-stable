@@ -15,7 +15,9 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 
 <!-- Automated entries start here — .github/workflows/dev-log.yml appends below this line -->
 | 2026-09-13 | Roger-Chris | #107 | unspecified | Chore/audit rules skills devlog |
-| 2026-09-17 | PaulBrytonRaj18 | #109 | frontend/companion_mode | Replaced the static marketing welcome screen with an accessible, zero-keyboard 6-step Assisted Profile Creation wizard for AI Companion Mode that feeds directly into the scheme recommendation engine, and resolved PostgreSQL check-constraint failures during cloud profile submission. |
+| 2026-09-17 | PaulBrytonRaj18 | #109 | frontend/companion_mode
+ | Replaced the static marketing welcome screen with an accessible, zero-keyboard 6-step Assisted Profile Creation wizard for AI Companion Mode that feeds directly into the scheme recommendation engine, and resolved PostgreSQL check-constraint failures during cloud profile submission.
+ |
 | 2026-10-02 | Roger-Chris | #110 | unspecified | Production readiness: correctness, design system, accessibility (Phases 1–2, partial 3) |
 | 2026-10-05 | Roger-Chris | #111 | unspecified | This PR delivers the complete, verified, and locked remediation of **MSME Catalog v3.1** (promoted to **Release `1.35.1-alpha`**), resolving all audit findings from `docs/audit/CATALOG_V3_1_AUDIT.md`, executing all remediation phases from `docs/audit/ANTIGRAVITY_FIX_PROMPT.md`, and completing the final verification housekeeping items from `docs/FINAL_VERIFICATION_1_35_1.md`. |
 | 2026-10-17 | praveen-ofl | #113 | unspecified | feat(api): integrate MSS REST backend client, auth PKCE flow, and pro… |
@@ -65,6 +67,7 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-03 | Roger-Chris | #179 | unspecified | fix(language): translate the remaining Marathi screen text |
 | 2026-11-03 | Roger-Chris | #180 | unspecified | chore(release): 2.3.1+21 |
 | 2026-11-03 | Roger-Chris | #181 | unspecified | fix(language): correct Hindi, Tamil and Marathi screen text |
+| 2026-11-04 | Roger-Chris | #182 | frontend/UI | Applies the app design tokens across regular screens and onboarding, removes unreachable screens and widgets, and corrects scheme labels and amount displays. |
 | 2026-11-04 | Anto-Merary | #183 | unspecified | Fix Saarthi suggestions to match spoken and typed replies |
 | 2026-11-04 | Roger-Chris | #184 | release | Bumps the app to 2.4.0+23 and adds the changelog entry for the redesign (#182) and Saarthi scheme-card matching (#183). The full test suite passed on the merged tree (1,757 passed, 3 skipped). |
 | 2026-11-05 | Roger-Chris | #185 | frontend/saarthi | The Saarthi screens drifted from the Saarathi redesign canvas: a later commit swapped its Ashoka navy, saffron and green for the apps generic blue, and regular Homes Ask Saarthi still opened the old v2 Type screen. This restores the canvas look on Home, Conversation, Listening, Typing and Old sessions, routes Ask Saarthi to the redesigned home, and removes the unreachable old Type screen. |
