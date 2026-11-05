@@ -144,23 +144,18 @@ void main() {
     expect(find.text('Effective Date: 1 September 2026'), findsOneWidget);
     expect(find.text('Use of the MSS App'), findsOneWidget);
 
-    // Accepting before reading to the end is refused with an alert...
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Accept'));
+    // Before the end, Accept stays disabled and the sheet stays open.
+    final accept = find.widgetWithText(ElevatedButton, 'Accept');
+    expect(tester.widget<ElevatedButton>(accept).onPressed, isNull);
+    expect(find.text('Scroll to the end to enable Accept'), findsOneWidget);
+    await tester.tap(accept);
     await tester.pumpAndSettle();
-    expect(
-      find.text(
-        'You must scroll to the end of this document before you can accept it.',
-      ),
-      findsOneWidget,
-    );
-    await tester.tap(find.text('OK'));
-    await tester.pumpAndSettle();
-    // ...and the sheet is still open: nothing was accepted.
     expect(find.text('Use of the MSS App'), findsOneWidget);
 
     // Accept Terms modal after scrolling to the end
     await scrollToEnd(tester);
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Accept'));
+    expect(tester.widget<ElevatedButton>(accept).onPressed, isNotNull);
+    await tester.tap(accept);
     await tester.pumpAndSettle();
 
     // Button still disabled (Privacy Policy not yet accepted)
@@ -182,10 +177,12 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Personal Data We Collect'), findsOneWidget);
+    expect(tester.widget<ElevatedButton>(accept).onPressed, isNull);
 
     // Accept Privacy modal (after scrolling to the end)
     await scrollToEnd(tester);
-    await tester.tap(find.widgetWithText(ElevatedButton, 'Accept'));
+    expect(tester.widget<ElevatedButton>(accept).onPressed, isNotNull);
+    await tester.tap(accept);
     await tester.pumpAndSettle();
 
     // 5. Accepting BOTH legal documents enables login
