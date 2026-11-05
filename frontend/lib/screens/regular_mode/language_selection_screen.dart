@@ -69,7 +69,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
       code: code,
       nativeTitle: languageEndonym(code),
       englishTitle: languageEnglishName(code),
-      circleText: code == 'en' ? 'EN' : languageEndonym(code),
+      circleText: code == 'en' ? 'EN' : languageEndonym(code).characters.first,
       circleBgColor: background,
       circleTextColor: foreground,
     );

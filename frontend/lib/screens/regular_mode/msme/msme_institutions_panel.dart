@@ -4,6 +4,7 @@ import '../../../utils/app_colors.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/app_spacing.dart';
+import '../../../utils/app_radius.dart';
 import '../../../utils/app_text.dart';
 
 class InstitutionsInteractivePanel extends StatefulWidget {
@@ -197,54 +198,57 @@ class _InstitutionsInteractivePanelState
                       final schemesText = CentralizedTranslator.instance
                           .localize(inst['schemes']);
 
-                      return Container(
-                        margin: const EdgeInsets.only(bottom: AppSpacing.sm),
-                        decoration: BoxDecoration(
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+                        child: Material(
                           color: AppColors.background,
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppColors.border),
-                        ),
-                        child: Theme(
-                          data: Theme.of(
-                            context,
-                          ).copyWith(dividerColor: Colors.transparent),
-                          child: ExpansionTile(
-                            title: Text(
-                              inst['name'],
-                              style: context.text.cardTitle.copyWith(
-                                color: widget.iconColor,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: AppRadius.smAll,
+                            side: BorderSide(color: AppColors.border),
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: Theme(
+                            data: Theme.of(
+                              context,
+                            ).copyWith(dividerColor: Colors.transparent),
+                            child: ExpansionTile(
+                              title: Text(
+                                inst['name'],
+                                style: context.text.cardTitle.copyWith(
+                                  color: widget.iconColor,
+                                ),
                               ),
+                              subtitle: Text(
+                                CentralizedTranslator.instance.localize(
+                                  inst['fullName'],
+                                ),
+                                style: context.text.bodySmall.copyWith(
+                                  color: AppColors.textMuted,
+                                ),
+                              ),
+                              tilePadding: const EdgeInsets.symmetric(
+                                horizontal: AppSpacing.md,
+                              ),
+                              childrenPadding: const EdgeInsets.all(
+                                AppSpacing.md,
+                              ),
+                              children: [
+                                _buildExpansionItem(
+                                  context.l10n.msmeRoleLabel,
+                                  roleText,
+                                ),
+                                const SizedBox(height: AppSpacing.tight),
+                                _buildExpansionItem(
+                                  context.l10n.msmeKeyServicesLabel,
+                                  servicesText,
+                                ),
+                                const SizedBox(height: AppSpacing.tight),
+                                _buildExpansionItem(
+                                  context.l10n.msmeTopSchemesLabel,
+                                  schemesText,
+                                ),
+                              ],
                             ),
-                            subtitle: Text(
-                              CentralizedTranslator.instance.localize(
-                                inst['fullName'],
-                              ),
-                              style: context.text.bodySmall.copyWith(
-                                color: AppColors.textMuted,
-                              ),
-                            ),
-                            tilePadding: const EdgeInsets.symmetric(
-                              horizontal: AppSpacing.md,
-                            ),
-                            childrenPadding: const EdgeInsets.all(
-                              AppSpacing.md,
-                            ),
-                            children: [
-                              _buildExpansionItem(
-                                context.l10n.msmeRoleLabel,
-                                roleText,
-                              ),
-                              const SizedBox(height: AppSpacing.tight),
-                              _buildExpansionItem(
-                                context.l10n.msmeKeyServicesLabel,
-                                servicesText,
-                              ),
-                              const SizedBox(height: AppSpacing.tight),
-                              _buildExpansionItem(
-                                context.l10n.msmeTopSchemesLabel,
-                                schemesText,
-                              ),
-                            ],
                           ),
                         ),
                       );

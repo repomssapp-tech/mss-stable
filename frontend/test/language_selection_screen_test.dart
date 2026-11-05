@@ -7,7 +7,6 @@ import 'package:frontend/services/catalog/language_pack_manager.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
@@ -85,7 +84,9 @@ void main() {
           // Tamil and Hindi are both present
           expect(find.text('Tamil'), findsOneWidget);
           expect(find.text('Hindi'), findsOneWidget);
-          expect(find.text('हिन्दी'), findsNWidgets(2));
+          expect(find.text('हिन्दी'), findsOneWidget);
+          expect(find.text('हि'), findsOneWidget);
+          expect(find.text('த'), findsOneWidget);
         },
       );
     },
