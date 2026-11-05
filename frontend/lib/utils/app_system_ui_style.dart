@@ -15,8 +15,11 @@ const appSystemUiStyle = SystemUiOverlayStyle(
 );
 
 // Splash and sign-in share the same blue artwork behind the navigation bar.
+// Let the artwork provide contrast so Android does not put a light scrim
+// behind the light buttons on these routes.
 final appBlueFooterSystemUiStyle = appSystemUiStyle.copyWith(
   systemNavigationBarColor: AppColors.primary,
   systemNavigationBarDividerColor: AppColors.primary,
   systemNavigationBarIconBrightness: Brightness.light,
+  systemNavigationBarContrastEnforced: false,
 );
