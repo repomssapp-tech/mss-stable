@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/app_colors.dart';
+import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
 import 'app_icon_button.dart';
 
@@ -16,6 +17,7 @@ import 'app_icon_button.dart';
 class StandardPageHeader extends StatelessWidget
     implements PreferredSizeWidget {
   final String title;
+  final Widget? titleIcon;
   final String? subtitle;
   final bool showBackButton;
   final VoidCallback? onBackPressed;
@@ -26,6 +28,7 @@ class StandardPageHeader extends StatelessWidget
   const StandardPageHeader({
     super.key,
     required this.title,
+    this.titleIcon,
     this.subtitle,
     this.showBackButton = true,
     this.onBackPressed,
@@ -48,6 +51,16 @@ class StandardPageHeader extends StatelessWidget
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final titleText = Text(
+      title,
+      style:
+          (titleIcon == null
+                  ? context.text.titleMedium
+                  : context.text.titleSmall)
+              .copyWith(color: AppColors.textPrimary),
+      maxLines: _hasSubtitle ? 1 : 2,
+      overflow: TextOverflow.ellipsis,
+    );
     return AppBar(
       toolbarHeight: _height(context),
       titleSpacing: 0,
@@ -66,14 +79,17 @@ class StandardPageHeader extends StatelessWidget
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            title,
-            style: context.text.titleMedium.copyWith(
-              color: AppColors.textPrimary,
-            ),
-            maxLines: _hasSubtitle ? 1 : 2,
-            overflow: TextOverflow.ellipsis,
-          ),
+          if (titleIcon case final icon?)
+            Row(
+              children: [
+                icon,
+                const SizedBox(width: AppSpacing.sm),
+                Expanded(child: titleText),
+                const SizedBox(width: AppSpacing.lg),
+              ],
+            )
+          else
+            titleText,
           if (_hasSubtitle)
             Text(
               subtitle!,

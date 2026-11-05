@@ -3,6 +3,7 @@ import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../utils/app_radius.dart';
 import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
@@ -10,7 +11,6 @@ import '../../../utils/app_text.dart';
 class MsmeHeaderSection extends StatelessWidget {
   final String moduleId;
   final String description;
-  final IconData icon;
   final Color iconColor;
   final Color themeColor;
 
@@ -18,47 +18,31 @@ class MsmeHeaderSection extends StatelessWidget {
     super.key,
     required this.moduleId,
     required this.description,
-    required this.icon,
     required this.iconColor,
     required this.themeColor,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _buildModuleHeader(context),
-        Padding(
-          padding: const EdgeInsets.only(
-            left: AppSpacing.lg,
-            right: AppSpacing.lg,
-            top: AppSpacing.xxl,
-          ),
-          child: _buildWhatUserGets(context),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildModuleHeader(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(bottom: BorderSide(color: AppColors.border)),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.lg,
+        AppSpacing.lg,
+        AppSpacing.lg,
+        AppSpacing.none,
       ),
-      padding: const EdgeInsets.all(AppSpacing.xl),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(icon, color: iconColor, size: AppSize.icon),
-          const SizedBox(width: AppSpacing.lg),
-          Expanded(
-            child: Text(
-              CentralizedTranslator.instance.localize(description),
-              style: context.text.body.copyWith(color: AppColors.textMuted),
+          Text(
+            CentralizedTranslator.instance.localizeFor(
+              Localizations.localeOf(context).languageCode,
+              description,
             ),
+            style: context.text.body.copyWith(color: AppColors.textSecondary),
           ),
+          const SizedBox(height: AppSpacing.lg),
+          _buildWhatUserGets(context),
         ],
       ),
     );
@@ -90,7 +74,7 @@ class MsmeHeaderSection extends StatelessWidget {
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: AppRadius.lgAll,
         border: Border.all(color: themeColor.withValues(alpha: 0.2)),
       ),
       child: Column(
@@ -98,7 +82,7 @@ class MsmeHeaderSection extends StatelessWidget {
         children: [
           Row(
             children: [
-              Icon(Icons.stars_rounded, color: iconColor, size: 20),
+              Icon(Icons.stars_rounded, color: iconColor, size: AppSize.icon),
               const SizedBox(width: AppSpacing.sm),
               Flexible(
                 child: Text(
