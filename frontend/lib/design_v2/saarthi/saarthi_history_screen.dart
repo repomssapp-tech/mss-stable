@@ -13,7 +13,6 @@ import '../../widgets/common/app_toast.dart';
 import '../../utils/app_colors.dart';
 import '../mss_design.dart';
 import 'saarthi_kit.dart';
-import 'saarthi_type_screen.dart';
 
 class SaarthiHistoryScreen extends StatefulWidget {
   const SaarthiHistoryScreen({
@@ -46,12 +45,6 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
   final _search = TextEditingController();
   List<SavedChat>? _chats;
 
-  static const _badgeColors = [
-    AppColors.primaryTint,
-    AppColors.successSoft,
-    AppColors.surfaceMuted,
-  ];
-
   @override
   void initState() {
     super.initState();
@@ -70,18 +63,6 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
     _history.removeListener(_load);
     _search.dispose();
     super.dispose();
-  }
-
-  String _initials(String title) {
-    final words = title
-        .split(RegExp(r'\s+'))
-        .where((w) => w.isNotEmpty)
-        .toList();
-    if (words.isEmpty) return '?';
-    final chars = [
-      for (final w in words.take(2)) w.characters.first.toUpperCase(),
-    ];
-    return chars.join();
   }
 
   Future<void> _delete(SavedChat chat) async {
@@ -116,16 +97,9 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
       onOpen(chat);
       return;
     }
-    final provider = context.read<AppProvider>();
     Navigator.of(context).push(
       MaterialPageRoute<void>(
-        builder: (_) => chat.mode == 'type'
-            ? SaarthiTypeScreen(
-                profile: provider.profile,
-                language: provider.selectedLanguage,
-                resume: chat,
-              )
-            : SaarthiTranscriptScreen(chat: chat),
+        builder: (_) => SaarthiTranscriptScreen(chat: chat),
       ),
     );
   }
@@ -152,13 +126,6 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
       return l10n.notifEarlier;
     }
 
-    String when(SavedChat c) {
-      final at = c.updatedAt.toLocal();
-      return !at.isBefore(today)
-          ? sv2Time(context, at)
-          : MaterialLocalizations.of(context).formatShortMonthDay(at);
-    }
-
     final children = <Widget>[];
     String? lastGroup;
     for (var i = 0; i < chats.length; i++) {
@@ -168,16 +135,8 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
         lastGroup = g;
         children.add(
           Padding(
-            padding: const EdgeInsets.only(top: 14, bottom: 8),
-            child: Text(
-              g.toUpperCase(),
-              style: pop(
-                11,
-                FontWeight.w700,
-                kMuted,
-                1,
-              ).copyWith(letterSpacing: .6),
-            ),
+            padding: const EdgeInsets.only(top: 16, bottom: 2),
+            child: Text(g, style: pop(13, FontWeight.w700, kMuted, 1)),
           ),
         );
       }
@@ -190,7 +149,7 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
           : l10n.sv2HistoryMessages(c.messages.length);
       children.add(
         Padding(
-          padding: const EdgeInsets.only(bottom: 10),
+          padding: EdgeInsets.zero,
           child: Dismissible(
             key: ValueKey('sv2-chat-${c.id}'),
             direction: DismissDirection.endToStart,
@@ -198,72 +157,38 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
             background: Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(right: 20),
-              decoration: BoxDecoration(
-                color: AppColors.dangerSoft,
-                borderRadius: BorderRadius.circular(16),
-              ),
+              decoration: BoxDecoration(color: AppColors.dangerSoft),
               child: const Icon(
                 Icons.delete_outline_rounded,
                 color: AppColors.danger,
               ),
             ),
-            child: Material(
-              color: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-                side: const BorderSide(color: Color(0x0F0F172A)),
-              ),
-              child: InkWell(
-                borderRadius: BorderRadius.circular(16),
-                onTap: () => _open(c),
-                onLongPress: () => _delete(c),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 14,
-                    vertical: 12,
-                  ),
-                  child: Row(
-                    children: [
-                      Container(
-                        width: 40,
-                        height: 40,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: _badgeColors[i % _badgeColors.length],
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        child: c.mode == 'voice'
-                            ? const Icon(Icons.mic_none_rounded, color: kInk)
-                            : Text(
-                                _initials(c.title),
-                                style: pop(13, FontWeight.w800, kInk, 1),
-                              ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              c.title,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: pop(13.5, FontWeight.w600, kInk, 1),
-                            ),
-                            const SizedBox(height: 2),
-                            Text(
-                              subtitle,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: pop(11.5, FontWeight.w500, kMuted, 1),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      Text(when(c), style: pop(11, FontWeight.w500, kHint, 1)),
-                    ],
-                  ),
+            child: InkWell(
+              onTap: () => _open(c),
+              onLongPress: () => _delete(c),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                decoration: const BoxDecoration(
+                  border: Border(bottom: BorderSide(color: kHairline)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      c.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: pop(15, FontWeight.w700, kInk, 1, height: 1.3),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(
+                      subtitle,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: pop(13, FontWeight.w500, kBody, 1, height: 1.4),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -300,22 +225,22 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
           ),
         const SizedBox(height: 18),
         Container(
-          height: 46,
-          padding: const EdgeInsets.symmetric(horizontal: 14),
+          height: 48,
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(14),
-            border: Border.all(color: kHairline),
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(color: kFieldBorder),
           ),
           child: Row(
             children: [
               const Icon(Icons.search_rounded, size: 18, color: kMuted),
-              const SizedBox(width: 10),
+              const SizedBox(width: 12),
               Expanded(
                 child: TextField(
                   key: const Key('sv2-history-search'),
                   controller: _search,
-                  style: pop(13.5, FontWeight.w500, kInk, 1),
+                  style: pop(15, FontWeight.w500, kInk, 1),
                   decoration: InputDecoration(
                     isCollapsed: true,
                     border: InputBorder.none,
@@ -324,7 +249,7 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
                     disabledBorder: InputBorder.none,
                     filled: false,
                     hintText: l10n.sv2HistorySearch,
-                    hintStyle: pop(13.5, FontWeight.w500, kHint, 1),
+                    hintStyle: pop(15, FontWeight.w500, kHint, 1),
                   ),
                 ),
               ),
@@ -346,7 +271,7 @@ class _SaarthiHistoryScreenState extends State<SaarthiHistoryScreen> {
     );
     return DesignTextScale(
       child: Scaffold(
-        backgroundColor: AppColors.background,
+        backgroundColor: kSaarthiBg,
         body: SafeArea(
           child: Column(
             children: [

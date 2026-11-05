@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n.dart';
 import '../../utils/constants.dart';
 import '../highlight_text.dart';
-import '../../utils/app_colors.dart';
 import '../mss_design.dart';
 import 'saarthi_kit.dart';
 
@@ -34,7 +33,7 @@ class SaarthiVoiceHome extends StatelessWidget {
     final greeting = AppConstants.getTimeGreeting(l10n);
     return Scaffold(
       key: const Key('sv2-home'),
-      backgroundColor: AppColors.background,
+      backgroundColor: kSaarthiBg,
       body: SafeArea(
         child: Column(
           children: [
@@ -73,17 +72,12 @@ class SaarthiVoiceHome extends StatelessWidget {
                       width: 260,
                       height: 260,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: MssColors.cream,
                         shape: BoxShape.circle,
-                        boxShadow: [
-                          BoxShadow(
-                            color: AppColors.primary.withValues(alpha: .08),
-                            spreadRadius: 16,
-                          ),
-                          BoxShadow(
-                            color: AppColors.primary.withValues(alpha: .18),
-                            spreadRadius: 7,
-                          ),
+                        // Saffron inner ring, green outer ring, as drawn.
+                        boxShadow: const [
+                          BoxShadow(color: Color(0x1F138808), spreadRadius: 16),
+                          BoxShadow(color: Color(0x40FF9933), spreadRadius: 7),
                         ],
                       ),
                       clipBehavior: Clip.antiAlias,
@@ -111,7 +105,12 @@ class SaarthiVoiceHome extends StatelessWidget {
                     child: HighlightText(
                       '$greeting [$userName!]',
                       textAlign: TextAlign.center,
-                      highlight: pop(28, FontWeight.w800, AppColors.primary, 1),
+                      highlight: pop(
+                        28,
+                        FontWeight.w800,
+                        MssColors.saffronText,
+                        1,
+                      ),
                       style: pop(28, FontWeight.w800, kInk, 1, height: 1.2),
                     ),
                   ),
@@ -161,12 +160,7 @@ class SaarthiTalkControls extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.primary.withValues(alpha: .2),
-                spreadRadius: 7,
-              ),
-            ],
+            boxShadow: [BoxShadow(color: kSaffronHalo, spreadRadius: 8)],
           ),
           child: RoundIconButton(
             key: micKey,
@@ -241,7 +235,7 @@ class SaarthiPillNav extends StatelessWidget {
                 child: Icon(
                   icon,
                   size: 22,
-                  color: active ? Colors.white : AppColors.textSecondary,
+                  color: active ? Colors.white : kInk,
                 ),
               ),
             ),
@@ -258,7 +252,7 @@ class SaarthiPillNav extends StatelessWidget {
           borderRadius: BorderRadius.circular(999),
           boxShadow: const [
             BoxShadow(
-              color: Color(0x240F172A),
+              color: Color(0x24000050),
               blurRadius: 30,
               offset: Offset(0, 12),
             ),

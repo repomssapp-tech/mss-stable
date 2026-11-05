@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/design_v2/saarthi/saarthi_history_screen.dart';
+import 'package:frontend/design_v2/saarthi/saarthi_kit.dart';
 import 'package:frontend/design_v2/saarthi/saarthi_voice_screen.dart';
 import 'package:frontend/design_v2/saarthi/saarthi_voice_settings_screen.dart';
 import 'package:frontend/design_v2/saarthi/scheme_mentions.dart';
@@ -240,7 +241,7 @@ void main() {
 
       c._set(ConversationPhase.listening);
       await tester.pump();
-      expect(pill(), AppColors.primary);
+      expect(pill(), kBrand);
       await tester.pump(const Duration(milliseconds: 100));
       expect(bar(), 6, reason: 'silence stays flat');
 
@@ -547,8 +548,8 @@ void main() {
       _app(SaarthiHistoryScreen(history: h, now: () => now)),
     );
     await tester.pumpAndSettle();
-    expect(find.text(l10n.notifToday.toUpperCase()), findsOneWidget);
-    expect(find.text(l10n.notifEarlier.toUpperCase()), findsOneWidget);
+    expect(find.text(l10n.notifToday), findsOneWidget);
+    expect(find.text(l10n.notifEarlier), findsOneWidget);
     expect(find.text('Loans for women'), findsOneWidget);
 
     await tester.enterText(
