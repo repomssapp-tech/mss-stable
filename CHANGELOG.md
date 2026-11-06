@@ -11,6 +11,17 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.4.5+28] - 2026-11-06
+
+### Changed
+- Home "Recommended for you" and Search "For Me" now show the same schemes.
+- With a filled profile but no strong match, both show the closest schemes under "No perfect match yet".
+
+### Fixed
+- Back buttons and page titles look the same across Settings, Help, Notifications, Privacy, Terms, Scheme details and the profile form.
+- On the profile page, the Edit button stays on one line and lines up with the icon and title in every language.
+- Marathi screens no longer mix in English words such as Saarthi, Startup India and OBC.
+
 ## [2.4.4+27] - 2026-11-05
 
 ### Fixed
