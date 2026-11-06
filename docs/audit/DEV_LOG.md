@@ -79,3 +79,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-05 | Anto-Merary | #193 | unspecified | Keep Android navigation buttons legible on dark startup screens |
 | 2026-11-05 | Anto-Merary | #194 | unspecified | Disable legal acceptance until the end and release 2.4.4+27 |
 | 2026-11-05 | Anto-Merary | #195 | unspecified | Update the sign-in consent test for disabled Accept |
+| 2026-11-06 | Roger-Chris | #196 | frontend/search, frontend/home, frontend/profile, frontend/l10n | Home "Recommended for you" and Search "For Me" now share one picker, so they always agree. A usable profile with no strong match sees its closest partial matches under "No perfect match yet". Back-button headers across screens now match the search results header. The profile card's Edit button and titles stay on one line in every language. Marathi strings that kept English names now match Hindi and Tamil. |
