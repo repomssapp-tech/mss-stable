@@ -268,6 +268,14 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     notifyListeners();
   }
 
+  /// Sets the profile without syncing it or recomputing recommendations, so a
+  /// test can pair it with [setRecommendedSchemesForTesting].
+  @visibleForTesting
+  void setProfileForTesting(UserProfile profile) {
+    _profile = profile;
+    notifyListeners();
+  }
+
   @visibleForTesting
   void setRecommendedSchemesForTesting(
     List<MapEntry<Scheme, RecommendationResult>> schemes,

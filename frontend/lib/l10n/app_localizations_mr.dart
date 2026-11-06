@@ -116,7 +116,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get homeSearchHint => 'योजना शोधा';
 
   @override
-  String get homeAskSaarthi => 'Saarthi ला विचारा';
+  String get homeAskSaarthi => 'सारथीला विचारा';
 
   @override
   String get filter => 'फिल्टर';
@@ -140,7 +140,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get quickPillPmegp => 'PMEGP शोधा';
 
   @override
-  String get quickPillStartup => 'Startup India शोधा';
+  String get quickPillStartup => 'स्टार्टअप इंडिया शोधा';
 
   @override
   String get quickPillLoans => 'MSME कर्जे शोधा';
@@ -230,7 +230,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get fallbackLatestUpdateTitle =>
-      'Fisheries and Aquaculture Infra Development Fund योजना सुरू';
+      'मत्स्यव्यवसाय आणि मत्स्यशेती पायाभूत सुविधा विकास निधी योजना सुरू';
 
   @override
   String get time2DaysAgo => '2 दिवसांपूर्वी';
@@ -274,6 +274,18 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
+  String get forYouPartialTitle => 'अजून पूर्ण जुळणी नाही';
+
+  @override
+  String get forYouPartialNote =>
+      'या योजना तुमच्या प्रोफाइलशी अंशतः जुळतात. अधिक जवळच्या जुळणीसाठी आणखी तपशील जोडा.';
+
+  @override
+  String forMePartialCount(int count) {
+    return '$count योजना तुमच्याशी अंशतः जुळतात';
+  }
+
+  @override
   String noSchemesFound(Object query) {
     return '\"$query\" साठी योजना सापडल्या नाहीत';
   }
@@ -309,7 +321,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get filterLoan => 'कर्ज';
 
   @override
-  String get filterUdyam => 'Udyam';
+  String get filterUdyam => 'उद्यम';
 
   @override
   String get filterStartup => 'स्टार्टअप';
@@ -407,7 +419,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get quickPillPmegpQuery => 'PMEGP';
 
   @override
-  String get quickPillStartupQuery => 'Startup';
+  String get quickPillStartupQuery => 'स्टार्टअप';
 
   @override
   String get quickPillLoansQuery => 'कर्जे';
@@ -694,6 +706,9 @@ class AppLocalizationsMr extends AppLocalizations {
   String get editProfile => 'प्रोफाइल संपादित करा';
 
   @override
+  String get profileEditAction => 'संपादित करा';
+
+  @override
   String get userInformation => 'वापरकर्त्याची माहिती';
 
   @override
@@ -815,7 +830,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get commGeneral => 'सर्वसाधारण';
 
   @override
-  String get commObc => 'OBC';
+  String get commObc => 'इतर मागास वर्ग';
 
   @override
   String get commEws => 'EWS';
@@ -1190,7 +1205,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get settingsRegularSubtitle => 'पारंपरिक सूची आणि टॅब स्वरूप';
 
   @override
-  String get settingsCompanionTitle => 'AI सहचर (Saarthi)';
+  String get settingsCompanionTitle => 'AI सहचर (सारथी)';
 
   @override
   String get settingsCompanionSubtitle => 'आवाजावर आधारित AI मार्गदर्शित संवाद';
@@ -1306,11 +1321,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String companionAiTimestampLabel(Object time) {
-    return 'MSS Saarthi  $time';
+    return 'MSS सारथी  $time';
   }
 
   @override
-  String get companionAskAnything => 'Saarthi ला काहीही विचारा...';
+  String get companionAskAnything => 'सारथीला काहीही विचारा...';
 
   @override
   String get companionTapToSpeakHint => 'खाली टॅप करा आणि तुमचा प्रश्न बोला';
@@ -1325,7 +1340,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get companionLiveConnectionRequired => 'थेट आवाज जोडणी आवश्यक';
 
   @override
-  String get companionStartSpeakingSemantic => 'Saarthi शी बोलणे सुरू करा';
+  String get companionStartSpeakingSemantic => 'सारथीशी बोलणे सुरू करा';
 
   @override
   String get companionTapToSpeak => 'बोलण्यासाठी टॅप करा';
@@ -1352,7 +1367,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get companionFindingBestMatch => 'सर्वोत्तम जुळणी शोधत आहे';
 
   @override
-  String get companionSaarthiIsSpeaking => 'Saarthi बोलत आहे';
+  String get companionSaarthiIsSpeaking => 'सारथी बोलत आहे';
 
   @override
   String get companionReadyShort => 'तयार';
@@ -1361,14 +1376,14 @@ class AppLocalizationsMr extends AppLocalizations {
   String get welcomeMeetPrefix => 'भेटा';
 
   @override
-  String get welcomeIntroLine1 => 'मी Saarthi, तुमचा स्मार्ट सहाय्यक.';
+  String get welcomeIntroLine1 => 'मी सारथी, तुमचा स्मार्ट सहाय्यक.';
 
   @override
   String get welcomeIntroLine2 =>
       'मी तुम्हाला योग्य योजना शोधण्यात मदत करेन, सगळे सोप्या भाषेत समजावून सांगेन आणि प्रत्येक टप्प्यावर मार्गदर्शन करेन.';
 
   @override
-  String get welcomeSectionHeader => 'Saarthi यामध्ये मदत करू शकतो';
+  String get welcomeSectionHeader => 'सारथी यामध्ये मदत करू शकतो';
 
   @override
   String get welcomeFeatureTalkNaturally => 'सहज बोला';
@@ -1387,7 +1402,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get welcomeChooseLanguageSubtitle =>
-      'Saarthi तुमच्याशी अधिक चांगले बोलू शकेल यासाठी तुमची पसंतीची भाषा निवडा.';
+      'सारथी तुमच्याशी अधिक चांगले बोलू शकेल यासाठी तुमची पसंतीची भाषा निवडा.';
 
   @override
   String get welcomeVoiceLabel => 'आवाज';
@@ -1442,7 +1457,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get voiceRecommendedBySaarthiReason =>
-      'पडताळलेल्या सूचीतून Saarthi ची शिफारस';
+      'पडताळलेल्या सूचीतून सारथीची शिफारस';
 
   @override
   String get voiceRecognitionUnavailable =>
@@ -1481,7 +1496,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'अजून खात्रीशीर योजना जुळली नाही. तुमच्या परिस्थितीबद्दल आणखी थोडे सांगा.';
 
   @override
-  String get voiceHeaderTalkToSaarthi => 'Saarthi शी बोला';
+  String get voiceHeaderTalkToSaarthi => 'सारथीशी बोला';
 
   @override
   String get voiceUnmute => 'आवाज सुरू करा';
@@ -1511,7 +1526,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get voiceStartListeningSemantic => 'ऐकणे सुरू करा';
 
   @override
-  String get voiceTypeToSaarthiHint => 'Saarthi ला लिहा...';
+  String get voiceTypeToSaarthiHint => 'सारथीला लिहा...';
 
   @override
   String get voiceSendMessageTooltip => 'संदेश पाठवा';
@@ -1864,7 +1879,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get phoneNumber => 'फोन नंबर';
 
   @override
-  String get dateOfBirth => 'जन्मतारीख (DOB)';
+  String get dateOfBirth => 'जन्मतारीख';
 
   @override
   String get profileInfoNote =>
@@ -2239,14 +2254,14 @@ class AppLocalizationsMr extends AppLocalizations {
       'AI कडून चुका होऊ शकतात. तपशील योजनेच्या अधिकृत संकेतस्थळावर तपासा.';
 
   @override
-  String get sarvamInputHint => 'Saarthi ला विचारा…';
+  String get sarvamInputHint => 'सारथीला विचारा…';
 
   @override
   String get send => 'पाठवा';
 
   @override
   String get sarvamCouldNotReach =>
-      'Saarthi शी संपर्क झाला नाही. कृपया पुन्हा प्रयत्न करा.';
+      'सारथीशी संपर्क झाला नाही. कृपया पुन्हा प्रयत्न करा.';
 
   @override
   String get welcomePreviewVoice => 'ऐकून पाहा';
@@ -2403,7 +2418,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get privacyPolicyIntroduction =>
-      'MSS अॅप (“MSS”, “आम्ही”, “आम्हाला”) तुमच्या गोपनीयतेचा आदर करते आणि Digital Personal Data Protection Act, 2023 व लागू नियमांनुसार तुमच्या वैयक्तिक माहितीचे संरक्षण करण्यास बांधील आहे.';
+      'MSS अॅप (“MSS”, “आम्ही”, “आम्हाला”) तुमच्या गोपनीयतेचा आदर करते आणि डिजिटल वैयक्तिक माहिती संरक्षण अधिनियम, 2023 व लागू नियमांनुसार तुमच्या वैयक्तिक माहितीचे संरक्षण करण्यास बांधील आहे.';
 
   @override
   String get privacyPolicyEffectiveDate =>
@@ -2542,7 +2557,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeDelayedPaymentCalcDesc =>
-      'MSMED Act कलम 15/16 नुसार 45 दिवसांपेक्षा जास्त विलंब झाल्यास खरेदीदाराने RBI बँक दराच्या तिप्पट चक्रवाढ व्याज मासिक आधारावर द्यावे लागते.';
+      'MSMED अधिनियम कलम 15/16 नुसार 45 दिवसांपेक्षा जास्त विलंब झाल्यास खरेदीदाराने RBI बँक दराच्या तिप्पट चक्रवाढ व्याज मासिक आधारावर द्यावे लागते.';
 
   @override
   String get msmeInvoiceAmountRupees => 'बीजक रक्कम (₹)';
@@ -2654,12 +2669,11 @@ class AppLocalizationsMr extends AppLocalizations {
       'विलंबित देयक व्याज दावा कॅल्क्युलेटर (बँक दराच्या 3 पट)';
 
   @override
-  String get msmeFeatureTaxGst6 =>
-      'निर्यात कर परतावा आणि LUT (Letter of Undertaking) नियम';
+  String get msmeFeatureTaxGst6 => 'निर्यात कर परतावा आणि LUT (हमीपत्र) नियम';
 
   @override
   String get msmeFeatureTaxGst7 =>
-      'MSME Samadhaan पोर्टल वसुली मार्गदर्शक तत्त्वे';
+      'MSME समाधान पोर्टल वसुली मार्गदर्शक तत्त्वे';
 
   @override
   String get msmeFeatureExport1 =>
@@ -2685,7 +2699,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureExport7 =>
-      'HS Code वर्गीकरण आणि AD Code नोंदणी मार्गदर्शक';
+      'HS कोड वर्गीकरण आणि AD कोड नोंदणी मार्गदर्शक';
 
   @override
   String get msmeFeatureTreds1 => 'इनव्हॉइस डिस्काउंटिंग मंचांची माहिती';
@@ -2734,8 +2748,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get msmeFeatureCsr6 => 'पात्रता सूची आणि अर्जाचे मार्ग';
 
   @override
-  String get msmeFeatureGovt1 =>
-      'Ministry of MSME (केंद्र शासन) धोरणे आणि उपक्रम';
+  String get msmeFeatureGovt1 => 'MSME मंत्रालय (केंद्र शासन) धोरणे आणि उपक्रम';
 
   @override
   String get msmeFeatureGovt2 =>
@@ -2757,11 +2770,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureInstitutions1 =>
-      'SIDBI (Small Industries Development Bank of India) कर्ज पोर्टल';
+      'SIDBI (भारतीय लघु उद्योग विकास बँक) कर्ज पोर्टल';
 
   @override
   String get msmeFeatureInstitutions2 =>
-      'NSIC (National Small Industries Corporation) कच्चा माल सहाय्य';
+      'NSIC (राष्ट्रीय लघु उद्योग महामंडळ) कच्चा माल सहाय्य';
 
   @override
   String get msmeFeatureInstitutions3 =>
@@ -2769,7 +2782,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureInstitutions4 =>
-      'KVIC (Khadi and Village Industries Commission) ग्रामीण प्रकल्प';
+      'KVIC (खादी आणि ग्रामोद्योग आयोग) ग्रामीण प्रकल्प';
 
   @override
   String get msmeFeatureInstitutions5 =>
@@ -2900,7 +2913,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessEduQ4CasteOpt1 => 'सर्वसाधारण';
 
   @override
-  String get assessEduQ4CasteOpt2 => 'OBC';
+  String get assessEduQ4CasteOpt2 => 'इतर मागास वर्ग';
 
   @override
   String get assessEduQ4CasteOpt3 => 'SC / ST';
@@ -3020,7 +3033,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get assessWomenQ3BizCreditOpt3 =>
-      'Stand-Up India कर्ज (₹10 लाखांपेक्षा जास्त)';
+      'स्टँड-अप इंडिया कर्ज (₹10 लाखांपेक्षा जास्त)';
 
   @override
   String get assessWomenQ3WelfarePension =>
@@ -3103,7 +3116,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get assessBizQ2Artisan =>
-      'तुमच्याकडे वैध PM Vishwakarma कार्ड किंवा कारागीर ओळखपत्र आहे का?';
+      'तुमच्याकडे वैध PM विश्वकर्मा कार्ड किंवा कारागीर ओळखपत्र आहे का?';
 
   @override
   String get assessBizQ2ArtisanOpt1 => 'होय, सक्रिय कार्ड';
@@ -3219,7 +3232,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessAgriQ2Opt3 => 'पीक विमा आणि आपत्ती मदत';
 
   @override
-  String get assessAgriQ2Opt4 => 'Kisan Credit Card (KCC) कर्ज';
+  String get assessAgriQ2Opt4 => 'किसान क्रेडिट कार्ड (KCC) कर्ज';
 
   @override
   String get assessAgriQ3Caste => 'तुमचा सामाजिक प्रवर्ग कोणता?';
@@ -3391,7 +3404,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessCatQ4Opt1 => 'सर्वसाधारण';
 
   @override
-  String get assessCatQ4Opt2 => 'OBC';
+  String get assessCatQ4Opt2 => 'इतर मागास वर्ग';
 
   @override
   String get assessCatQ4Opt3 => 'SC / ST';
@@ -3517,7 +3530,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'तुमच्याकडे या मंत्रालयाशी जोडलेला नोंदणीकृत ID आहे का?';
 
   @override
-  String get assessMinQ3Opt1 => 'होय, Udyam / PM-KISAN / Scholar ID';
+  String get assessMinQ3Opt1 => 'होय, उद्यम / PM-किसान / स्कॉलर ओळखपत्र';
 
   @override
   String get assessMinQ3Opt2 => 'नाही, अजून नोंदणी झालेली नाही';
@@ -3529,7 +3542,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessMinQ4Opt1 => 'सर्वसाधारण';
 
   @override
-  String get assessMinQ4Opt2 => 'OBC';
+  String get assessMinQ4Opt2 => 'इतर मागास वर्ग';
 
   @override
   String get assessMinQ4Opt3 => 'SC / ST';
@@ -3575,7 +3588,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'साइन इन करण्यासाठी किंवा हे अॅप पुन्हा सुरू करण्यासाठी इंटरनेटशी जोडा.';
 
   @override
-  String get openSaarthiAiChat => 'Saarthi AI चॅट उघडा';
+  String get openSaarthiAiChat => 'सारथी AI चॅट उघडा';
 
   @override
   String get sortLabel => 'क्रमवारी';
@@ -3899,7 +3912,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get dpiitCriteriaRegistered =>
-      'Pvt Ltd / LLP / भागीदारी म्हणून नोंदणीकृत';
+      'प्रायव्हेट लिमिटेड / LLP / भागीदारी म्हणून नोंदणीकृत';
 
   @override
   String get dpiitCriteriaRegisteredSub =>
@@ -4288,7 +4301,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get saarthiVoiceFallbackOnDevice =>
-      'क्लाउड आवाज सध्या उपलब्ध नाही. Saarthi तुमच्या फोनवरच ऐकत आहे.';
+      'क्लाउड आवाज सध्या उपलब्ध नाही. सारथी तुमच्या फोनवरच ऐकत आहे.';
 
   @override
   String get saarthiCloudErrorSignIn =>
@@ -4481,7 +4494,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get settingsSwitchedToCompanion =>
-      'AI सहचर (Saarthi) नेव्हिगेशनवर बदलले';
+      'AI सहचर (सारथी) नेव्हिगेशनवर बदलले';
 
   @override
   String get settingsSwitchedToRegular => 'नियमित नेव्हिगेशनवर बदलले';
@@ -4676,7 +4689,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get notifSeed1Body =>
-      'सवलतीच्या दरात वित्तपुरवठा देण्यासाठी शासनाने Fisheries and Aquaculture Infrastructure Development Fund सुरू केला आहे.';
+      'सवलतीच्या दरात वित्तपुरवठा देण्यासाठी शासनाने मत्स्यव्यवसाय आणि मत्स्यशेती पायाभूत सुविधा विकास निधी सुरू केला आहे.';
 
   @override
   String get notifSeed2Title => 'PM Vidyalaxmi शैक्षणिक कर्ज योजना';
@@ -4699,7 +4712,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get notifSeed4Body => 'अर्ज करण्याची शेवटची तारीख जवळ येत आहे';
 
   @override
-  String get notifSeed5Title => 'PM Internship Scheme';
+  String get notifSeed5Title => 'PM इंटर्नशिप योजना';
 
   @override
   String get notifSeed5Body => 'अर्जाची मुदत लवकरच संपेल';
@@ -5480,7 +5493,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get liveVoiceThinking => 'उत्तर शोधत आहे…';
 
   @override
-  String get liveVoiceSpeaking => 'Saarthi बोलत आहे';
+  String get liveVoiceSpeaking => 'सारथी बोलत आहे';
 
   @override
   String get liveVoicePaused => 'संवाद थांबवला आहे';
@@ -5527,7 +5540,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get liveVoiceLongPausesHint =>
-      'Saarthi उत्तर देण्यापूर्वी शब्दांमध्ये अधिक वेळ घ्या.';
+      'सारथी उत्तर देण्यापूर्वी शब्दांमध्ये अधिक वेळ घ्या.';
 
   @override
   String get liveVoiceReadAloud => 'उत्तरे मोठ्याने वाचा';
@@ -5541,7 +5554,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get liveVoiceConversationHint =>
-      'बोला, मग थांबा. Saarthi उत्तर देतो आणि पुन्हा ऐकतो. हवे तेव्हा थांबवा; खाली तुमची विनंती दुरुस्त करा किंवा लिहा.';
+      'बोला, मग थांबा. सारथी उत्तर देतो आणि पुन्हा ऐकतो. हवे तेव्हा थांबवा; खाली तुमची विनंती दुरुस्त करा किंवा लिहा.';
 
   @override
   String get liveVoiceScreenReaderHint =>
@@ -5560,7 +5573,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'आवाज पूर्ण होऊ शकला नाही. जोडणी तपासा, मग पुन्हा सुरू करा किंवा विनंती लिहा.';
 
   @override
-  String get liveVoiceTitle => 'Saarthi';
+  String get liveVoiceTitle => 'सारथी';
 
   @override
   String get liveVoiceLatest => 'नवीनतम उत्तर';
@@ -5644,7 +5657,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get homeTip8 =>
-      'खरेदीदार उशिरा पैसे देत आहेत? MSME Samadhaan वर सूक्ष्म व लघु उद्योग विलंबित देयकाचा दावा ऑनलाइन दाखल करू शकतात.';
+      'खरेदीदार उशिरा पैसे देत आहेत? MSME समाधान वर सूक्ष्म व लघु उद्योग विलंबित देयकाचा दावा ऑनलाइन दाखल करू शकतात.';
 
   @override
   String get homeTip9 =>
@@ -5662,7 +5675,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'संबंधित शासकीय योजना आणि सहाय्य शोधण्यासाठी योजनेचे नाव, शब्द किंवा लाभ वापरून शोधा.';
 
   @override
-  String get homeTourAskTitle => 'Saarthi ला विचारा';
+  String get homeTourAskTitle => 'सारथीला विचारा';
 
   @override
   String get homeTourAskBody =>
@@ -5910,14 +5923,14 @@ class AppLocalizationsMr extends AppLocalizations {
   String get onbP3Footer => 'अंदाज नाही. फक्त स्पष्ट उत्तरे.';
 
   @override
-  String get onbP4Title => 'फक्त [Saarthi] ला विचारा';
+  String get onbP4Title => 'फक्त [सारथी]ला विचारा';
 
   @override
   String get onbP4Body =>
       'आवाजाद्वारे टप्प्याटप्प्याने मार्गदर्शन मिळवा — तुमच्या भाषेत, तुमच्या पद्धतीने.';
 
   @override
-  String get onbP4SaarthiLabel => 'SAARTHI';
+  String get onbP4SaarthiLabel => 'सारथी';
 
   @override
   String get onbP4Footer => 'तुमची भाषा. तुमचा आवाज. तुमच्या योजना.';
@@ -5940,7 +5953,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get permMicrophoneTitle => 'मायक्रोफोन';
 
   @override
-  String get permMicrophoneBody => 'Saarthi शी बोला आणि आवाजाने शोधा.';
+  String get permMicrophoneBody => 'सारथीशी बोला आणि आवाजाने शोधा.';
 
   @override
   String get permInstallTitle => 'अपडेट इंस्टॉल करा';
@@ -5972,7 +5985,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get permNotNow => 'आता नको';
 
   @override
-  String get sv2Name => 'Saarthi';
+  String get sv2Name => 'सारथी';
 
   @override
   String get sv2PoweredBy => 'Sarvam AI वर चालणारे';
@@ -6023,13 +6036,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sv2ViewScheme => 'योजना पाहा';
 
   @override
-  String get sv2VoiceIntro => 'मी [Saarthi], तुमचा योजना सहचर.';
+  String get sv2VoiceIntro => 'मी [सारथी], तुमचा योजना सहचर.';
 
   @override
-  String get sv2AskSaarthi => 'SAARTHI ला विचारा';
+  String get sv2AskSaarthi => 'सारथीला विचारा';
 
   @override
-  String get sv2StartTalking => 'Saarthi शी बोलणे सुरू करा';
+  String get sv2StartTalking => 'सारथीशी बोलणे सुरू करा';
 
   @override
   String sv2Listening(String language) {
@@ -6066,10 +6079,10 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get sv2Thinking => 'Saarthi विचार करत आहे…';
+  String get sv2Thinking => 'सारथी विचार करत आहे…';
 
   @override
-  String get sv2Speaking => 'Saarthi बोलत आहे…';
+  String get sv2Speaking => 'सारथी बोलत आहे…';
 
   @override
   String get sv2HearAgain => 'उत्तर पुन्हा ऐका';
@@ -6089,7 +6102,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sv2OldSessions => 'जुने संवाद';
 
   @override
-  String get sv2TypeMessage => 'Saarthi ला संदेश लिहा';
+  String get sv2TypeMessage => 'सारथीला संदेश लिहा';
 
   @override
   String get sv2HistoryTitle => 'चॅट इतिहास';
@@ -6102,7 +6115,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get sv2HistoryEmpty =>
-      'Saarthi शी तुमचे संवाद या फोनवर येथे जतन केले जातील.';
+      'सारथीशी तुमचे संवाद या फोनवर येथे जतन केले जातील.';
 
   @override
   String get sv2HistoryNoMatch => 'तुमच्या शोधाशी कोणताही संवाद जुळत नाही.';
@@ -6158,11 +6171,11 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sv2Autoplay => 'उत्तरे आपोआप ऐकवा';
 
   @override
-  String get sv2AutoplayBody => 'Saarthi प्रत्येक उत्तर मोठ्याने वाचतो';
+  String get sv2AutoplayBody => 'सारथी प्रत्येक उत्तर मोठ्याने वाचतो';
 
   @override
-  String get sv2VoiceNote => 'Saarthi चा आवाज प्रत्येक भाषेसाठी निवडलेला आहे.';
+  String get sv2VoiceNote => 'सारथीचा आवाज प्रत्येक भाषेसाठी निवडलेला आहे.';
 
   @override
-  String get settingsSaarthiVoice => 'Saarthi आवाज सेटिंग्ज';
+  String get settingsSaarthiVoice => 'सारथी आवाज सेटिंग्ज';
 }

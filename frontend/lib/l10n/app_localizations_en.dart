@@ -276,6 +276,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get forYouPartialTitle => 'No perfect match yet';
+
+  @override
+  String get forYouPartialNote =>
+      'These schemes partly match your profile. Add more details for closer matches.';
+
+  @override
+  String forMePartialCount(int count) {
+    return '$count schemes partly match you';
+  }
+
+  @override
   String noSchemesFound(Object query) {
     return 'No schemes found for \"$query\"';
   }
@@ -697,6 +709,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get editProfile => 'Edit profile';
+
+  @override
+  String get profileEditAction => 'Edit';
 
   @override
   String get userInformation => 'Your details';

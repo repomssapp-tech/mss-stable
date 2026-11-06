@@ -5,6 +5,7 @@ import '../../../utils/app_radius.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
+import '../../../widgets/common/standard_page_header.dart';
 
 /// Full-page detailed Terms of Use Screen for MSS App
 class TermsConditionsScreen extends StatelessWidget {
@@ -21,25 +22,7 @@ class TermsConditionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.surface,
-      appBar: AppBar(
-        backgroundColor: AppColors.surface,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_rounded,
-            color: kSlate900,
-            size: 20,
-          ),
-          tooltip: context.l10n.back,
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          context.l10n.legalTermsOfUseLink,
-          style: context.text.titleMedium.copyWith(color: kSlate900),
-        ),
-        centerTitle: true,
-      ),
+      appBar: StandardPageHeader(title: context.l10n.legalTermsOfUseLink),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.xl),

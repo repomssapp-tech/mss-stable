@@ -21,6 +21,9 @@ class StandardPageHeader extends StatelessWidget
   final String? subtitle;
   final bool showBackButton;
   final VoidCallback? onBackPressed;
+
+  /// Replaces the back button (e.g. a close button in a selection mode).
+  final Widget? leading;
   final List<Widget>? actions;
   final Color backgroundColor;
   final double elevation;
@@ -32,6 +35,7 @@ class StandardPageHeader extends StatelessWidget
     this.subtitle,
     this.showBackButton = true,
     this.onBackPressed,
+    this.leading,
     this.actions,
     this.backgroundColor = AppColors.surface,
     this.elevation = 0,
@@ -58,7 +62,7 @@ class StandardPageHeader extends StatelessWidget
                   ? context.text.titleMedium
                   : context.text.titleSmall)
               .copyWith(color: AppColors.textPrimary),
-      maxLines: _hasSubtitle ? 1 : 2,
+      maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
     return AppBar(
@@ -67,7 +71,9 @@ class StandardPageHeader extends StatelessWidget
       backgroundColor: backgroundColor,
       elevation: 0,
       scrolledUnderElevation: 0,
-      leading: showBackButton
+      leading: leading != null
+          ? leading!
+          : showBackButton
           ? AppIconButton(
               icon: Icons.arrow_back_rounded,
               semanticLabel: l10n.back,

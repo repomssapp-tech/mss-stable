@@ -83,6 +83,23 @@
   "activeBadge": "Active",
   "calculatingMatches": "Finding matches",
   "schemesMatchProfile": "{count} schemes match your profile",
+  "forYouPartialTitle": "No perfect match yet",
+  "@forYouPartialTitle": {
+    "description": "Heading over the closest partial matches when no scheme is a strong match for the profile (Home and Search For Me)."
+  },
+  "forYouPartialNote": "These schemes partly match your profile. Add more details for closer matches.",
+  "@forYouPartialNote": {
+    "description": "Explains that the listed schemes only partly match the profile."
+  },
+  "forMePartialCount": "{count} schemes partly match you",
+  "@forMePartialCount": {
+    "description": "Search For Me card subtitle when only partial matches exist.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "noSchemesFound": "No schemes found for \"{query}\"",
   "tryDifferentKeyword": "Try a different keyword or browse categories.",
   "searchDidYouMean": "Did you mean \"{suggestion}\"?",
@@ -161,7 +178,9 @@
   "savedSubtitleCountFormat": "{count, plural, =1{1 scheme saved} other{{count} schemes saved}}",
   "@savedSubtitleCountFormat": {
     "placeholders": {
-      "count": {"type": "int"}
+      "count": {
+        "type": "int"
+      }
     }
   },
   "savedRecentlyViewedEmptyTitle": "No schemes viewed yet",
@@ -196,7 +215,10 @@
   "accountDeletedMsg": "Your account has been deleted and you have been signed out. Your data will not be deleted for 30 days (until {date}). To reactivate your account, just sign in again before then.",
   "@accountDeletedMsg": {
     "placeholders": {
-      "date": {"type": "String", "example": "22 Nov 2026"}
+      "date": {
+        "type": "String",
+        "example": "22 Nov 2026"
+      }
     }
   },
   "accountDeletedNowMsg": "Your account has been permanently deleted.",
@@ -204,7 +226,10 @@
   "accountRestoreMsg": "You deleted this account. Your data is kept until {date}. Reactivate it to continue with your saved profile and schemes.",
   "@accountRestoreMsg": {
     "placeholders": {
-      "date": {"type": "String", "example": "22 Nov 2026"}
+      "date": {
+        "type": "String",
+        "example": "22 Nov 2026"
+      }
     }
   },
   "accountRestoreConfirm": "Reactivate",
@@ -223,6 +248,10 @@
   "profileVerified": "Profile complete",
   "profileIncomplete": "Incomplete",
   "editProfile": "Edit profile",
+  "profileEditAction": "Edit",
+  "@profileEditAction": {
+    "description": "Short label of the Edit button on the profile card, beside the \"Your details\" title. Keep it one short word."
+  },
   "userInformation": "Your details",
   "eligibilityProfessionalDetails": "Eligibility and work details",
   "businessInformation": "Business details",
@@ -1176,9 +1205,21 @@
   "helpTicketErrEmailInvalid": "Please enter a valid email address (e.g. name@example.com).",
   "helpTicketErrDescriptionMissing": "Please describe your issue or feedback.",
   "helpTicketErrDescriptionShort": "Please add a bit more detail (at least {count} characters).",
-  "@helpTicketErrDescriptionShort": {"placeholders": {"count": {"type": "int"}}},
+  "@helpTicketErrDescriptionShort": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "helpTicketErrWait": "Please wait {seconds} seconds before submitting again.",
-  "@helpTicketErrWait": {"placeholders": {"seconds": {"type": "int"}}},
+  "@helpTicketErrWait": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "helpTicketErrTooMany": "Too many submissions. Please try again later.",
   "helpSubmitFeedback": "Submit Feedback",
   "helpHeaderContact": "Contact Us",
@@ -1227,7 +1268,13 @@
   "dpiitResultEligible": "You appear to meet all DPIIT criteria. Apply for recognition on the Startup India portal.",
   "dpiitResultNotEligible": "Not eligible yet. A startup must satisfy all 5 criteria.",
   "dpiitResultUnmet": "Not met: {criteria}",
-  "@dpiitResultUnmet": {"placeholders": {"criteria": {"type": "String"}}},
+  "@dpiitResultUnmet": {
+    "placeholders": {
+      "criteria": {
+        "type": "String"
+      }
+    }
+  },
   "dpiitCheckEligibility": "Check Eligibility",
   "valuationTitle": "Startup Valuation Estimator",
   "valuationSubtitle": "Get a ballpark pre-seed/seed valuation range based on MRR.",
@@ -1511,9 +1558,6 @@
   "stateGujarat": "Gujarat",
   "stateOther": "Other States",
   "searchStateOrUtPlaceholder": "Search state or UT",
-  "genderFemale": "Female",
-  "genderMale": "Male",
-  "genderOther": "Other",
   "ageYearsLabel": "years",
   "workNewBusiness": "Want to start a business",
   "workNewBusinessDesc": "Have an idea or starting a new venture",
@@ -1536,8 +1580,12 @@
   "simpleProfileStepIndicator": "Step {current} of {total}",
   "@simpleProfileStepIndicator": {
     "placeholders": {
-      "current": {"type": "int"},
-      "total": {"type": "int"}
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
     }
   },
   "actionNext": "Next",
@@ -1594,11 +1642,23 @@
   "schemeContactAddress": "Address",
   "schemeContactHours": "Hours",
   "schemeStatusAsOf": "As of {date}",
-  "@schemeStatusAsOf": {"placeholders": {"date": {"type": "String"}}},
+  "@schemeStatusAsOf": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "processUnconfirmedLink": "Some details could not be confirmed from official sources. Check the official page before applying.",
   "processUnconfirmedNoLink": "Some details could not be confirmed from official sources. Confirm with the implementing office before applying.",
   "schemeApplicationStatus": "Applications: {status}",
-  "@schemeApplicationStatus": {"placeholders": {"status": {"type": "String"}}},
+  "@schemeApplicationStatus": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
   "schemeAppStatusOpen": "Open",
   "schemeAppStatusClosed": "Closed",
   "schemeAppStatusAnnounced": "Announced",
@@ -1617,7 +1677,13 @@
   "schemeLinkInfo": "Scheme information",
   "schemeLinkGuidelines": "Guidelines",
   "schemeTranslationNotice": "This {language} text is machine-translated and has not been reviewed yet.",
-  "@schemeTranslationNotice": {"placeholders": {"language": {"type": "String"}}},
+  "@schemeTranslationNotice": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
   "schemeFactMax": "Maximum",
   "schemeFactMin": "Minimum",
   "schemeFactAmount": "Amount",
@@ -1630,7 +1696,13 @@
   "schemeFactMoratorium": "Moratorium",
   "schemeFactDuration": "Duration",
   "schemeMonthsValue": "{count} months",
-  "@schemeMonthsValue": {"placeholders": {"count": {"type": "int"}}},
+  "@schemeMonthsValue": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "schemeLinkPortal": "Official portal",
   "schemeLinkPortalLogin": "Portal login",
   "schemeLinkPortalServices": "Portal services",
@@ -1680,7 +1752,13 @@
   "logoutAllFailed": "Unable to log out all devices.",
   "sessionOtherDevice": "Signed-in device",
   "sessionSignedInAt": "Signed in: {time}",
-  "@sessionSignedInAt": {"placeholders": {"time": {"type": "String"}}},
+  "@sessionSignedInAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "udyamMicro": "MICRO Enterprise",
   "udyamSmall": "SMALL Enterprise",
   "udyamMedium": "MEDIUM Enterprise",
@@ -1688,7 +1766,28 @@
   "udyamInvalid": "Invalid Input",
   "udyamInvalidSub": "Enter numbers of 0 or more.",
   "udyamLimitsSummary": "Limits (2025): Micro ≤{microInv} / ≤{microTurn} Cr · Small ≤{smallInv} / ≤{smallTurn} Cr · Medium ≤{medInv} / ≤{medTurn} Cr (investment / turnover)",
-  "@udyamLimitsSummary": {"placeholders": {"microInv": {"type": "String"}, "microTurn": {"type": "String"}, "smallInv": {"type": "String"}, "smallTurn": {"type": "String"}, "medInv": {"type": "String"}, "medTurn": {"type": "String"}}},
+  "@udyamLimitsSummary": {
+    "placeholders": {
+      "microInv": {
+        "type": "String"
+      },
+      "microTurn": {
+        "type": "String"
+      },
+      "smallInv": {
+        "type": "String"
+      },
+      "smallTurn": {
+        "type": "String"
+      },
+      "medInv": {
+        "type": "String"
+      },
+      "medTurn": {
+        "type": "String"
+      }
+    }
+  },
   "schemeNotMatchingFilters": "Doesn't match your filters",
   "greetingLateNight": "Hello,",
   "copyChecklistTooltip": "Copy checklist",
@@ -1746,7 +1845,13 @@
   "notifEarlier": "Earlier",
   "settingsHapticsTitle": "Haptic feedback",
   "settingsHapticsSubtitle": "Vibrate lightly on taps and when a notification arrives",
-  "@notifReceivedOn": {"placeholders": {"date": {"type": "String"}}},
+  "@notifReceivedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "homeFeaturedBestForYou": "Best for you",
   "homeFeaturedNewlyAdded": "Newly added",
   "homeFeaturedAddedOn": "Added {date}",
@@ -1759,7 +1864,13 @@
   "homeTip8": "Buyers paying late? MSME Samadhaan lets micro and small enterprises file a delayed-payment case online.",
   "homeTip9": "DPIIT-recognised startups can apply to the Startup India Seed Fund Scheme.",
   "homeTip10": "Apply only through the official scheme link. Never pay an agent for a free government service.",
-  "@homeFeaturedAddedOn": {"placeholders": {"date": {"type": "String"}}},
+  "@homeFeaturedAddedOn": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
   "homeTourFindTitle": "Find a Scheme",
   "homeTourFindBody": "Search by scheme name, keyword, or benefit to find relevant government schemes and support.",
   "homeTourAskTitle": "Ask Saarthi",
@@ -1769,7 +1880,16 @@
   "homeTourProfileTitle": "Edit Your Profile",
   "homeTourProfileBody": "Update your personal and business details to help us provide more relevant scheme recommendations.",
   "homeTourProgress": "{current} of {total}",
-  "@homeTourProgress": {"placeholders": {"current": {"type": "int"}, "total": {"type": "int"}}},
+  "@homeTourProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
   "homeTourSkip": "Skip",
   "homeTourNext": "Next",
   "homeTourFinish": "Finish",
@@ -1840,9 +1960,30 @@
   "onbP4Body": "Get step-by-step guidance through voice — in your language, your way.",
   "onbP4SaarthiLabel": "SAARTHI",
   "onbP4Footer": "Your Language. Your Voice. Your Schemes.",
-  "@onbStep": {"placeholders": {"step": {"type": "String"}, "total": {"type": "String"}}},
-  "@onbP1Badge": {"placeholders": {"count": {"type": "int"}}},
-  "@onbP3Found": {"placeholders": {"count": {"type": "int"}}},
+  "@onbStep": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "@onbP1Badge": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@onbP3Found": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "permTitle": "Allow MSS to help you fully",
   "permSubtitle": "MSS works without these, but some features need them. You can change them later in your phone's Settings.",
   "permNotificationsTitle": "Notifications",
@@ -1914,10 +2055,49 @@
   "sv2AutoplayBody": "Saarthi reads every answer aloud",
   "sv2VoiceNote": "Saarthi's voice is chosen for each language.",
   "settingsSaarthiVoice": "Saarthi voice settings",
-  "@sv2TypeGreeting": {"placeholders": {"name": {"type": "String"}}},
-  "@sv2Listening": {"placeholders": {"language": {"type": "String"}}},
-  "@sv2RoomHello": {"placeholders": {"name": {"type": "String"}}},
-  "@sv2DocumentsReady": {"placeholders": {"ready": {"type": "int"}, "total": {"type": "int"}}},
-  "@sv2HistorySchemes": {"placeholders": {"count": {"type": "int"}}},
-  "@sv2HistoryMessages": {"placeholders": {"count": {"type": "int"}}}
+  "@sv2TypeGreeting": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@sv2Listening": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "@sv2RoomHello": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "@sv2DocumentsReady": {
+    "placeholders": {
+      "ready": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "@sv2HistorySchemes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@sv2HistoryMessages": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

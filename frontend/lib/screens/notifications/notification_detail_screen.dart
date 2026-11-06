@@ -12,6 +12,7 @@ import '../../widgets/common/app_toast.dart';
 import '../regular_mode/basic_profile_screen.dart';
 import 'notification_helpers.dart';
 import 'notification_style.dart';
+import '../../widgets/common/standard_page_header.dart';
 
 /// Full view of one inbox notification: opened by tapping it in the inbox or
 /// in the phone's notification shade. Shows the category, the full title and
@@ -73,12 +74,8 @@ class _NotificationDetailScreenState extends State<NotificationDetailScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        title: Text(l10n.notifDetailTitle),
-        backgroundColor: AppColors.surface,
-        surfaceTintColor: AppColors.surface,
-        elevation: 0,
-        scrolledUnderElevation: 0,
+      appBar: StandardPageHeader(
+        title: l10n.notifDetailTitle,
         actions: [
           IconButton(
             tooltip: l10n.notifDeleteThis,

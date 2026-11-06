@@ -20,6 +20,7 @@ import 'basic_profile/step1_basic_details_form.dart';
 import 'basic_profile/step2_location_form.dart';
 import 'basic_profile/step3_about_you_form.dart';
 import 'basic_profile/step4_eligibility_form.dart';
+import '../../widgets/common/app_icon_button.dart';
 
 export 'basic_profile/custom_input_field.dart';
 export 'basic_profile/role_model.dart';
@@ -45,8 +46,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   late int _currentStep;
 
   // Theme Constants
-  static const Color kSlate900 = AppColors.textPrimary;
-  static const Color kSlate800 = AppColors.textPrimary;
 
   // --- Step 1: Basic Details Controllers & State ---
   late final TextEditingController _nameController;
@@ -436,84 +435,92 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
             Positioned.fill(
               child: SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg,
-                    vertical: AppSpacing.sm,
-                  ),
+                  padding: const EdgeInsets.only(bottom: AppSpacing.sm),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Static Header Bar outside card
-                      Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(
-                              Icons.arrow_back,
-                              color: kSlate800,
-                              size: 24,
-                            ),
-                            tooltip: l10n.back,
-                            onPressed: _handleBack,
-                          ),
-                          const SizedBox(width: AppSpacing.xs),
-                          Expanded(
-                            child: Text(
-                              l10n.completeYourProfile,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: context.text.titleMedium.copyWith(
-                                color: kSlate900,
+                      // Same geometry as StandardPageHeader (56px bar, 56px
+                      // leading slot, title flush after it).
+                      ConstrainedBox(
+                        constraints: const BoxConstraints.tightFor(
+                          height: kToolbarHeight,
+                        ),
+                        child: Row(
+                          children: [
+                            SizedBox(
+                              width: kToolbarHeight,
+                              child: Center(
+                                child: AppIconButton(
+                                  icon: Icons.arrow_back_rounded,
+                                  semanticLabel: l10n.back,
+                                  onPressed: _handleBack,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                            Expanded(
+                              child: Text(
+                                l10n.completeYourProfile,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: context.text.titleMedium.copyWith(
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(height: AppSpacing.tight),
 
                       // Static White Card Container
                       Expanded(
-                        child: Container(
-                          padding: const EdgeInsets.all(AppSpacing.xl),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(24),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.05),
-                                blurRadius: 20,
-                                offset: const Offset(0, 8),
-                              ),
-                            ],
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: AppSpacing.lg,
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: [
-                              // 1. Static Stepper + Progress Fraction
-                              ProfileProgressIndicator(
-                                currentStep: _currentStep,
-                              ),
-                              const SizedBox(height: AppSpacing.sm),
-
-                              // 2. Scrollable Form Content (Only forms scroll and change!)
-                              Expanded(
-                                child: SingleChildScrollView(
-                                  physics: const ClampingScrollPhysics(),
-                                  child: _buildStepForm(_currentStep),
+                          child: Container(
+                            padding: const EdgeInsets.all(AppSpacing.xl),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(24),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.05),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 8),
                                 ),
-                              ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                // 1. Static Stepper + Progress Fraction
+                                ProfileProgressIndicator(
+                                  currentStep: _currentStep,
+                                ),
+                                const SizedBox(height: AppSpacing.sm),
 
-                              const SizedBox(height: AppSpacing.md),
+                                // 2. Scrollable Form Content (Only forms scroll and change!)
+                                Expanded(
+                                  child: SingleChildScrollView(
+                                    physics: const ClampingScrollPhysics(),
+                                    child: _buildStepForm(_currentStep),
+                                  ),
+                                ),
 
-                              // 3. Static Continue Button
-                              ProfileContinueButton(
-                                currentStep: _currentStep,
-                                isSubmitting: _isSubmitting,
-                                isStep2Valid: _isStep2Valid,
-                                selectedRole: _selectedRole,
-                                isStep4Valid: _isStep4Valid,
-                                onPressed: _handleContinue,
-                              ),
-                            ],
+                                const SizedBox(height: AppSpacing.md),
+
+                                // 3. Static Continue Button
+                                ProfileContinueButton(
+                                  currentStep: _currentStep,
+                                  isSubmitting: _isSubmitting,
+                                  isStep2Valid: _isStep2Valid,
+                                  selectedRole: _selectedRole,
+                                  isStep4Valid: _isStep4Valid,
+                                  onPressed: _handleContinue,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ),

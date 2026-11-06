@@ -7,7 +7,6 @@ import 'help_report_issue_bottom_sheet.dart';
 import 'help_feedback_bottom_sheet.dart';
 import '../../../utils/app_text.dart';
 import '../../../utils/app_colors.dart';
-import '../../../utils/app_size.dart';
 
 class HelpGroupCard extends StatelessWidget {
   final List<Widget> children;
@@ -77,47 +76,23 @@ class HelpHeaderSection extends StatelessWidget {
 
   const HelpHeaderSection({super.key, required this.initialMode});
 
+  /// The page title shown in the screen's [StandardPageHeader].
+  static String titleFor(BuildContext context, String initialMode) {
+    final l10n = context.l10n;
+    return initialMode == 'faq'
+        ? l10n.helpFaqSetting
+        : initialMode == 'contact'
+        ? l10n.helpHeaderContact
+        : l10n.helpHeaderSupport;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSpacing.xl),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              IconButton(
-                onPressed: () => Navigator.pop(context),
-                tooltip: l10n.back,
-                icon: const Icon(
-                  Icons.arrow_back_rounded,
-                  color: AppColors.textPrimary,
-                  size: AppSize.iconLg,
-                ),
-              ),
-              const SizedBox(width: AppSpacing.sm),
-              Flexible(
-                child: Text(
-                  initialMode == 'faq'
-                      ? l10n.helpFaqSetting
-                      : initialMode == 'contact'
-                      ? l10n.helpHeaderContact
-                      : l10n.helpHeaderSupport,
-                  softWrap: true,
-                  style: context.text.titleMedium.copyWith(
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            l10n.helpHeaderSubtitle,
-            style: context.text.body.copyWith(color: AppColors.textMuted),
-          ),
-        ],
+      child: Text(
+        context.l10n.helpHeaderSubtitle,
+        style: context.text.body.copyWith(color: AppColors.textMuted),
       ),
     );
   }

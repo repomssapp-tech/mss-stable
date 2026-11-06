@@ -84,6 +84,9 @@ class SearchScreenState extends State<SearchScreen> {
   Map<String, int> _categoryCounts = {};
   bool _isLoadingCounts = true;
   int _matchingProfileCount = 0;
+  // True when [_matchingProfileCount] counts partial matches (nothing
+  // cleared the For Me threshold), see pickForYou.
+  bool _matchingProfileIsPartial = false;
   // Null until the catalog-derived hint loads; render sites fall back to the
   // localized `searchHintFallback` string so the placeholder is correct in ta too.
   String? _dynamicSearchHintText;
@@ -114,13 +117,16 @@ class SearchScreenState extends State<SearchScreen> {
   // whole catalog or a bare "no results".
   ForMeEmptyState _forMeEmptyState = ForMeEmptyState.none;
 
-  List<Scheme> _computeEligibleSchemes(AppProvider provider, List<Scheme> all) {
+  ForMeViewResult _computeEligibleSchemes(
+    AppProvider provider,
+    List<Scheme> all,
+  ) {
     final list = all.isNotEmpty ? all : provider.allSchemes;
     return computeForMeView(
       master: list,
       profile: provider.profile,
       filters: provider.filters,
-    ).schemes;
+    );
   }
 
   Future<void> _applyFiltersAndSort() async {
@@ -297,7 +303,9 @@ class SearchScreenState extends State<SearchScreen> {
         if (!mounted) return;
         setState(() {
           _categoryCounts = counts;
-          _matchingProfileCount = eligibleSchemes.length;
+          _matchingProfileCount = eligibleSchemes.schemes.length;
+          _matchingProfileIsPartial =
+              eligibleSchemes.emptyState == ForMeEmptyState.partialMatches;
           _dynamicSearchHintText = hint;
           _isLoadingCounts = false;
         });
@@ -727,6 +735,7 @@ class SearchScreenState extends State<SearchScreen> {
             categories: categories,
             isLoadingCounts: _isLoadingCounts,
             matchingProfileCount: _matchingProfileCount,
+            matchingProfileIsPartial: _matchingProfileIsPartial,
             onHighlightTap: () {
               setState(() {
                 _activeFilter = 'For Me';

@@ -17,12 +17,16 @@ import '../../../utils/app_text.dart';
 class SearchHighlightSummaryCard extends StatelessWidget {
   final bool isLoadingCounts;
   final int matchingProfileCount;
+
+  /// [matchingProfileCount] counts partial matches, not strong ones.
+  final bool matchingProfileIsPartial;
   final VoidCallback onTap;
 
   const SearchHighlightSummaryCard({
     super.key,
     required this.isLoadingCounts,
     required this.matchingProfileCount,
+    this.matchingProfileIsPartial = false,
     required this.onTap,
   });
 
@@ -73,6 +77,8 @@ class SearchHighlightSummaryCard extends StatelessWidget {
                     Text(
                       isLoadingCounts
                           ? context.l10n.calculatingMatches
+                          : matchingProfileIsPartial
+                          ? context.l10n.forMePartialCount(matchingProfileCount)
                           : context.l10n.schemesMatchProfile(
                               matchingProfileCount,
                             ),
@@ -204,6 +210,7 @@ class SearchIdleContent extends StatelessWidget {
   final List<Map<String, dynamic>> categories;
   final bool isLoadingCounts;
   final int matchingProfileCount;
+  final bool matchingProfileIsPartial;
   final VoidCallback onHighlightTap;
 
   const SearchIdleContent({
@@ -211,6 +218,7 @@ class SearchIdleContent extends StatelessWidget {
     required this.categories,
     required this.isLoadingCounts,
     required this.matchingProfileCount,
+    this.matchingProfileIsPartial = false,
     required this.onHighlightTap,
   });
 
@@ -224,6 +232,7 @@ class SearchIdleContent extends StatelessWidget {
         SearchHighlightSummaryCard(
           isLoadingCounts: isLoadingCounts,
           matchingProfileCount: matchingProfileCount,
+          matchingProfileIsPartial: matchingProfileIsPartial,
           onTap: onHighlightTap,
         ),
         const SizedBox(height: AppSpacing.xxl),
