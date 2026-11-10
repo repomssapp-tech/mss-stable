@@ -13,7 +13,6 @@ class SpeechOutputCapabilities {
     this.englishVoice,
     this.tamilVoice,
     this.hindi = false,
-    this.marathi = false,
   });
 
   final bool available;
@@ -22,13 +21,11 @@ class SpeechOutputCapabilities {
   final String? englishVoice;
   final String? tamilVoice;
   final bool hindi;
-  final bool marathi;
 
   bool supports(String languageTag) =>
       switch (VoiceLanguage.code(languageTag)) {
         'ta' => tamil,
         'hi' => hindi,
-        'mr' => marathi,
         _ => english,
       };
 }
@@ -68,7 +65,6 @@ class NativeSpeechOutputController implements SpeechOutputController {
         englishVoice: response?['englishVoice'] as String?,
         tamilVoice: response?['tamilVoice'] as String?,
         hindi: response?['hindi'] == true,
-        marathi: response?['marathi'] == true,
       );
     } on PlatformException {
       return _unavailableCapabilities();

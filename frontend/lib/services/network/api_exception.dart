@@ -31,6 +31,7 @@ class ApiException implements Exception {
       statusCode == 428 || errorCode == 'IF_MATCH_REQUIRED';
   bool get isRateLimited => statusCode == 429;
   bool get isServiceUnavailable => statusCode == 503;
+  bool get isAppLocked => statusCode == 423 && errorCode == 'APP_LOCKED';
 
   @override
   String toString() {

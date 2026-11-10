@@ -1,4 +1,4 @@
-// Renders the main non-scheme screens in Hindi, Tamil and Marathi and checks
+// Renders the main non-scheme screens in Hindi and Tamil and checks
 // that every visible string containing English words is on the reviewed allowlist
 // (test/fixtures/ui_audit_allowlist.json): acronyms, programme and institution
 // names, and similar. A new hardcoded English string on any of these screens
@@ -47,7 +47,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 const _langEnv = String.fromEnvironment('AUDIT_LANG');
 const _full = bool.fromEnvironment('AUDIT_FULL');
-final _langs = _langEnv.isEmpty ? ['hi', 'ta', 'mr'] : [_langEnv];
+final _langs = _langEnv.isEmpty ? ['hi', 'ta'] : [_langEnv];
 const _out = String.fromEnvironment('AUDIT_OUT');
 
 // Acronyms, product and brand names that legitimately stay in Latin script.

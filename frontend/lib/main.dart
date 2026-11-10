@@ -32,6 +32,8 @@ import 'widgets/common/app_update_prompt.dart';
 import 'widgets/onboarding/home_tour.dart';
 import 'widgets/onboarding/home_tour_targets.dart';
 import 'widgets/common/device_integrity_gate.dart';
+import 'widgets/common/app_lock_gate.dart';
+import 'services/security/app_lock_service.dart';
 import 'widgets/common/haptic_touch_layer.dart';
 import 'services/haptics/haptics_service.dart';
 import 'services/notifications/local_notification_service.dart';
@@ -94,6 +96,8 @@ void main() async {
     initializeFirebase(),
     HapticsService.instance.load(),
     LocalNotificationService.instance.init(),
+    // A phone the administrator locked stays locked across restarts.
+    AppLockService.instance.hydrate(),
   ]);
   final pushGateway = startup[3] == true ? FirebasePushGateway() : null;
 
@@ -221,7 +225,13 @@ class MSSApp extends StatelessWidget {
           ),
           child: AnnotatedRegion<SystemUiOverlayStyle>(
             value: appSystemUiStyle,
-            child: DeviceIntegrityGate(child: HapticTouchLayer(child: child!)),
+            // Administrator app lock outermost: while locked nothing else of
+            // the app is built.
+            child: AppLockGate(
+              child: DeviceIntegrityGate(
+                child: HapticTouchLayer(child: child!),
+              ),
+            ),
           ),
         );
       },

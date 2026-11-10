@@ -411,20 +411,17 @@ class HybridSchemeSearch {
         (entry.search['keywords'] as Map<String, dynamic>?) ?? const {};
     final isDevanagari = RegExp(r'[\u0900-\u097F]');
     final hiNameTokens = [
-      for (final lang in const ['hi', 'mr'])
-        ..._meaningfulTokens(_normLookup(entry.getLocalizedName(lang))),
+      ..._meaningfulTokens(_normLookup(entry.getLocalizedName('hi'))),
     ].where(isDevanagari.hasMatch).toList();
     final hiAliasTokens = [
       for (final a in [
         ..._stringList(aliasRaw['hi']),
-        ..._stringList(aliasRaw['mr']),
       ])
         ..._meaningfulTokens(_normLookup(a)),
     ].where(isDevanagari.hasMatch).toList();
     final hiKwTokens = [
       for (final k in [
         ..._stringList(kwRaw['hi']),
-        ..._stringList(kwRaw['mr']),
       ])
         ..._meaningfulTokens(_normLookup(k)),
     ].where(isDevanagari.hasMatch).toList();
@@ -905,7 +902,6 @@ class HybridSchemeSearch {
     final nameEn = _normLookup(e.getLocalizedName('en'));
     final nameTa = _normLookup(e.getLocalizedName('ta'));
     final nameHi = _normLookup(e.getLocalizedName('hi'));
-    final nameMr = _normLookup(e.getLocalizedName('mr'));
     final identity = e.identity;
     final acronym = _normLookup(
       (identity['acronym'] ?? '').toString(),
@@ -915,13 +911,13 @@ class HybridSchemeSearch {
     ).replaceAll(' ', '');
     final aliasRaw = (e.search['aliases'] as Map<String, dynamic>?) ?? const {};
     final aliases = <String>{
-      for (final lang in const ['en', 'ta', 'hi', 'mr'])
+      for (final lang in const ['en', 'ta', 'hi'])
         ..._stringList(aliasRaw[lang]).map(_normLookup),
     }..removeWhere((a) => a.isEmpty);
-    final fullForms = <String>{nameEn, nameTa, nameHi, nameMr, ...aliases}
+    final fullForms = <String>{nameEn, nameTa, nameHi, ...aliases}
       ..removeWhere((a) => a.isEmpty);
     final formTokens = [
-      for (final form in <String>{nameEn, nameHi, nameTa, nameMr, ...aliases})
+      for (final form in <String>{nameEn, nameHi, nameTa, ...aliases})
         _meaningfulTokens(form).toSet(),
     ]..removeWhere((t) => t.isEmpty);
     return _LookupEntry(

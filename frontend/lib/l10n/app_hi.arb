@@ -1923,5 +1923,10 @@
   "sv2Autoplay": "जवाब अपने आप चलाएँ",
   "sv2AutoplayBody": "सारथी हर जवाब पढ़कर सुनाता है",
   "sv2VoiceNote": "हर भाषा के लिए सारथी की आवाज़ चुनी गई है।",
-  "settingsSaarthiVoice": "सारथी आवाज़ सेटिंग"
+  "settingsSaarthiVoice": "सारथी आवाज़ सेटिंग",
+  "appLockedTitle": "यह ऐप व्यवस्थापक द्वारा लॉक किया गया है",
+  "appLockedBody": "MSS का अभी उपयोग नहीं किया जा सकता। कृपया व्यवस्थापक से संपर्क करें। अनलॉक होते ही ऐप अपने-आप खुल जाएगा।",
+  "appLockedMessageLabel": "व्यवस्थापक का संदेश",
+  "appLockedCheckAgain": "फिर से जाँचें",
+  "appLockedChecking": "जाँच हो रही है…"
 }

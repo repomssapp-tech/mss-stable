@@ -171,7 +171,7 @@ void main() {
 
     test('the hint exists in all four locales', () async {
       final english = await AppLocalizations.delegate.load(const Locale('en'));
-      for (final code in ['ta', 'hi', 'mr']) {
+      for (final code in ['ta', 'hi']) {
         final localized = await AppLocalizations.delegate.load(Locale(code));
         expect(localized.legalScrollToEndHint, isNotEmpty, reason: code);
         expect(

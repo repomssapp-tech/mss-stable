@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import '../../config/app_config.dart';
 import '../account/token_storage.dart';
 import 'api_exception.dart';
+import '../security/app_lock_service.dart';
 
 /// Wraps successful HTTP response data and relevant metadata.
 class ApiResponse<T> {
@@ -65,6 +66,9 @@ class ApiClient {
   Future<String> validAccessToken({bool forceRefresh = false}) async {
     if (forceRefresh || await _tokenStorage.isAccessTokenExpired()) {
       final refreshed = await _refreshTokensShared();
+      if (refreshed == null && AppLockService.instance.isLocked) {
+        throw _lockedException();
+      }
       if (refreshed == null) {
         throw const ApiException(
           statusCode: 401,
@@ -280,6 +284,10 @@ class ApiClient {
       if (newToken != null && newToken.isNotEmpty) {
         requestHeaders['Authorization'] = 'Bearer $newToken';
         response = await _sendRequest(method, uri, requestHeaders, requestBody);
+      } else if (AppLockService.instance.isLocked) {
+        // The administrator locked the app: keep the session for after the
+        // unlock instead of signing the user out.
+        throw _lockedException();
       } else {
         // Refresh failed; notify session expiration
         onSessionExpired?.call();
@@ -324,6 +332,13 @@ class ApiClient {
         },
         body: jsonEncode({'refresh_token': refreshToken}),
       );
+
+      // Locked by the administrator: the refresh token is still good, so keep
+      // it (and the user signed in) for when the app is unlocked.
+      if (response.statusCode == 423) {
+        AppLockService.instance.reportLocked(message: _lockMessage(response));
+        return null;
+      }
 
       if (response.statusCode == 200) {
         final data = jsonDecode(response.body) as Map<String, dynamic>;
@@ -474,6 +489,12 @@ class ApiClient {
       message = response.body.isNotEmpty ? response.body : message;
     }
 
+    if (AppLockService.isLockResponse(response.statusCode, errorCode)) {
+      AppLockService.instance.reportLocked(
+        message: fields?['message']?.toString(),
+      );
+    }
+
     throw ApiException(
       statusCode: response.statusCode,
       errorCode: errorCode,
@@ -483,5 +504,22 @@ class ApiClient {
       retryAfterSeconds: retryAfter,
       requestId: requestId,
     );
+  }
+
+  static ApiException _lockedException() => ApiException(
+    statusCode: 423,
+    errorCode: AppLockService.lockedCode,
+    message: 'The app is locked by the administrator.',
+    fields: {'message': AppLockService.instance.value.message},
+  );
+
+  static String? _lockMessage(http.Response response) {
+    try {
+      final body = jsonDecode(response.body);
+      if (body is Map && body['details'] is Map) {
+        return (body['details'] as Map)['message']?.toString();
+      }
+    } catch (_) {}
+    return null;
   }
 }

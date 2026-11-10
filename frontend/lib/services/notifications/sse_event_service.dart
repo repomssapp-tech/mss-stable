@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../account/token_storage.dart';
 import '../network/api_client.dart';
+import '../security/app_lock_service.dart';
 
 /// Service managing real-time notification invalidation events streamed via SSE
 /// over `GET /v1/me/notifications/events`.
@@ -123,6 +124,11 @@ class SseEventService {
               // Comment / heartbeat keepalive frame
             }
           }
+        } else if (streamedResponse.statusCode == 423) {
+          // Locked by the administrator; the app shows its locked screen.
+          AppLockService.instance.reportLocked();
+          stopListening();
+          break;
         } else if (streamedResponse.statusCode == 401) {
           debugPrint('[SseEventService] 401 Unauthorized; stopping SSE');
           stopListening();

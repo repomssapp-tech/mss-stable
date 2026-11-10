@@ -9,11 +9,11 @@ void main() {
     expect(await VoicePreferences().languageFor('ta-IN'), 'ta');
   });
   test('explicit voice language survives a new preferences instance', () async {
-    await VoicePreferences().saveLanguage('mr-IN', 'en');
-    expect(await VoicePreferences().languageFor('en'), 'mr');
+    await VoicePreferences().saveLanguage('hi-IN', 'en');
+    expect(await VoicePreferences().languageFor('en'), 'hi');
   });
   test('a new app language supersedes the earlier voice override', () async {
-    await VoicePreferences().saveLanguage('mr', 'en');
+    await VoicePreferences().saveLanguage('hi', 'en');
     expect(await VoicePreferences().languageFor('ta'), 'ta');
     await VoicePreferences().saveLanguage('hi', 'ta');
     expect(await VoicePreferences().languageFor('ta'), 'hi');

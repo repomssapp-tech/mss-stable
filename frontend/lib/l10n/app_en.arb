@@ -2099,5 +2099,11 @@
         "type": "int"
       }
     }
-  }
+  },
+  "appLockedTitle": "The app is locked by the administrator",
+  "appLockedBody": "MSS can't be used right now. Please contact the administrator. The app opens by itself once it is unlocked.",
+  "appLockedMessageLabel": "Message from the administrator",
+  "appLockedCheckAgain": "Check again",
+  "appLockedChecking": "Checking…",
+  "@appLockedTitle": {"description": "Locked screen title when an administrator has locked the whole app."}
 }

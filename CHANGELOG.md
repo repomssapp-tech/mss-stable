@@ -11,6 +11,14 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.5.0+29] - 2026-11-10
+
+### Added
+- App lock by the administrator. When an admin locks the app from the admin panel, every phone shows "The app is locked by the administrator" with the admin's message, and nobody can use the app, sign in, sign out or create an account until it is unlocked. The server refuses everyone but admins while locked, so the lock cannot be got around from the phone; restarting the app or turning the internet off keeps it locked. After the unlock the app opens by itself and users stay signed in.
+
+### Removed
+- Marathi. The app is offered in English, Tamil and Hindi; a phone that was set to Marathi switches to English.
+
 ## [2.4.5+28] - 2026-11-06
 
 ### Changed

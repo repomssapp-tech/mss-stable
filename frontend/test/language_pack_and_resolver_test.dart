@@ -166,7 +166,7 @@ void main() {
       );
       expect(
         LanguagePackManager.instance.isLanguageActiveInRelease('mr'),
-        isTrue,
+        isFalse, // removed from the app in 2.5.0, whatever the manifest says
       );
       expect(
         await LanguagePackManager.instance.isLanguageSupported('hi'),
@@ -174,7 +174,7 @@ void main() {
       );
       expect(
         await LanguagePackManager.instance.isLanguageSupported('mr'),
-        isTrue,
+        isFalse,
       );
 
       LanguagePackManager.instance.setReleaseManifest({
@@ -196,7 +196,7 @@ void main() {
       final m = LanguagePackManager.instance;
       expect(m.isLanguageActiveInRelease('hi'), isTrue);
       expect(m.isLanguageActiveInRelease('ta'), isTrue);
-      expect(m.isLanguageActiveInRelease('mr'), isTrue);
+      expect(m.isLanguageActiveInRelease('mr'), isFalse);
       expect(m.isLanguageActiveInRelease('gu'), isFalse);
     });
   });

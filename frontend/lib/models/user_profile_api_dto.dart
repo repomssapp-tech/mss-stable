@@ -1,8 +1,9 @@
 import 'user_profile.dart';
+import '../utils/app_languages.dart';
 
 /// Strongly-typed model representing the backend ProfileAggregate from GET/PATCH /v1/me/profile.
 /// Interface languages sent to the profile API: every language the app offers.
-const Set<String> serverLanguages = {'en', 'ta', 'hi', 'mr'};
+const Set<String> serverLanguages = {...appLanguages};
 
 class ProfileAggregate {
   // Read-only server fields

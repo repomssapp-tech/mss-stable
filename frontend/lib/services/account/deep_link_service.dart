@@ -7,6 +7,7 @@ import 'account_pending_deletion.dart';
 import 'auth_service.dart';
 import 'rest_auth_service.dart';
 import 'sign_in_progress.dart';
+import '../security/app_lock_service.dart';
 
 /// Captures deep links and exchanges incoming authorization codes for REST sessions.
 class DeepLinkService {
@@ -50,6 +51,11 @@ class DeepLinkService {
       final code = uri.queryParameters['code'];
       final error = uri.queryParameters['error'];
 
+      // The server refused the sign-in: the administrator locked the app.
+      if (error == 'app_locked') {
+        AppLockService.instance.reportLocked();
+        unawaited(AppLockService.instance.check());
+      }
       if (error != null && error.isNotEmpty) {
         debugPrint('[DeepLinkService] OAuth provider returned error: $error');
         await AuthService.clearOAuthPending();

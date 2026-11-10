@@ -7,7 +7,6 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
 import 'app_localizations_hi.dart';
-import 'app_localizations_mr.dart';
 import 'app_localizations_ta.dart';
 
 // ignore_for_file: type=lint
@@ -98,7 +97,6 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
     Locale('hi'),
-    Locale('mr'),
     Locale('ta'),
   ];
 
@@ -11340,6 +11338,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Saarthi voice settings'**
   String get settingsSaarthiVoice;
+
+  /// Locked screen title when an administrator has locked the whole app.
+  ///
+  /// In en, this message translates to:
+  /// **'The app is locked by the administrator'**
+  String get appLockedTitle;
+
+  /// No description provided for @appLockedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS can\'t be used right now. Please contact the administrator. The app opens by itself once it is unlocked.'**
+  String get appLockedBody;
+
+  /// No description provided for @appLockedMessageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Message from the administrator'**
+  String get appLockedMessageLabel;
+
+  /// No description provided for @appLockedCheckAgain.
+  ///
+  /// In en, this message translates to:
+  /// **'Check again'**
+  String get appLockedCheckAgain;
+
+  /// No description provided for @appLockedChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking…'**
+  String get appLockedChecking;
 }
 
 class _AppLocalizationsDelegate
@@ -11353,7 +11381,7 @@ class _AppLocalizationsDelegate
 
   @override
   bool isSupported(Locale locale) =>
-      <String>['en', 'hi', 'mr', 'ta'].contains(locale.languageCode);
+      <String>['en', 'hi', 'ta'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -11366,8 +11394,6 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsEn();
     case 'hi':
       return AppLocalizationsHi();
-    case 'mr':
-      return AppLocalizationsMr();
     case 'ta':
       return AppLocalizationsTa();
   }
