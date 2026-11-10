@@ -17,6 +17,7 @@ import '../utils/app_colors.dart';
 import '../utils/app_radius.dart';
 import '../utils/app_text.dart';
 import '../utils/app_elevation.dart';
+import '../widgets/legal/copyright_notice.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -452,6 +453,8 @@ class _LoginScreenState extends State<LoginScreen> {
           textAlign: TextAlign.center,
           style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
+        const SizedBox(height: AppSpacing.sm),
+        const CopyrightNotice.line(),
       ],
     );
   }

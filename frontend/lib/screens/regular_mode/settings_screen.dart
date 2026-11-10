@@ -23,6 +23,7 @@ import 'settings/active_sessions_dialog.dart';
 import 'settings/delete_account_screen.dart';
 import 'settings/settings_parts.dart';
 import '../../widgets/common/standard_page_header.dart';
+import '../../widgets/legal/copyright_notice.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -263,6 +264,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               ),
             ),
             const CatalogFreshnessFooter(),
+            const CopyrightNotice.line(),
           ],
         ),
       ),

@@ -6215,4 +6215,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get appLockedChecking => 'Checking…';
+
+  @override
+  String get copyrightNoticeTitle => 'Copyright & Intellectual Property';
+
+  @override
+  String get copyrightNoticeBody =>
+      'The MSS App is jointly designed and developed by the above institutions. The app\'s original content, design, software and associated intellectual property are protected under applicable copyright laws. Unauthorised reproduction, modification, distribution or commercial exploitation is prohibited without prior written permission from the respective rights holders, except as permitted by law.';
 }

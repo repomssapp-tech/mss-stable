@@ -11368,6 +11368,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Checking…'**
   String get appLockedChecking;
+
+  /// No description provided for @copyrightNoticeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Copyright & Intellectual Property'**
+  String get copyrightNoticeTitle;
+
+  /// No description provided for @copyrightNoticeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The MSS App is jointly designed and developed by the above institutions. The app\'s original content, design, software and associated intellectual property are protected under applicable copyright laws. Unauthorised reproduction, modification, distribution or commercial exploitation is prohibited without prior written permission from the respective rights holders, except as permitted by law.'**
+  String get copyrightNoticeBody;
 }
 
 class _AppLocalizationsDelegate

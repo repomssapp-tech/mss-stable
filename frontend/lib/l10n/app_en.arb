@@ -2105,5 +2105,7 @@
   "appLockedMessageLabel": "Message from the administrator",
   "appLockedCheckAgain": "Check again",
   "appLockedChecking": "Checking…",
-  "@appLockedTitle": {"description": "Locked screen title when an administrator has locked the whole app."}
+  "@appLockedTitle": {"description": "Locked screen title when an administrator has locked the whole app."},
+  "copyrightNoticeTitle": "Copyright & Intellectual Property",
+  "copyrightNoticeBody": "The MSS App is jointly designed and developed by the above institutions. The app's original content, design, software and associated intellectual property are protected under applicable copyright laws. Unauthorised reproduction, modification, distribution or commercial exploitation is prohibited without prior written permission from the respective rights holders, except as permitted by law."
 }

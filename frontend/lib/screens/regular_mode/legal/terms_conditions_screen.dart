@@ -6,6 +6,7 @@ import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 import '../../../widgets/common/standard_page_header.dart';
+import '../../../widgets/legal/copyright_notice.dart';
 
 /// Full-page detailed Terms of Use Screen for MSS App
 class TermsConditionsScreen extends StatelessWidget {
@@ -208,6 +209,19 @@ class TermsConditionsScreen extends StatelessWidget {
                   '• For questions regarding these Terms of Use, please contact MSS Support at mssschemessearch@gmail.com.',
                   '• Support Email: mssschemessearch@gmail.com',
                 ],
+              ),
+              const SizedBox(height: AppSpacing.lg),
+
+              // Section 11: Copyright & Intellectual Property
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(AppSpacing.lg),
+                decoration: BoxDecoration(
+                  color: AppColors.surface,
+                  borderRadius: AppRadius.lgAll,
+                  border: Border.all(color: kBorderGrey),
+                ),
+                child: const CopyrightNotice.full(),
               ),
               const SizedBox(height: AppSpacing.xxl),
 

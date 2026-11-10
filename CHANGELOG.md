@@ -11,6 +11,11 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.5.1+30] - 2026-11-10
+
+### Added
+- Copyright notice: "© 2026 Swadeshi Shodh Sansthan, Tamil Nadu Chapter & Rajalakshmi Institute of Technology, Chennai. All Rights Reserved." The full notice is in the About dialog and in a new section 11 of the Terms of Use (in English, Tamil and Hindi); the one-line copyright is at the bottom of the sign-in screen and of Settings. The copyright line itself stays in English in every language, as supplied.
+
 ## [2.5.0+29] - 2026-11-10
 
 ### Added
