@@ -7,6 +7,7 @@ import '../../utils/app_size.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_version.dart';
 import '../../utils/app_text.dart';
+import '../../widgets/legal/copyright_notice.dart';
 
 void showAboutAppDialog(BuildContext context) {
   showDialog(
@@ -136,6 +137,11 @@ void showAboutAppDialog(BuildContext context) {
                     ),
                   ],
                 ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: AppSpacing.lg),
+                  child: Divider(color: AppColors.border, height: 1),
+                ),
+                const CopyrightNotice.full(),
                 const SizedBox(height: AppSpacing.xl),
                 ElevatedButton(
                   onPressed: () => Navigator.pop(context),

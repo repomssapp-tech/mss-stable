@@ -8,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/profile_screen.dart';
+import 'package:frontend/widgets/legal/copyright_notice.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
@@ -55,11 +56,14 @@ void main() {
       expect(find.byType(Dialog), findsOneWidget);
       expect(find.text('MSS'), findsOneWidget);
       expect(find.text('v1.0.0 (7)'), findsOneWidget);
+      // Once in the partner list and once in the copyright line.
       expect(
         find.textContaining('Rajalakshmi Institute of Technology'),
-        findsOneWidget,
+        findsNWidgets(2),
       );
-      expect(find.textContaining('Swadeshi Shodh Sansthan'), findsOneWidget);
+      expect(find.textContaining('Swadeshi Shodh Sansthan'), findsNWidgets(2));
+      expect(find.text(mssCopyrightLine), findsOneWidget);
+      expect(find.text('Copyright & Intellectual Property'), findsOneWidget);
       expect(find.textContaining('mssschemessearch@gmail.com'), findsOneWidget);
 
       // Verify "View licenses" is completely removed
@@ -69,6 +73,8 @@ void main() {
       // Verify Close button dismisses dialog
       final closeButton = find.widgetWithText(ElevatedButton, 'Close');
       expect(closeButton, findsOneWidget);
+      await tester.ensureVisible(closeButton);
+      await tester.pumpAndSettle();
       await tester.tap(closeButton);
       await tester.pumpAndSettle();
 
