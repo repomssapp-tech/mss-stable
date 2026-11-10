@@ -82,3 +82,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-06 | Roger-Chris | #196 | frontend/search, frontend/home, frontend/profile, frontend/l10n | Home "Recommended for you" and Search "For Me" now share one picker, so they always agree. A usable profile with no strong match sees its closest partial matches under "No perfect match yet". Back-button headers across screens now match the search results header. The profile card's Edit button and titles stay on one line in every language. Marathi strings that kept English names now match Hindi and Tamil. |
 | 2026-11-06 | Roger-Chris | #197 | release | Bump to 2.4.5+28 and add its changelog entry for the changes in #196 (matching recommendations, consistent headers, profile Edit button, Marathi strings). |
 | 2026-11-10 | nyxri0f8 | #198 | unspecified | App lock by the administrator; remove Marathi (2.5.0+29) |
+| 2026-11-10 | nyxri0f8 | #199 | unspecified | Copyright notice in the app (2.5.1+30) |
