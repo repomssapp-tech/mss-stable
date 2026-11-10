@@ -1,7 +1,6 @@
 /// The one place that maps an app language code to what voice and chat need.
 ///
-/// Voice and chat support English, Tamil, Hindi and Marathi. Marathi is a
-/// voice/chat language even though the app's interface is not offered in it.
+/// Voice and chat support the app's languages: English, Tamil and Hindi.
 class VoiceLanguage {
   VoiceLanguage._();
 
@@ -9,13 +8,12 @@ class VoiceLanguage {
     'en': 'en-IN',
     'ta': 'ta-IN',
     'hi': 'hi-IN',
-    'mr': 'mr-IN',
   };
 
-  static const List<String> supported = ['en', 'ta', 'hi', 'mr'];
+  static const List<String> supported = ['en', 'ta', 'hi'];
 
   /// A final guard for main-script drift, while allowing familiar borrowed
-  /// terms. Hindi/Marathi are distinguished by the explicit server locale.
+  /// terms.
   static bool hasMainScript(String text, String language) {
     final tamil = RegExp(r'[\u0B80-\u0BFF]').allMatches(text).length;
     final devanagari = RegExp(r'[\u0900-\u097F]').allMatches(text).length;

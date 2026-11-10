@@ -6199,4 +6199,20 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settingsSaarthiVoice => 'Saarthi voice settings';
+
+  @override
+  String get appLockedTitle => 'The app is locked by the administrator';
+
+  @override
+  String get appLockedBody =>
+      'MSS can\'t be used right now. Please contact the administrator. The app opens by itself once it is unlocked.';
+
+  @override
+  String get appLockedMessageLabel => 'Message from the administrator';
+
+  @override
+  String get appLockedCheckAgain => 'Check again';
+
+  @override
+  String get appLockedChecking => 'Checking…';
 }

@@ -582,11 +582,13 @@ void main() {
     await tester.pumpAndSettle();
     expect(SaarthiVoiceSettings.instance.autoplay, isFalse);
 
-    await tester.tap(find.byKey(const Key('sv2-voice-lang-mr')));
+    // Marathi is gone from the voice languages.
+    expect(find.byKey(const Key('sv2-voice-lang-mr')), findsNothing);
+    await tester.tap(find.byKey(const Key('sv2-voice-lang-hi')));
     await tester.pumpAndSettle();
-    expect(SaarthiVoiceSettings.instance.languageChange, 'mr');
+    expect(SaarthiVoiceSettings.instance.languageChange, 'hi');
     final prefs = await SharedPreferences.getInstance();
-    expect(prefs.getString('saarthi_voice_language_v1'), 'mr');
+    expect(prefs.getString('saarthi_voice_language_v1'), 'hi');
   });
 
   group('schemesMentionedIn', () {

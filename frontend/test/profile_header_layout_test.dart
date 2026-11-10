@@ -11,7 +11,7 @@ import 'package:frontend/widgets/common/name_initial_avatar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  for (final language in ['en', 'ta', 'hi', 'mr']) {
+  for (final language in ['en', 'ta', 'hi']) {
     for (final width in [320.0, 360.0]) {
       testWidgets('Profile header stays aligned at $width dp in $language', (
         tester,

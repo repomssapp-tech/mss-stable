@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user_profile.dart';
+import '../../utils/app_languages.dart';
 
 class SessionCacheService {
   SessionCacheService._privateConstructor();
@@ -112,7 +113,13 @@ class SessionCacheService {
   Future<String?> getLanguage() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      return prefs.getString(_keyLanguage);
+      final stored = prefs.getString(_keyLanguage);
+      if (stored == null) return null;
+      // A language the app no longer offers (Marathi until 2.4.5) reads as
+      // English, and is stored so.
+      final lang = appLanguageOrEnglish(stored);
+      if (lang != stored) await prefs.setString(_keyLanguage, lang);
+      return lang;
     } catch (e) {
       debugPrint('[SessionCacheService] Error getting language: $e');
       return null;

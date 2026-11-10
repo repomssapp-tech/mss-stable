@@ -6214,4 +6214,20 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get settingsSaarthiVoice => 'सारथी आवाज़ सेटिंग';
+
+  @override
+  String get appLockedTitle => 'यह ऐप व्यवस्थापक द्वारा लॉक किया गया है';
+
+  @override
+  String get appLockedBody =>
+      'MSS का अभी उपयोग नहीं किया जा सकता। कृपया व्यवस्थापक से संपर्क करें। अनलॉक होते ही ऐप अपने-आप खुल जाएगा।';
+
+  @override
+  String get appLockedMessageLabel => 'व्यवस्थापक का संदेश';
+
+  @override
+  String get appLockedCheckAgain => 'फिर से जाँचें';
+
+  @override
+  String get appLockedChecking => 'जाँच हो रही है…';
 }

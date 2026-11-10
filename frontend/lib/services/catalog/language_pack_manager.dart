@@ -5,6 +5,7 @@ import '../../models/localized_scheme.dart';
 import '../../utils/language_names.dart';
 
 import 'mss_catalog_bundle.dart';
+import '../../utils/app_languages.dart';
 
 /// LanguagePackManager
 /// ───────────────────
@@ -155,6 +156,7 @@ class LanguagePackManager {
   /// has no kill switch: the app's own languages count as active, and
   /// [hasValidPack] still requires real content.
   bool isLanguageActiveInRelease(String lang) {
+    if (!appLanguages.contains(lang)) return false;
     if (isLanguageActiveOverride != null) {
       return isLanguageActiveOverride!(lang);
     }
@@ -199,6 +201,7 @@ class LanguagePackManager {
     final offered = <String>{...baseLanguages};
     for (final code in candidates) {
       if (offered.contains(code)) continue;
+      if (!appLanguages.contains(code)) continue;
       if (registry != null && !registry.contains(code)) continue;
       if (await isLanguageSupported(code)) offered.add(code);
     }

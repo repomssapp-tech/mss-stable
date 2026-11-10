@@ -6303,4 +6303,20 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get settingsSaarthiVoice => 'சாரதி குரல் அமைப்புகள்';
+
+  @override
+  String get appLockedTitle => 'நிர்வாகி இந்த செயலியைப் பூட்டியுள்ளார்';
+
+  @override
+  String get appLockedBody =>
+      'MSS-ஐ இப்போது பயன்படுத்த முடியாது. நிர்வாகியைத் தொடர்பு கொள்ளவும். பூட்டு திறக்கப்பட்டதும் செயலி தானாகவே திறக்கும்.';
+
+  @override
+  String get appLockedMessageLabel => 'நிர்வாகியின் செய்தி';
+
+  @override
+  String get appLockedCheckAgain => 'மீண்டும் சரிபார்க்கவும்';
+
+  @override
+  String get appLockedChecking => 'சரிபார்க்கிறது…';
 }

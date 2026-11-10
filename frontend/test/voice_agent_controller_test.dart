@@ -57,7 +57,7 @@ void main() {
     );
     for (final entry in {
       'hi': 'hi',
-      'mr': 'mr',
+      'mr': 'en', // Marathi removed in 2.5.0
       'ta': 'ta',
       'en': 'en',
       'hi-IN': 'hi',
