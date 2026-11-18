@@ -14,6 +14,17 @@ Unreleased items under a new heading, commit, and tag the commit.
 ### Added
 - Marathi is back. The app is offered in English, Tamil, Hindi and Marathi again, including voice, search and state names. The app-lock screen and the copyright notice are translated into Marathi. Six leftover English phrases in the Marathi catalogue dictionary are now translated.
 
+## [2.6.0+31] - 2026-11-18 (dev test build only, not released to users)
+
+Separate test app "MSS Dev" (`com.inschemes.app.dev`), built with `channel=dev`. It installs next to the real app, never replaces it and never checks for updates; production phones are never offered it. Also has the unreleased Marathi work above.
+
+### Added
+- Location lock. At every start the app reads the phone's precise GPS location before showing anything. It blocks the app while location is off or only approximate, while a fake-location (mock) app is in use, while a VPN is on, after a jump faster than anyone can travel, and outside India. It checks again after 15 minutes in the background.
+- Schemes follow the GPS state: central schemes plus that state's schemes only. In Maharashtra no Tamil Nadu scheme appears anywhere (lists, search, Discover, Saarthi, links), and the other way round. Discover and Saarthi show only that state; scheme cards show only its emblem and the national one.
+- Languages follow the GPS state, with English first: Maharashtra English, Hindi, Marathi; Tamil Nadu English, Tamil; other states English, Hindi. A language the state does not offer switches to English.
+- Profile: the GPS address fills in the address, city, district and pincode, which stay editable. The state is set from GPS and cannot be changed.
+- Settings shows "Test build" next to the version.
+
 ## [2.5.1+30] - 2026-11-10
 
 ### Added

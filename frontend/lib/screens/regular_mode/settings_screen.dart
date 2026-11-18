@@ -24,6 +24,7 @@ import 'settings/delete_account_screen.dart';
 import 'settings/settings_parts.dart';
 import '../../widgets/common/standard_page_header.dart';
 import '../../widgets/legal/copyright_notice.dart';
+import '../../services/location_lock/location_lock_config.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -254,8 +255,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 future: AppInfoService.installedVersion(),
                 builder: (context, snapshot) {
                   final v = snapshot.data;
+                  final label = v == null
+                      ? ''
+                      : l10n.settingsAppVersion(v.label);
                   return Text(
-                    v == null ? '' : l10n.settingsAppVersion(v.label),
+                    kIsDevChannel && label.isNotEmpty
+                        ? '$label · ${l10n.locationDevBuildBadge}'
+                        : label,
                     style: context.text.bodySmall.copyWith(
                       color: AppColors.textMuted,
                     ),

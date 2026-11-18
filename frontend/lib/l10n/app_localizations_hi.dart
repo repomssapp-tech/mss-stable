@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -6237,4 +6238,69 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get copyrightNoticeBody =>
       'MSS ऐप को उपर्युक्त संस्थानों द्वारा संयुक्त रूप से डिज़ाइन और विकसित किया गया है। ऐप की मूल सामग्री, डिज़ाइन, सॉफ़्टवेयर और संबंधित बौद्धिक संपदा लागू कॉपीराइट कानूनों के तहत संरक्षित हैं। कानून द्वारा अनुमत स्थितियों को छोड़कर, संबंधित अधिकार धारकों की पूर्व लिखित अनुमति के बिना अनधिकृत पुनरुत्पादन, संशोधन, वितरण या व्यावसायिक उपयोग निषिद्ध है।';
+
+  @override
+  String get locationGateTitle => 'अपना स्थान पुष्टि करें';
+
+  @override
+  String get locationGateBody =>
+      'MSS केंद्रीय योजनाएँ और आप जिस राज्य में हैं, उसकी योजनाएँ दिखाता है। आपका राज्य आपके फ़ोन के GPS से पता चलता है।';
+
+  @override
+  String get locationGateAllow => 'सटीक स्थान की अनुमति दें';
+
+  @override
+  String get locationGateChecking => 'आपका स्थान जाँचा जा रहा है…';
+
+  @override
+  String get locationGateRetry => 'फिर से कोशिश करें';
+
+  @override
+  String get locationGateOpenSettings => 'सेटिंग्स खोलें';
+
+  @override
+  String get locationErrServiceOff =>
+      'स्थान (GPS) बंद है। इसे चालू करें, फिर दोबारा कोशिश करें।';
+
+  @override
+  String get locationErrPermission =>
+      'आपके राज्य की योजनाएँ दिखाने के लिए MSS को आपका स्थान चाहिए।';
+
+  @override
+  String get locationErrPermissionForever =>
+      'MSS के लिए स्थान बंद है। सेटिंग्स में अनुमतियाँ > स्थान खोलें और \"सटीक स्थान\" चालू रखकर अनुमति दें।';
+
+  @override
+  String get locationErrApproximate =>
+      'केवल अनुमानित स्थान की अनुमति है। MSS के लिए \"सटीक स्थान\" चालू करें ताकि आपका राज्य पता चल सके।';
+
+  @override
+  String get locationErrMock =>
+      'नकली स्थान वाला ऐप चल रहा है। उसे बंद करें (डेवलपर विकल्प > मॉक लोकेशन ऐप > कोई नहीं), फिर दोबारा कोशिश करें।';
+
+  @override
+  String get locationErrVpn =>
+      'VPN चालू है। VPN बंद करें, फिर दोबारा कोशिश करें।';
+
+  @override
+  String get locationErrJump =>
+      'आपका स्थान असंभव गति से बदला है। स्थान बदलने वाला कोई भी ऐप बंद करें, फिर दोबारा कोशिश करें।';
+
+  @override
+  String get locationErrWeakSignal =>
+      'GPS सिग्नल बहुत कमज़ोर है। खिड़की के पास या बाहर जाएँ, फिर दोबारा कोशिश करें।';
+
+  @override
+  String get locationErrOutsideIndia => 'MSS केवल भारत के अंदर काम करता है।';
+
+  @override
+  String get locationErrLookup =>
+      'आपका राज्य पता नहीं चल सका। इंटरनेट से जुड़ें, फिर दोबारा कोशिश करें।';
+
+  @override
+  String get locationStateLocked =>
+      'आपके GPS स्थान से तय किया गया। इसे बदला नहीं जा सकता।';
+
+  @override
+  String get locationDevBuildBadge => 'टेस्ट बिल्ड';
 }

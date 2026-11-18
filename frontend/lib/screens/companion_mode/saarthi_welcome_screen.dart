@@ -14,6 +14,7 @@ import 'assisted_profile/step4_sector_selector.dart';
 import 'assisted_profile/step5_community_selector.dart';
 import 'assisted_profile/step6_education_selector.dart';
 import 'assisted_profile/step_indicator_bar.dart';
+import '../../services/location_lock/location_lock.dart';
 
 export 'assisted_profile/assisted_selection_card.dart';
 export 'assisted_profile/assisted_step_footer.dart';
@@ -56,6 +57,8 @@ class _SaarthiWelcomeScreenState extends State<SaarthiWelcomeScreen> {
     super.initState();
     final profile = Provider.of<AppProvider>(context, listen: false).profile;
     if (profile.state.isNotEmpty) _selectedState = profile.state;
+    final locked = LocationScope.stateName;
+    if (locked != null) _selectedState = locked;
     if (profile.gender.isNotEmpty) _selectedGender = profile.gender;
     if (profile.dob != null) _selectedAge = profile.age;
     if (profile.businessIndustry.isNotEmpty) {
