@@ -109,7 +109,7 @@ class DesignTextScale extends StatelessWidget {
 
   static double languageFactor(String languageCode) => switch (languageCode) {
     'ta' => 0.8,
-    'hi' => 0.92,
+    'hi' || 'mr' => 0.92,
     _ => 1.0,
   };
 

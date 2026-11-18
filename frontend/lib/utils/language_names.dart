@@ -9,6 +9,7 @@ const Map<String, ({String endonym, String english, String? step})> _languages =
       'en': (endonym: 'English', english: 'English', step: 'Step'), // i18n-ok
       'ta': (endonym: 'தமிழ்', english: 'Tamil', step: 'படி'), // i18n-ok
       'hi': (endonym: 'हिन्दी', english: 'Hindi', step: 'चरण'), // i18n-ok
+      'mr': (endonym: 'मराठी', english: 'Marathi', step: 'पायरी'), // i18n-ok
       'bn': (endonym: 'বাংলা', english: 'Bengali', step: null), // i18n-ok
       'te': (endonym: 'తెలుగు', english: 'Telugu', step: null), // i18n-ok
       'kn': (endonym: 'ಕನ್ನಡ', english: 'Kannada', step: null), // i18n-ok

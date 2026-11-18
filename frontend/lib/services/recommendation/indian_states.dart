@@ -1,4 +1,4 @@
-/// English <-> Hindi <-> Tamil names of India's states and union territories,
+/// English <-> Hindi <-> Tamil <-> Marathi names of India's states and union territories,
 /// used to recognise a profile's free-text / geocoded state in any language.
 ///
 /// The profile's state is typed by the user or filled by the device geocoder,
@@ -59,6 +59,26 @@ class IndianStates {
       'daman and diu',
       'dadra and nagar haveli',
     ],
+  };
+
+  /// Marathi spellings that differ from the Hindi one in [_aliases]; every other
+  /// state is written the same way in both.
+  static const Map<String, String> _marathi = {
+    'Assam': 'आसाम',
+    'Chhattisgarh': 'छत्तीसगड',
+    'Kerala': 'केरळ',
+    'Manipur': 'मणिपूर',
+    'Mizoram': 'मिझोराम',
+    'Nagaland': 'नागालँड',
+    'Tamil Nadu': 'तमिळनाडू',
+    'Telangana': 'तेलंगणा',
+    'Jammu and Kashmir': 'जम्मू आणि काश्मीर',
+    'Ladakh': 'लडाख',
+    'Puducherry': 'पुडुचेरी',
+    'Chandigarh': 'चंडीगड',
+    'Andaman and Nicobar Islands': 'अंदमान आणि निकोबार बेटे',
+    'Dadra and Nagar Haveli and Daman and Diu':
+        'दादरा आणि नगर हवेली आणि दमण आणि दीव',
   };
 
   /// English name -> ISO 3166-2:IN code, the form the catalog stores in
@@ -146,11 +166,14 @@ class IndianStates {
   static final RegExp _devanagari = RegExp(r'[ऀ-ॿ]');
   static final RegExp _tamil = RegExp(r'[஀-௿]');
 
-  /// [englishName] as written in [lang] (`hi`, `ta`); the English name for
+  /// [englishName] as written in [lang] (`hi`, `ta`, `mr`); the English name for
   /// English or when no spelling in that script is known.
   static String displayName(String englishName, String lang) {
+    if (lang == 'mr' && _marathi.containsKey(englishName)) {
+      return _marathi[englishName]!;
+    }
     final script = switch (lang) {
-      'hi' => _devanagari,
+      'hi' || 'mr' => _devanagari,
       'ta' => _tamil,
       _ => null,
     };
@@ -168,6 +191,7 @@ class IndianStates {
       _key(entry.key): entry.key,
       for (final alias in entry.value) _key(alias): entry.key,
     },
+    for (final entry in _marathi.entries) _key(entry.value): entry.key,
   };
 
   static final RegExp _latin = RegExp(r'^[a-z0-9 ]+$');

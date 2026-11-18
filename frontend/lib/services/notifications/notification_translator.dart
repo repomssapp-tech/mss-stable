@@ -21,6 +21,7 @@ class MlKitTranslationBackend implements TextTranslationBackend {
     'en': TranslateLanguage.english,
     'hi': TranslateLanguage.hindi,
     'ta': TranslateLanguage.tamil,
+    'mr': TranslateLanguage.marathi,
   };
 
   final OnDeviceTranslatorModelManager _models =

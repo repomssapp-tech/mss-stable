@@ -11,6 +11,9 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+### Added
+- Marathi is back. The app is offered in English, Tamil, Hindi and Marathi again, including voice, search and state names. The app-lock screen and the copyright notice are translated into Marathi. Six leftover English phrases in the Marathi catalogue dictionary are now translated.
+
 ## [2.5.1+30] - 2026-11-10
 
 ### Added

@@ -150,10 +150,10 @@ void main() {
     expect(appBuilt, greaterThan(0));
   });
 
-  testWidgets('the locked screen is translated into Tamil and Hindi', (
+  testWidgets('the locked screen is translated into Tamil, Hindi and Marathi', (
     tester,
   ) async {
-    for (final code in ['ta', 'hi']) {
+    for (final code in ['ta', 'hi', 'mr']) {
       final l10n = await AppLocalizations.delegate.load(Locale(code));
       final en = await AppLocalizations.delegate.load(const Locale('en'));
       expect(l10n.appLockedTitle, isNot(en.appLockedTitle), reason: code);
@@ -161,13 +161,14 @@ void main() {
     }
   });
 
-  test('the app is offered in English, Tamil and Hindi only', () {
-    expect(appLanguages, ['en', 'ta', 'hi']);
+  test('the app is offered in English, Tamil, Hindi and Marathi only', () {
+    expect(appLanguages, ['en', 'ta', 'hi', 'mr']);
     expect(
       AppLocalizations.supportedLocales.map((l) => l.languageCode).toSet(),
-      {'en', 'ta', 'hi'},
+      {'en', 'ta', 'hi', 'mr'},
     );
-    expect(appLanguageOrEnglish('mr'), 'en');
+    expect(appLanguageOrEnglish('mr-IN'), 'mr');
+    expect(appLanguageOrEnglish('bn'), 'en');
     expect(appLanguageOrEnglish('hi-IN'), 'hi');
   });
 

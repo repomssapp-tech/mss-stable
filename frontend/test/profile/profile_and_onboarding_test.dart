@@ -114,7 +114,7 @@ void main() {
         'ta',
       );
       // Every language the app offers is sent.
-      for (final code in const ['hi']) {
+      for (final code in const ['hi', 'mr']) {
         expect(
           ProfileAggregate.buildPatchPayload(
             current: UserProfile(name: 'Name', language: code),
