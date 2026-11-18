@@ -1,0 +1,29 @@
+{
+  "language": "mr",
+  "rows": {
+    "maharashtra/core": {
+      "total": 865,
+      "present": 865
+    },
+    "maharashtra/detail": {
+      "total": 106,
+      "gap": 106
+    }
+  },
+  "ledger": {
+    "baseline": 865
+  },
+  "government_names": {
+    "no_official_source": 163
+  },
+  "offer": {
+    "maharashtra": {
+      "core_units": 865,
+      "missing": 0,
+      "ready": true
+    }
+  },
+  "registry_drift": [
+    "tamil_nadu: registry lists ['en', 'ta'], schemes have ['en', 'hi', 'ta']"
+  ]
+}

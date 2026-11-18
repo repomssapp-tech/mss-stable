@@ -1,0 +1,64 @@
+{
+  "language": "hi",
+  "rows": {
+    "central/core": {
+      "total": 2805,
+      "present": 2805
+    },
+    "central/detail": {
+      "total": 1923,
+      "present": 1109,
+      "gap": 711,
+      "held_pending_translation": 103
+    },
+    "maharashtra/core": {
+      "total": 865,
+      "present": 865
+    },
+    "maharashtra/detail": {
+      "total": 106,
+      "present": 106
+    },
+    "reference/reference": {
+      "total": 1017,
+      "gap": 886,
+      "present": 131
+    },
+    "tamil_nadu/core": {
+      "total": 715,
+      "present": 712,
+      "gap": 3
+    },
+    "tamil_nadu/detail": {
+      "total": 387,
+      "present": 345,
+      "gap": 42
+    }
+  },
+  "ledger": {
+    "baseline": 6073
+  },
+  "government_names": {
+    "no_official_source": 1325
+  },
+  "offer": {
+    "central": {
+      "core_units": 2805,
+      "missing": 0,
+      "ready": true
+    },
+    "maharashtra": {
+      "core_units": 865,
+      "missing": 0,
+      "ready": true
+    },
+    "tamil_nadu": {
+      "core_units": 715,
+      "missing": 3,
+      "ready": false
+    }
+  },
+  "registry_drift": [
+    "tamil_nadu: registry lists ['en', 'ta'], schemes have ['en', 'hi', 'ta']"
+  ]
+}
