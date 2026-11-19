@@ -83,3 +83,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-06 | Roger-Chris | #197 | release | Bump to 2.4.5+28 and add its changelog entry for the changes in #196 (matching recommendations, consistent headers, profile Edit button, Marathi strings). |
 | 2026-11-10 | nyxri0f8 | #198 | unspecified | App lock by the administrator; remove Marathi (2.5.0+29) |
 | 2026-11-10 | nyxri0f8 | #199 | unspecified | Copyright notice in the app (2.5.1+30) |
+| 2026-11-19 | Roger-Chris | #200 | frontend/l10n, frontend/voice, frontend/search | Brings Marathi back to the app (removed in 2.5.0, #198), keeping the administrator app lock and the copyright notice. Also adds the Hindi/Marathi translation inventory docs. |
