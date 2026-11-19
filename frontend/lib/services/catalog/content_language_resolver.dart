@@ -12,7 +12,7 @@ class ContentLanguageResolver {
   /// Languages tried last, in order, when neither the selected language nor
   /// English has a value. Content-only languages (e.g. `mr`) are included so
   /// their text is never discarded.
-  static const List<String> fallbackOrder = ['en', 'hi', 'ta'];
+  static const List<String> fallbackOrder = ['en', 'hi', 'ta', 'mr'];
 
   /// Keys that hold display text inside an object that is not a language map.
   static const List<String> _textKeys = [

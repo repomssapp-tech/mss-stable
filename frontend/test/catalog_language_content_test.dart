@@ -6,18 +6,21 @@ import 'package:archive/archive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
+import 'package:frontend/l10n/l10n.dart';
 import 'package:frontend/models/localized_scheme.dart';
+import 'package:frontend/models/mss_entity.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/home/home_language_button.dart';
 import 'package:frontend/screens/regular_mode/language_selection_screen.dart';
-import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:frontend/services/catalog/catalog_packs.dart';
 import 'package:frontend/services/catalog/centralized_translator.dart';
 import 'package:frontend/services/catalog/language_pack_manager.dart';
 import 'package:frontend/services/catalog/mss_catalog_bundle.dart';
 import 'package:frontend/services/catalog/mss_scheme_adapter.dart';
 import 'package:frontend/services/catalog/scheme_catalog_sync_service.dart';
+import 'package:frontend/services/recommendation/recommendation_engine.dart';
 import 'package:frontend/utils/language_names.dart';
+import 'package:frontend/widgets/scheme/scheme_card.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,7 +34,7 @@ class _NoSync extends SchemeCatalogSyncService {
   }
 }
 
-/// A manifest that turns Marathi on, as the shipped catalog data does.
+/// A manifest that offers Marathi, as the shipped catalog does.
 const _marathiOn = <String, dynamic>{
   'languages': [
     {'code': 'en', 'isActive': true},
@@ -51,14 +54,24 @@ const _marathiOn = <String, dynamic>{
   },
 };
 
-/// Scheme content in a language the catalogue carries renders with no
-/// per-language code, but the app offers only English, Tamil and Hindi
-/// (Marathi was removed in 2.5.0) whatever the catalogue manifest says.
+/// A language added to the catalogue is shown with no per-language code:
+/// Marathi from the data the catalogue already ships, and a made-up language
+/// that no Dart file can have special-cased.
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   late MssCatalogBundle bundle;
   final pack = LanguagePackManager.instance;
+
+  String? stored(MssEntity e, String lang, String key) {
+    final loc = e.raw['localization'];
+    final block = loc is Map ? loc[lang] : null;
+    final v = block is Map ? block[key] : null;
+    return v is String && v.trim().isNotEmpty ? v : null;
+  }
+
+  bool inMaharashtra(MssEntity e) =>
+      (e.raw['provenance'] as Map)['jurisdiction'] == 'maharashtra';
 
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
@@ -68,9 +81,76 @@ void main() {
 
   setUp(() async {
     pack.resetForTesting();
+    await pack.loadPack('mr');
   });
 
   tearDown(pack.resetForTesting);
+
+  group('Marathi scheme content', () {
+    test('all 79 Maharashtra schemes show their stored Marathi', () {
+      final schemes = bundle.schemes.where(inMaharashtra).toList();
+      expect(schemes, hasLength(79));
+      for (final e in schemes) {
+        final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'mr');
+        final shown = LocalizedScheme.fromScheme(s, 'mr');
+        expect(shown.languageCode, 'mr');
+        expect(shown.name, stored(e, 'mr', 'name'), reason: e.id);
+        expect(shown.fullSchemeName, shown.name, reason: e.id);
+        expect(shown.overview, stored(e, 'mr', 'summary'), reason: e.id);
+        expect(shown.benefits, stored(e, 'mr', 'benefitsText'), reason: e.id);
+        expect(shown.rawBenefitsDisplayText, shown.benefits, reason: e.id);
+        expect(shown.department, stored(e, 'mr', 'authority'), reason: e.id);
+        expect(
+          shown.eligibilityCriteria,
+          s.extras.storedEligibility('mr'),
+          reason: e.id,
+        );
+        expect(shown.eligibilityCriteria, isNotEmpty, reason: e.id);
+        expect(shown.applicationProcess, isNotEmpty, reason: e.id);
+        expect(s.getName('mr'), shown.name, reason: e.id);
+        expect(s.getBenefits('mr'), shown.benefits, reason: e.id);
+        expect(s.getOverview('mr'), shown.overview, reason: e.id);
+      }
+    });
+
+    test('numbered steps carry the Marathi text and a Marathi label', () {
+      var checked = 0;
+      for (final e in bundle.schemes.where(inMaharashtra)) {
+        final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'mr');
+        final steps = s.extras.storedSteps('mr');
+        if (steps.length != s.applicationProcess.length ||
+            !s.applicationProcess.every((l) => l.startsWith('Step '))) {
+          continue;
+        }
+        final shown = LocalizedScheme.fromScheme(s, 'mr').applicationProcess;
+        for (var i = 0; i < steps.length; i++) {
+          expect(shown[i], 'पायरी ${i + 1}: ${steps[i]}', reason: e.id);
+        }
+        checked++;
+      }
+      expect(checked, greaterThan(20));
+    });
+
+    test('a scheme with no Marathi falls back to English, field by field', () {
+      final central = bundle.schemes.firstWhere((e) => !inMaharashtra(e));
+      expect(stored(central, 'mr', 'name'), isNull);
+      final s = MssSchemeAdapter.toScheme(central, bundle, langCode: 'mr');
+      final shown = LocalizedScheme.fromScheme(s, 'mr');
+      expect(shown.name, s.name);
+      expect(shown.overview, s.overview);
+      expect(shown.benefits, s.benefits);
+      expect(shown.eligibilityCriteria, s.eligibilityCriteria);
+      expect(shown.applicationProcess, s.applicationProcess);
+    });
+
+    test('metadata comes from the Marathi dictionary, never Tamil or Hindi', () {
+      final e = bundle.schemes.firstWhere(inMaharashtra);
+      final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'mr');
+      final shown = LocalizedScheme.fromScheme(s, 'mr');
+      expect(shown.governmentLevel, 'राज्य');
+      expect(shown.category, stored(e, 'mr', 'category'));
+    });
+  });
 
   group('a language no code has heard of', () {
     late MssCatalogBundle withGujarati;
@@ -134,19 +214,31 @@ void main() {
     });
   });
 
-  group('the app offers English, Tamil and Hindi only', () {
-    test(
-      'the shipped catalog: Marathi data stays, Marathi is not offered',
-      () async {
-        expect(await pack.offeredLanguages(), ['en', 'ta', 'hi']);
-        expect(pack.isLanguageActiveInRelease('mr'), isFalse);
-      },
-    );
+  group('the language list comes from the catalogue manifest', () {
+    test('the shipped catalog offers Marathi for Maharashtra', () async {
+      expect(await pack.offeredLanguages(), ['en', 'ta', 'hi', 'mr']);
+      expect(bundle.isLanguageActive('mr'), isTrue);
+      expect(bundle.offeredLanguagesFor('central'), isNot(contains('mr')));
+      expect(bundle.offeredLanguagesFor('tamil_nadu'), isNot(contains('mr')));
+    });
 
-    test('a release that turns Marathi on still does not offer it', () async {
+    test('a release that turns Marathi on offers it', () async {
       pack.setReleaseManifest(_marathiOn);
-      expect(await pack.offeredLanguages(), ['en', 'ta', 'hi']);
-      expect(await pack.isLanguageSupported('mr'), isFalse);
+      expect(await pack.offeredLanguages(), ['en', 'ta', 'hi', 'mr']);
+    });
+
+    test('isActive alone is not enough: the registry must offer it', () async {
+      pack.setReleaseManifest({
+        'languages': _marathiOn['languages'],
+        'languageRegistry': {
+          'jurisdictions': {
+            'maharashtra': {
+              'offeredLanguages': ['en', 'hi'],
+            },
+          },
+        },
+      });
+      expect(await pack.offeredLanguages(), isNot(contains('mr')));
     });
 
     test('a language with no content is not offered', () async {
@@ -160,7 +252,7 @@ void main() {
 
     test('a manifest with no list falls back to the UI languages', () async {
       pack.setReleaseManifest({'catalogRelease': 'schemes-3'});
-      expect(await pack.offeredLanguages(), ['en', 'ta', 'hi']);
+      expect(await pack.offeredLanguages(), ['en', 'ta', 'hi', 'mr']);
     });
   });
 
@@ -169,6 +261,8 @@ void main() {
       expect(languageEndonym('en'), 'English');
       expect(languageEndonym('ta'), 'தமிழ்');
       expect(languageEndonym('hi'), 'हिन्दी');
+      expect(languageEndonym('mr'), 'मराठी');
+      expect(languageEnglishName('mr'), 'Marathi');
     });
 
     test('an unknown code is shown as itself, never as English', () {
@@ -178,29 +272,78 @@ void main() {
   });
 
   group('switching language', () {
-    test('Marathi cannot be selected', () async {
-      pack.setReleaseManifest(_marathiOn);
+    test('Marathi can be selected', () async {
       final sync = _NoSync();
       final provider = AppProvider(catalogSyncService: sync);
       while (sync.calls == 0) {
         await Future<void>.delayed(const Duration(milliseconds: 25));
       }
       await provider.changeLanguage('mr');
-      expect(provider.selectedLanguage, isNot('mr'));
-      await provider.changeLanguage('hi');
-      expect(provider.selectedLanguage, 'hi');
+      expect(provider.selectedLanguage, 'mr');
     });
 
-    test('a phone saved in Marathi starts in English', () async {
-      SharedPreferences.setMockInitialValues({'language': 'mr'});
-      expect(await SessionCacheService.instance.getLanguage(), 'en');
-      final prefs = await SharedPreferences.getInstance();
-      expect(prefs.getString('language'), 'en');
-      SharedPreferences.setMockInitialValues({'language': 'hi'});
-      expect(await SessionCacheService.instance.getLanguage(), 'hi');
+    testWidgets('Marathi content renders with Marathi UI strings', (
+      tester,
+    ) async {
+      pack.setReleaseManifest(_marathiOn);
+      final sync = _NoSync();
+      final provider = AppProvider(catalogSyncService: sync);
+      await tester.runAsync(() async {
+        while (sync.calls == 0) {
+          await Future<void>.delayed(const Duration(milliseconds: 25));
+        }
+        await provider.changeLanguage('mr');
+      });
+      expect(provider.selectedLanguage, 'mr');
+
+      final e = bundle.schemes.firstWhere(inMaharashtra);
+      final scheme = MssSchemeAdapter.toScheme(e, bundle, langCode: 'mr');
+      late BuildContext inside;
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            locale: Locale(provider.selectedLanguage),
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: Scaffold(
+              body: SingleChildScrollView(
+                child: Builder(
+                  builder: (context) {
+                    inside = context;
+                    return SchemeCard(
+                      scheme: scheme,
+                      result: RecommendationResult(
+                        score: 1,
+                        matchingReasons: const [],
+                        missingRequirements: const [],
+                        missingDocuments: const [],
+                      ),
+                      isBookmarked: false,
+                      onBookmarkToggle: () {},
+                      onTap: () {},
+                    );
+                  },
+                ),
+              ),
+            ),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.text(stored(e, 'mr', 'name')!), findsOneWidget);
+      expect(Localizations.localeOf(inside).languageCode, 'mr');
+      expect(
+        inside.l10n.chooseYourLanguage,
+        lookupAppLocalizations(const Locale('mr')).chooseYourLanguage,
+      );
+      expect(tester.takeException(), isNull);
     });
 
-    testWidgets('the picker lists English, Tamil and Hindi', (tester) async {
+    testWidgets('the picker offers a language the catalogue turned on', (
+      tester,
+    ) async {
       pack.setReleaseManifest(_marathiOn);
       await tester.pumpWidget(
         ChangeNotifierProvider(
@@ -214,13 +357,22 @@ void main() {
       );
       await tester.runAsync(() => pack.offeredLanguages());
       await tester.pumpAndSettle();
-      expect(find.text('Marathi'), findsNothing);
-      expect(find.text('मराठी'), findsNothing);
-      expect(find.text('Hindi'), findsWidgets);
+      expect(find.text('Marathi'), findsOneWidget);
+      expect(find.text('मराठी'), findsWidgets);
+
+      // Previewing it shows the interface in that language.
+      await tester.tap(find.text('Marathi'));
+      await tester.pumpAndSettle();
+      expect(
+        find.text(
+          lookupAppLocalizations(const Locale('mr')).chooseYourLanguage,
+        ),
+        findsOneWidget,
+      );
       expect(tester.takeException(), isNull);
     });
 
-    testWidgets('the home menu leaves Marathi out too', (tester) async {
+    testWidgets('the home menu lists it too', (tester) async {
       pack.setReleaseManifest(_marathiOn);
       await tester.pumpWidget(
         MaterialApp(
@@ -239,8 +391,7 @@ void main() {
       await tester.pumpAndSettle();
       await tester.tap(find.byType(HomeLanguageButton));
       await tester.pumpAndSettle();
-      expect(find.text('मराठी'), findsNothing);
-      expect(find.text('हिन्दी'), findsWidgets);
+      expect(find.text('मराठी'), findsOneWidget);
     });
   });
 }

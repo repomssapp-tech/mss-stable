@@ -183,7 +183,7 @@ Iterable<String> _names(Scheme s) sync* {
   }
 }
 
-const List<String> _replyLanguages = ['hi', 'ta'];
+const List<String> _replyLanguages = ['hi', 'ta', 'mr'];
 
 Set<String> _nameStems(Scheme s) => {
   for (final name in _names(s))

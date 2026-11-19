@@ -45,7 +45,7 @@ void main() {
     ('schemes', 'Government Schemes'),
   ];
 
-  for (final lang in ['en', 'ta', 'hi']) {
+  for (final lang in ['en', 'ta', 'hi', 'mr']) {
     for (final (id, title) in cases) {
       testWidgets('$id [$lang] route is named, back kept, title not doubled', (
         tester,

@@ -101,7 +101,7 @@ class _SaarthiVoiceSettingsScreenState
         (v) => _settings.update(autoplay: v),
       ),
     ];
-    const order = ['ta', 'hi', 'en'];
+    const order = ['ta', 'hi', 'en', 'mr'];
     assert(order.every(VoiceLanguage.supported.contains));
 
     return DesignTextScale(

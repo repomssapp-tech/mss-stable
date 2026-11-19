@@ -7,6 +7,7 @@ import '../../l10n/l10n.dart';
 String voiceLanguageName(String code) => switch (code) {
   'ta' => 'தமிழ்', // i18n-ok
   'hi' => 'हिन्दी', // i18n-ok
+  'mr' => 'मराठी', // i18n-ok
   _ => 'English', // i18n-ok
 };
 

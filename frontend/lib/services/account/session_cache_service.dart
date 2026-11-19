@@ -115,8 +115,7 @@ class SessionCacheService {
       final prefs = await SharedPreferences.getInstance();
       final stored = prefs.getString(_keyLanguage);
       if (stored == null) return null;
-      // A language the app no longer offers (Marathi until 2.4.5) reads as
-      // English, and is stored so.
+      // A language the app does not offer reads as English, and is stored so.
       final lang = appLanguageOrEnglish(stored);
       if (lang != stored) await prefs.setString(_keyLanguage, lang);
       return lang;

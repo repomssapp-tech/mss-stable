@@ -370,7 +370,7 @@ class SearchScreenState extends State<SearchScreen> {
       context,
       listen: false,
     ).selectedLanguage;
-    const speechLocales = {'ta': 'ta-IN', 'hi': 'hi-IN'};
+    const speechLocales = {'ta': 'ta-IN', 'hi': 'hi-IN', 'mr': 'mr-IN'};
     await _dictationController.listen(localeId: speechLocales[lang]);
   }
 
