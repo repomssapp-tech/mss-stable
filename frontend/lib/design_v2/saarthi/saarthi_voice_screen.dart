@@ -431,6 +431,9 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
         return;
       }
       if (_active || _tab != SaarthiNavTab.home) return;
+      // In companion mode this screen stays mounted behind the other tabs;
+      // the tour waits until it is the tab on screen.
+      if (context.read<AppProvider>().currentTabIndex != 0) return;
       checking = true;
       final result = await SaarthiTour.maybeStart(context);
       checking = false;

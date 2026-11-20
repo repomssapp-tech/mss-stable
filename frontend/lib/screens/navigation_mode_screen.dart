@@ -290,6 +290,12 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                     // A guest has no profile onboarding.
                                     if (provider.profile.profileCompleted ||
                                         provider.isGuest) {
+                                      // Start on the first tab (home or
+                                      // Saarthi), not the last tab used.
+                                      provider.updateTabIndex(
+                                        0,
+                                        addToHistory: false,
+                                      );
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (_) =>
