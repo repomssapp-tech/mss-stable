@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../utils/app_colors.dart';
+import '../../../services/location_lock/location_lock.dart';
 
 class CategoryItem {
   final String title;
@@ -186,7 +187,16 @@ const List<Map<String, dynamic>> displayMinistries = [
   {'title': 'Ministry of Rural Development'},
 ];
 
-const List<Map<String, dynamic>> displayStates = [
+/// The Discover state tiles; only the GPS state under the location lock.
+List<Map<String, dynamic>> get displayStates {
+  final state = LocationScope.stateName;
+  if (state == null) return _displayStates;
+  return [
+    {'title': state},
+  ];
+}
+
+const List<Map<String, dynamic>> _displayStates = [
   {'title': 'Tamil Nadu'},
   {'title': 'Maharashtra'},
   {'title': 'Uttar Pradesh'},
@@ -205,7 +215,11 @@ const List<String> allMinistriesList = [
   'Ministry of Housing',
 ];
 
-const List<String> allStatesList = [
+/// Every state for the "view all" sheets; only the GPS state under the
+/// location lock.
+List<String> get allStatesList => LocationScope.restrictStates(_allStatesList);
+
+const List<String> _allStatesList = [
   'Andhra Pradesh',
   'Arunachal Pradesh',
   'Assam',

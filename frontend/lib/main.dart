@@ -37,6 +37,10 @@ import 'services/security/app_lock_service.dart';
 import 'widgets/common/haptic_touch_layer.dart';
 import 'services/haptics/haptics_service.dart';
 import 'services/notifications/local_notification_service.dart';
+import 'services/location_lock/location_lock.dart';
+import 'services/location_lock/location_lock_config.dart';
+import 'services/location_lock/location_lock_service.dart';
+import 'widgets/common/location_lock_gate.dart';
 
 /// App-wide scroll behavior: Android-style clamping (no iOS rubber-band).
 /// The bounce read as "sticky and elastic" and let content be dragged well
@@ -98,8 +102,15 @@ void main() async {
     LocalNotificationService.instance.init(),
     // A phone the administrator locked stays locked across restarts.
     AppLockService.instance.hydrate(),
+    // The last verified GPS state, so schemes are filtered from the first
+    // load; the gate checks the GPS again before anything is shown.
+    if (kLocationLockEnabled) LocationLockService.instance.restore(),
   ]);
   final pushGateway = startup[3] == true ? FirebasePushGateway() : null;
+
+  // Tamil Nadu / Maharashtra edition: the state is fixed from the first
+  // frame (no GPS), before the app provider reads it.
+  LocationScope.applyEdition();
 
   // App Startup Recovery: upload chat sessions that were saved locally while
   // offline.
@@ -228,9 +239,15 @@ class MSSApp extends StatelessWidget {
             // Administrator app lock outermost: while locked nothing else of
             // the app is built.
             child: AppLockGate(
-              child: DeviceIntegrityGate(
-                child: HapticTouchLayer(child: child!),
-              ),
+              // Dev build: nothing past this until GPS places the phone in
+              // a state (no fake location, no VPN).
+              child: kLocationLockEnabled
+                  ? LocationLockGate(
+                      child: DeviceIntegrityGate(
+                        child: HapticTouchLayer(child: child!),
+                      ),
+                    )
+                  : DeviceIntegrityGate(child: HapticTouchLayer(child: child!)),
             ),
           ),
         );

@@ -7,6 +7,7 @@ import '../search/intelligent_scheme_search.dart' show SchemeSearchMatch;
 import 'mss_catalog_bundle.dart';
 import 'mss_scheme_adapter.dart';
 import '../recommendation/recommendation_engine.dart';
+import '../location_lock/location_lock.dart';
 
 /// SchemeRepository
 /// ─────────────────
@@ -35,6 +36,8 @@ class SchemeRepository {
   List<Scheme>? _cachedSchemes;
   Map<String, Scheme>? _schemeByIdMap;
   String? _cachedLanguage;
+  // The location-lock state the cached list was filtered for ('' = none).
+  String _cachedLockState = '';
   Future<MssCatalogBundle>? _bundleFuture;
   Map<String, int>? _cachedCategoryCounts;
 
@@ -251,7 +254,10 @@ class SchemeRepository {
   /// time via `Scheme.toLocalized`.
   Future<List<Scheme>> getAllSchemes({String? langCode}) async {
     langCode ??= _cachedLanguage ?? 'en';
-    if (_cachedSchemes != null && _cachedLanguage == langCode) {
+    final lockState = LocationScope.stateName ?? '';
+    if (_cachedSchemes != null &&
+        _cachedLanguage == langCode &&
+        _cachedLockState == lockState) {
       return _cachedSchemes!;
     }
 
@@ -283,6 +289,8 @@ class SchemeRepository {
           );
           continue;
         }
+        // Location lock: central schemes and the GPS state's own only.
+        if (!LocationScope.allowsScheme(scheme)) continue;
         schemes.add(scheme);
         byIdMap[scheme.id.toLowerCase()] = scheme;
         if (scheme.schemeCode.isNotEmpty) {
@@ -291,6 +299,8 @@ class SchemeRepository {
       }
 
       _cachedLanguage = langCode;
+      _cachedLockState = lockState;
+      _cachedCategoryCounts = null;
       _cachedSchemes = List.unmodifiable(schemes);
       _schemeByIdMap = Map.unmodifiable(byIdMap);
       _conversionFailures = List.unmodifiable(failures);
@@ -407,12 +417,23 @@ class SchemeRepository {
     String langCode = 'en',
   }) async {
     final bundle = await _loadBundle();
-    return await HybridSchemeSearch.rank(
+    if (!LocationScope.active) {
+      return await HybridSchemeSearch.rank(
+        query,
+        bundle,
+        limit: limit,
+        langCode: langCode,
+      );
+    }
+    // Ranked without the limit, then cut, so other states' schemes do not
+    // use up the result slots.
+    final ranked = await HybridSchemeSearch.rank(
       query,
       bundle,
-      limit: limit,
       langCode: langCode,
     );
+    final kept = ranked.where((m) => LocationScope.allowsScheme(m.scheme));
+    return (limit != null ? kept.take(limit) : kept).toList();
   }
 
   /// A corrected spelling of [query] ("laon" -> "loan") when it contains a
@@ -790,7 +811,12 @@ class SchemeRepository {
       final bundle = await _loadBundle();
       final entity = bundle.getEntity(id);
       if (entity != null && entity.entityType == 'scheme') {
-        return MssSchemeAdapter.toScheme(entity, bundle, langCode: langCode);
+        final scheme = MssSchemeAdapter.toScheme(
+          entity,
+          bundle,
+          langCode: langCode,
+        );
+        return LocationScope.allowsScheme(scheme) ? scheme : null;
       }
     } catch (e) {
       debugPrint('[SchemeRepository] getSchemeById offline fallback error: $e');

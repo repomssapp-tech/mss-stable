@@ -9,6 +9,8 @@ import '../../regular_mode/categories/categories_data.dart';
 import '../../regular_mode/categories/discover_counts.dart';
 import 'assisted_selection_card.dart';
 import '../../../utils/app_text.dart';
+import '../../../services/location_lock/location_lock.dart';
+import '../../../services/recommendation/indian_states.dart';
 
 class Step1StateSelector extends StatelessWidget {
   final String selectedState;
@@ -31,6 +33,19 @@ class Step1StateSelector extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
+    // Location lock: the GPS state is the only choice.
+    final locked = LocationScope.stateName;
+    if (locked != null) {
+      final lang = Localizations.localeOf(context).languageCode;
+      return AssistedSelectionCard(
+        title: IndianStates.displayName(locked, lang),
+        subtitle: l10n.locationStateLocked,
+        icon: Icons.my_location_rounded,
+        isSelected: true,
+        onTap: () => onStateSelected(locked),
+      );
+    }
 
     final states = [
       {

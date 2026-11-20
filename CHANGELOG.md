@@ -12,7 +12,23 @@ Unreleased items under a new heading, commit, and tag the commit.
 ## [Unreleased]
 
 ### Added
+- Editions. One codebase now builds three apps, chosen with `MSS_EDITION` (`--dart-define` locally, the `MSS_EDITION` repository variable in CI):
+  - `central` (default): **MSS**, `com.inschemes.app`, unchanged from today, so installed apps keep updating.
+  - `tn`: **MSS Tamil Nadu**, `com.inschemes.app.tn`. Central and Tamil Nadu schemes only, English and Tamil, opens in Tamil.
+  - `mh`: **MSS Maharashtra**, `com.inschemes.app.mh`. Central and Maharashtra schemes only, English, Hindi and Marathi, opens in Marathi.
+  A state edition is fixed to its state from the first frame, with no GPS check, and checks its own releases repository for updates. A dev build of any edition adds `.dev` to the app ID and " Dev" to the name.
 - Marathi is back. The app is offered in English, Tamil, Hindi and Marathi again, including voice, search and state names. The app-lock screen and the copyright notice are translated into Marathi. Six leftover English phrases in the Marathi catalogue dictionary are now translated.
+
+## [2.6.0+31] - 2026-11-18 (dev test build only, not released to users)
+
+Separate test app "MSS Dev" (`com.inschemes.app.dev`), built with `channel=dev`. It installs next to the real app, never replaces it and never checks for updates; production phones are never offered it. Also has the unreleased Marathi work above.
+
+### Added
+- Location lock. At every start the app reads the phone's precise GPS location before showing anything. It blocks the app while location is off or only approximate, while a fake-location (mock) app is in use, while a VPN is on, after a jump faster than anyone can travel, and outside India. It checks again after 15 minutes in the background.
+- Schemes follow the GPS state: central schemes plus that state's schemes only. In Maharashtra no Tamil Nadu scheme appears anywhere (lists, search, Discover, Saarthi, links), and the other way round. Discover and Saarthi show only that state; scheme cards show only its emblem and the national one.
+- Languages follow the GPS state, with English first: Maharashtra English, Hindi, Marathi; Tamil Nadu English, Tamil; other states English, Hindi. A language the state does not offer switches to English.
+- Profile: the GPS address fills in the address, city, district and pincode, which stay editable. The state is set from GPS and cannot be changed.
+- Settings shows "Test build" next to the version.
 
 ## [2.5.1+30] - 2026-11-10
 

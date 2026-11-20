@@ -6,6 +6,7 @@ import '../../utils/language_names.dart';
 
 import 'mss_catalog_bundle.dart';
 import '../../utils/app_languages.dart';
+import '../location_lock/location_lock.dart';
 
 /// LanguagePackManager
 /// ───────────────────
@@ -204,6 +205,17 @@ class LanguagePackManager {
       if (!appLanguages.contains(code)) continue;
       if (registry != null && !registry.contains(code)) continue;
       if (await isLanguageSupported(code)) offered.add(code);
+    }
+    // Location lock: only the GPS state's languages, in its own order
+    // (English first). Maharashtra: English, Hindi, Marathi; Tamil Nadu:
+    // English, Tamil.
+    final allowed = LocationScope.allowedLanguages;
+    if (allowed != null) {
+      return [
+        for (final code in allowed)
+          if (code == 'en' || offered.contains(code) || hasUiStrings(code))
+            code,
+      ];
     }
     return inDisplayOrder(offered);
   }

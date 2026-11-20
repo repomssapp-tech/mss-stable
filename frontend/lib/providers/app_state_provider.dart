@@ -50,6 +50,8 @@ import '../services/account/onboarding_api_service.dart'
 import '../services/account/profile_api_service.dart';
 import '../services/account/rest_auth_service.dart';
 import '../services/account/token_storage.dart';
+import '../config/edition.dart';
+import '../services/location_lock/location_lock.dart';
 
 bool _runningUnderTest() {
   try {
@@ -81,6 +83,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _notificationTranslation.addListener(notifyListeners);
     _promos.addListener(notifyListeners);
     _catalog.addListener(notifyListeners);
+    _lockedStateCode = LocationScope.current.value?.stateCode;
+    LocationScope.current.addListener(_onLocationLockChanged);
     DeepLinkService.instance.initialize(this);
     _loadState();
     _setupAuthListener();
@@ -162,11 +166,14 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   bool _isGuest = false;
   bool _isLoggingOut = false;
   String _mobileNumber = '';
-  String _selectedLanguageValue = 'en';
+  String _selectedLanguageValue = kEdition.defaultLanguage;
   String get _selectedLanguage => _selectedLanguageValue;
   // Every language change also tells CentralizedTranslator which language the
   // static UI text (localize()/localizeTag()) should be shown in.
   set _selectedLanguage(String value) {
+    // Location lock: a language the GPS state does not offer (cache, server
+    // profile, deep link) falls back to English.
+    value = LocationScope.clampLanguage(value);
     _selectedLanguageValue = value;
     CentralizedTranslator.instance.activeLanguage = value;
   }
@@ -330,6 +337,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       debugPrint('[AppProvider] Guest answers upload deferred: $e');
     }
   }
+
   bool get isLoggingOut => _isLoggingOut;
   String get mobileNumber => _mobileNumber;
   String get selectedLanguage => _selectedLanguage;
@@ -486,7 +494,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   Future<void> _loadState() async {
     try {
       _selectedLanguage =
-          await SessionCacheService.instance.getLanguage() ?? 'en';
+          await SessionCacheService.instance.getLanguage() ??
+          kEdition.defaultLanguage;
       // Started now (it overlaps the other hydration) but awaited before the
       // first scheme load below, so a cold start in Hindi/Tamil adapts the
       // catalog with the pack already indexed instead of showing English.
@@ -497,7 +506,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
       final cachedProfile = await SessionCacheService.instance.loadProfile();
       if (cachedProfile != null) {
-        _profile = cachedProfile;
+        _profile = withLockedState(cachedProfile);
         _navigationMode = _profile.navigationMode;
       }
       final cachedNavMode = await SessionCacheService.instance
@@ -615,6 +624,45 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String debugReconcileServerLanguage(String serverLang) =>
       _languageReconciler.reconcile(serverLang);
 
+  String? _lockedStateCode;
+
+  /// Location lock: the profile's state always comes from GPS. Address,
+  /// city, district and pincode stay the user's to edit.
+  static UserProfile withLockedState(UserProfile p) {
+    final state = LocationScope.stateName;
+    if (state == null || p.state == state) return p;
+    return p.copyWith(state: state);
+  }
+
+  /// A new GPS state: reload schemes for it, drop a language it does not
+  /// offer and put the state in the profile. A re-check that finds the same
+  /// state changes nothing.
+  void _onLocationLockChanged() {
+    final code = LocationScope.current.value?.stateCode;
+    if (code == _lockedStateCode) return;
+    _lockedStateCode = code;
+    unawaited(_applyLocationLock());
+  }
+
+  Future<void> _applyLocationLock() async {
+    final clamped = LocationScope.clampLanguage(_selectedLanguage);
+    if (clamped != _selectedLanguage) {
+      _selectedLanguage = clamped;
+      await SessionCacheService.instance.saveLanguage(clamped);
+    }
+    final locked = withLockedState(_profile);
+    if (!identical(locked, _profile)) {
+      _profile = locked.copyWith(
+        language: _selectedLanguage,
+        updatedAt: DateTime.now(),
+      );
+      await _saveProfile();
+      if (_isLoggedIn) _syncProfileToServerInBackground(_profile);
+    }
+    notifyListeners();
+    await loadSchemes(forceRefresh: true);
+  }
+
   // Setters & Actions
   Future<void> changeLanguage(String requested) async {
     // A language needs ARB resources or an offer from the catalogue release. One
@@ -623,6 +671,10 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // (e.g. `mr` from a server profile, while the release keeps it off) is
     // ignored.
     final lang = ContentLanguageResolver.normalizeCode(requested);
+    if (LocationScope.clampLanguage(lang) != lang) {
+      debugPrint('[AppProvider] "$lang" is not offered in this state');
+      return;
+    }
     if (!LanguagePackManager.hasUiStrings(lang) &&
         !(await LanguagePackManager.instance.offeredLanguages()).contains(
           lang,
@@ -926,7 +978,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggedIn = false;
     _isGuest = false;
     _mobileNumber = '';
-    _selectedLanguage = 'en';
+    _selectedLanguage = kEdition.defaultLanguage;
     _languageReconciler.reset();
     _navigationMode = 'regular';
     _navigationModeReconciler.reset();
@@ -994,9 +1046,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           _profile.updatedAt ?? DateTime.fromMillisecondsSinceEpoch(0);
 
       if (remoteUpdated.isAfter(localUpdated)) {
-        _profile = _withServerCompletion(
-          _profile.mergeFrom(syncProfile),
-          syncAggregate,
+        _profile = withLockedState(
+          _withServerCompletion(_profile.mergeFrom(syncProfile), syncAggregate),
         );
         _selectedLanguage = _languageFromServer(
           syncProfile.language,
@@ -1081,7 +1132,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     UserProfile updated, {
     bool requireCloudSync = false,
   }) async {
-    final candidate = updated.copyWith(updatedAt: DateTime.now());
+    final candidate = withLockedState(
+      updated,
+    ).copyWith(updatedAt: DateTime.now());
 
     // A completed onboarding submission is not committed locally until the
     // hosted database confirms both profile upserts. This prevents a restart
@@ -1133,6 +1186,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
   @override
   void dispose() {
+    LocationScope.current.removeListener(_onLocationLockChanged);
     unawaited(_push?.dispose());
     WidgetsBinding.instance.removeObserver(this);
     _tabs.removeListener(notifyListeners);

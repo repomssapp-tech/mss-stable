@@ -1,4 +1,5 @@
 import java.io.File
+import java.util.Base64
 import java.util.Properties
 
 val releaseKeystorePropertiesFile = rootProject.file("key.properties")
@@ -12,6 +13,47 @@ val requiredReleaseSigningFields =
 val hasReleaseSigning = requiredReleaseSigningFields.all { field ->
     !releaseKeystoreProperties.getProperty(field).isNullOrBlank()
 }
+
+// The separate dev/test build (MSS_CHANNEL=dev, set by build-app.yml's
+// channel input) installs beside the real app as com.inschemes.app.dev,
+// named "MSS Dev", so it can never replace or update the production app.
+//
+// The edition (MSS_EDITION = central | tn | mh, see lib/config/edition.dart)
+// picks which MSS app this is. Each edition has its own app ID, so the apps
+// install side by side and never update one another:
+//   central -> com.inschemes.app      "MSS"
+//   tn      -> com.inschemes.app.tn   "MSS Tamil Nadu"
+//   mh      -> com.inschemes.app.mh   "MSS Maharashtra"
+// A dev build adds ".dev" and " Dev" to any edition.
+//
+// Both values come from the environment (CI) or, for a local build, from the
+// same --dart-define the Dart code reads.
+fun mssDefine(name: String): String? {
+    System.getenv(name)?.takeIf { it.isNotBlank() }?.let { return it.trim() }
+    val raw = project.findProperty("dart-defines") as String? ?: return null
+    return raw.split(",")
+        .mapNotNull { encoded: String ->
+            runCatching { String(Base64.getDecoder().decode(encoded)) }.getOrNull()
+        }
+        .firstOrNull { define: String -> define.startsWith("$name=") }
+        ?.substringAfter("=")
+        ?.trim()
+}
+
+val mssDevBuild = mssDefine("MSS_CHANNEL") == "dev"
+val mssEditionNames = mapOf(
+    "central" to "MSS",
+    "tn" to "MSS Tamil Nadu",
+    "mh" to "MSS Maharashtra",
+)
+val mssEdition = (mssDefine("MSS_EDITION") ?: "central").lowercase()
+check(mssEdition in mssEditionNames) {
+    "MSS_EDITION must be one of ${mssEditionNames.keys}, not \"$mssEdition\""
+}
+val mssAppId = "com.inschemes.app" +
+    (if (mssEdition == "central") "" else ".$mssEdition") +
+    (if (mssDevBuild) ".dev" else "")
+val mssAppLabel = mssEditionNames.getValue(mssEdition) + (if (mssDevBuild) " Dev" else "")
 
 plugins {
     id("com.android.application")
@@ -36,7 +78,8 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.inschemes.app"
+        applicationId = mssAppId
+        manifestPlaceholders["appLabel"] = mssAppLabel
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // The on-device llama.cpp bridge requires API 26. This still covers
