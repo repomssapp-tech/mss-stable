@@ -6,7 +6,9 @@
   "scripts": {
     "openapi:lint": "redocly lint openapi/openapi.planned.yaml",
     "voice:test": "python -m unittest discover -s ../tools/voice-lab/tests -v",
-    "verify:links": "node scripts/verify_scheme_links.mjs"
+    "verify:links": "node scripts/verify_scheme_links.mjs",
+    "catalog:questionnaire": "python scripts/build_questionnaire.py",
+    "catalog:questionnaire:check": "python scripts/build_questionnaire.py --check && python -m pytest scripts/tests -q"
   },
   "devDependencies": {
     "@redocly/cli": "2.39.0"
