@@ -178,10 +178,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       const SizedBox(height: AppSpacing.xxl),
 
-                      // Recommended For You (Horizontal List)
-                      HomeRecommendedSection(provider: provider),
-
-                      const SizedBox(height: AppSpacing.xxl),
+                      // Recommended For You (Horizontal List). Guests have no
+                      // recommendations, so they do not see it.
+                      if (!provider.isGuest) ...[
+                        HomeRecommendedSection(provider: provider),
+                        const SizedBox(height: AppSpacing.xxl),
+                      ],
 
                       // Latest Updates & Tip of the Day
                       HomeUpdatesSection(provider: provider),

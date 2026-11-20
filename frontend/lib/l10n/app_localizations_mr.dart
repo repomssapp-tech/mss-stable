@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -6309,4 +6308,128 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get locationDevBuildBadge => 'चाचणी आवृत्ती';
+
+  @override
+  String get eligCheckEntry => 'माझी उत्तरे';
+
+  @override
+  String get eligCheckEntrySub =>
+      'तुमच्याबद्दल आणि तुमच्या व्यवसायाबद्दल प्रश्न';
+
+  @override
+  String get eligCheckTitle => 'तुमची उत्तरे';
+
+  @override
+  String get eligCheckIntro => 'ज्याचे उत्तर माहीत नसेल ते सोडून द्या.';
+
+  @override
+  String eligCheckStepLabel(int n, int total) {
+    return 'टप्पा $n / $total';
+  }
+
+  @override
+  String get eligCheckStep0 => 'तुमच्याबद्दल';
+
+  @override
+  String get eligCheckStep1 => 'तुम्ही कुठे राहता आणि काम करता';
+
+  @override
+  String get eligCheckStep2 => 'तुमचा व्यवसाय';
+
+  @override
+  String get eligCheckStep3 => 'तुम्हाला काय हवे';
+
+  @override
+  String get eligCheckStep4 => 'तुमची कौशल्ये';
+
+  @override
+  String get eligCheckStep5 => 'आणखी थोडी माहिती (ऐच्छिक)';
+
+  @override
+  String eligCheckNeeded(String question) {
+    return 'पुढे जाण्यासाठी याचे उत्तर द्या: $question';
+  }
+
+  @override
+  String get eligCheckWomenMore =>
+      'महिला कामगार एकूण कामगारांपेक्षा जास्त असू शकत नाहीत.';
+
+  @override
+  String get eligCheckQuestionLanguage => 'प्रश्नांची भाषा';
+
+  @override
+  String get eligCheckSave => 'माझी उत्तरे जतन करा';
+
+  @override
+  String get eligCheckSaveGo => 'जतन करा आणि आत जा';
+
+  @override
+  String get eligCheckSavedTitle => 'तुमची उत्तरे जतन झाली';
+
+  @override
+  String get eligCheckSavedBody =>
+      'धन्यवाद. तुम्ही तुमची उत्तरे कधीही बदलू शकता.';
+
+  @override
+  String get eligCheckEdit => 'उत्तरे बदला';
+
+  @override
+  String get eligCheckSelect => 'निवडा';
+
+  @override
+  String get eligCheckOther => 'इतर (स्वतः लिहा)';
+
+  @override
+  String get eligCheckTypeHere => 'नाव लिहा';
+
+  @override
+  String get eligCheckSkipRest => 'बाकी सोडा';
+
+  @override
+  String get eligCheckAnswerMore => 'आणखी प्रश्नांची उत्तरे द्या';
+
+  @override
+  String get eligCheckQuickIntro =>
+      'सुरुवातीला फक्त काही प्रश्न. बाकी तुम्ही नंतर भरू शकता.';
+
+  @override
+  String get eligCheckAllRequired => 'पुढे जाण्यासाठी सर्व प्रश्न आवश्यक आहेत.';
+
+  @override
+  String get eligCheckLocate => 'माझे सध्याचे लोकेशन वापरा';
+
+  @override
+  String get eligCheckLocating => 'तुमचे लोकेशन शोधत आहोत…';
+
+  @override
+  String get eligCheckLocationFail =>
+      'लोकेशन मिळाले नाही. तुम्ही ठिकाण स्वतः निवडू शकता.';
+
+  @override
+  String get eligCheckLocationNote => 'तुमचे राज्य आणि जिल्हा आपोआप भरतो.';
+
+  @override
+  String get eligCheckLocationDone =>
+      'लोकेशन जतन झाले. कृपया खालील ठिकाण तपासा.';
+
+  @override
+  String get eligCheckFirstTitle => 'तुमच्याबद्दल सांगा';
+
+  @override
+  String get eligCheckFirstIntro =>
+      'काही प्रश्न, मग तुम्ही आत आहात. * असलेल्या प्रश्नांची उत्तरे आवश्यक आहेत.';
+
+  @override
+  String get guestName => 'पाहुणा';
+
+  @override
+  String get guestReminderText =>
+      'तुमची प्रोफाइल पूर्ण करा: प्रगती जतन करण्यासाठी Google ने साइन-इन करा.';
+
+  @override
+  String get guestLocalTitle => 'तुमची माहिती याच फोनमध्ये राहते';
+
+  @override
+  String get guestLocalBody =>
+      'पाहुणा म्हणून तुमची माहिती फक्त याच फोनमध्ये जतन होते. दुसऱ्या फोनवर किंवा डिव्हाइसवर MSS वापरल्यास, किंवा अ‍ॅपचा डेटा पुसल्यास, तुमची पाहुणा प्रोफाइल तिथे मिळणार नाही. प्रोफाइल जपण्यासाठी Google ने साइन-इन करा.';
 }

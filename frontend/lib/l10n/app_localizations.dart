@@ -11562,6 +11562,228 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Test build'**
   String get locationDevBuildBadge;
+
+  /// No description provided for @eligCheckEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'My answers'**
+  String get eligCheckEntry;
+
+  /// No description provided for @eligCheckEntrySub.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions about you and your business'**
+  String get eligCheckEntrySub;
+
+  /// No description provided for @eligCheckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answers'**
+  String get eligCheckTitle;
+
+  /// No description provided for @eligCheckIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip any question you are unsure about.'**
+  String get eligCheckIntro;
+
+  /// No description provided for @eligCheckStepLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Step {n} of {total}'**
+  String eligCheckStepLabel(int n, int total);
+
+  /// No description provided for @eligCheckStep0.
+  ///
+  /// In en, this message translates to:
+  /// **'About you'**
+  String get eligCheckStep0;
+
+  /// No description provided for @eligCheckStep1.
+  ///
+  /// In en, this message translates to:
+  /// **'Where you live and work'**
+  String get eligCheckStep1;
+
+  /// No description provided for @eligCheckStep2.
+  ///
+  /// In en, this message translates to:
+  /// **'Your business'**
+  String get eligCheckStep2;
+
+  /// No description provided for @eligCheckStep3.
+  ///
+  /// In en, this message translates to:
+  /// **'What you need'**
+  String get eligCheckStep3;
+
+  /// No description provided for @eligCheckStep4.
+  ///
+  /// In en, this message translates to:
+  /// **'Your skills'**
+  String get eligCheckStep4;
+
+  /// No description provided for @eligCheckStep5.
+  ///
+  /// In en, this message translates to:
+  /// **'A little more (optional)'**
+  String get eligCheckStep5;
+
+  /// No description provided for @eligCheckNeeded.
+  ///
+  /// In en, this message translates to:
+  /// **'Please answer this to continue: {question}'**
+  String eligCheckNeeded(String question);
+
+  /// No description provided for @eligCheckWomenMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Women staff cannot be more than total staff.'**
+  String get eligCheckWomenMore;
+
+  /// No description provided for @eligCheckQuestionLanguage.
+  ///
+  /// In en, this message translates to:
+  /// **'Question language'**
+  String get eligCheckQuestionLanguage;
+
+  /// No description provided for @eligCheckSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save my answers'**
+  String get eligCheckSave;
+
+  /// No description provided for @eligCheckSaveGo.
+  ///
+  /// In en, this message translates to:
+  /// **'Save and go in'**
+  String get eligCheckSaveGo;
+
+  /// No description provided for @eligCheckSavedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answers are saved'**
+  String get eligCheckSavedTitle;
+
+  /// No description provided for @eligCheckSavedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you. You can change your answers any time.'**
+  String get eligCheckSavedBody;
+
+  /// No description provided for @eligCheckEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Change my answers'**
+  String get eligCheckEdit;
+
+  /// No description provided for @eligCheckSelect.
+  ///
+  /// In en, this message translates to:
+  /// **'Select'**
+  String get eligCheckSelect;
+
+  /// No description provided for @eligCheckOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other (type it)'**
+  String get eligCheckOther;
+
+  /// No description provided for @eligCheckTypeHere.
+  ///
+  /// In en, this message translates to:
+  /// **'Type the name'**
+  String get eligCheckTypeHere;
+
+  /// No description provided for @eligCheckSkipRest.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip the rest'**
+  String get eligCheckSkipRest;
+
+  /// No description provided for @eligCheckAnswerMore.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer more questions'**
+  String get eligCheckAnswerMore;
+
+  /// No description provided for @eligCheckQuickIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Just a few questions to start. You can answer more later.'**
+  String get eligCheckQuickIntro;
+
+  /// No description provided for @eligCheckAllRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'All questions are needed to continue.'**
+  String get eligCheckAllRequired;
+
+  /// No description provided for @eligCheckLocate.
+  ///
+  /// In en, this message translates to:
+  /// **'Use my current location'**
+  String get eligCheckLocate;
+
+  /// No description provided for @eligCheckLocating.
+  ///
+  /// In en, this message translates to:
+  /// **'Finding your location…'**
+  String get eligCheckLocating;
+
+  /// No description provided for @eligCheckLocationFail.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not get your location. You can choose the place instead.'**
+  String get eligCheckLocationFail;
+
+  /// No description provided for @eligCheckLocationNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Fills in your state and district for you.'**
+  String get eligCheckLocationNote;
+
+  /// No description provided for @eligCheckLocationDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Location saved. Please check the place below.'**
+  String get eligCheckLocationDone;
+
+  /// No description provided for @eligCheckFirstTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tell us about you'**
+  String get eligCheckFirstTitle;
+
+  /// No description provided for @eligCheckFirstIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'A few questions, then you are in. Questions marked * are needed.'**
+  String get eligCheckFirstIntro;
+
+  /// No description provided for @guestName.
+  ///
+  /// In en, this message translates to:
+  /// **'Guest'**
+  String get guestName;
+
+  /// No description provided for @guestReminderText.
+  ///
+  /// In en, this message translates to:
+  /// **'Complete your profile: sign in with Google to save your progress.'**
+  String get guestReminderText;
+
+  /// No description provided for @guestLocalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your details stay on this phone'**
+  String get guestLocalTitle;
+
+  /// No description provided for @guestLocalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'As a guest, your details are saved only on this phone. If you use MSS on another phone or device, or clear the app data, your guest profile will not be there. Sign in with Google to keep your profile.'**
+  String get guestLocalBody;
 }
 
 class _AppLocalizationsDelegate

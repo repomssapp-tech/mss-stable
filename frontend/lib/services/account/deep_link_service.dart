@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:app_links/app_links.dart';
 import 'package:flutter/foundation.dart';
 
+import '../../config/edition.dart';
 import '../../providers/app_state_provider.dart';
 import 'account_pending_deletion.dart';
 import 'auth_service.dart';
@@ -47,7 +48,7 @@ class DeepLinkService {
     debugPrint(
       '[DeepLinkService] Received deep link: ${uri.scheme}://${uri.host}${uri.path}',
     );
-    if (uri.scheme == 'com.inschemes.app' && uri.host == 'login-callback') {
+    if (uri.scheme == kAppId && uri.host == 'login-callback') {
       final code = uri.queryParameters['code'];
       final error = uri.queryParameters['error'];
 

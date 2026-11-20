@@ -52,6 +52,12 @@ void main() {
       expect(repos, hasLength(EditionConfig.all.length));
     });
 
+    test('MSS keeps its app ID and the server default sign-in link', () {
+      expect(kAppId, 'com.inschemes.app');
+      expect(kAuthRedirectUrl, 'com.inschemes.app://login-callback/');
+      expect(kAuthRedirectUrl, kDefaultAuthRedirectUrl);
+    });
+
     test('Central keeps the update channel installed apps already use', () {
       expect(AppUpdateService.releasesRepo, 'nyxri0f8/MSS_App-releases');
     });
