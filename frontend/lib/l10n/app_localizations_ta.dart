@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -6368,4 +6369,70 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get guestSavedSignInDesc =>
       'திட்டங்களைச் சேமித்து எந்தத் தொலைபேசியிலும் இங்கே பார்க்க உள்நுழையவும்.';
+
+  @override
+  String get locationGateTitle => 'உங்கள் இருப்பிடத்தை உறுதிசெய்யவும்';
+
+  @override
+  String get locationGateBody =>
+      'MSS மத்திய அரசுத் திட்டங்களையும் நீங்கள் இருக்கும் மாநிலத்தின் திட்டங்களையும் காட்டுகிறது. நீங்கள் எந்த மாநிலத்தில் இருக்கிறீர்கள் என்பதை உங்கள் கைபேசியின் GPS சொல்லும்.';
+
+  @override
+  String get locationGateAllow => 'துல்லியமான இருப்பிடத்தை அனுமதிக்கவும்';
+
+  @override
+  String get locationGateChecking => 'இருப்பிடம் சரிபார்க்கப்படுகிறது…';
+
+  @override
+  String get locationGateRetry => 'மீண்டும் முயலவும்';
+
+  @override
+  String get locationGateOpenSettings => 'அமைப்புகளைத் திற';
+
+  @override
+  String get locationErrServiceOff =>
+      'இருப்பிடம் (GPS) அணைக்கப்பட்டுள்ளது. அதை இயக்கி மீண்டும் முயலவும்.';
+
+  @override
+  String get locationErrPermission =>
+      'உங்கள் மாநிலத்தின் திட்டங்களைக் காட்ட MSS-க்கு உங்கள் இருப்பிடம் தேவை.';
+
+  @override
+  String get locationErrPermissionForever =>
+      'MSS-க்கு இருப்பிடம் தடுக்கப்பட்டுள்ளது. அமைப்புகளில் அனுமதிகள் > இருப்பிடம் சென்று \"துல்லியமான இருப்பிடம்\" இயக்கத்துடன் அனுமதிக்கவும்.';
+
+  @override
+  String get locationErrApproximate =>
+      'தோராயமான இருப்பிடம் மட்டுமே அனுமதிக்கப்பட்டுள்ளது. நீங்கள் எந்த மாநிலத்தில் இருக்கிறீர்கள் என்று அறிய MSS-க்கு \"துல்லியமான இருப்பிடம்\" இயக்கவும்.';
+
+  @override
+  String get locationErrMock =>
+      'போலி இருப்பிட ஆப் பயன்பாட்டில் உள்ளது. அதை நிறுத்தவும் (டெவலப்பர் விருப்பங்கள் > போலி இருப்பிட ஆப் > எதுவுமில்லை), பின் மீண்டும் முயலவும்.';
+
+  @override
+  String get locationErrVpn =>
+      'VPN இயக்கத்தில் உள்ளது. VPN-ஐ அணைத்து மீண்டும் முயலவும்.';
+
+  @override
+  String get locationErrJump =>
+      'உங்கள் இருப்பிடம் சாத்தியமற்ற வேகத்தில் மாறியுள்ளது. இருப்பிடத்தை மாற்றும் ஆப்பை நிறுத்தி மீண்டும் முயலவும்.';
+
+  @override
+  String get locationErrWeakSignal =>
+      'GPS சிக்னல் மிகவும் பலவீனமாக உள்ளது. சன்னலின் அருகில் அல்லது வெளியே சென்று மீண்டும் முயலவும்.';
+
+  @override
+  String get locationErrOutsideIndia =>
+      'MSS இந்தியாவுக்குள் மட்டுமே செயல்படும்.';
+
+  @override
+  String get locationErrLookup =>
+      'உங்கள் மாநிலத்தைக் கண்டறிய முடியவில்லை. இணையத்துடன் இணைத்து மீண்டும் முயலவும்.';
+
+  @override
+  String get locationStateLocked =>
+      'உங்கள் GPS இருப்பிடத்திலிருந்து அமைக்கப்பட்டது. மாற்ற முடியாது.';
+
+  @override
+  String get locationDevBuildBadge => 'சோதனைப் பதிப்பு';
 }

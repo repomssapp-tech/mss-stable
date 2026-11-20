@@ -1,5 +1,6 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
+
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -6264,4 +6265,68 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get guestSavedSignInDesc =>
       'Sign in to save schemes and find them here on any phone.';
+
+  @override
+  String get locationGateTitle => 'Confirm your location';
+
+  @override
+  String get locationGateBody =>
+      'MSS shows central schemes and the schemes of the state you are in. Your phone\'s GPS tells us which state that is.';
+
+  @override
+  String get locationGateAllow => 'Allow precise location';
+
+  @override
+  String get locationGateChecking => 'Checking your location…';
+
+  @override
+  String get locationGateRetry => 'Try again';
+
+  @override
+  String get locationGateOpenSettings => 'Open settings';
+
+  @override
+  String get locationErrServiceOff =>
+      'Location (GPS) is off. Turn it on, then try again.';
+
+  @override
+  String get locationErrPermission =>
+      'MSS needs your location to show the schemes of your state.';
+
+  @override
+  String get locationErrPermissionForever =>
+      'Location is blocked for MSS. In Settings, open Permissions > Location and choose \"Allow\" with \"Use precise location\" on.';
+
+  @override
+  String get locationErrApproximate =>
+      'Only approximate location is allowed. Turn on \"Use precise location\" for MSS so it can tell which state you are in.';
+
+  @override
+  String get locationErrMock =>
+      'A fake-location app is in use. Turn it off (Developer options > Select mock location app > None), then try again.';
+
+  @override
+  String get locationErrVpn => 'A VPN is on. Turn off the VPN, then try again.';
+
+  @override
+  String get locationErrJump =>
+      'Your location changed faster than is possible. Turn off any app that changes your location, then try again.';
+
+  @override
+  String get locationErrWeakSignal =>
+      'The GPS signal is too weak. Go near a window or outdoors, then try again.';
+
+  @override
+  String get locationErrOutsideIndia => 'MSS works only inside India.';
+
+  @override
+  String get locationErrLookup =>
+      'Could not find your state. Connect to the internet, then try again.';
+
+  @override
+  String get locationStateLocked =>
+      'Set from your GPS location. It cannot be changed.';
+
+  @override
+  String get locationDevBuildBadge => 'Test build';
 }

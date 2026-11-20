@@ -7,6 +7,7 @@ import '../../../utils/app_radius.dart';
 import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
+import '../../../services/location_lock/location_lock.dart';
 
 /// The onboarding State field: shows the chosen state in the app language
 /// and opens a searchable list of every state and union territory, so the
@@ -49,6 +50,11 @@ class StatePickerField extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final lang = Localizations.localeOf(context).languageCode;
+    // Location lock: the state comes from GPS and cannot be picked.
+    final locked = LocationScope.stateName;
+    if (locked != null && IndianStates.canonical(controller.text) != locked) {
+      controller.text = locked;
+    }
     final raw = controller.text.trim();
     final shown = raw.isEmpty
         ? null
@@ -65,7 +71,7 @@ class StatePickerField extends StatelessWidget {
       hint: l10n.profileSelectState,
       excludeSemantics: true,
       child: InkWell(
-        onTap: () => _pick(context),
+        onTap: locked != null ? null : () => _pick(context),
         borderRadius: AppRadius.mdAll,
         child: InputDecorator(
           isEmpty: shown == null,
@@ -77,11 +83,14 @@ class StatePickerField extends StatelessWidget {
               color: AppColors.textMuted,
               size: AppSize.icon,
             ),
-            suffixIcon: const Icon(
-              Icons.arrow_drop_down_rounded,
+            suffixIcon: Icon(
+              locked != null
+                  ? Icons.lock_outline_rounded
+                  : Icons.arrow_drop_down_rounded,
               color: AppColors.textMuted,
             ),
-            errorText: errorText,
+            helperText: locked != null ? l10n.locationStateLocked : null,
+            errorText: locked != null ? null : errorText,
             errorStyle: context.text.bodySmall.copyWith(
               color: AppColors.danger,
             ),

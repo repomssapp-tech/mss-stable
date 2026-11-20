@@ -5,6 +5,7 @@ import '../../../providers/app_state_provider.dart';
 import '../../../l10n/l10n.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../utils/multi_keyword_matcher.dart';
+import '../../../services/location_lock/location_lock.dart';
 
 /// Localized display label for a fixed app-taxonomy category / section name.
 ///
@@ -531,7 +532,7 @@ class DiscoverCounts {
     for (final label in ministryLabels) {
       counts[label] = schemes.where((s) => matchesMinistry(s, label)).length;
     }
-    for (final label in stateLabels) {
+    for (final label in LocationScope.restrictStates(stateLabels)) {
       counts[label] = schemes.where((s) => matchesState(s, label)).length;
     }
     return counts;
