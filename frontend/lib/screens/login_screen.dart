@@ -398,17 +398,16 @@ class _LoginScreenState extends State<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        // What to do first, at the top of the card, until both are read.
-        if (!isLoginEnabled) ...[
-          Text(
-            context.l10n.loginReviewTermsNotice,
-            textAlign: TextAlign.center,
-            style: context.text.bodySmall.copyWith(
-              color: AppColors.warningText,
-            ),
+        // What to do first, always at the top of the card: amber until both
+        // documents are read, then muted (it stays as a reminder).
+        Text(
+          context.l10n.loginReviewTermsNotice,
+          textAlign: TextAlign.center,
+          style: context.text.bodySmall.copyWith(
+            color: isLoginEnabled ? AppColors.textMuted : AppColors.warningText,
           ),
-          const SizedBox(height: AppSpacing.sm),
-        ],
+        ),
+        const SizedBox(height: AppSpacing.sm),
         // Gate checklist: each row opens its document, which is read to the
         // end and accepted there; the row then ticks and stays visible. It is
         // the only consent text on the screen (a separate "I have read and

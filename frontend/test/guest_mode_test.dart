@@ -226,11 +226,12 @@ void main() {
       final google = await googleButton(tester, provider);
 
       expect(google.onPressed, isNotNull);
+      // The review line always stays at the top of the card.
       expect(
         find.text(
           'Please review the Terms of Use and Privacy Policy before continuing.',
         ),
-        findsNothing,
+        findsOneWidget,
       );
     });
 
