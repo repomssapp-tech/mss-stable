@@ -56,14 +56,14 @@ Code reaches `mss-stable` only from `mss-dev`, after it has passed testing:
 
 ## Syncing the editions
 
-After a merge here, the same commits are synced into `mss-central`, `mss-tn` and `mss-mh`. Each edition keeps its own `editions/<key>.json`, so the sync only brings shared code and never touches edition settings.
+After a merge here, the same commits are synced into `mss-central`, `mss-tn` and `mss-mh`. The code in every edition repo is identical to this repo; each one only differs in its README, banner and the `MSS_EDITION` repository variable that picks which app CI builds.
 
 ---
 
 ## Rules for this repo
 
 1. **No direct pushes** — changes arrive by pull request from `mss-dev`.
-2. **No edition-specific code** — state differences live in each edition's settings file, not in `if (state == ...)` branches.
+2. **No scattered edition checks** — everything that differs between editions lives in [`frontend/lib/config/edition.dart`](frontend/lib/config/edition.dart), not in `if (state == ...)` branches across the app.
 3. **Every merge must pass** the quality gates below.
 
 ---
@@ -85,7 +85,9 @@ flutter run            # launch on a device or emulator
 | Step | State |
 |:---|:---|
 | Repo created from MSS_App `main` | ✅ Done |
-| Promote and sync workflow (dev → stable → editions) | ⏳ Next |
+| Edition switch (central · tn · mh) | ✅ Done |
+| First promotion from `mss-dev` and sync to the editions | ✅ Done |
+| Automated promote-and-sync workflow | ⏳ To do |
 | Branch protection on `main` | ⏳ To do |
 
 ---
