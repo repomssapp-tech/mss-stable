@@ -41,6 +41,17 @@ For the next agent or session. Read this file first, then `AGENTS.md`.
   - **A dedicated `project_cost_inr` question** is recommended.
 - The user re-asked to keep the "Please review…" line at the top of the login card. It already is, in `c932a04`. Open question: should it stay visible after both documents are ticked? Today it hides.
 
+## Adaptive questions plan (added later on 2026-11-21)
+
+- Plan only: `docs/ux/2026-11-21-adaptive-questions-plan.md`.
+- Root causes, measured on the 417-scheme catalog:
+  - The beneficiary answer is a hard filter, but only 100 schemes have `specialCategories` (71 tagged `women`).
+  - The scheme-type keyword filter drops the 85 schemes with no `schemeType`.
+  - The filters stack, with no fallback when results are few.
+  - Submit overwrites the user's real profile.
+- Phase 0 quick fixes are proposed; waiting on the user's decision A.
+- PR #207 is open (login text, wording audit, docs): clean, gitleaks passing. PR #201 is clean.
+
 ## Context the next agent needs
 
 - **Backend is out of scope.** DEV 1 tasks 1.2–1.4 (`mss-backend`) belong to another dev. The handoff is `docs/handoff/2026-11-20-dev1-backend-tasks-1.2-1.4.md`.
