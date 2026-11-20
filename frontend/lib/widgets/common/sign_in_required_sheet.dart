@@ -20,6 +20,16 @@ Future<bool> requireAccount(BuildContext context) async {
   return false;
 }
 
+/// Takes a guest to the login screen. Replaces the guest stack (after sign-in
+/// the login screen moves on by itself) and clears nothing, so the answers
+/// kept on this phone carry over (AppProvider._uploadGuestAnswers).
+void openSignIn(BuildContext context) {
+  Navigator.of(context).pushAndRemoveUntil(
+    MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
+    (route) => false,
+  );
+}
+
 /// "Sign in to use this" bottom sheet shown to a guest.
 ///
 /// Sign in opens the login screen without clearing anything on the phone, so
@@ -67,13 +77,7 @@ class SignInRequiredSheet extends StatelessWidget {
               onPressed: () {
                 final navigator = Navigator.of(context);
                 navigator.pop();
-                // Replace the guest stack: after sign-in the login screen
-                // moves on by itself. Nothing is cleared, so local answers
-                // carry over (AppProvider._uploadGuestAnswers).
-                navigator.pushAndRemoveUntil(
-                  MaterialPageRoute<void>(builder: (_) => const LoginScreen()),
-                  (route) => false,
-                );
+                openSignIn(navigator.context);
               },
               child: Text(l10n.guestSignInAction),
             ),

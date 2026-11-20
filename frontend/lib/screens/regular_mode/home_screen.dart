@@ -147,7 +147,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
 
-                      if (provider.profileCompletionPercentage < 100) ...[
+                      // A guest always sees it, at 0%, as the way to sign in.
+                      if (provider.isGuest ||
+                          provider.profileCompletionPercentage < 100) ...[
                         const SizedBox(height: AppSpacing.xl),
                         // Profile Completion (Real & Compact)
                         HomeProfileCompletionCard(provider: provider),

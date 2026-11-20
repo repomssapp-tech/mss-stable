@@ -1883,5 +1883,11 @@
   "guestSignInTitle": "हे वापरण्यासाठी साइन इन करा",
   "guestSignInBody": "योजना जतन करणे, सूचना आणि प्रोफाइल सिंक यासाठी खाते लागते. या फोनवरील तुमची उत्तरे जपून ठेवली जातात आणि साइन इन केल्यावर तुमच्या खात्यात जातात.",
   "guestSignInAction": "साइन इन करा",
-  "guestSignInNotNow": "आत्ता नाही"
+  "guestSignInNotNow": "आत्ता नाही",
+  "guestProfileIncomplete": "प्रोफाइल अपूर्ण",
+  "guestProfileSignInPrompt": "तुमची प्रोफाइल तयार करण्यासाठी आणि तुमच्याशी जुळणाऱ्या योजना पाहण्यासाठी साइन इन करा.",
+  "guestProfilePending": "प्रलंबित",
+  "guestProfilePendingNote": "तुम्ही अतिथी म्हणून ॲप वापरत आहात. साइन इन केल्यावर तुमची प्रोफाइल जतन होईल.",
+  "homeTopSchemes": "प्रमुख योजना",
+  "homeTopSchemesInState": "{state} मधील प्रमुख योजना"
 }

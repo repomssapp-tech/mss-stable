@@ -6238,4 +6238,26 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guestSignInNotNow => 'Not now';
+
+  @override
+  String get guestProfileIncomplete => 'Profile incomplete';
+
+  @override
+  String get guestProfileSignInPrompt =>
+      'Sign in to create your profile and see schemes matched to you.';
+
+  @override
+  String get guestProfilePending => 'Pending';
+
+  @override
+  String get guestProfilePendingNote =>
+      'You\'re using the app as a guest. Your profile is saved once you sign in.';
+
+  @override
+  String get homeTopSchemes => 'Top schemes';
+
+  @override
+  String homeTopSchemesInState(String state) {
+    return 'Top schemes in $state';
+  }
 }

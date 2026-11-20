@@ -8,6 +8,7 @@ import '../../../models/scheme_model.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
 import '../../../services/recommendation/for_you_picks.dart';
+import '../../../services/recommendation/indian_states.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_radius.dart';
 import '../../../utils/app_size.dart';
@@ -16,6 +17,7 @@ import '../../../utils/app_text.dart';
 import '../../../utils/emblem_helper.dart';
 import '../basic_profile_screen.dart';
 import '../scheme_details_screen.dart';
+import 'guest_state_schemes.dart';
 import '../../../widgets/common/sign_in_required_sheet.dart';
 
 class HomeRecommendedSection extends StatefulWidget {
@@ -50,8 +52,25 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
     // so the two always agree. A test passing `widget.schemes` sees them as
     // strong matches.
     var tier = ForYouTier.strong;
+    // A guest has no account to match against: show the top schemes for
+    // their state, with no match badge, instead of "Recommended for you".
+    final guest = appProvider.isGuest && widget.schemes == null;
+    final guestState = guest
+        ? guestStateFor(
+            profileState: appProvider.profile.state,
+            language: appProvider.selectedLanguage,
+          )
+        : '';
     if (widget.schemes != null) {
       scoredSchemes = widget.schemes!.map((s) => MapEntry(s, null)).toList();
+    } else if (guest) {
+      scoredSchemes = [
+        for (final s in pickGuestStateSchemes(
+          all: appProvider.allSchemes,
+          state: guestState,
+        ))
+          MapEntry(s, null),
+      ];
     } else {
       final picks = pickForYou(
         profile: appProvider.profile,
@@ -83,7 +102,16 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
     ];
 
     final heading = Text(
-      context.l10n.recommendedForYou,
+      !guest
+          ? context.l10n.recommendedForYou
+          : guestState.isEmpty
+          ? context.l10n.homeTopSchemes
+          : context.l10n.homeTopSchemesInState(
+              IndianStates.displayName(
+                guestState,
+                appProvider.selectedLanguage,
+              ),
+            ),
       style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),
     );
     // Nothing is a strong match: say so, then show the closest ones.
@@ -109,7 +137,7 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
           // whose profile is complete sees the card waiting, not a request
           // to complete it.
           if (appProvider.schemesLoading &&
-              appProvider.profileCompletionPercentage >= 100 &&
+              (guest || appProvider.profileCompletionPercentage >= 100) &&
               widget.schemes == null)
             _buildLoadingState(context)
           else

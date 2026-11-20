@@ -11412,6 +11412,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not now'**
   String get guestSignInNotNow;
+
+  /// No description provided for @guestProfileIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile incomplete'**
+  String get guestProfileIncomplete;
+
+  /// No description provided for @guestProfileSignInPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to create your profile and see schemes matched to you.'**
+  String get guestProfileSignInPrompt;
+
+  /// No description provided for @guestProfilePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get guestProfilePending;
+
+  /// No description provided for @guestProfilePendingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re using the app as a guest. Your profile is saved once you sign in.'**
+  String get guestProfilePendingNote;
+
+  /// No description provided for @homeTopSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Top schemes'**
+  String get homeTopSchemes;
+
+  /// Home heading for a guest: top schemes in the guest's state.
+  ///
+  /// In en, this message translates to:
+  /// **'Top schemes in {state}'**
+  String homeTopSchemesInState(String state);
 }
 
 class _AppLocalizationsDelegate
