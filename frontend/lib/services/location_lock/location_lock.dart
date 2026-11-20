@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import '../../config/edition.dart';
 import '../../models/scheme_filter.dart';
 import '../../models/scheme_model.dart';
 import '../recommendation/indian_states.dart';
@@ -90,9 +91,25 @@ class LocationScope {
   /// off in this build).
   static final ValueNotifier<LocationLock?> current = ValueNotifier(null);
 
-  /// Whether filtering applies right now.
+  /// Whether filtering applies right now: the GPS lock (dev build) or a
+  /// state edition (Tamil Nadu, Maharashtra).
   static bool get active =>
-      (debugEnabledOverride ?? kLocationLockEnabled) && current.value != null;
+      (debugEnabledOverride ?? (kLocationLockEnabled || kEditionHasState)) &&
+      current.value != null;
+
+  /// A state edition is tied to its state from the first frame, with no GPS
+  /// check: the state is fixed in [current] and never changes. Does nothing
+  /// in the Central edition. Call before the app provider is created.
+  static void applyEdition([EditionConfig edition = kEdition]) {
+    final code = edition.stateCode;
+    if (code == null) return;
+    current.value = LocationLock(
+      stateCode: code,
+      latitude: 0,
+      longitude: 0,
+      verifiedAt: DateTime.now(),
+    );
+  }
 
   /// Tests turn the lock on without a `--dart-define`.
   @visibleForTesting

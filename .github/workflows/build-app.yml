@@ -30,7 +30,13 @@ name: Build App
 # Without these, the workflow still runs analyze/test and builds a debug-signed
 # APK + web bundle so the pipeline is exercised end to end.
 #
-# Repository variable (optional):
+# Repository variables:
+#   MSS_EDITION     — which MSS app this repository builds: central (default,
+#                     com.inschemes.app), tn (com.inschemes.app.tn) or mh
+#                     (com.inschemes.app.mh). See frontend/lib/config/edition.dart.
+#   RELEASES_REPO   — public repository the signed APKs are published to. It
+#                     must match the edition's releasesRepo in edition.dart
+#                     (default nyxri0f8/MSS_App-releases, the Central edition).
 #   FLUTTER_VERSION — exact Flutter version to pin. Leave unset to track the
 #   latest stable channel. pubspec.yaml requires Dart >= 3.11.1, so a pinned
 #   value must be a Flutter release that bundles at least that Dart SDK.
@@ -101,6 +107,8 @@ jobs:
       # Read by android/app/build.gradle.kts: the dev build gets its own
       # applicationId and name.
       MSS_CHANNEL: ${{ github.event.inputs.channel || 'prod' }}
+      # Which MSS app: central | tn | mh (own app ID, name, state, languages).
+      MSS_EDITION: ${{ vars.MSS_EDITION || 'central' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -171,19 +179,24 @@ jobs:
           lock=false
           if [ "$MSS_CHANNEL" = "dev" ]; then lock=true; fi
           jq -n --arg url "${API_BASE_URL:-https://mssapi.msmeschemes.org}" \
-            --arg channel "$MSS_CHANNEL" --arg lock "$lock" \
-            '{API_BASE_URL: $url, MSS_CHANNEL: $channel, MSS_LOCATION_LOCK: $lock}' > dart_defines.json
+            --arg channel "$MSS_CHANNEL" --arg lock "$lock" --arg edition "$MSS_EDITION" \
+            '{API_BASE_URL: $url, MSS_CHANNEL: $channel, MSS_LOCATION_LOCK: $lock, MSS_EDITION: $edition}' > dart_defines.json
           echo "present=true" >> "$GITHUB_OUTPUT"
 
-      # The Google services plugin needs a client entry for the dev
-      # applicationId. Same Firebase project: push notifications may not reach
-      # the dev app until com.inschemes.app.dev is registered there.
-      - name: Firebase config for the dev app
-        if: ${{ env.MSS_CHANNEL == 'dev' }}
+      # The Google services plugin needs a client entry for the build's
+      # applicationId (dev build, Tamil Nadu or Maharashtra edition). Same
+      # Firebase project: push notifications may not reach such an app until
+      # its app ID is registered there.
+      - name: Firebase config for the dev app and state editions
+        if: ${{ env.MSS_CHANNEL == 'dev' || env.MSS_EDITION != 'central' }}
         run: |
           set -euo pipefail
+          pkg="com.inschemes.app"
+          if [ "$MSS_EDITION" != "central" ]; then pkg="$pkg.$MSS_EDITION"; fi
+          if [ "$MSS_CHANNEL" = "dev" ]; then pkg="$pkg.dev"; fi
+          echo "Android app ID: $pkg"
           f=android/app/google-services.json
-          jq '.client += [.client[0] | .client_info.android_client_info.package_name = "com.inschemes.app.dev"]' "$f" > "$f.tmp"
+          jq --arg pkg "$pkg" '.client += [.client[0] | .client_info.android_client_info.package_name = $pkg]' "$f" > "$f.tmp"
           mv "$f.tmp" "$f"
 
       - name: Configure release signing
@@ -236,7 +249,7 @@ jobs:
         if: ${{ env.MSS_CHANNEL == 'dev' && github.event.inputs.dry_run == 'false' && steps.signing.outputs.signed == 'true' }}
         env:
           GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
-          RELEASES_REPO: nyxri0f8/MSS_App-releases
+          RELEASES_REPO: ${{ vars.RELEASES_REPO || 'nyxri0f8/MSS_App-releases' }}
           VERSION: ${{ steps.version.outputs.name }}
         run: |
           set -euo pipefail
@@ -386,7 +399,7 @@ jobs:
         if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' && github.event.inputs.channel != 'dev' }}
         env:
           GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
-          RELEASES_REPO: nyxri0f8/MSS_App-releases
+          RELEASES_REPO: ${{ vars.RELEASES_REPO || 'nyxri0f8/MSS_App-releases' }}
           VERSION: ${{ needs.build.outputs.version }}
         run: |
           set -euo pipefail
@@ -455,7 +468,7 @@ jobs:
       - name: Publish the dev pre-release
         env:
           GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
-          RELEASES_REPO: nyxri0f8/MSS_App-releases
+          RELEASES_REPO: ${{ vars.RELEASES_REPO || 'nyxri0f8/MSS_App-releases' }}
           TAG: ${{ needs.build.outputs.dev_tag }}
         run: |
           set -euo pipefail

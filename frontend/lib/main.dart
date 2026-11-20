@@ -37,6 +37,7 @@ import 'services/security/app_lock_service.dart';
 import 'widgets/common/haptic_touch_layer.dart';
 import 'services/haptics/haptics_service.dart';
 import 'services/notifications/local_notification_service.dart';
+import 'services/location_lock/location_lock.dart';
 import 'services/location_lock/location_lock_config.dart';
 import 'services/location_lock/location_lock_service.dart';
 import 'widgets/common/location_lock_gate.dart';
@@ -106,6 +107,10 @@ void main() async {
     if (kLocationLockEnabled) LocationLockService.instance.restore(),
   ]);
   final pushGateway = startup[3] == true ? FirebasePushGateway() : null;
+
+  // Tamil Nadu / Maharashtra edition: the state is fixed from the first
+  // frame (no GPS), before the app provider reads it.
+  LocationScope.applyEdition();
 
   // App Startup Recovery: upload chat sessions that were saved locally while
   // offline.

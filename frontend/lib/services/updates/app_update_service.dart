@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_version.dart';
 import '../app_info_service.dart';
 import 'app_release.dart';
+import '../../config/edition.dart';
 import '../location_lock/location_lock_config.dart';
 
 /// Whether a newer app build has been published in the public releases repo.
@@ -33,7 +34,9 @@ class AppUpdateService {
 
   /// The public, releases-only repository CI publishes every signed build to.
   /// The source repository is private, so its own releases 404 for users.
-  static const String releasesRepo = 'nyxri0f8/MSS_App-releases';
+  /// Each edition has its own, so an update for one edition never reaches
+  /// another edition's phones.
+  static final String releasesRepo = kEdition.releasesRepo;
 
   /// The newest few releases. The list (not `/releases/latest`) is read so a
   /// non-app release marked "latest" cannot hide an app build.

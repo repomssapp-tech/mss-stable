@@ -12,6 +12,11 @@ Unreleased items under a new heading, commit, and tag the commit.
 ## [Unreleased]
 
 ### Added
+- Editions. One codebase now builds three apps, chosen with `MSS_EDITION` (`--dart-define` locally, the `MSS_EDITION` repository variable in CI):
+  - `central` (default): **MSS**, `com.inschemes.app`, unchanged from today, so installed apps keep updating.
+  - `tn`: **MSS Tamil Nadu**, `com.inschemes.app.tn`. Central and Tamil Nadu schemes only, English and Tamil, opens in Tamil.
+  - `mh`: **MSS Maharashtra**, `com.inschemes.app.mh`. Central and Maharashtra schemes only, English, Hindi and Marathi, opens in Marathi.
+  A state edition is fixed to its state from the first frame, with no GPS check, and checks its own releases repository for updates. A dev build of any edition adds `.dev` to the app ID and " Dev" to the name.
 - Marathi is back. The app is offered in English, Tamil, Hindi and Marathi again, including voice, search and state names. The app-lock screen and the copyright notice are translated into Marathi. Six leftover English phrases in the Marathi catalogue dictionary are now translated.
 
 ## [2.6.0+31] - 2026-11-18 (dev test build only, not released to users)

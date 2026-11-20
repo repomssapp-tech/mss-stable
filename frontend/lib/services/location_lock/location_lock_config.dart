@@ -5,6 +5,8 @@
 /// `--dart-define=MSS_CHANNEL=dev --dart-define=MSS_LOCATION_LOCK=true`.
 library;
 
+import '../../config/edition.dart';
+
 /// `dev` for the separate testing build, `prod` otherwise.
 const String kAppChannel = String.fromEnvironment(
   'MSS_CHANNEL',
@@ -16,7 +18,9 @@ const String kAppChannel = String.fromEnvironment(
 const bool kIsDevChannel = kAppChannel == 'dev';
 
 /// Whether the app is locked to the state the phone's GPS is in.
-const bool kLocationLockEnabled = bool.fromEnvironment(
-  'MSS_LOCATION_LOCK',
-  defaultValue: false,
-);
+///
+/// A state edition (Tamil Nadu, Maharashtra) is already tied to its state,
+/// so it never runs the GPS lock, even in its dev build.
+const bool kLocationLockEnabled =
+    bool.fromEnvironment('MSS_LOCATION_LOCK', defaultValue: false) &&
+    !kEditionHasState;

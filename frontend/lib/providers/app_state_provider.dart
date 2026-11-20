@@ -50,6 +50,7 @@ import '../services/account/onboarding_api_service.dart'
 import '../services/account/profile_api_service.dart';
 import '../services/account/rest_auth_service.dart';
 import '../services/account/token_storage.dart';
+import '../config/edition.dart';
 import '../services/location_lock/location_lock.dart';
 
 bool _runningUnderTest() {
@@ -165,7 +166,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   bool _isGuest = false;
   bool _isLoggingOut = false;
   String _mobileNumber = '';
-  String _selectedLanguageValue = 'en';
+  String _selectedLanguageValue = kEdition.defaultLanguage;
   String get _selectedLanguage => _selectedLanguageValue;
   // Every language change also tells CentralizedTranslator which language the
   // static UI text (localize()/localizeTag()) should be shown in.
@@ -336,6 +337,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       debugPrint('[AppProvider] Guest answers upload deferred: $e');
     }
   }
+
   bool get isLoggingOut => _isLoggingOut;
   String get mobileNumber => _mobileNumber;
   String get selectedLanguage => _selectedLanguage;
@@ -492,7 +494,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   Future<void> _loadState() async {
     try {
       _selectedLanguage =
-          await SessionCacheService.instance.getLanguage() ?? 'en';
+          await SessionCacheService.instance.getLanguage() ??
+          kEdition.defaultLanguage;
       // Started now (it overlaps the other hydration) but awaited before the
       // first scheme load below, so a cold start in Hindi/Tamil adapts the
       // catalog with the pack already indexed instead of showing English.
@@ -975,7 +978,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     _isLoggedIn = false;
     _isGuest = false;
     _mobileNumber = '';
-    _selectedLanguage = 'en';
+    _selectedLanguage = kEdition.defaultLanguage;
     _languageReconciler.reset();
     _navigationMode = 'regular';
     _navigationModeReconciler.reset();
