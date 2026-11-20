@@ -5,12 +5,12 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/login_screen.dart';
+import 'package:frontend/services/account/onboarding_api_service.dart'
+    show LegalConsentStore;
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/screens/profile/guest_profile_view.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/regular_mode/home/guest_state_schemes.dart';
-import 'package:frontend/screens/regular_mode/home/home_recommended_section.dart';
-import 'package:frontend/screens/regular_mode/home/home_header_section.dart';
 import 'package:frontend/screens/regular_mode/home_screen.dart';
 import 'package:frontend/screens/splash_screen.dart';
 import 'package:frontend/services/account/session_cache_service.dart';
@@ -184,6 +184,53 @@ void main() {
       expect(guest, findsOneWidget);
       expect(find.text('Continue as guest'), findsOneWidget);
       expect(tester.widget<TextButton>(guest).onPressed, isNull);
+    });
+  });
+
+  group('login consent from guest mode', () {
+    Future<OutlinedButton> googleButton(
+      WidgetTester tester,
+      AppProvider provider,
+    ) async {
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const LoginScreen(),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      return tester.widget<OutlinedButton>(find.byType(OutlinedButton));
+    }
+
+    testWidgets('a guest who agreed is not asked to agree again', (
+      tester,
+    ) async {
+      final provider = AppProvider();
+      await LegalConsentStore.markLoginAgreement();
+      await provider.continueAsGuest();
+
+      final google = await googleButton(tester, provider);
+
+      expect(google.onPressed, isNotNull);
+      expect(
+        find.text(
+          'Please review the Terms of Use and Privacy Policy before continuing.',
+        ),
+        findsNothing,
+      );
+    });
+
+    testWidgets('a signed-out user must agree again', (tester) async {
+      final provider = AppProvider();
+      await LegalConsentStore.markLoginAgreement();
+
+      final google = await googleButton(tester, provider);
+
+      expect(google.onPressed, isNull);
     });
   });
 

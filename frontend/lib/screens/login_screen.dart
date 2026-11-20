@@ -42,6 +42,21 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     SignInProgress.instance.phase.addListener(_onSignInPhase);
+    _restoreGuestAgreement();
+  }
+
+  /// A guest already read and accepted the Terms and Privacy Policy to enter
+  /// guest mode, so signing in from guest mode starts with both ticked. After
+  /// a sign-out the agreement is cleared and the user agrees again.
+  Future<void> _restoreGuestAgreement() async {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    if (!provider.isGuest) return;
+    if (!await LegalConsentStore.hasLoginAgreement()) return;
+    if (!mounted) return;
+    setState(() {
+      _hasViewedTerms = true;
+      _hasViewedPrivacy = true;
+    });
   }
 
   @override
