@@ -7,7 +7,6 @@ import '../providers/app_state_provider.dart';
 import '../l10n/l10n.dart';
 import '../widgets/common/app_icon_button.dart';
 import '../widgets/common/app_toast.dart';
-import '../widgets/legal/legal_consent_section.dart';
 import '../widgets/legal/legal_document_modal.dart';
 import '../main.dart' show MainTabsContainer;
 import 'navigation_mode_screen.dart';
@@ -209,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                       // Subtitle
                                       Text(
-                                        context.l10n.loginSubtitle,
+                                        context.l10n.loginSubtitleShort,
                                         textAlign: TextAlign.center,
                                         style: context.text.bodySmall.copyWith(
                                           color: AppColors.textMuted,
@@ -399,29 +398,21 @@ class _LoginScreenState extends State<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(
-          context.l10n.continueSecurely,
-          textAlign: TextAlign.center,
-          style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),
-        ),
-        const SizedBox(height: AppSpacing.xs),
-        Text(
-          context.l10n.googleAccountContinue,
-          textAlign: TextAlign.center,
-          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
-        ),
-        const SizedBox(height: AppSpacing.md),
-
-        // Legal & Privacy Consent Section
-        LegalConsentSection(
-          onOpenTerms: _openTermsModal,
-          onOpenPrivacy: _openPrivacyModal,
-        ),
-
-        const SizedBox(height: AppSpacing.sm),
-
-        // Gate checklist: ticks each document once it was read and accepted
-        // and stays visible, so the user sees both are done.
+        // What to do first, at the top of the card, until both are read.
+        if (!isLoginEnabled) ...[
+          Text(
+            context.l10n.loginReviewTermsNotice,
+            textAlign: TextAlign.center,
+            style: context.text.bodySmall.copyWith(
+              color: AppColors.warningText,
+            ),
+          ),
+          const SizedBox(height: AppSpacing.sm),
+        ],
+        // Gate checklist: each row opens its document, which is read to the
+        // end and accepted there; the row then ticks and stays visible. It is
+        // the only consent text on the screen (a separate "I have read and
+        // agree" sentence repeated it).
         _SignInChecklist(
           hasViewedTerms: _hasViewedTerms,
           hasViewedPrivacy: _hasViewedPrivacy,
@@ -522,23 +513,7 @@ class _LoginScreenState extends State<LoginScreen> {
           textAlign: TextAlign.center,
           style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
-        if (!isLoginEnabled) ...[
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            context.l10n.loginReviewTermsNotice,
-            textAlign: TextAlign.center,
-            style: context.text.bodySmall.copyWith(
-              color: AppColors.warningText,
-            ),
-          ),
-        ],
-        const SizedBox(height: AppSpacing.md),
-        Text(
-          context.l10n.secureBrowserAuth,
-          textAlign: TextAlign.center,
-          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
-        ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: AppSpacing.lg),
         const CopyrightNotice.line(),
       ],
     );

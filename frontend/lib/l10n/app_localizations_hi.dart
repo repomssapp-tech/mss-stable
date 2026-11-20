@@ -6317,11 +6317,10 @@ class AppLocalizationsHi extends AppLocalizations {
   String get guestGreetingName => 'स्वागत है!';
 
   @override
-  String get loginGuestHint => 'अभी योजनाएँ देखें, खाते की ज़रूरत नहीं';
+  String get loginGuestHint => 'खाते की ज़रूरत नहीं';
 
   @override
-  String get loginGoogleHint =>
-      'योजनाएँ सहेजें, अलर्ट पाएँ और सारथी से बात करें';
+  String get loginGoogleHint => 'योजनाएँ सहेजें, अलर्ट और सारथी चैट';
 
   @override
   String get loginBackToGuest => 'मेहमान के रूप में ब्राउज़िंग पर वापस';
@@ -6346,4 +6345,8 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get saarthiTourHistoryBody =>
       'अपनी पिछली बातचीत यहाँ ढूँढें और जारी रखें।';
+
+  @override
+  String get loginSubtitleShort =>
+      'वे सरकारी योजनाएँ खोजें जिनका आप लाभ ले सकते हैं';
 }

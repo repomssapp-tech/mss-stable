@@ -6406,12 +6406,11 @@ class AppLocalizationsTa extends AppLocalizations {
   String get guestGreetingName => 'வரவேற்கிறோம்!';
 
   @override
-  String get loginGuestHint =>
-      'இப்போதே திட்டங்களைப் பாருங்கள், கணக்கு தேவையில்லை';
+  String get loginGuestHint => 'கணக்கு தேவையில்லை';
 
   @override
   String get loginGoogleHint =>
-      'திட்டங்களைச் சேமி, அறிவிப்புகள் பெறு, சாரதியுடன் உரையாடு';
+      'திட்டங்கள் சேமிப்பு, அறிவிப்புகள், சாரதி உரையாடல்';
 
   @override
   String get loginBackToGuest => 'விருந்தினராக உலாவுவதற்குத் திரும்பு';
@@ -6436,4 +6435,8 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get saarthiTourHistoryBody =>
       'உங்கள் முந்தைய உரையாடல்களை இங்கே கண்டு தொடருங்கள்.';
+
+  @override
+  String get loginSubtitleShort =>
+      'நீங்கள் பெறக்கூடிய அரசுத் திட்டங்களைக் கண்டறியுங்கள்';
 }

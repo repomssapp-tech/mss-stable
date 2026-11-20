@@ -6301,11 +6301,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get guestGreetingName => 'Welcome!';
 
   @override
-  String get loginGuestHint => 'Browse schemes now, no account needed';
+  String get loginGuestHint => 'No account needed';
 
   @override
-  String get loginGoogleHint =>
-      'Save schemes, get alerts and chat with Saarthi';
+  String get loginGoogleHint => 'Save schemes, alerts and Saarthi chat';
 
   @override
   String get loginBackToGuest => 'Back to browsing as a guest';
@@ -6330,4 +6329,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get saarthiTourHistoryBody =>
       'Find and continue your earlier conversations here.';
+
+  @override
+  String get loginSubtitleShort => 'Find government schemes you can claim';
 }

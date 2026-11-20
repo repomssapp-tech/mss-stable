@@ -11518,13 +11518,13 @@ abstract class AppLocalizations {
   /// No description provided for @loginGuestHint.
   ///
   /// In en, this message translates to:
-  /// **'Browse schemes now, no account needed'**
+  /// **'No account needed'**
   String get loginGuestHint;
 
   /// No description provided for @loginGoogleHint.
   ///
   /// In en, this message translates to:
-  /// **'Save schemes, get alerts and chat with Saarthi'**
+  /// **'Save schemes, alerts and Saarthi chat'**
   String get loginGoogleHint;
 
   /// No description provided for @loginBackToGuest.
@@ -11568,6 +11568,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Find and continue your earlier conversations here.'**
   String get saarthiTourHistoryBody;
+
+  /// No description provided for @loginSubtitleShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Find government schemes you can claim'**
+  String get loginSubtitleShort;
 }
 
 class _AppLocalizationsDelegate

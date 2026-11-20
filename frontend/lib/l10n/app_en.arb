@@ -2139,13 +2139,14 @@
   "guestSignInForMeBody": "Schemes are matched to your profile once you sign in.",
   "guestSignInKeptNote": "What you did on this phone moves to your account.",
   "guestGreetingName": "Welcome!",
-  "loginGuestHint": "Browse schemes now, no account needed",
-  "loginGoogleHint": "Save schemes, get alerts and chat with Saarthi",
+  "loginGuestHint": "No account needed",
+  "loginGoogleHint": "Save schemes, alerts and Saarthi chat",
   "loginBackToGuest": "Back to browsing as a guest",
   "saarthiTourSpeakTitle": "Talk to Saarthi",
   "saarthiTourSpeakBody": "Tap the mic and ask about schemes, eligibility or documents in your language.",
   "saarthiTourTypeTitle": "Or type",
   "saarthiTourTypeBody": "Prefer typing? Tap the keyboard to write your question.",
   "saarthiTourHistoryTitle": "Past chats",
-  "saarthiTourHistoryBody": "Find and continue your earlier conversations here."
+  "saarthiTourHistoryBody": "Find and continue your earlier conversations here.",
+  "loginSubtitleShort": "Find government schemes you can claim"
 }
