@@ -11454,6 +11454,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in to save schemes and find them here on any phone.'**
   String get guestSavedSignInDesc;
+
+  /// Title of the blocking screen that asks for precise GPS location (dev build location lock).
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your location'**
+  String get locationGateTitle;
+
+  /// No description provided for @locationGateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS shows central schemes and the schemes of the state you are in. Your phone\'s GPS tells us which state that is.'**
+  String get locationGateBody;
+
+  /// No description provided for @locationGateAllow.
+  ///
+  /// In en, this message translates to:
+  /// **'Allow precise location'**
+  String get locationGateAllow;
+
+  /// No description provided for @locationGateChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Checking your location…'**
+  String get locationGateChecking;
+
+  /// No description provided for @locationGateRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get locationGateRetry;
+
+  /// No description provided for @locationGateOpenSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Open settings'**
+  String get locationGateOpenSettings;
+
+  /// No description provided for @locationErrServiceOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Location (GPS) is off. Turn it on, then try again.'**
+  String get locationErrServiceOff;
+
+  /// No description provided for @locationErrPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS needs your location to show the schemes of your state.'**
+  String get locationErrPermission;
+
+  /// No description provided for @locationErrPermissionForever.
+  ///
+  /// In en, this message translates to:
+  /// **'Location is blocked for MSS. In Settings, open Permissions > Location and choose \"Allow\" with \"Use precise location\" on.'**
+  String get locationErrPermissionForever;
+
+  /// No description provided for @locationErrApproximate.
+  ///
+  /// In en, this message translates to:
+  /// **'Only approximate location is allowed. Turn on \"Use precise location\" for MSS so it can tell which state you are in.'**
+  String get locationErrApproximate;
+
+  /// No description provided for @locationErrMock.
+  ///
+  /// In en, this message translates to:
+  /// **'A fake-location app is in use. Turn it off (Developer options > Select mock location app > None), then try again.'**
+  String get locationErrMock;
+
+  /// No description provided for @locationErrVpn.
+  ///
+  /// In en, this message translates to:
+  /// **'A VPN is on. Turn off the VPN, then try again.'**
+  String get locationErrVpn;
+
+  /// No description provided for @locationErrJump.
+  ///
+  /// In en, this message translates to:
+  /// **'Your location changed faster than is possible. Turn off any app that changes your location, then try again.'**
+  String get locationErrJump;
+
+  /// No description provided for @locationErrWeakSignal.
+  ///
+  /// In en, this message translates to:
+  /// **'The GPS signal is too weak. Go near a window or outdoors, then try again.'**
+  String get locationErrWeakSignal;
+
+  /// No description provided for @locationErrOutsideIndia.
+  ///
+  /// In en, this message translates to:
+  /// **'MSS works only inside India.'**
+  String get locationErrOutsideIndia;
+
+  /// No description provided for @locationErrLookup.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not find your state. Connect to the internet, then try again.'**
+  String get locationErrLookup;
+
+  /// No description provided for @locationStateLocked.
+  ///
+  /// In en, this message translates to:
+  /// **'Set from your GPS location. It cannot be changed.'**
+  String get locationStateLocked;
+
+  /// No description provided for @locationDevBuildBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Test build'**
+  String get locationDevBuildBadge;
 }
 
 class _AppLocalizationsDelegate

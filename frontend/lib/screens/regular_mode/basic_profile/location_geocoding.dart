@@ -6,6 +6,7 @@ import '../../../l10n/l10n.dart';
 import '../../../services/recommendation/indian_states.dart';
 import '../../../utils/permission_helper.dart';
 import '../../../widgets/common/app_toast.dart';
+import '../../../services/location_lock/location_lock.dart';
 
 // Open Location Code ("plus code"), e.g. `22QV+VVC` or `7JWV22QV+VVC`: the
 // geocoder returns one instead of a street name for places without one.
@@ -115,6 +116,9 @@ Future<void> fetchAndGeocodeLocation({
       final postal = (place.postalCode ?? '').replaceAll(RegExp(r'\D'), '');
       if (postal.length == 6) pincodeController.text = postal;
     }
+    // Location lock: the address may change, the state never does.
+    final locked = LocationScope.stateName;
+    if (locked != null) stateController.text = locked;
   } catch (e) {
     if (isMounted()) {
       // ignore: use_build_context_synchronously

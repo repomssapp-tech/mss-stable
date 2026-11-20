@@ -13,6 +13,11 @@ val hasReleaseSigning = requiredReleaseSigningFields.all { field ->
     !releaseKeystoreProperties.getProperty(field).isNullOrBlank()
 }
 
+// The separate dev/test build (MSS_CHANNEL=dev, set by build-app.yml's
+// channel input) installs beside the real app as com.inschemes.app.dev,
+// named "MSS Dev", so it can never replace or update the production app.
+val mssDevBuild = System.getenv("MSS_CHANNEL") == "dev"
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -36,7 +41,8 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.inschemes.app"
+        applicationId = if (mssDevBuild) "com.inschemes.app.dev" else "com.inschemes.app"
+        manifestPlaceholders["appLabel"] = if (mssDevBuild) "MSS Dev" else "MSS"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // The on-device llama.cpp bridge requires API 26. This still covers

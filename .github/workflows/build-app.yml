@@ -42,6 +42,15 @@ on:
         description: "Verify + build, but do not treat the output as a promotable release."
         type: boolean
         default: true
+      channel:
+        description: >-
+          prod = the real app (com.inschemes.app; publishes from main as a user
+          update). dev = the separate test app (com.inschemes.app.dev, "MSS
+          Dev", GPS location lock on), published as a pre-release the in-app
+          updater never offers.
+        type: choice
+        options: [prod, dev]
+        default: prod
 
 permissions:
   contents: read
@@ -68,7 +77,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          flutter-version: ${{ vars.FLUTTER_VERSION || '3.47.5' }}
           cache: true
 
       - name: Resolve dependencies
@@ -87,6 +96,11 @@ jobs:
     outputs:
       version: ${{ steps.version.outputs.name }}
       signed: ${{ steps.signing.outputs.signed }}
+      dev_tag: ${{ steps.dev_draft.outputs.tag }}
+    env:
+      # Read by android/app/build.gradle.kts: the dev build gets its own
+      # applicationId and name.
+      MSS_CHANNEL: ${{ github.event.inputs.channel || 'prod' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -114,7 +128,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          flutter-version: ${{ vars.FLUTTER_VERSION || '3.47.5' }}
           cache: true
 
       - name: Flutter / Dart versions
@@ -139,7 +153,9 @@ jobs:
           else
             dart run tool/app_version.dart check
           fi
-          if [ "${{ github.event.inputs.dry_run }}" = "false" ]; then
+          # The dev app has its own applicationId: it need not climb past the
+          # production release tags.
+          if [ "${{ github.event.inputs.dry_run }}" = "false" ] && [ "$MSS_CHANNEL" != "dev" ]; then
             git fetch --tags --depth=1 origin || true
             dart run tool/app_version.dart check --against-latest-tag app-v --require-increase
           fi
@@ -152,9 +168,23 @@ jobs:
           API_BASE_URL: ${{ secrets.API_BASE_URL }}
         run: |
           set -euo pipefail
+          lock=false
+          if [ "$MSS_CHANNEL" = "dev" ]; then lock=true; fi
           jq -n --arg url "${API_BASE_URL:-https://mssapi.msmeschemes.org}" \
-            '{API_BASE_URL: $url}' > dart_defines.json
+            --arg channel "$MSS_CHANNEL" --arg lock "$lock" \
+            '{API_BASE_URL: $url, MSS_CHANNEL: $channel, MSS_LOCATION_LOCK: $lock}' > dart_defines.json
           echo "present=true" >> "$GITHUB_OUTPUT"
+
+      # The Google services plugin needs a client entry for the dev
+      # applicationId. Same Firebase project: push notifications may not reach
+      # the dev app until com.inschemes.app.dev is registered there.
+      - name: Firebase config for the dev app
+        if: ${{ env.MSS_CHANNEL == 'dev' }}
+        run: |
+          set -euo pipefail
+          f=android/app/google-services.json
+          jq '.client += [.client[0] | .client_info.android_client_info.package_name = "com.inschemes.app.dev"]' "$f" > "$f.tmp"
+          mv "$f.tmp" "$f"
 
       - name: Configure release signing
         id: signing
@@ -196,8 +226,67 @@ jobs:
         if: ${{ always() }}
         run: rm -f android/key.properties android/app/upload-keystore.jks dart_defines.json
 
+      # The dev (test) app: verified, then uploaded to the public releases
+      # repo as a DRAFT pre-release. Drafts are invisible to users; the
+      # publish-dev job makes it a visible pre-release once tests pass. The
+      # in-app updater ignores pre-releases and any tag that is not
+      # app-v<version>+<build>, so no production phone is ever offered it.
+      - name: Stage the dev build as a draft pre-release
+        id: dev_draft
+        if: ${{ env.MSS_CHANNEL == 'dev' && github.event.inputs.dry_run == 'false' && steps.signing.outputs.signed == 'true' }}
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
+          RELEASES_REPO: nyxri0f8/MSS_App-releases
+          VERSION: ${{ steps.version.outputs.name }}
+        run: |
+          set -euo pipefail
+          if [ -z "${GH_TOKEN:-}" ]; then
+            echo "::error::RELEASES_REPO_TOKEN is not set: cannot publish the dev build."
+            exit 1
+          fi
+          name="${VERSION%%+*}"
+          build="${VERSION##*+}"
+          source_apk="build/app/outputs/flutter-apk/app-release.apk"
+          build_tools="$ANDROID_HOME/build-tools/36.0.0"
+          if [ ! -x "$build_tools/apksigner" ] || [ ! -x "$build_tools/aapt2" ]; then
+            sdkmanager 'build-tools;36.0.0'
+          fi
+          signature="$("$build_tools/apksigner" verify --print-certs "$source_apk")"
+          signer="$(printf '%s\n' "$signature" | awk -F ': ' '/^Signer #[0-9]+ certificate SHA-256 digest:/ { print tolower($2) }')"
+          if [ "$signer" != 'cc58f15af1edd4a4d2aa8d3109953fcfc1acf57843d195e0a7ec04a5de847af1' ]; then
+            echo "::error::APK signer does not match the expected release certificate."
+            exit 1
+          fi
+          "$build_tools/aapt2" dump badging "$source_apk" |
+            grep -F "package: name='com.inschemes.app.dev' versionCode='$build' versionName='$name'"
+          tag="dev-v${VERSION}-run${GITHUB_RUN_NUMBER}"
+          apk="mss-dev-${name}-build${build}-run${GITHUB_RUN_NUMBER}.apk"
+          cp "$source_apk" "$apk"
+          {
+            echo "TEST BUILD - not for production use. Do not share with users."
+            echo
+            echo "Installs as a separate app (\"MSS Dev\", com.inschemes.app.dev) next to the real MSS app and never replaces or updates it. The real app is never offered this build."
+            echo
+            awk -v head="## [${VERSION}]" '
+              index($0, head) == 1 { f = 1; next }
+              /^## \[/ { f = 0 }
+              f
+            ' ../CHANGELOG.md
+            echo
+            echo "Built by GitHub Actions run ${GITHUB_RUN_ID} from ${GITHUB_SHA::7} (${GITHUB_REF_NAME})."
+          } > dev_notes.md
+          gh release create "$tag" "$apk" \
+            --repo "$RELEASES_REPO" \
+            --title "MSS Dev ${name} (test build ${build}, run ${GITHUB_RUN_NUMBER})" \
+            --notes-file dev_notes.md \
+            --draft --prerelease
+          rm -f dev_notes.md "$apk"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      # Dev builds go to a draft release instead (see "Stage the dev build"),
+      # so they do not need the account's artifact storage.
       - name: Upload APK
-        if: ${{ steps.dart_defines.outputs.present == 'true' }}
+        if: ${{ steps.dart_defines.outputs.present == 'true' && env.MSS_CHANNEL != 'dev' }}
         uses: actions/upload-artifact@v4
         with:
           name: app-apk-${{ steps.version.outputs.name }}-${{ github.sha }}
@@ -207,6 +296,7 @@ jobs:
 
       - name: Upload Dart debug symbols
         if: ${{ steps.dart_defines.outputs.present == 'true' && steps.signing.outputs.signed == 'true' }}
+        continue-on-error: ${{ env.MSS_CHANNEL == 'dev' }}
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-symbols-${{ steps.version.outputs.name }}-${{ github.sha }}
@@ -216,6 +306,8 @@ jobs:
 
 
   web:
+    # The dev build is Android only (and must not need artifact storage).
+    if: ${{ github.event.inputs.channel != 'dev' }}
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -224,7 +316,7 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
-          flutter-version: ${{ vars.FLUTTER_VERSION }}
+          flutter-version: ${{ vars.FLUTTER_VERSION || '3.47.5' }}
           cache: true
 
       - name: Resolve dependencies
@@ -255,7 +347,7 @@ jobs:
   promotable:
     needs: [verify, build, web]
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' && 'production' || '' }}
+    environment: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' && github.event.inputs.channel != 'dev' && 'production' || '' }}
     # Publication uses the repository changelog and the verified build artifact.
     defaults:
       run:
@@ -270,16 +362,16 @@ jobs:
           fi
 
       - uses: actions/checkout@v4
-        if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' }}
+        if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' && github.event.inputs.channel != 'dev' }}
 
       - uses: actions/download-artifact@v4
-        if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' }}
+        if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' && github.event.inputs.channel != 'dev' }}
         with:
           name: app-apk-${{ needs.build.outputs.version }}-${{ github.sha }}
           path: release-apk
 
       - uses: actions/setup-java@v4
-        if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' }}
+        if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' && github.event.inputs.channel != 'dev' }}
         with:
           distribution: temurin
           java-version: "21"
@@ -291,7 +383,7 @@ jobs:
       # RELEASES_REPO_TOKEN secret: a fine-grained token with Contents
       # read/write on that one repo. Without it the step says so and skips.
       - name: Publish the update to the public releases repo
-        if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' }}
+        if: ${{ github.event.inputs.dry_run == 'false' && needs.build.outputs.signed == 'true' && github.ref == 'refs/heads/main' && github.event.inputs.channel != 'dev' }}
         env:
           GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
           RELEASES_REPO: nyxri0f8/MSS_App-releases
@@ -348,3 +440,24 @@ jobs:
             --title "MSS app v${short}" \
             --notes-file notes.md
           rm -f notes.md notes_body.md
+
+  # Dev channel: the staged draft becomes a visible pre-release only after
+  # analyze + test passed. A failed run leaves an invisible draft behind.
+  publish-dev:
+    needs: [verify, build]
+    if: ${{ github.event.inputs.channel == 'dev' && github.event.inputs.dry_run == 'false' && needs.build.outputs.dev_tag != '' }}
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Publish the dev pre-release
+        env:
+          GH_TOKEN: ${{ secrets.RELEASES_REPO_TOKEN }}
+          RELEASES_REPO: nyxri0f8/MSS_App-releases
+          TAG: ${{ needs.build.outputs.dev_tag }}
+        run: |
+          set -euo pipefail
+          gh release edit "$TAG" --repo "$RELEASES_REPO" --draft=false --prerelease --latest=false
+          gh release view "$TAG" --repo "$RELEASES_REPO" --json url,isPrerelease,isDraft

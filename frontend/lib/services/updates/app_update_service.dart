@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../utils/app_version.dart';
 import '../app_info_service.dart';
 import 'app_release.dart';
+import '../location_lock/location_lock_config.dart';
 
 /// Whether a newer app build has been published in the public releases repo.
 ///
@@ -64,6 +65,9 @@ class AppUpdateService {
   /// check failed). [onStart] checks regardless of the last check's time; a
   /// check on resume is skipped within [resumeGap] of the last one.
   Future<AppRelease?> check({bool onStart = false}) async {
+    // The dev/test build is a separate app (com.inschemes.app.dev): it is
+    // never offered production builds.
+    if (kIsDevChannel) return null;
     try {
       final installed = await _installedVersion();
       if (installed == null) return null;

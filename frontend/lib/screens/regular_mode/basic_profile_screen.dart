@@ -21,6 +21,7 @@ import 'basic_profile/step2_location_form.dart';
 import 'basic_profile/step3_about_you_form.dart';
 import 'basic_profile/step4_eligibility_form.dart';
 import '../../widgets/common/app_icon_button.dart';
+import '../../services/location_lock/location_lock.dart';
 
 export 'basic_profile/custom_input_field.dart';
 export 'basic_profile/role_model.dart';
@@ -132,6 +133,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     _districtController = TextEditingController(text: initialDistrict);
     _stateController = TextEditingController(text: profile.state);
     _pincodeController = TextEditingController(text: profile.pinCode);
+    _fillFromLocationLock();
 
     // 3. Initialize Step 3 role. Saved answers prefill steps 3-4 even while
     // the server has not marked the profile complete; otherwise a re-run of
@@ -249,6 +251,22 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
   static String? _roleIdFromEmploymentStatus(String status) =>
       Step3AboutYouForm.roleIdFromEmploymentStatus(status);
+
+  /// Location lock: the GPS address fills any empty address field, and the
+  /// state is always the GPS state. Filled fields keep what the user typed.
+  void _fillFromLocationLock() {
+    final lock = LocationScope.active ? LocationScope.current.value : null;
+    if (lock == null) return;
+    void fill(TextEditingController c, String value) {
+      if (c.text.trim().isEmpty && value.trim().isNotEmpty) c.text = value;
+    }
+
+    fill(_addressController, lock.address);
+    fill(_cityController, lock.city);
+    fill(_districtController, lock.district);
+    fill(_pincodeController, lock.pincode);
+    _stateController.text = lock.stateName;
+  }
 
   // Geocoding live fetch for Step 2 -- see basic_profile/location_geocoding.dart
   Future<void> _fetchAndGeocodeLocation() => fetchAndGeocodeLocation(
