@@ -76,7 +76,7 @@ void main() {
 
       expect(find.text('Loading...'), findsOneWidget);
       expect(
-        find.text('Please wait while we prepare\nsomething amazing for you'),
+        find.text('Getting schemes ready'),
         findsOneWidget,
       );
       expect(find.text('ஏற்றுகிறது...'), findsNothing);

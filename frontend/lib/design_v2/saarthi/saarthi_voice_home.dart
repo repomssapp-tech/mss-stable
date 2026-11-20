@@ -104,7 +104,7 @@ class SaarthiVoiceHome extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: HighlightText(
-                      '$greeting [$userName!]',
+                      '$greeting [$userName]',
                       textAlign: TextAlign.center,
                       highlight: pop(
                         28,

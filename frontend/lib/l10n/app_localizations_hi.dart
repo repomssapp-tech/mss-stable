@@ -45,8 +45,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get exportSupport => 'निर्यात समर्थन';
 
   @override
-  String get exportModuleDescription =>
-      'वैश्विक व्यापार तत्परता एवं निर्यात प्रोत्साहन';
+  String get exportModuleDescription => 'निर्यात सहायता और प्रोत्साहन';
 
   @override
   String get growBusiness => 'व्यवसाय बढ़ाएँ';
@@ -55,8 +54,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get registerUdyam => 'उद्यम पंजीकृत करें';
 
   @override
-  String get udyamModuleDescription =>
-      'आधिकारिक एमएसएमई पंजीकरण गाइड और सीधा पोर्टल लिंक';
+  String get udyamModuleDescription => 'उद्यम पर पंजीकरण कैसे करें';
 
   @override
   String get findFunding => 'फंडिंग ढूंढें';
@@ -668,7 +666,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get accountRestoredToast =>
-      'फिर से स्वागत है! आपका खाता फिर से चालू है।';
+      'फिर से स्वागत है। आपका खाता फिर से चालू है।';
 
   @override
   String get accountRestoreFailed =>
@@ -1109,25 +1107,25 @@ class AppLocalizationsHi extends AppLocalizations {
   String get navChipFastSimple => 'तेज़ और सरल';
 
   @override
-  String get navChipTraditionalUi => 'पारंपरिक यूआई';
+  String get navChipTraditionalUi => 'मेनू और खोज';
 
   @override
   String get navChipSelfPaced => 'स्व-गति से ब्राउज़िंग';
 
   @override
-  String get navChipAiAnytime => 'एआई किसी भी समय उपलब्ध है';
+  String get navChipAiAnytime => 'मदद चाहिए तो सारथी से पूछें';
 
   @override
   String get navChipVoiceFirst => 'आवाज़ आधारित अनुभव';
 
   @override
-  String get navChipPersonalized => 'वैयक्तिकृत मार्गदर्शन';
+  String get navChipPersonalized => 'कदम-दर-कदम मदद';
 
   @override
-  String get navChipSmartRecs => 'स्मार्ट सिफ़ारिशें';
+  String get navChipSmartRecs => 'आपसे मेल खाती योजनाएँ';
 
   @override
-  String get navChipExplainsScreens => 'हर स्क्रीन को समझाता है';
+  String get navChipExplainsScreens => 'आपके सवालों के जवाब देता है';
 
   @override
   String get filterTitle => 'फ़िल्टर';
@@ -2477,7 +2475,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeFundingDescription =>
-      'ऋण सहायता, बिना गारंटी व्यावसायिक ऋण और सिडबी कार्यक्रमों के लिए हमारे डेटाबेस में तुरंत खोजें।';
+      'ऋण, क्रेडिट गारंटी और सिडबी कार्यक्रम खोजें';
 
   @override
   String get msmeFundingHeading => 'फंडिंग विकल्प खोजें';
@@ -2556,7 +2554,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeValueUdyam =>
-      'प्राथमिकता क्षेत्र के बैंक ऋण, 15% पूंजी सब्सिडी, बिना गारंटी ऋण (सीजीटीएमएसई) और सरकारी निविदा छूट पाने के लिए आधिकारिक एमएसएमई उद्यम पंजीकरण निःशुल्क पूरा करें।';
+      'उद्यम पंजीकरण निःशुल्क है। अधिकांश एमएसएमई योजनाएँ, प्राथमिकता क्षेत्र के बैंक ऋण और बिना गारंटी ऋण (सीजीटीएमएसई) आपका उद्यम नंबर माँगते हैं।';
 
   @override
   String get msmeWhatTheUserGets => 'उपयोगकर्ता को क्या मिलता है';
@@ -2566,7 +2564,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeInteractiveToolsDesc =>
-      'स्मार्ट मिलान परिणाम प्राप्त करने के लिए खोज इंजन के साथ अपनी प्रोफ़ाइल पूरी करें या योजनाओं का पता लगाएं।';
+      'अपनी प्रोफ़ाइल पूरी करें या योजनाएँ खोजें, ताकि आपसे मेल खाती योजनाएँ दिखें।';
 
   @override
   String get msmeSearchSchemes => 'योजनाएं खोजें';
@@ -3603,8 +3601,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get goodEvening => 'शुभ संध्या,';
 
   @override
-  String get splashPreparingSubtitle =>
-      'कृपया प्रतीक्षा करें, हम आपके लिए\nकुछ खास तैयार कर रहे हैं';
+  String get splashPreparingSubtitle => 'योजनाएँ तैयार हो रही हैं';
 
   @override
   String get splashNoInternetTitle => 'कोई इंटरनेट कनेक्शन नहीं';
@@ -3773,7 +3770,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helpCatFeatureRequest => 'सुविधा का अनुरोध';
 
   @override
-  String get helpTicketSubmitted => 'धन्यवाद! आपका टिकट जमा कर दिया गया है.';
+  String get helpTicketSubmitted => 'धन्यवाद। आपका टिकट जमा कर दिया गया है।';
 
   @override
   String get helpTicketSubmitFailed =>
@@ -3787,7 +3784,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get helpFeedbackBody =>
-      'हम आपकी प्रतिक्रिया को महत्व देते हैं। हमें बताएं कि हम आपके अनुभव को कैसे बेहतर बना सकते हैं!';
+      'हमें बताएँ कि ऐप आपके लिए और बेहतर कैसे हो सकता है।';
 
   @override
   String get helpRateExperience => 'अपने अनुभव को रेट करें';
@@ -3802,7 +3799,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'जैसे mssschemessearch@gmail.com से फ़ॉलो-अप के लिए yourname@gmail.com';
 
   @override
-  String get helpFeedbackThanks => 'आपके बहुमूल्य फीडबैक के लिए शुक्रिया!';
+  String get helpFeedbackThanks => 'आपकी प्रतिक्रिया के लिए धन्यवाद';
 
   @override
   String get helpFeedbackSubmitFailed =>
@@ -3868,7 +3865,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get helpEmailUs => 'हमें ईमेल करें';
 
   @override
-  String get helpSupportEmailCopied => 'सहायता ईमेल क्लिपबोर्ड पर कॉपी हो गया!';
+  String get helpSupportEmailCopied => 'सहायता ईमेल कॉपी हो गया';
 
   @override
   String get helpReplyWindow => 'हम आम तौर पर 24 घंटे के भीतर जवाब देते हैं';
@@ -4243,11 +4240,11 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get msmeUdyamStep4Desc =>
-      'सारांश देखें और अंतिम ओटीपी सबमिट करें। एक अद्वितीय 16-अंकीय उद्यम पंजीकरण संख्या (यूआरएन) और क्यूआर कोड वाला ई-प्रमाणपत्र बिना किसी पंजीकरण शुल्क के तुरंत जारी होता है।';
+      'सारांश देखें और अंतिम ओटीपी सबमिट करें। आपको 16-अंकीय उद्यम पंजीकरण संख्या (यूआरएन) और क्यूआर कोड वाला ई-प्रमाणपत्र मिलता है। कोई पंजीकरण शुल्क नहीं है।';
 
   @override
   String get msmeUdyamStep4Action =>
-      'अंतिम ओटीपी जमा करना; तत्काल ई-प्रमाणपत्र डाउनलोड करें।';
+      'अंतिम ओटीपी जमा करें और ई-प्रमाणपत्र डाउनलोड करें';
 
   @override
   String voiceRelevanceMatch(Object confidence) {
@@ -5895,7 +5892,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String onbP1Badge(int count) {
-    return '$count+ सत्यापित योजनाएँ';
+    return '$count+ योजनाएँ';
   }
 
   @override
@@ -5911,7 +5908,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onbChipSubsidy => 'सब्सिडी';
 
   @override
-  String get onbP2Title => 'बहुत सारी योजनाएँ।\n[एक आसान समाधान।]';
+  String get onbP2Title => 'सभी सरकारी योजनाएँ\n[एक ही जगह]';
 
   @override
   String get onbP2Body =>
@@ -5957,7 +5954,7 @@ class AppLocalizationsHi extends AppLocalizations {
   String get onbP3Occupation => 'व्यवसाय';
 
   @override
-  String get onbP3Footer => 'कोई अंदाज़ा नहीं। बस साफ़ जवाब।';
+  String get onbP3Footer => 'देखें कि हर योजना आपके लिए क्यों सही है';
 
   @override
   String get onbP4Title => 'बस [सारथी] से पूछें';
@@ -6112,7 +6109,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String sv2RoomHello(String name) {
-    return 'नमस्ते $name! आज आपको किस चीज़ में मदद चाहिए?';
+    return 'नमस्ते $name। आज आपको किस चीज़ में मदद चाहिए?';
   }
 
   @override
@@ -6314,7 +6311,7 @@ class AppLocalizationsHi extends AppLocalizations {
       'इस फ़ोन पर आपने जो किया, वह आपके खाते में चला जाएगा।';
 
   @override
-  String get guestGreetingName => 'स्वागत है!';
+  String get guestGreetingName => 'स्वागत है';
 
   @override
   String get loginGuestHint => 'खाते की ज़रूरत नहीं';
