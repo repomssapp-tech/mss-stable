@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
+import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:frontend/services/onboarding/home_tour_store.dart';
 import 'package:frontend/utils/app_theme.dart';
 import 'package:frontend/widgets/common/app_bottom_nav_bar.dart';
@@ -231,8 +232,20 @@ void main() {
     // "Logout, login" and "restart": the same account asks again.
     expect(await _start(tester), HomeTourStart.alreadyDone);
     expect(find.byType(SpotlightTour), findsNothing);
-    // Another account on the same phone is a new user.
-    expect(await _start(tester, user: 'u2'), HomeTourStart.started);
+    // The tour is once per phone: another account (or a guest who signs in)
+    // on the same phone does not see it again.
+    expect(await _start(tester, user: 'u2'), HomeTourStart.alreadyDone);
+  });
+
+  testWidgets('sign-out keeps the tour record (clearSession)', (tester) async {
+    await tester.pumpWidget(_page());
+    await _start(tester);
+    await tester.tap(find.text('Skip'));
+    await _settle(tester);
+
+    await SessionCacheService.instance.clearSession();
+
+    expect(await _start(tester), HomeTourStart.alreadyDone);
   });
 
   testWidgets('never two overlays at once', (tester) async {
@@ -242,14 +255,15 @@ void main() {
     expect(find.byType(SpotlightTour), findsOneWidget);
   });
 
-  testWidgets('nothing is shown without a signed-in account or before the '
-      'targets are on screen', (tester) async {
+  testWidgets('a guest (no account) sees it too; nothing before the targets '
+      'are on screen', (tester) async {
     await tester.pumpWidget(_page());
     final ctx = tester.element(find.byType(Scaffold).first);
     expect(
       await HomeTour.maybeStart(ctx, userId: ''),
-      HomeTourStart.notApplicable,
+      HomeTourStart.started,
     );
+    HomeTour.dismiss();
     // Targets missing: replace the page with an empty one.
     await tester.pumpWidget(const MaterialApp(home: Scaffold()));
     expect(

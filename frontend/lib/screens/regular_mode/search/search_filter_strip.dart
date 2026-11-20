@@ -117,6 +117,10 @@ class SearchFilterStrip extends StatelessWidget {
   /// profile a guest does not have.
   final bool showForMe;
 
+  /// A guest: For me stays visible with a lock (it needs an account
+  /// profile), and Best match is hidden.
+  final bool forMeLocked;
+
   const SearchFilterStrip({
     super.key,
     required this.facetCount,
@@ -126,6 +130,7 @@ class SearchFilterStrip extends StatelessWidget {
     required this.onToggleForMe,
     required this.onSortChanged,
     this.showForMe = true,
+    this.forMeLocked = false,
   });
 
   String _sortLabel(BuildContext context, String value) {
@@ -143,7 +148,11 @@ class SearchFilterStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final forMeIcon = Icon(
-      isForMeActive ? Icons.check_rounded : Icons.person_outline_rounded,
+      forMeLocked
+          ? Icons.lock_outline_rounded
+          : isForMeActive
+          ? Icons.check_rounded
+          : Icons.person_outline_rounded,
       size: AppSize.iconSm,
     );
     final forMeLabel = Text(context.l10n.forMe);
@@ -186,7 +195,7 @@ class SearchFilterStrip extends StatelessWidget {
           label: context.l10n.sortLabel,
           options: [
             'Relevance',
-            if (showForMe) 'Best match for me',
+            if (showForMe && !forMeLocked) 'Best match for me',
             'Scheme name (A-Z)',
           ],
           currentValue: sortBy,

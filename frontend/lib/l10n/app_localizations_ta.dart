@@ -6368,4 +6368,72 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get guestSavedSignInDesc =>
       'திட்டங்களைச் சேமித்து எந்தத் தொலைபேசியிலும் இங்கே பார்க்க உள்நுழையவும்.';
+
+  @override
+  String get guestSignInSaveTitle => 'திட்டங்களைச் சேமிக்க உள்நுழையவும்';
+
+  @override
+  String get guestSignInSaveBody =>
+      'சேமித்த திட்டங்கள் உங்கள் கணக்கில் இருக்கும்; எந்தத் தொலைபேசியில் உள்நுழைந்தாலும் கிடைக்கும்.';
+
+  @override
+  String get guestSignInAlertsTitle => 'திட்ட அறிவிப்புகளுக்கு உள்நுழையவும்';
+
+  @override
+  String get guestSignInAlertsBody =>
+      'உங்களுக்குப் பொருந்தும் புதிய திட்டங்கள், கடைசி தேதிகள் பற்றிய அறிவிப்புகளைப் பெறுங்கள்.';
+
+  @override
+  String get guestSignInSaarthiTitle => 'சாரதியுடன் உரையாட உள்நுழையவும்';
+
+  @override
+  String get guestSignInSaarthiBody =>
+      'உள்நுழைந்ததும் சாரதி உங்கள் கேள்விகளுக்குக் குரல் அல்லது எழுத்தில் பதில் தரும்.';
+
+  @override
+  String get guestSignInForMeTitle =>
+      'உங்களுக்கான திட்டங்களைப் பார்க்க உள்நுழையவும்';
+
+  @override
+  String get guestSignInForMeBody =>
+      'உள்நுழைந்ததும் திட்டங்கள் உங்கள் சுயவிவரத்துடன் பொருத்தப்படும்.';
+
+  @override
+  String get guestSignInKeptNote =>
+      'இந்தத் தொலைபேசியில் நீங்கள் செய்தவை உங்கள் கணக்கிற்கு மாற்றப்படும்.';
+
+  @override
+  String get guestGreetingName => 'வரவேற்கிறோம்!';
+
+  @override
+  String get loginGuestHint =>
+      'இப்போதே திட்டங்களைப் பாருங்கள், கணக்கு தேவையில்லை';
+
+  @override
+  String get loginGoogleHint =>
+      'திட்டங்களைச் சேமி, அறிவிப்புகள் பெறு, சாரதியுடன் உரையாடு';
+
+  @override
+  String get loginBackToGuest => 'விருந்தினராக உலாவுவதற்குத் திரும்பு';
+
+  @override
+  String get saarthiTourSpeakTitle => 'சாரதியிடம் பேசுங்கள்';
+
+  @override
+  String get saarthiTourSpeakBody =>
+      'மைக்கைத் தொட்டு, உங்கள் மொழியில் திட்டங்கள், தகுதி அல்லது ஆவணங்கள் பற்றிக் கேளுங்கள்.';
+
+  @override
+  String get saarthiTourTypeTitle => 'அல்லது தட்டச்சு செய்யுங்கள்';
+
+  @override
+  String get saarthiTourTypeBody =>
+      'தட்டச்சு விருப்பமா? உங்கள் கேள்வியை எழுத விசைப்பலகையைத் தொடுங்கள்.';
+
+  @override
+  String get saarthiTourHistoryTitle => 'முந்தைய உரையாடல்கள்';
+
+  @override
+  String get saarthiTourHistoryBody =>
+      'உங்கள் முந்தைய உரையாடல்களை இங்கே கண்டு தொடருங்கள்.';
 }

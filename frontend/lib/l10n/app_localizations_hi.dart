@@ -6279,4 +6279,71 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get guestSavedSignInDesc =>
       'योजनाएँ सहेजने और उन्हें किसी भी फ़ोन पर यहाँ देखने के लिए साइन इन करें।';
+
+  @override
+  String get guestSignInSaveTitle => 'योजनाएँ सहेजने के लिए साइन इन करें';
+
+  @override
+  String get guestSignInSaveBody =>
+      'सहेजी गई योजनाएँ आपके खाते में रहती हैं, जिस भी फ़ोन पर आप साइन इन करें।';
+
+  @override
+  String get guestSignInAlertsTitle => 'योजना अलर्ट के लिए साइन इन करें';
+
+  @override
+  String get guestSignInAlertsBody =>
+      'आपसे मेल खाती नई योजनाओं और अंतिम तिथियों के अलर्ट पाएँ।';
+
+  @override
+  String get guestSignInSaarthiTitle => 'सारथी से बात करने के लिए साइन इन करें';
+
+  @override
+  String get guestSignInSaarthiBody =>
+      'साइन इन करने के बाद सारथी आपके सवालों के जवाब आवाज़ या टेक्स्ट में देता है।';
+
+  @override
+  String get guestSignInForMeTitle =>
+      'आपके लिए योजनाएँ देखने के लिए साइन इन करें';
+
+  @override
+  String get guestSignInForMeBody =>
+      'साइन इन करने के बाद योजनाएँ आपकी प्रोफ़ाइल से मिलाई जाती हैं।';
+
+  @override
+  String get guestSignInKeptNote =>
+      'इस फ़ोन पर आपने जो किया, वह आपके खाते में चला जाएगा।';
+
+  @override
+  String get guestGreetingName => 'स्वागत है!';
+
+  @override
+  String get loginGuestHint => 'अभी योजनाएँ देखें, खाते की ज़रूरत नहीं';
+
+  @override
+  String get loginGoogleHint =>
+      'योजनाएँ सहेजें, अलर्ट पाएँ और सारथी से बात करें';
+
+  @override
+  String get loginBackToGuest => 'मेहमान के रूप में ब्राउज़िंग पर वापस';
+
+  @override
+  String get saarthiTourSpeakTitle => 'सारथी से बात करें';
+
+  @override
+  String get saarthiTourSpeakBody =>
+      'माइक दबाएँ और अपनी भाषा में योजनाओं, पात्रता या दस्तावेज़ों के बारे में पूछें।';
+
+  @override
+  String get saarthiTourTypeTitle => 'या लिखें';
+
+  @override
+  String get saarthiTourTypeBody =>
+      'लिखना पसंद है? अपना सवाल लिखने के लिए कीबोर्ड दबाएँ।';
+
+  @override
+  String get saarthiTourHistoryTitle => 'पिछली बातचीत';
+
+  @override
+  String get saarthiTourHistoryBody =>
+      'अपनी पिछली बातचीत यहाँ ढूँढें और जारी रखें।';
 }

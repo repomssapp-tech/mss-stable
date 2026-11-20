@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state_provider.dart';
 import '../l10n/l10n.dart';
+import '../widgets/common/app_icon_button.dart';
 import '../widgets/common/app_toast.dart';
 import '../widgets/legal/legal_consent_section.dart';
 import '../widgets/legal/legal_document_modal.dart';
@@ -318,8 +319,31 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
           ),
+
+          // Opened from guest mode: a way back to browsing as a guest, so
+          // the sign-in screen is never a dead end.
+          if (context.select<AppProvider, bool>((p) => p.isGuest))
+            Positioned(
+              top: MediaQuery.paddingOf(context).top,
+              left: AppSpacing.xs,
+              child: AppIconButton(
+                key: const ValueKey('login-back-to-guest'),
+                icon: Icons.close_rounded,
+                semanticLabel: context.l10n.loginBackToGuest,
+                tooltip: context.l10n.loginBackToGuest,
+                onPressed: _backToGuest,
+              ),
+            ),
         ],
       ),
+    );
+  }
+
+  /// Leaves the sign-in screen for the guest session it was opened from.
+  void _backToGuest() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute<void>(builder: (_) => const MainTabsContainer()),
+      (route) => false,
     );
   }
 
@@ -359,8 +383,9 @@ class _LoginScreenState extends State<LoginScreen> {
     await LegalConsentStore.markLoginAgreement();
     await provider.continueAsGuest();
     if (!mounted) return;
-    // Straight to home: a guest has no profile onboarding.
-    await replaceWithPermissionsFirst(context, const MainTabsContainer());
+    // A guest picks Regular or Saarthi mode like anyone else, then goes
+    // home (no profile onboarding).
+    await replaceWithPermissionsFirst(context, const NavigationModeScreen());
   }
 
   Widget _buildLoginForm() {
@@ -421,6 +446,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SizedBox(
               width: double.infinity,
               child: OutlinedButton(
+                key: const ValueKey('login-continue-with-google'),
                 style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
                   minimumSize: const Size.fromHeight(52),
                   foregroundColor: _busy ? AppColors.primary : null,
@@ -466,13 +492,35 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         const SizedBox(height: AppSpacing.xs),
-        SizedBox(
+        Text(
+          context.l10n.loginGoogleHint,
+          textAlign: TextAlign.center,
+          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        // Guest entry: the same size and weight as Google sign-in, an equal
+        // choice rather than a fallback link.
+        SizedBox( // spacing-ok: full-width button, same as Google
           width: double.infinity,
-          child: TextButton(
+          child: OutlinedButton.icon(
             key: const ValueKey('login-continue-as-guest'),
+            style: OutlinedButton.styleFrom( // style-ok: CTA height, same as Google
+              minimumSize: const Size.fromHeight(52),
+            ),
             onPressed: (_busy || !isLoginEnabled) ? null : _continueAsGuest,
-            child: Text(context.l10n.loginContinueAsGuest),
+            icon: const Icon(Icons.explore_outlined, size: 18),
+            label: Text(
+              context.l10n.loginContinueAsGuest,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+            ),
           ),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          context.l10n.loginGuestHint,
+          textAlign: TextAlign.center,
+          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
         if (!isLoginEnabled) ...[
           const SizedBox(height: AppSpacing.sm),
