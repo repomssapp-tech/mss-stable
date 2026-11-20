@@ -28,10 +28,10 @@
 | **Android app ID** | `com.inschemes.app.dev` — installs beside the normal MSS app |
 | **Channel** | `dev` (`MSS_CHANNEL=dev`) |
 | **Location lock** | On — the app locks to the state the phone's GPS is in (`MSS_LOCATION_LOCK=true`) |
-| **Updates** | Pre-releases in this repo's [Releases](https://github.com/repomssapp-tech/mss-dev/releases); never checks production updates |
+| **Updates** | Published as pre-releases the in-app updater never offers; the dev app never checks production updates |
 | **Who uses it** | The team and testers only |
 
-The dev build and location lock are on branch [`feat/location-lock-dev`](https://github.com/repomssapp-tech/mss-dev/tree/feat/location-lock-dev) (version 2.6.0+31) and are next to merge into `main`.
+The dev build, the location lock and the edition switch (Central, Tamil Nadu, Maharashtra) are merged into `main`. Build a dev app of any edition with `--dart-define=MSS_EDITION=<key>`: it gets `.dev` on its app ID and " Dev" on its name.
 
 ---
 
@@ -87,8 +87,8 @@ Signing needs these repository secrets: `ANDROID_KEYSTORE_BASE64`, `ANDROID_KEYS
 | Step | State |
 |:---|:---|
 | Repo created from MSS_App `main` | ✅ Done |
-| Dev build and location lock branch | ✅ Pushed (`feat/location-lock-dev`) |
-| Merge dev build into `main` | ⏳ Next |
+| Dev build and location lock merged into `main` | ✅ Done |
+| Edition switch (central · tn · mh) | ✅ Done ([PR #1](https://github.com/repomssapp-tech/mss-dev/pull/1)) |
 | Signing secrets and CI pre-release job | ⏳ Waiting on secrets |
 | Firebase app registered for `com.inschemes.app.dev` | ⏳ To do |
 
