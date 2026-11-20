@@ -265,7 +265,9 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                   if (widget.onContinue != null) {
                                     widget.onContinue!(_selectedMode);
                                   } else {
-                                    if (provider.profile.profileCompleted) {
+                                    // A guest has no profile onboarding.
+                                    if (provider.profile.profileCompleted ||
+                                        provider.isGuest) {
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (_) =>

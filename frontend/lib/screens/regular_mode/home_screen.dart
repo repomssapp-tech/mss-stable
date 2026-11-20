@@ -62,6 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<AppProvider>(context, listen: false);
+      // A guest browses home without an account and has no server profile.
+      if (provider.isGuest) return;
       if (!provider.isLoggedIn) {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => const LoginScreen()),
@@ -83,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    if (!provider.isLoggedIn) {
+    if (!provider.isLoggedIn && !provider.isGuest) {
       // Session was revoked (or refresh failed) while this screen was
       // already mounted -- initState()'s check only runs once, so without
       // this the user is stuck on a permanent spinner instead of being
@@ -147,7 +149,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
 
-                      if (provider.profileCompletionPercentage < 100) ...[
+                      // A guest always sees it, at 0%, as the way to sign in.
+                      if (provider.isGuest ||
+                          provider.profileCompletionPercentage < 100) ...[
                         const SizedBox(height: AppSpacing.xl),
                         // Profile Completion (Real & Compact)
                         HomeProfileCompletionCard(provider: provider),

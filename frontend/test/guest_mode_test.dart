@@ -5,7 +5,13 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/login_screen.dart';
-import 'package:frontend/screens/regular_mode/home/home_header_section.dart';
+import 'package:frontend/services/account/onboarding_api_service.dart'
+    show LegalConsentStore;
+import 'package:frontend/models/scheme_model.dart';
+import 'package:frontend/screens/profile/guest_profile_view.dart';
+import 'package:frontend/screens/profile_screen.dart';
+import 'package:frontend/screens/regular_mode/home/guest_state_schemes.dart';
+import 'package:frontend/screens/regular_mode/home_screen.dart';
 import 'package:frontend/screens/splash_screen.dart';
 import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:frontend/services/catalog/scheme_catalog_sync_service.dart';
@@ -47,7 +53,7 @@ void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
   group('resolveStartupDestination', () {
-    test('a guest is routed like a signed-in user, never to login', () {
+    test('a guest goes straight home: no login, no profile onboarding', () {
       expect(
         resolveStartupDestination(
           hasSession: false,
@@ -60,6 +66,18 @@ void main() {
       expect(
         resolveStartupDestination(
           hasSession: false,
+          hasCachedLanguage: true,
+          profileCompleted: false,
+          isGuest: true,
+        ),
+        StartupDestination.home,
+      );
+    });
+
+    test('a session wins over the guest flag', () {
+      expect(
+        resolveStartupDestination(
+          hasSession: true,
           hasCachedLanguage: true,
           profileCompleted: false,
           isGuest: true,
@@ -169,6 +187,53 @@ void main() {
     });
   });
 
+  group('login consent from guest mode', () {
+    Future<OutlinedButton> googleButton(
+      WidgetTester tester,
+      AppProvider provider,
+    ) async {
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const LoginScreen(),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+      return tester.widget<OutlinedButton>(find.byType(OutlinedButton));
+    }
+
+    testWidgets('a guest who agreed is not asked to agree again', (
+      tester,
+    ) async {
+      final provider = AppProvider();
+      await LegalConsentStore.markLoginAgreement();
+      await provider.continueAsGuest();
+
+      final google = await googleButton(tester, provider);
+
+      expect(google.onPressed, isNotNull);
+      expect(
+        find.text(
+          'Please review the Terms of Use and Privacy Policy before continuing.',
+        ),
+        findsNothing,
+      );
+    });
+
+    testWidgets('a signed-out user must agree again', (tester) async {
+      final provider = AppProvider();
+      await LegalConsentStore.markLoginAgreement();
+
+      final google = await googleButton(tester, provider);
+
+      expect(google.onPressed, isNull);
+    });
+  });
+
   group('requireAccount', () {
     /// Taps a button that calls [requireAccount]; the returned getter reads
     /// its result once the gate has finished.
@@ -217,6 +282,181 @@ void main() {
 
       expect(result(), isTrue);
       expect(find.text('Sign in to use this'), findsNothing);
+    });
+  });
+
+  group('guest home: top schemes for the state', () {
+    Scheme scheme(String id, {bool national = false, String added = ''}) =>
+        Scheme(
+          id: id,
+          name: id,
+          appliesNationally: national,
+          stateCodes: national ? const [] : const ['IN-MH'],
+          addedOn: added,
+        );
+
+    test('guestStateFor: entered state first, then the app language', () {
+      expect(
+        guestStateFor(profileState: 'Tamil Nadu', language: 'mr'),
+        'Tamil Nadu',
+      );
+      expect(guestStateFor(profileState: '', language: 'mr'), 'Maharashtra');
+      expect(guestStateFor(profileState: '', language: 'ta'), 'Tamil Nadu');
+      expect(guestStateFor(profileState: '', language: 'en'), '');
+    });
+
+    test('state schemes first, newest first, national fills the row', () {
+      final picks = pickGuestStateSchemes(
+        all: [
+          scheme('central-old', national: true, added: '2025-01-01'),
+          scheme('mh-old', added: '2025-02-01'),
+          scheme('mh-new', added: '2026-03-01'),
+          scheme('central-new', national: true, added: '2026-01-01'),
+        ],
+        state: 'Maharashtra',
+        limit: 3,
+      );
+      expect(picks.map((s) => s.id), ['mh-new', 'mh-old', 'central-new']);
+    });
+
+    test('no state: newest national schemes only', () {
+      final picks = pickGuestStateSchemes(
+        all: [
+          scheme('mh', added: '2026-05-01'),
+          scheme('central', national: true, added: '2026-01-01'),
+        ],
+        state: '',
+      );
+      expect(picks.map((s) => s.id), ['central']);
+    });
+
+    testWidgets('a guest sees "Top schemes in …", not "Recommended for you"', (
+      tester,
+    ) async {
+      final provider = AppProvider()
+        ..setAllSchemesForTesting([scheme('mh', added: '2026-05-01')]);
+      await provider.continueAsGuest();
+      await provider.updateProfile(
+        provider.profile.copyWith(state: 'Maharashtra'),
+      );
+
+      await tester.pumpWidget(
+        _host(
+          provider,
+          SingleChildScrollView(
+            child: HomeRecommendedSection(provider: provider),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.text('Top schemes in Maharashtra'), findsOneWidget);
+      expect(find.text('Recommended for you'), findsNothing);
+    });
+  });
+
+  group('guest Profile tab', () {
+    testWidgets('shows Pending, 0% and Sign in instead of the profile', (
+      tester,
+    ) async {
+      final provider = AppProvider();
+      await provider.continueAsGuest();
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const ProfileScreen(),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(GuestProfileView), findsOneWidget);
+      expect(find.text('Pending'), findsOneWidget);
+      expect(find.text('0%'), findsOneWidget);
+      expect(find.text('Profile incomplete'), findsOneWidget);
+      expect(
+        find.byKey(const ValueKey('guest-profile-sign-in')),
+        findsOneWidget,
+      );
+      expect(find.byType(ProfileUserInfoCard), findsNothing);
+      expect(find.byType(ProfileLogoutCard), findsNothing);
+    });
+
+    testWidgets('a signed-in user keeps the normal profile', (tester) async {
+      final provider = AppProvider()..setLoggedInForTesting(true);
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const ProfileScreen(),
+          ),
+        ),
+      );
+      await tester.pump();
+
+      expect(find.byType(GuestProfileView), findsNothing);
+      expect(find.byType(ProfileUserInfoCard), findsOneWidget);
+    });
+  });
+
+  group('HomeScreen', () {
+    testWidgets('a guest stays on home; it is not sent to login', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.5;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final provider = AppProvider();
+      await provider.continueAsGuest();
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const Scaffold(body: HomeScreen()),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LoginScreen), findsNothing);
+      expect(find.byType(HomeScreen), findsOneWidget);
+      // The completion card is shown at 0% for a guest.
+      expect(find.text('Profile incomplete'), findsOneWidget);
+    });
+
+    testWidgets('signed out and not a guest: sent to login', (tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.5;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final provider = AppProvider();
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const Scaffold(body: HomeScreen()),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LoginScreen), findsOneWidget);
     });
   });
 

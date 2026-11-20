@@ -6,6 +6,7 @@ import '../utils/app_colors.dart';
 import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
 import 'notifications_screen.dart';
+import 'profile/guest_profile_view.dart';
 import 'profile/profile_banner_card.dart';
 import 'profile/profile_eligibility_details_card.dart';
 import 'profile/profile_navigation_sections.dart';
@@ -74,12 +75,17 @@ class ProfileScreen extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
-            ProfileBannerCard(provider: provider),
-            ProfileUserInfoCard(provider: provider),
-            ProfileEligibilityDetailsCard(provider: provider),
-            ProfileNavigationCard1(provider: provider),
-            const ProfileNavigationCard2(),
-            ProfileLogoutCard(provider: provider),
+            // A guest has no account profile: Pending status, 0% and sign-in.
+            if (provider.isGuest)
+              GuestProfileView(provider: provider)
+            else ...[
+              ProfileBannerCard(provider: provider),
+              ProfileUserInfoCard(provider: provider),
+              ProfileEligibilityDetailsCard(provider: provider),
+              ProfileNavigationCard1(provider: provider),
+              const ProfileNavigationCard2(),
+              ProfileLogoutCard(provider: provider),
+            ],
             // Room to scroll the last card clear of the floating nav bar.
             SizedBox(
               height: AppSpacing.xxxl + MediaQuery.paddingOf(context).bottom,

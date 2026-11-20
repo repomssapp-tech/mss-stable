@@ -2112,5 +2112,20 @@
   "guestSignInTitle": "Sign in to use this",
   "guestSignInBody": "Saving schemes, notifications and profile sync need an account. Your answers on this phone are kept and move to your account when you sign in.",
   "guestSignInAction": "Sign in",
-  "guestSignInNotNow": "Not now"
+  "guestSignInNotNow": "Not now",
+  "guestProfileIncomplete": "Profile incomplete",
+  "guestProfileSignInPrompt": "Sign in to create your profile and see schemes matched to you.",
+  "guestProfilePending": "Pending",
+  "guestProfilePendingNote": "You're using the app as a guest. Your profile is saved once you sign in.",
+  "homeTopSchemes": "Top schemes",
+  "homeTopSchemesInState": "Top schemes in {state}",
+  "@homeTopSchemesInState": {
+    "description": "Home heading for a guest: top schemes in the guest's state.",
+    "placeholders": {
+      "state": {
+        "type": "String",
+        "example": "Maharashtra"
+      }
+    }
+  }
 }

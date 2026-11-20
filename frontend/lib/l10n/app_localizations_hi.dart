@@ -6253,4 +6253,26 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get guestSignInNotNow => 'अभी नहीं';
+
+  @override
+  String get guestProfileIncomplete => 'प्रोफ़ाइल अधूरी';
+
+  @override
+  String get guestProfileSignInPrompt =>
+      'अपनी प्रोफ़ाइल बनाने और अपने लिए मेल खाती योजनाएँ देखने के लिए साइन इन करें।';
+
+  @override
+  String get guestProfilePending => 'लंबित';
+
+  @override
+  String get guestProfilePendingNote =>
+      'आप ऐप को मेहमान के रूप में इस्तेमाल कर रहे हैं। साइन इन करने पर आपकी प्रोफ़ाइल सहेजी जाएगी।';
+
+  @override
+  String get homeTopSchemes => 'शीर्ष योजनाएँ';
+
+  @override
+  String homeTopSchemesInState(String state) {
+    return '$state की शीर्ष योजनाएँ';
+  }
 }

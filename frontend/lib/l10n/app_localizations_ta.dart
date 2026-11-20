@@ -6342,4 +6342,26 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get guestSignInNotNow => 'இப்போது வேண்டாம்';
+
+  @override
+  String get guestProfileIncomplete => 'சுயவிவரம் முழுமையாகவில்லை';
+
+  @override
+  String get guestProfileSignInPrompt =>
+      'உங்கள் சுயவிவரத்தை உருவாக்கி உங்களுக்குப் பொருந்தும் திட்டங்களைப் பார்க்க உள்நுழையவும்.';
+
+  @override
+  String get guestProfilePending => 'நிலுவையில்';
+
+  @override
+  String get guestProfilePendingNote =>
+      'நீங்கள் விருந்தினராக ஆப்பைப் பயன்படுத்துகிறீர்கள். உள்நுழைந்ததும் உங்கள் சுயவிவரம் சேமிக்கப்படும்.';
+
+  @override
+  String get homeTopSchemes => 'முன்னணித் திட்டங்கள்';
+
+  @override
+  String homeTopSchemesInState(String state) {
+    return '$state இன் முன்னணித் திட்டங்கள்';
+  }
 }
