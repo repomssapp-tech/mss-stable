@@ -30,12 +30,15 @@ enum StartupDestination { home, navigationMode, language, login }
 /// Hairlines and the progress track on the splash art's blue footer.
 final Color _faintOnBlue = AppColors.textOnPrimary.withValues(alpha: 0.25);
 
+/// A guest ([isGuest]) is routed like a signed-in user: no sign-in screen and
+/// no network check, so a guest cold start works offline.
 StartupDestination resolveStartupDestination({
   required bool hasSession,
   required bool hasCachedLanguage,
   required bool profileCompleted,
+  bool isGuest = false,
 }) {
-  if (hasSession) {
+  if (hasSession || isGuest) {
     return profileCompleted
         ? StartupDestination.home
         : StartupDestination.navigationMode;
@@ -170,10 +173,18 @@ class _SplashScreenState extends State<SplashScreen>
 
       if (!mounted) return;
 
+      // A session always wins over a stored guest flag.
+      final isGuest = !hasSession && await cache.getIsGuest();
+      // Splash reads the cache itself; set the provider's flag before home
+      // builds instead of waiting for its own _loadState.
+      if (isGuest) await provider.continueAsGuest();
+      if (!mounted) return;
+
       final destination = resolveStartupDestination(
         hasSession: hasSession,
         hasCachedLanguage: lang != null,
         profileCompleted: profile?.profileCompleted ?? false,
+        isGuest: isGuest,
       );
 
       switch (destination) {

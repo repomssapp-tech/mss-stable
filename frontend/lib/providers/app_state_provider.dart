@@ -157,6 +157,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   // A flapping network triggers one catch-up, not one per flip.
   final Debouncer _reconnectCatchUp = Debouncer(const Duration(seconds: 3));
   bool _isLoggedIn = false;
+  // Guest mode (DEV 1 task 1.5): browsing without an account. Persisted with
+  // SessionCacheService.saveIsGuest; a real session always wins over it.
+  bool _isGuest = false;
   bool _isLoggingOut = false;
   String _mobileNumber = '';
   String _selectedLanguageValue = 'en';
@@ -232,12 +235,14 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           // Auth resolved -- retire the startup grace marker for OAuth redirects.
           unawaited(AuthService.clearOAuthPending());
           _isLoggedIn = true;
+          if (_isGuest) unawaited(_endGuestSession(upgradedToAccount: true));
           final user = AppSession.instance.currentUser;
           if (user != null) _notifications.subscribe(user.id);
           notifyListeners();
         case AuthChange.signedOut:
           unawaited(AuthService.clearOAuthPending());
           _isLoggedIn = false;
+          _isGuest = false;
           _mobileNumber = '';
           _profile = UserProfile();
           _library.reset();
@@ -285,7 +290,46 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   void setAllSchemesForTesting(List<Scheme> schemes) =>
       _catalog.setAllSchemesForTesting(schemes);
 
-  bool get isGuest => false;
+  /// Browsing without an account. Never true while a session exists.
+  bool get isGuest => _isGuest && !_isLoggedIn;
+
+  /// Enters guest mode: schemes, search and eligibility work from the on-device
+  /// catalog, answers stay on this phone, and saving, notifications and profile
+  /// sync ask the user to sign in (see `requireAccount`).
+  Future<void> continueAsGuest() async {
+    if (_isLoggedIn) return;
+    _isGuest = true;
+    notifyListeners();
+    await SessionCacheService.instance.saveIsGuest(true);
+  }
+
+  /// Leaves guest mode. After a sign-in the guest's on-device answers are
+  /// marked for one upload to the new account (see [_uploadGuestAnswers]).
+  Future<void> _endGuestSession({required bool upgradedToAccount}) async {
+    _isGuest = false;
+    final cache = SessionCacheService.instance;
+    // Marker first, so a crash between the two writes can only retry the
+    // upload, never lose it.
+    if (upgradedToAccount) await cache.saveGuestUploadPending(true);
+    await cache.saveIsGuest(false);
+  }
+
+  /// Sends the answers a guest gave on this phone to the account they just
+  /// signed in to, once. A failure keeps the marker for the next hydrate.
+  ///
+  /// Today this is the existing profile write. When DEV 1 task 1.4's guest
+  /// upgrade route exists (see `PendingEndpoints.guestUpgrade`) the
+  /// questionnaire answers go there too.
+  Future<void> _uploadGuestAnswers() async {
+    final cache = SessionCacheService.instance;
+    if (!await cache.getGuestUploadPending()) return;
+    try {
+      await _syncProfileToServer(_profile);
+      await cache.saveGuestUploadPending(false);
+    } catch (e) {
+      debugPrint('[AppProvider] Guest answers upload deferred: $e');
+    }
+  }
   bool get isLoggingOut => _isLoggingOut;
   String get mobileNumber => _mobileNumber;
   String get selectedLanguage => _selectedLanguage;
@@ -470,12 +514,18 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       if (sessionUser != null) {
         debugPrint('[AppProvider] Active MSS session found during _loadState');
         _isLoggedIn = true;
+        // A session beats a guest flag left behind (e.g. killed mid sign-in).
+        if (_isGuest || await SessionCacheService.instance.getIsGuest()) {
+          await _endGuestSession(upgradedToAccount: true);
+        }
         _notifications.subscribe(sessionUser.id);
         fetchPromoAlerts();
         fetchDraftSessions();
         unawaited(_librarySync.pull());
+        unawaited(_uploadGuestAnswers());
       } else {
         debugPrint('[AppProvider] No active session found during _loadState.');
+        _isGuest = await SessionCacheService.instance.getIsGuest();
       }
 
       notifyListeners();
@@ -775,6 +825,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       fetchPromoAlerts();
       fetchDraftSessions();
       unawaited(_librarySync.pull(force: true));
+      // A guest who just signed in: their on-device answers survived the merge
+      // above (local values fill empty server fields); send them once.
+      unawaited(_uploadGuestAnswers());
       // Turn the agreement given on the sign-in screen into recorded consent.
       unawaited(
         LegalConsentStore.recordFromLoginAgreement(
@@ -804,6 +857,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // login screen.
     final keptLanguage = _selectedLanguage;
     _isLoggedIn = false;
+    // clearSession() below wipes the stored flag; this clears the in-memory
+    // one, so sign-out always lands on the login screen, never in guest mode.
+    _isGuest = false;
     _mobileNumber = '';
     _languageReconciler.reset();
     _navigationMode = 'regular';
@@ -868,6 +924,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
 
     // Local state cleanup (the account is already gone on the server).
     _isLoggedIn = false;
+    _isGuest = false;
     _mobileNumber = '';
     _selectedLanguage = 'en';
     _languageReconciler.reset();
@@ -1029,7 +1086,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // A completed onboarding submission is not committed locally until the
     // hosted database confirms both profile upserts. This prevents a restart
     // from bypassing onboarding after a failed or offline cloud write.
-    if (requireCloudSync) {
+    // A guest's profile stays on this phone until they sign in; it is sent
+    // then by _uploadGuestAnswers.
+    if (requireCloudSync && !isGuest) {
       await _syncProfileToServer(candidate);
       // This save is newer than any queued background draft, which must not
       // be sent after it.

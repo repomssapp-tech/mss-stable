@@ -21,4 +21,12 @@ class PendingEndpoints {
   /// (was the `voice_chat_sessions` table).
   static const String chatSessions = '/me/chat-sessions';
 
+  /// `POST {answers: {field_id: value}}` once, right after a guest signs up —
+  /// carries the questionnaire answers kept on the device to the new account,
+  /// then the server discards them (DEV 1 task 1.4 "upgrade path"). Not called
+  /// yet: the route and the on-device answers store do not exist. Until then
+  /// AppProvider._uploadGuestAnswers sends the profile through the existing
+  /// profile write.
+  static const String guestUpgrade = '/me/guest-upgrade';
+
 }

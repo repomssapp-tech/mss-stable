@@ -2107,5 +2107,10 @@
   "appLockedChecking": "Checking…",
   "@appLockedTitle": {"description": "Locked screen title when an administrator has locked the whole app."},
   "copyrightNoticeTitle": "Copyright & Intellectual Property",
-  "copyrightNoticeBody": "The MSS App is jointly designed and developed by the above institutions. The app's original content, design, software and associated intellectual property are protected under applicable copyright laws. Unauthorised reproduction, modification, distribution or commercial exploitation is prohibited without prior written permission from the respective rights holders, except as permitted by law."
+  "copyrightNoticeBody": "The MSS App is jointly designed and developed by the above institutions. The app's original content, design, software and associated intellectual property are protected under applicable copyright laws. Unauthorised reproduction, modification, distribution or commercial exploitation is prohibited without prior written permission from the respective rights holders, except as permitted by law.",
+  "loginContinueAsGuest": "Continue as guest",
+  "guestSignInTitle": "Sign in to use this",
+  "guestSignInBody": "Saving schemes, notifications and profile sync need an account. Your answers on this phone are kept and move to your account when you sign in.",
+  "guestSignInAction": "Sign in",
+  "guestSignInNotNow": "Not now"
 }

@@ -27,6 +27,7 @@ import 'scheme_details/scheme_services_section.dart';
 import 'scheme_details/sticky_tab_bar_delegate.dart';
 import '../../utils/app_text.dart';
 import '../../widgets/common/auto_translated_text.dart';
+import '../../widgets/common/sign_in_required_sheet.dart';
 
 // Re-exports for clean modular access and backwards compatibility
 export 'scheme_details/scheme_benefits_section.dart';
@@ -579,7 +580,8 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
               isBookmarked:
                   provider.bookmarkedIds.contains(widget.scheme.id) ||
                   provider.bookmarkedIds.contains(widget.scheme.schemeCode),
-              onBookmarkToggle: () {
+              onBookmarkToggle: () async {
+                if (!await requireAccount(context)) return;
                 provider.toggleBookmark(widget.scheme.id);
               },
               onApply: () => _openOfficialUrl(_actionTarget(scheme).url),

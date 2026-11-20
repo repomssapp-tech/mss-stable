@@ -19,6 +19,7 @@ import 'home/home_recommended_section.dart';
 import 'home/home_updates_section.dart';
 import '../../design_v2/saarthi/saarthi_voice_screen.dart';
 import '../../utils/app_text.dart';
+import '../../widgets/common/sign_in_required_sheet.dart';
 
 export 'home/home_featured_section.dart';
 export 'home/home_header_section.dart';
@@ -135,7 +136,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         onSearchBarTap: widget.onSearchBarTap,
                         onFilterPressed: widget.onFilterPressed,
                         onVoiceQuery: widget.onVoiceQuery,
-                        onNotificationTap: () {
+                        onNotificationTap: () async {
+                          if (!await requireAccount(context)) return;
+                          if (!context.mounted) return;
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (_) => const NotificationsScreen(),

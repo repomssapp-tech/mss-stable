@@ -6201,4 +6201,20 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get copyrightNoticeBody =>
       'MSS ॲप वरील संस्थांनी संयुक्तपणे डिझाइन आणि विकसित केले आहे. ॲपची मूळ सामग्री, डिझाइन, सॉफ्टवेअर आणि संबंधित बौद्धिक संपदा लागू कॉपीराइट कायद्यांनुसार संरक्षित आहेत. कायद्याने परवानगी दिलेल्या बाबी वगळता, संबंधित हक्कधारकांच्या पूर्व लेखी परवानगीशिवाय अनधिकृत पुनरुत्पादन, बदल, वितरण किंवा व्यावसायिक वापर करण्यास मनाई आहे.';
+
+  @override
+  String get loginContinueAsGuest => 'अतिथी म्हणून पुढे जा';
+
+  @override
+  String get guestSignInTitle => 'हे वापरण्यासाठी साइन इन करा';
+
+  @override
+  String get guestSignInBody =>
+      'योजना जतन करणे, सूचना आणि प्रोफाइल सिंक यासाठी खाते लागते. या फोनवरील तुमची उत्तरे जपून ठेवली जातात आणि साइन इन केल्यावर तुमच्या खात्यात जातात.';
+
+  @override
+  String get guestSignInAction => 'साइन इन करा';
+
+  @override
+  String get guestSignInNotNow => 'आत्ता नाही';
 }
