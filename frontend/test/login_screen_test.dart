@@ -52,8 +52,13 @@ void main() {
     expect(find.text('Sign in with password'), findsNothing);
 
     // One consent sentence, then the two "Read the ..." rows: the document
-    // names are not repeated as separate buttons.
-    expect(find.byType(TextButton), findsNothing);
+    // names are not repeated as separate buttons. The only text button is
+    // "Continue as guest" (guest mode, DEV 1 task 1.5).
+    expect(find.byType(TextButton), findsOneWidget);
+    expect(
+      find.byKey(const ValueKey('login-continue-as-guest')),
+      findsOneWidget,
+    );
     final rows = find.byWidgetPredicate(
       (w) =>
           w is Text &&

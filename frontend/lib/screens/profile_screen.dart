@@ -11,6 +11,7 @@ import 'profile/profile_eligibility_details_card.dart';
 import 'profile/profile_navigation_sections.dart';
 import 'profile/profile_user_info_card.dart';
 import '../utils/app_text.dart';
+import '../widgets/common/sign_in_required_sheet.dart';
 
 // Re-exports for clean modular access and backwards compatibility
 export 'profile/avatar_cache_manager.dart';
@@ -48,9 +49,13 @@ class ProfileScreen extends StatelessWidget {
           // Notification bell; the badge carries the unread count.
           IconButton(
             tooltip: context.l10n.notificationsTooltip,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const NotificationsScreen()),
-            ),
+            onPressed: () async {
+              if (!await requireAccount(context)) return;
+              if (!context.mounted) return;
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              );
+            },
             icon: Badge(
               isLabelVisible: unreadCount > 0,
               backgroundColor: AppColors.danger,

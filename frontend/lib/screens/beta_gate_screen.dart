@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../main.dart' show MainTabsContainer;
+import '../providers/app_state_provider.dart';
+import 'navigation_mode_screen.dart';
+import 'permissions/app_permissions_screen.dart';
+import 'splash_screen.dart' show StartupDestination, resolveStartupDestination;
 import '../utils/app_colors.dart';
 import '../l10n/l10n.dart';
 import 'login_screen.dart';
@@ -79,20 +85,46 @@ class _BetaGateScreenState extends State<BetaGateScreen> {
     }
   }
 
+  /// Same routing as the splash screen, minus the session check (the gate
+  /// always sent users with a session to sign-in, and still does). A guest
+  /// goes on to the app like a signed-in user.
   Future<void> _routeToNextScreen() async {
     final cache = SessionCacheService.instance;
     final lang = await cache.getLanguage();
+    final isGuest = await cache.getIsGuest();
+    final profile = await cache.loadProfile();
 
     if (!mounted) return;
 
-    if (lang == null) {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
-      );
-    } else {
-      Navigator.of(
-        context,
-      ).pushReplacement(MaterialPageRoute(builder: (_) => const LoginScreen()));
+    final destination = resolveStartupDestination(
+      hasSession: false,
+      hasCachedLanguage: lang != null,
+      profileCompleted: profile?.profileCompleted ?? false,
+      isGuest: isGuest,
+    );
+
+    switch (destination) {
+      case StartupDestination.home:
+      case StartupDestination.navigationMode:
+        await Provider.of<AppProvider>(
+          context,
+          listen: false,
+        ).continueAsGuest();
+        if (!mounted) return;
+        await replaceWithPermissionsFirst(
+          context,
+          destination == StartupDestination.home
+              ? const MainTabsContainer()
+              : const NavigationModeScreen(),
+        );
+      case StartupDestination.language:
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const LanguageSelectionScreen()),
+        );
+      case StartupDestination.login:
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (_) => const LoginScreen()),
+        );
     }
   }
 

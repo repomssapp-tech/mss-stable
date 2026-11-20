@@ -16,6 +16,7 @@ import '../../../utils/app_text.dart';
 import '../../../utils/emblem_helper.dart';
 import '../basic_profile_screen.dart';
 import '../scheme_details_screen.dart';
+import '../../../widgets/common/sign_in_required_sheet.dart';
 
 class HomeRecommendedSection extends StatefulWidget {
   final List<Scheme>? schemes;
@@ -252,8 +253,10 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                         // H7: bookmark by `id`, the single canonical
                         // key everywhere -- `schemeCode` always
                         // differs from `id` in the real catalog.
-                        onPressed: () =>
-                            appProvider.toggleBookmark(schemeObj.id),
+                        onPressed: () async {
+                          if (!await requireAccount(context)) return;
+                          appProvider.toggleBookmark(schemeObj.id);
+                        },
                         tooltip: item.isBookmarked
                             ? context.l10n.removeSavedTooltip
                             : context.l10n.saveSchemeTooltip,

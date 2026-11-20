@@ -12,6 +12,7 @@ import '../../../widgets/scheme/scheme_card.dart';
 import '../scheme_details_screen.dart';
 import 'search_models.dart';
 import 'shimmer_skeleton_card.dart';
+import '../../../widgets/common/sign_in_required_sheet.dart';
 
 /// Shimmer skeleton placeholder list while search query or filters are loading.
 class SearchLoadingSkeleton extends StatelessWidget {
@@ -267,7 +268,10 @@ class SearchResultsList extends StatelessWidget {
           scheme: scheme,
           result: recResult,
           isBookmarked: provider.bookmarkedIds.contains(scheme.id),
-          onBookmarkToggle: () => provider.toggleBookmark(scheme.id),
+          onBookmarkToggle: () async {
+            if (!await requireAccount(context)) return;
+            provider.toggleBookmark(scheme.id);
+          },
           showActions: false,
           showMatchPercentage: isForMe && !notApplicableIds.contains(scheme.id),
           notApplicable: notApplicableIds.contains(scheme.id),

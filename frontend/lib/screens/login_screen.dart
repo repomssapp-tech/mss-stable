@@ -8,6 +8,7 @@ import '../l10n/l10n.dart';
 import '../widgets/common/app_toast.dart';
 import '../widgets/legal/legal_consent_section.dart';
 import '../widgets/legal/legal_document_modal.dart';
+import '../main.dart' show MainTabsContainer;
 import 'navigation_mode_screen.dart';
 import 'permissions/app_permissions_screen.dart';
 import 'regular_mode/legal_screens.dart';
@@ -335,6 +336,22 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  /// Guest mode: no account, answers kept on this phone. Gated behind the
+  /// same Terms and Privacy acceptance as Google sign-in.
+  Future<void> _continueAsGuest() async {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    // Remembered so the agreement is recorded if the guest signs in later.
+    await LegalConsentStore.markLoginAgreement();
+    await provider.continueAsGuest();
+    if (!mounted) return;
+    await replaceWithPermissionsFirst(
+      context,
+      provider.profile.profileCompleted
+          ? const MainTabsContainer()
+          : const NavigationModeScreen(),
+    );
+  }
+
   Widget _buildLoginForm() {
     final bool canConsent = _hasViewedTerms && _hasViewedPrivacy;
     // Does NOT include !_isLoading: the button must keep its "enabled" look
@@ -435,6 +452,15 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
               ),
             ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        SizedBox(
+          width: double.infinity,
+          child: TextButton(
+            key: const ValueKey('login-continue-as-guest'),
+            onPressed: (_busy || !isLoginEnabled) ? null : _continueAsGuest,
+            child: Text(context.l10n.loginContinueAsGuest),
           ),
         ),
         if (!isLoginEnabled) ...[
