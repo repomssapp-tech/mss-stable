@@ -186,7 +186,10 @@ void main() {
       final guest = find.byKey(const ValueKey('login-continue-as-guest'));
       expect(guest, findsOneWidget);
       expect(find.text('Continue as guest'), findsOneWidget);
-      expect(tester.widget<TextButton>(guest).onPressed, isNull);
+      expect(
+        tester.widget<ButtonStyleButton>(guest).onPressed,
+        isNull,
+      );
     });
   });
 
@@ -206,7 +209,9 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      return tester.widget<OutlinedButton>(find.byType(OutlinedButton));
+      return tester.widget<OutlinedButton>(
+        find.byKey(const ValueKey('login-continue-with-google')),
+      );
     }
 
     testWidgets('a guest who agreed is not asked to agree again', (

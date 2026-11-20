@@ -11454,6 +11454,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign in to save schemes and find them here on any phone.'**
   String get guestSavedSignInDesc;
+
+  /// No description provided for @guestSignInSaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to save schemes'**
+  String get guestSignInSaveTitle;
+
+  /// No description provided for @guestSignInSaveBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved schemes stay in your account, on any phone you sign in on.'**
+  String get guestSignInSaveBody;
+
+  /// No description provided for @guestSignInAlertsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in for scheme alerts'**
+  String get guestSignInAlertsTitle;
+
+  /// No description provided for @guestSignInAlertsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Get alerts about new schemes and deadlines that match you.'**
+  String get guestSignInAlertsBody;
+
+  /// No description provided for @guestSignInSaarthiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to chat with Saarthi'**
+  String get guestSignInSaarthiTitle;
+
+  /// No description provided for @guestSignInSaarthiBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi answers your questions by voice or text once you sign in.'**
+  String get guestSignInSaarthiBody;
+
+  /// No description provided for @guestSignInForMeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to see schemes for you'**
+  String get guestSignInForMeTitle;
+
+  /// No description provided for @guestSignInForMeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Schemes are matched to your profile once you sign in.'**
+  String get guestSignInForMeBody;
+
+  /// No description provided for @guestSignInKeptNote.
+  ///
+  /// In en, this message translates to:
+  /// **'What you did on this phone moves to your account.'**
+  String get guestSignInKeptNote;
+
+  /// No description provided for @guestGreetingName.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome!'**
+  String get guestGreetingName;
+
+  /// No description provided for @loginGuestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Browse schemes now, no account needed'**
+  String get loginGuestHint;
+
+  /// No description provided for @loginGoogleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Save schemes, get alerts and chat with Saarthi'**
+  String get loginGoogleHint;
+
+  /// No description provided for @loginBackToGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to browsing as a guest'**
+  String get loginBackToGuest;
 }
 
 class _AppLocalizationsDelegate

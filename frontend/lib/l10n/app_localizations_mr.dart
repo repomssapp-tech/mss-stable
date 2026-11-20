@@ -6243,4 +6243,49 @@ class AppLocalizationsMr extends AppLocalizations {
   @override
   String get guestSavedSignInDesc =>
       'योजना जतन करण्यासाठी आणि त्या कोणत्याही फोनवर येथे पाहण्यासाठी साइन इन करा.';
+
+  @override
+  String get guestSignInSaveTitle => 'योजना जतन करण्यासाठी साइन इन करा';
+
+  @override
+  String get guestSignInSaveBody =>
+      'जतन केलेल्या योजना तुमच्या खात्यात राहतात, तुम्ही कोणत्याही फोनवर साइन इन करा.';
+
+  @override
+  String get guestSignInAlertsTitle => 'योजना सूचनांसाठी साइन इन करा';
+
+  @override
+  String get guestSignInAlertsBody =>
+      'तुमच्याशी जुळणाऱ्या नवीन योजना आणि अंतिम मुदतींच्या सूचना मिळवा.';
+
+  @override
+  String get guestSignInSaarthiTitle => 'सारथीशी बोलण्यासाठी साइन इन करा';
+
+  @override
+  String get guestSignInSaarthiBody =>
+      'साइन इन केल्यावर सारथी तुमच्या प्रश्नांची उत्तरे आवाजात किंवा मजकुरात देतो.';
+
+  @override
+  String get guestSignInForMeTitle =>
+      'तुमच्यासाठीच्या योजना पाहण्यासाठी साइन इन करा';
+
+  @override
+  String get guestSignInForMeBody =>
+      'साइन इन केल्यावर योजना तुमच्या प्रोफाइलशी जुळवल्या जातात.';
+
+  @override
+  String get guestSignInKeptNote =>
+      'या फोनवर तुम्ही जे केले ते तुमच्या खात्यात जाईल.';
+
+  @override
+  String get guestGreetingName => 'स्वागत आहे!';
+
+  @override
+  String get loginGuestHint => 'आताच योजना पाहा, खात्याची गरज नाही';
+
+  @override
+  String get loginGoogleHint => 'योजना जतन करा, सूचना मिळवा आणि सारथीशी बोला';
+
+  @override
+  String get loginBackToGuest => 'अतिथी म्हणून पाहण्याकडे परत';
 }

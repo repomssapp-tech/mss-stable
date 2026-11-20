@@ -2128,5 +2128,18 @@
       }
     }
   },
-  "guestSavedSignInDesc": "Sign in to save schemes and find them here on any phone."
+  "guestSavedSignInDesc": "Sign in to save schemes and find them here on any phone.",
+  "guestSignInSaveTitle": "Sign in to save schemes",
+  "guestSignInSaveBody": "Saved schemes stay in your account, on any phone you sign in on.",
+  "guestSignInAlertsTitle": "Sign in for scheme alerts",
+  "guestSignInAlertsBody": "Get alerts about new schemes and deadlines that match you.",
+  "guestSignInSaarthiTitle": "Sign in to chat with Saarthi",
+  "guestSignInSaarthiBody": "Saarthi answers your questions by voice or text once you sign in.",
+  "guestSignInForMeTitle": "Sign in to see schemes for you",
+  "guestSignInForMeBody": "Schemes are matched to your profile once you sign in.",
+  "guestSignInKeptNote": "What you did on this phone moves to your account.",
+  "guestGreetingName": "Welcome!",
+  "loginGuestHint": "Browse schemes now, no account needed",
+  "loginGoogleHint": "Save schemes, get alerts and chat with Saarthi",
+  "loginBackToGuest": "Back to browsing as a guest"
 }

@@ -32,6 +32,7 @@ import 'saarthi_history_screen.dart';
 import 'saarthi_voice_home.dart';
 import 'saarthi_voice_room.dart';
 import 'scheme_mentions.dart';
+import '../../widgets/common/sign_in_required_sheet.dart';
 
 class SaarthiVoiceScreen extends StatefulWidget {
   const SaarthiVoiceScreen({
@@ -163,6 +164,10 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   /// A new chat, listening straight away or (with [typing]) waiting for text.
   Future<void> _start({bool typing = false}) async {
     if (_starting || _active) return;
+    // Saarthi (voice and typed) needs an account until the backend's guest
+    // token exists: a guest is asked to sign in instead.
+    if (!await requireAccount(context, feature: SignInFeature.saarthi)) return;
+    if (!mounted) return;
     _starting = true;
     try {
       await _initializeConversation();
@@ -194,6 +199,8 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   /// it, spoken or typed; the mic stays off until the user taps it.
   Future<void> _resume(SavedChat chat) async {
     if (_starting || _active) return;
+    if (!await requireAccount(context, feature: SignInFeature.saarthi)) return;
+    if (!mounted) return;
     _starting = true;
     try {
       await _initializeConversation();

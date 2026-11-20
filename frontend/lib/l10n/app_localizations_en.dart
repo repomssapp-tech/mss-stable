@@ -6264,4 +6264,49 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get guestSavedSignInDesc =>
       'Sign in to save schemes and find them here on any phone.';
+
+  @override
+  String get guestSignInSaveTitle => 'Sign in to save schemes';
+
+  @override
+  String get guestSignInSaveBody =>
+      'Saved schemes stay in your account, on any phone you sign in on.';
+
+  @override
+  String get guestSignInAlertsTitle => 'Sign in for scheme alerts';
+
+  @override
+  String get guestSignInAlertsBody =>
+      'Get alerts about new schemes and deadlines that match you.';
+
+  @override
+  String get guestSignInSaarthiTitle => 'Sign in to chat with Saarthi';
+
+  @override
+  String get guestSignInSaarthiBody =>
+      'Saarthi answers your questions by voice or text once you sign in.';
+
+  @override
+  String get guestSignInForMeTitle => 'Sign in to see schemes for you';
+
+  @override
+  String get guestSignInForMeBody =>
+      'Schemes are matched to your profile once you sign in.';
+
+  @override
+  String get guestSignInKeptNote =>
+      'What you did on this phone moves to your account.';
+
+  @override
+  String get guestGreetingName => 'Welcome!';
+
+  @override
+  String get loginGuestHint => 'Browse schemes now, no account needed';
+
+  @override
+  String get loginGoogleHint =>
+      'Save schemes, get alerts and chat with Saarthi';
+
+  @override
+  String get loginBackToGuest => 'Back to browsing as a guest';
 }

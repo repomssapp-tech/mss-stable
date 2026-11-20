@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user_profile.dart';
 import '../../utils/app_languages.dart';
+import '../onboarding/home_tour_store.dart';
 
 class SessionCacheService {
   SessionCacheService._privateConstructor();
@@ -75,7 +76,18 @@ class SessionCacheService {
   Future<void> clearSession() async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      // The first-time tour is about this phone and the person, not the
+      // session: keep its records so sign-out never brings it back.
+      final kept = {
+        for (final key in prefs.getKeys())
+          if (key.startsWith(HomeTourStore.keyPrefix))
+            key: prefs.getString(key),
+      };
       await prefs.clear();
+      for (final entry in kept.entries) {
+        final value = entry.value;
+        if (value != null) await prefs.setString(entry.key, value);
+      }
       debugPrint(
         '[SessionCacheService] All session and preference data cleared.',
       );

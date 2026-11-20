@@ -137,22 +137,22 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const LanguageSelectionScreen(isOnboarding: false),
                   ),
                 ),
-                if (!guest) ...[
-                  SettingsRow(
-                    icon: Icons.explore_outlined,
-                    title: l10n.navigationModeSetting,
-                    value: provider.navigationMode == 'companion'
-                        ? l10n.navigationModeCompanion
-                        : l10n.navigationModeRegular,
-                    onTap: () => showNavigationModeDialog(context, provider),
-                  ),
+                // Guests pick a mode too; Saarthi voice needs an account.
+                SettingsRow(
+                  icon: Icons.explore_outlined,
+                  title: l10n.navigationModeSetting,
+                  value: provider.navigationMode == 'companion'
+                      ? l10n.navigationModeCompanion
+                      : l10n.navigationModeRegular,
+                  onTap: () => showNavigationModeDialog(context, provider),
+                ),
+                if (!guest)
                   SettingsRow(
                     icon: Icons.record_voice_over_outlined,
                     title: l10n.settingsSaarthiVoice,
                     onTap: () =>
                         _push(context, const SaarthiVoiceSettingsScreen()),
                   ),
-                ],
                 ValueListenableBuilder<bool>(
                   valueListenable: HapticsService.instance.enabled,
                   builder: (context, on, _) => SettingsRow(

@@ -53,8 +53,8 @@ void main() {
 
     // One consent sentence, then the two "Read the ..." rows: the document
     // names are not repeated as separate buttons. The only text button is
-    // "Continue as guest" (guest mode, DEV 1 task 1.5).
-    expect(find.byType(TextButton), findsOneWidget);
+    // "Continue as guest" is now an equal outlined button, not a text link.
+    expect(find.byType(TextButton), findsNothing);
     expect(
       find.byKey(const ValueKey('login-continue-as-guest')),
       findsOneWidget,

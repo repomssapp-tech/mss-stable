@@ -581,7 +581,9 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   provider.bookmarkedIds.contains(widget.scheme.id) ||
                   provider.bookmarkedIds.contains(widget.scheme.schemeCode),
               onBookmarkToggle: () async {
-                if (!await requireAccount(context)) return;
+                if (!await requireAccount(context, feature: SignInFeature.save)) {
+                  return;
+                }
                 provider.toggleBookmark(widget.scheme.id);
               },
               onApply: () => _openOfficialUrl(_actionTarget(scheme).url),

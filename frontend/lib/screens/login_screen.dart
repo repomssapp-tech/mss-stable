@@ -318,8 +318,30 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
           ),
+
+          // Opened from guest mode: a way back to browsing as a guest, so
+          // the sign-in screen is never a dead end.
+          if (context.select<AppProvider, bool>((p) => p.isGuest))
+            Positioned(
+              top: MediaQuery.paddingOf(context).top,
+              left: AppSpacing.xs,
+              child: IconButton(
+                key: const ValueKey('login-back-to-guest'),
+                tooltip: context.l10n.loginBackToGuest,
+                icon: const Icon(Icons.close_rounded),
+                onPressed: _backToGuest,
+              ),
+            ),
         ],
       ),
+    );
+  }
+
+  /// Leaves the sign-in screen for the guest session it was opened from.
+  void _backToGuest() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute<void>(builder: (_) => const MainTabsContainer()),
+      (route) => false,
     );
   }
 
@@ -359,8 +381,9 @@ class _LoginScreenState extends State<LoginScreen> {
     await LegalConsentStore.markLoginAgreement();
     await provider.continueAsGuest();
     if (!mounted) return;
-    // Straight to home: a guest has no profile onboarding.
-    await replaceWithPermissionsFirst(context, const MainTabsContainer());
+    // A guest picks Regular or Saarthi mode like anyone else, then goes
+    // home (no profile onboarding).
+    await replaceWithPermissionsFirst(context, const NavigationModeScreen());
   }
 
   Widget _buildLoginForm() {
@@ -409,7 +432,8 @@ class _LoginScreenState extends State<LoginScreen> {
         // Google Sign-In Button (strictly gated behind mandatory consent).
         // While it is disabled, a tap on it says why instead of doing
         // nothing, and screen readers hear the same reason as a hint.
-        GestureDetector( // tap-ok: only explains taps on the disabled button
+        GestureDetector(
+          // tap-ok: only explains taps on the disabled button
           onTap: isLoginEnabled || _busy
               ? null
               : () => AppToast.showWarning(
@@ -421,7 +445,9 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SizedBox(
               width: double.infinity,
               child: OutlinedButton(
-                style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
+                key: const ValueKey('login-continue-with-google'),
+                style: OutlinedButton.styleFrom(
+                  // style-ok: CTA height + explicit loading foreground colour
                   minimumSize: const Size.fromHeight(52),
                   foregroundColor: _busy ? AppColors.primary : null,
                 ),
@@ -466,13 +492,36 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
         const SizedBox(height: AppSpacing.xs),
+        Text(
+          context.l10n.loginGoogleHint,
+          textAlign: TextAlign.center,
+          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
+        ),
+        const SizedBox(height: AppSpacing.md),
+        // Guest entry: the same size and weight as Google sign-in, an equal
+        // choice rather than a fallback link.
         SizedBox(
           width: double.infinity,
-          child: TextButton(
+          child: OutlinedButton.icon(
             key: const ValueKey('login-continue-as-guest'),
+            style: OutlinedButton.styleFrom(
+              // style-ok: CTA height, same as Google
+              minimumSize: const Size.fromHeight(52),
+            ),
             onPressed: (_busy || !isLoginEnabled) ? null : _continueAsGuest,
-            child: Text(context.l10n.loginContinueAsGuest),
+            icon: const Icon(Icons.explore_outlined, size: 18),
+            label: Text(
+              context.l10n.loginContinueAsGuest,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+            ),
           ),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          context.l10n.loginGuestHint,
+          textAlign: TextAlign.center,
+          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
         if (!isLoginEnabled) ...[
           const SizedBox(height: AppSpacing.sm),
