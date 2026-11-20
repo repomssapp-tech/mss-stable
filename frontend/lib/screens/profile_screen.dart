@@ -11,6 +11,7 @@ import 'profile/profile_eligibility_details_card.dart';
 import 'profile/profile_navigation_sections.dart';
 import 'profile/profile_user_info_card.dart';
 import '../utils/app_text.dart';
+import '../widgets/common/guest_local_notice.dart';
 import '../widgets/common/sign_in_required_sheet.dart';
 
 // Re-exports for clean modular access and backwards compatibility
@@ -74,6 +75,7 @@ class ProfileScreen extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
+            if (provider.isGuest) const GuestLocalNotice(),
             ProfileBannerCard(provider: provider),
             ProfileUserInfoCard(provider: provider),
             ProfileEligibilityDetailsCard(provider: provider),

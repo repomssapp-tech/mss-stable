@@ -6408,4 +6408,130 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get guestSignInNotNow => 'இப்போது வேண்டாம்';
+
+  @override
+  String get eligCheckEntry => 'என் பதில்கள்';
+
+  @override
+  String get eligCheckEntrySub =>
+      'உங்கள் மற்றும் உங்கள் தொழில் பற்றிய கேள்விகள்';
+
+  @override
+  String get eligCheckTitle => 'உங்கள் பதில்கள்';
+
+  @override
+  String get eligCheckIntro => 'தெரியாத கேள்வியை தவிர்க்கலாம்.';
+
+  @override
+  String eligCheckStepLabel(int n, int total) {
+    return 'படி $n / $total';
+  }
+
+  @override
+  String get eligCheckStep0 => 'உங்களைப் பற்றி';
+
+  @override
+  String get eligCheckStep1 => 'நீங்கள் வசிக்கும் மற்றும் வேலை செய்யும் இடம்';
+
+  @override
+  String get eligCheckStep2 => 'உங்கள் தொழில்';
+
+  @override
+  String get eligCheckStep3 => 'உங்களுக்கு என்ன தேவை';
+
+  @override
+  String get eligCheckStep4 => 'உங்கள் திறன்கள்';
+
+  @override
+  String get eligCheckStep5 => 'இன்னும் சில (விருப்பம்)';
+
+  @override
+  String eligCheckNeeded(String question) {
+    return 'தொடர இதற்கு பதிலளிக்கவும்: $question';
+  }
+
+  @override
+  String get eligCheckWomenMore =>
+      'பெண் ஊழியர்கள் மொத்த ஊழியர்களை விட அதிகமாக இருக்க முடியாது.';
+
+  @override
+  String get eligCheckQuestionLanguage => 'கேள்வி மொழி';
+
+  @override
+  String get eligCheckSave => 'என் பதில்களைச் சேமி';
+
+  @override
+  String get eligCheckSaveGo => 'சேமித்து உள்ளே செல்';
+
+  @override
+  String get eligCheckSavedTitle => 'உங்கள் பதில்கள் சேமிக்கப்பட்டன';
+
+  @override
+  String get eligCheckSavedBody =>
+      'நன்றி. உங்கள் பதில்களை எப்போது வேண்டுமானாலும் மாற்றலாம்.';
+
+  @override
+  String get eligCheckEdit => 'பதில்களை மாற்று';
+
+  @override
+  String get eligCheckSelect => 'தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get eligCheckOther => 'மற்றவை (நீங்களே உள்ளிடவும்)';
+
+  @override
+  String get eligCheckTypeHere => 'பெயரை உள்ளிடவும்';
+
+  @override
+  String get eligCheckSkipRest => 'மீதியைத் தவிர்';
+
+  @override
+  String get eligCheckAnswerMore => 'மேலும் கேள்விகளுக்கு பதிலளிக்கவும்';
+
+  @override
+  String get eligCheckQuickIntro =>
+      'தொடங்க சில கேள்விகள் மட்டும். மீதியை பிறகு நிரப்பலாம்.';
+
+  @override
+  String get eligCheckAllRequired => 'தொடர அனைத்து கேள்விகளும் அவசியம்.';
+
+  @override
+  String get eligCheckLocate => 'என் தற்போதைய இடத்தைப் பயன்படுத்து';
+
+  @override
+  String get eligCheckLocating => 'உங்கள் இடத்தைக் கண்டறிகிறோம்…';
+
+  @override
+  String get eligCheckLocationFail =>
+      'இடத்தைப் பெற முடியவில்லை. இடத்தை நீங்களே தேர்ந்தெடுக்கலாம்.';
+
+  @override
+  String get eligCheckLocationNote =>
+      'உங்கள் மாநிலம் மற்றும் மாவட்டத்தை தானாக நிரப்பும்.';
+
+  @override
+  String get eligCheckLocationDone =>
+      'இடம் சேமிக்கப்பட்டது. கீழே உள்ள இடத்தைச் சரிபார்க்கவும்.';
+
+  @override
+  String get eligCheckFirstTitle => 'உங்களைப் பற்றி சொல்லுங்கள்';
+
+  @override
+  String get eligCheckFirstIntro =>
+      'சில கேள்விகள், பிறகு உள்ளே செல்லலாம். * குறியிட்ட கேள்விகள் அவசியம்.';
+
+  @override
+  String get guestName => 'விருந்தினர்';
+
+  @override
+  String get guestReminderText =>
+      'உங்கள் சுயவிவரத்தை முடிக்கவும்: முன்னேற்றத்தைச் சேமிக்க Google மூலம் உள்நுழையவும்.';
+
+  @override
+  String get guestLocalTitle =>
+      'உங்கள் விவரங்கள் இந்த தொலைபேசியிலேயே இருக்கும்';
+
+  @override
+  String get guestLocalBody =>
+      'விருந்தினராக உங்கள் விவரங்கள் இந்தத் தொலைபேசியில் மட்டுமே சேமிக்கப்படும். வேறு தொலைபேசியிலோ சாதனத்திலோ MSS-ஐப் பயன்படுத்தினால், அல்லது செயலித் தரவை அழித்தால், உங்கள் விருந்தினர் சுயவிவரம் அங்கே இருக்காது. சுயவிவரத்தைப் பாதுகாக்க Google மூலம் உள்நுழையவும்.';
 }

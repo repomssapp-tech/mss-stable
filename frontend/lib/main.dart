@@ -28,6 +28,10 @@ import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
 import 'utils/app_system_ui_style.dart';
 import 'widgets/common/app_bottom_nav_bar.dart';
+import 'models/eligibility_questionnaire.dart';
+import 'screens/regular_mode/eligibility_check/eligibility_check_screen.dart';
+import 'services/account/eligibility_answers_store.dart';
+import 'services/account/questionnaire_sync_service.dart';
 import 'widgets/common/app_update_prompt.dart';
 import 'widgets/onboarding/home_tour.dart';
 import 'widgets/onboarding/home_tour_targets.dart';
@@ -305,6 +309,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     // nav bar's droplet animation (it showed as a stutter or a jump).
     unawaited(_warmUpTabs());
     unawaited(_showHomeTourWhenReady());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _askQuestionnaire());
     // Tab switches are not broadcast to every AppProvider listener (that
     // rebuilt all five tab screens per tap); only this shell follows them.
     _tabChanges = Provider.of<AppProvider>(context, listen: false).tabChanges
@@ -312,6 +317,42 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   }
 
   late final Listenable _tabChanges;
+
+  bool _asked = false;
+
+  /// First time in the app: a guest answers the short list (the personal details came first),
+  /// a Google user answers every question. Nobody sees this again once it is done.
+  Future<void> _askQuestionnaire() async {
+    if (_asked || !mounted) return;
+    _asked = true;
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    final guest = provider.isGuest;
+    if (!guest && !provider.isLoggedIn) return;
+    // A signed-in user's profile comes first; nothing to ask before it is complete.
+    if (!guest && !provider.profile.profileCompleted) return;
+    try {
+      final q = await EligibilityQuestionnaire.load();
+      if (!guest) await QuestionnaireSyncService.instance.pullIfEmpty();
+      final saved = await const EligibilityAnswersStore().load();
+      final derived = q.derive(provider.profile);
+      if (q.isDone(saved, derived, all: !guest)) return;
+      if (!mounted) return;
+      await Navigator.of(context).push(
+        MaterialPageRoute<void>(
+          builder: (_) => EligibilityCheckScreen(
+            questionnaire: q,
+            profile: provider.profile,
+            quick: guest,
+            mandatory: !guest,
+            firstRun: true,
+            onFinished: (ctx) => Navigator.of(ctx).pop(),
+          ),
+        ),
+      );
+    } catch (e) {
+      debugPrint('[MainTabs] questionnaire gate failed: $e');
+    }
+  }
 
   void _onTabChanged() {
     if (mounted) setState(() {});

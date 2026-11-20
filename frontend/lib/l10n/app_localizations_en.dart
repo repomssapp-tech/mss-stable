@@ -6302,4 +6302,128 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guestSignInNotNow => 'Not now';
+
+  @override
+  String get eligCheckEntry => 'My answers';
+
+  @override
+  String get eligCheckEntrySub => 'Questions about you and your business';
+
+  @override
+  String get eligCheckTitle => 'Your answers';
+
+  @override
+  String get eligCheckIntro => 'Skip any question you are unsure about.';
+
+  @override
+  String eligCheckStepLabel(int n, int total) {
+    return 'Step $n of $total';
+  }
+
+  @override
+  String get eligCheckStep0 => 'About you';
+
+  @override
+  String get eligCheckStep1 => 'Where you live and work';
+
+  @override
+  String get eligCheckStep2 => 'Your business';
+
+  @override
+  String get eligCheckStep3 => 'What you need';
+
+  @override
+  String get eligCheckStep4 => 'Your skills';
+
+  @override
+  String get eligCheckStep5 => 'A little more (optional)';
+
+  @override
+  String eligCheckNeeded(String question) {
+    return 'Please answer this to continue: $question';
+  }
+
+  @override
+  String get eligCheckWomenMore =>
+      'Women staff cannot be more than total staff.';
+
+  @override
+  String get eligCheckQuestionLanguage => 'Question language';
+
+  @override
+  String get eligCheckSave => 'Save my answers';
+
+  @override
+  String get eligCheckSaveGo => 'Save and go in';
+
+  @override
+  String get eligCheckSavedTitle => 'Your answers are saved';
+
+  @override
+  String get eligCheckSavedBody =>
+      'Thank you. You can change your answers any time.';
+
+  @override
+  String get eligCheckEdit => 'Change my answers';
+
+  @override
+  String get eligCheckSelect => 'Select';
+
+  @override
+  String get eligCheckOther => 'Other (type it)';
+
+  @override
+  String get eligCheckTypeHere => 'Type the name';
+
+  @override
+  String get eligCheckSkipRest => 'Skip the rest';
+
+  @override
+  String get eligCheckAnswerMore => 'Answer more questions';
+
+  @override
+  String get eligCheckQuickIntro =>
+      'Just a few questions to start. You can answer more later.';
+
+  @override
+  String get eligCheckAllRequired => 'All questions are needed to continue.';
+
+  @override
+  String get eligCheckLocate => 'Use my current location';
+
+  @override
+  String get eligCheckLocating => 'Finding your location…';
+
+  @override
+  String get eligCheckLocationFail =>
+      'Could not get your location. You can choose the place instead.';
+
+  @override
+  String get eligCheckLocationNote =>
+      'Fills in your state and district for you.';
+
+  @override
+  String get eligCheckLocationDone =>
+      'Location saved. Please check the place below.';
+
+  @override
+  String get eligCheckFirstTitle => 'Tell us about you';
+
+  @override
+  String get eligCheckFirstIntro =>
+      'A few questions, then you are in. Questions marked * are needed.';
+
+  @override
+  String get guestName => 'Guest';
+
+  @override
+  String get guestReminderText =>
+      'Complete your profile: sign in with Google to save your progress.';
+
+  @override
+  String get guestLocalTitle => 'Your details stay on this phone';
+
+  @override
+  String get guestLocalBody =>
+      'As a guest, your details are saved only on this phone. If you use MSS on another phone or device, or clear the app data, your guest profile will not be there. Sign in with Google to keep your profile.';
 }

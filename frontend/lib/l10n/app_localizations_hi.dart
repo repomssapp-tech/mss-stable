@@ -6318,4 +6318,126 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get guestSignInNotNow => 'अभी नहीं';
+
+  @override
+  String get eligCheckEntry => 'मेरे जवाब';
+
+  @override
+  String get eligCheckEntrySub => 'आपके और आपके व्यवसाय के बारे में सवाल';
+
+  @override
+  String get eligCheckTitle => 'आपके जवाब';
+
+  @override
+  String get eligCheckIntro => 'जिसका जवाब पता न हो उसे छोड़ दें।';
+
+  @override
+  String eligCheckStepLabel(int n, int total) {
+    return 'चरण $n / $total';
+  }
+
+  @override
+  String get eligCheckStep0 => 'आपके बारे में';
+
+  @override
+  String get eligCheckStep1 => 'आप कहाँ रहते और काम करते हैं';
+
+  @override
+  String get eligCheckStep2 => 'आपका व्यवसाय';
+
+  @override
+  String get eligCheckStep3 => 'आपको क्या चाहिए';
+
+  @override
+  String get eligCheckStep4 => 'आपके कौशल';
+
+  @override
+  String get eligCheckStep5 => 'थोड़ी और जानकारी (वैकल्पिक)';
+
+  @override
+  String eligCheckNeeded(String question) {
+    return 'आगे बढ़ने के लिए इसका जवाब दें: $question';
+  }
+
+  @override
+  String get eligCheckWomenMore =>
+      'महिला कर्मचारी कुल कर्मचारियों से ज़्यादा नहीं हो सकते।';
+
+  @override
+  String get eligCheckQuestionLanguage => 'प्रश्नों की भाषा';
+
+  @override
+  String get eligCheckSave => 'मेरे जवाब सहेजें';
+
+  @override
+  String get eligCheckSaveGo => 'सहेजें और अंदर जाएँ';
+
+  @override
+  String get eligCheckSavedTitle => 'आपके जवाब सहेज लिए गए';
+
+  @override
+  String get eligCheckSavedBody => 'धन्यवाद। आप अपने जवाब कभी भी बदल सकते हैं।';
+
+  @override
+  String get eligCheckEdit => 'जवाब बदलें';
+
+  @override
+  String get eligCheckSelect => 'चुनें';
+
+  @override
+  String get eligCheckOther => 'अन्य (खुद लिखें)';
+
+  @override
+  String get eligCheckTypeHere => 'नाम लिखें';
+
+  @override
+  String get eligCheckSkipRest => 'बाकी छोड़ें';
+
+  @override
+  String get eligCheckAnswerMore => 'और सवालों के जवाब दें';
+
+  @override
+  String get eligCheckQuickIntro =>
+      'शुरू करने के लिए बस कुछ सवाल। बाकी आप बाद में भर सकते हैं।';
+
+  @override
+  String get eligCheckAllRequired => 'आगे बढ़ने के लिए सभी सवाल ज़रूरी हैं।';
+
+  @override
+  String get eligCheckLocate => 'मेरी वर्तमान लोकेशन इस्तेमाल करें';
+
+  @override
+  String get eligCheckLocating => 'आपकी लोकेशन खोज रहे हैं…';
+
+  @override
+  String get eligCheckLocationFail =>
+      'लोकेशन नहीं मिल सकी। आप जगह खुद चुन सकते हैं।';
+
+  @override
+  String get eligCheckLocationNote => 'आपका राज्य और जिला अपने आप भर देता है।';
+
+  @override
+  String get eligCheckLocationDone =>
+      'लोकेशन सहेजी गई। कृपया नीचे जगह जाँच लें।';
+
+  @override
+  String get eligCheckFirstTitle => 'अपने बारे में बताइए';
+
+  @override
+  String get eligCheckFirstIntro =>
+      'कुछ सवाल, फिर आप अंदर हैं। * वाले सवालों का जवाब ज़रूरी है।';
+
+  @override
+  String get guestName => 'अतिथि';
+
+  @override
+  String get guestReminderText =>
+      'अपनी प्रोफ़ाइल पूरी करें: प्रगति सहेजने के लिए Google से साइन-इन करें।';
+
+  @override
+  String get guestLocalTitle => 'आपकी जानकारी इसी फ़ोन में रहती है';
+
+  @override
+  String get guestLocalBody =>
+      'अतिथि के रूप में आपकी जानकारी केवल इसी फ़ोन में सहेजी जाती है। किसी दूसरे फ़ोन या डिवाइस पर MSS इस्तेमाल करने पर, या ऐप का डेटा मिटाने पर, आपकी अतिथि प्रोफ़ाइल वहाँ नहीं मिलेगी। प्रोफ़ाइल बचाए रखने के लिए Google से साइन-इन करें।';
 }

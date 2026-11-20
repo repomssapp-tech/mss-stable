@@ -11,6 +11,7 @@ import '../../utils/app_spacing.dart';
 import '../login_screen.dart';
 import '../notifications_screen.dart';
 import 'home/home_featured_section.dart';
+import 'home/home_guest_reminder_card.dart';
 import 'home/home_header_section.dart';
 import 'home/home_journey_section.dart';
 import 'home/home_msme_support_section.dart';
@@ -147,7 +148,11 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
 
-                      if (provider.profileCompletionPercentage < 100) ...[
+                      if (provider.isGuest) ...[
+                        const SizedBox(height: AppSpacing.xl),
+                        // Guests: sign in to complete the profile.
+                        const HomeGuestReminderCard(),
+                      ] else if (provider.profileCompletionPercentage < 100) ...[
                         const SizedBox(height: AppSpacing.xl),
                         // Profile Completion (Real & Compact)
                         HomeProfileCompletionCard(provider: provider),
@@ -171,10 +176,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       const SizedBox(height: AppSpacing.xxl),
 
-                      // Recommended For You (Horizontal List)
-                      HomeRecommendedSection(provider: provider),
-
-                      const SizedBox(height: AppSpacing.xxl),
+                      // Recommended For You (Horizontal List). Guests have no
+                      // recommendations, so they do not see it.
+                      if (!provider.isGuest) ...[
+                        HomeRecommendedSection(provider: provider),
+                        const SizedBox(height: AppSpacing.xxl),
+                      ],
 
                       // Latest Updates & Tip of the Day
                       HomeUpdatesSection(provider: provider),

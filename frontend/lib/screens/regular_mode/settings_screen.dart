@@ -22,6 +22,7 @@ import '../../design_v2/saarthi/saarthi_voice_settings_screen.dart';
 import 'settings/active_sessions_dialog.dart';
 import 'settings/delete_account_screen.dart';
 import 'settings/settings_parts.dart';
+import '../../widgets/common/guest_local_notice.dart';
 import '../../widgets/common/standard_page_header.dart';
 import '../../widgets/legal/copyright_notice.dart';
 import '../../services/location_lock/location_lock_config.dart';
@@ -98,6 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
             AppSpacing.xxl,
           ),
           children: [
+            if (provider.isGuest) const GuestLocalNotice(),
             if (showProfile) ...[
               const SizedBox(height: AppSpacing.md),
               SettingsProfileHeader(provider: provider),
