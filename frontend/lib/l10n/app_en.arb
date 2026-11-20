@@ -2126,5 +2126,10 @@
   "locationErrLookup": "Could not find your state. Connect to the internet, then try again.",
   "locationStateLocked": "Set from your GPS location. It cannot be changed.",
   "locationDevBuildBadge": "Test build",
-  "@locationGateTitle": {"description": "Title of the blocking screen that asks for precise GPS location (dev build location lock)."}
+  "@locationGateTitle": {"description": "Title of the blocking screen that asks for precise GPS location (dev build location lock)."},
+  "loginContinueAsGuest": "Continue as guest",
+  "guestSignInTitle": "Sign in to use this",
+  "guestSignInBody": "Saving schemes, notifications and profile sync need an account. Your answers on this phone are kept and move to your account when you sign in.",
+  "guestSignInAction": "Sign in",
+  "guestSignInNotNow": "Not now"
 }

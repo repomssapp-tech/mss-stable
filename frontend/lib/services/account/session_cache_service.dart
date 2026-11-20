@@ -18,6 +18,7 @@ class SessionCacheService {
   static const String _keyLastProfileSync = 'last_profile_sync';
   static const String _keyIsLoggedIn = 'isLoggedIn';
   static const String _keyIsGuest = 'isGuest';
+  static const String _keyGuestUploadPending = 'guestAnswersUploadPending';
   static const String _keySavedEligibilitySchemeIds =
       'savedEligibilitySchemeIds';
   static const String _keyLastEligibilitySavedAt = 'lastEligibilitySavedAt';
@@ -172,6 +173,32 @@ class SessionCacheService {
       await prefs.setBool(_keyIsGuest, isGuest);
     } catch (e) {
       debugPrint('[SessionCacheService] Error saving isGuest: $e');
+    }
+  }
+
+  /// True after a guest signed in and their on-device answers have not yet
+  /// reached the new account. Kept apart from [getIsGuest] so a failed upload
+  /// is retried on the next sign-in hydrate and a done one never repeats.
+  Future<bool> getGuestUploadPending() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getBool(_keyGuestUploadPending) ?? false;
+    } catch (e) {
+      debugPrint('[SessionCacheService] Error getting guest upload flag: $e');
+      return false;
+    }
+  }
+
+  Future<void> saveGuestUploadPending(bool pending) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (pending) {
+        await prefs.setBool(_keyGuestUploadPending, true);
+      } else {
+        await prefs.remove(_keyGuestUploadPending);
+      }
+    } catch (e) {
+      debugPrint('[SessionCacheService] Error saving guest upload flag: $e');
     }
   }
 

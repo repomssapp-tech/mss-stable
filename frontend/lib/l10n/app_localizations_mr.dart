@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -6267,4 +6266,20 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get locationDevBuildBadge => 'चाचणी आवृत्ती';
+
+  @override
+  String get loginContinueAsGuest => 'अतिथी म्हणून पुढे जा';
+
+  @override
+  String get guestSignInTitle => 'हे वापरण्यासाठी साइन इन करा';
+
+  @override
+  String get guestSignInBody =>
+      'योजना जतन करणे, सूचना आणि प्रोफाइल सिंक यासाठी खाते लागते. या फोनवरील तुमची उत्तरे जपून ठेवली जातात आणि साइन इन केल्यावर तुमच्या खात्यात जातात.';
+
+  @override
+  String get guestSignInAction => 'साइन इन करा';
+
+  @override
+  String get guestSignInNotNow => 'आत्ता नाही';
 }

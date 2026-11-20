@@ -1896,5 +1896,10 @@
   "locationErrOutsideIndia": "MSS फक्त भारतातच चालते.",
   "locationErrLookup": "तुमचे राज्य शोधता आले नाही. इंटरनेटशी जोडा आणि पुन्हा प्रयत्न करा.",
   "locationStateLocked": "तुमच्या GPS ठिकाणावरून ठरवले. ते बदलता येत नाही.",
-  "locationDevBuildBadge": "चाचणी आवृत्ती"
+  "locationDevBuildBadge": "चाचणी आवृत्ती",
+  "loginContinueAsGuest": "अतिथी म्हणून पुढे जा",
+  "guestSignInTitle": "हे वापरण्यासाठी साइन इन करा",
+  "guestSignInBody": "योजना जतन करणे, सूचना आणि प्रोफाइल सिंक यासाठी खाते लागते. या फोनवरील तुमची उत्तरे जपून ठेवली जातात आणि साइन इन केल्यावर तुमच्या खात्यात जातात.",
+  "guestSignInAction": "साइन इन करा",
+  "guestSignInNotNow": "आत्ता नाही"
 }

@@ -11490,6 +11490,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Test build'**
   String get locationDevBuildBadge;
+
+  /// No description provided for @loginContinueAsGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as guest'**
+  String get loginContinueAsGuest;
+
+  /// No description provided for @guestSignInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to use this'**
+  String get guestSignInTitle;
+
+  /// No description provided for @guestSignInBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving schemes, notifications and profile sync need an account. Your answers on this phone are kept and move to your account when you sign in.'**
+  String get guestSignInBody;
+
+  /// No description provided for @guestSignInAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get guestSignInAction;
+
+  /// No description provided for @guestSignInNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get guestSignInNotNow;
 }
 
 class _AppLocalizationsDelegate

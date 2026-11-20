@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -6393,4 +6392,20 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get locationDevBuildBadge => 'சோதனைப் பதிப்பு';
+
+  @override
+  String get loginContinueAsGuest => 'விருந்தினராகத் தொடரவும்';
+
+  @override
+  String get guestSignInTitle => 'இதைப் பயன்படுத்த உள்நுழையவும்';
+
+  @override
+  String get guestSignInBody =>
+      'திட்டங்களைச் சேமிக்க, அறிவிப்புகள் பெற மற்றும் சுயவிவர ஒத்திசைவுக்குக் கணக்கு தேவை. இந்தத் தொலைபேசியில் நீங்கள் அளித்த பதில்கள் வைக்கப்பட்டு, உள்நுழைந்ததும் உங்கள் கணக்கிற்கு மாற்றப்படும்.';
+
+  @override
+  String get guestSignInAction => 'உள்நுழையவும்';
+
+  @override
+  String get guestSignInNotNow => 'இப்போது வேண்டாம்';
 }

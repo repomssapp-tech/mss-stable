@@ -1948,5 +1948,10 @@
   "locationErrOutsideIndia": "MSS केवल भारत के अंदर काम करता है।",
   "locationErrLookup": "आपका राज्य पता नहीं चल सका। इंटरनेट से जुड़ें, फिर दोबारा कोशिश करें।",
   "locationStateLocked": "आपके GPS स्थान से तय किया गया। इसे बदला नहीं जा सकता।",
-  "locationDevBuildBadge": "टेस्ट बिल्ड"
+  "locationDevBuildBadge": "टेस्ट बिल्ड",
+  "loginContinueAsGuest": "मेहमान के रूप में जारी रखें",
+  "guestSignInTitle": "इसका उपयोग करने के लिए साइन इन करें",
+  "guestSignInBody": "योजनाएँ सहेजने, सूचनाएँ पाने और प्रोफ़ाइल सिंक के लिए खाता चाहिए। इस फ़ोन पर दिए आपके उत्तर रखे जाते हैं और साइन इन करने पर आपके खाते में चले जाते हैं।",
+  "guestSignInAction": "साइन इन करें",
+  "guestSignInNotNow": "अभी नहीं"
 }
