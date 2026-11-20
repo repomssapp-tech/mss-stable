@@ -345,7 +345,9 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
 
   // Screens matching the tabs.
   List<Widget> _buildTabs(AppProvider provider, String navigationMode) => [
-    navigationMode == 'companion'
+    // A guest cannot use Saarthi yet (it needs an account), so companion
+    // mode falls back to the regular home for guests.
+    navigationMode == 'companion' && !provider.isGuest
         ? const SaarthiVoiceScreen()
         : HomeScreen(
             onVoiceQuery: (query) {

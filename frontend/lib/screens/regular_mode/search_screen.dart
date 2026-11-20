@@ -736,6 +736,7 @@ class SearchScreenState extends State<SearchScreen> {
             isLoadingCounts: _isLoadingCounts,
             matchingProfileCount: _matchingProfileCount,
             matchingProfileIsPartial: _matchingProfileIsPartial,
+            showForMe: !Provider.of<AppProvider>(context).isGuest,
             onHighlightTap: () {
               setState(() {
                 _activeFilter = 'For Me';
@@ -851,6 +852,7 @@ class SearchScreenState extends State<SearchScreen> {
                       SearchFilterStrip(
                         facetCount: activeSchemeFilterCount(provider.filters),
                         isForMeActive: _activeFilter == 'For Me',
+                        showForMe: !provider.isGuest,
                         sortBy: _sortBy,
                         onOpenFilterPanel: _openFilterPanel,
                         onToggleForMe: () {

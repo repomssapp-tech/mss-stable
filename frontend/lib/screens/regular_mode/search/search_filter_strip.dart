@@ -113,6 +113,10 @@ class SearchFilterStrip extends StatelessWidget {
   final VoidCallback onToggleForMe;
   final ValueChanged<String> onSortChanged;
 
+  /// False for a guest: "For Me" and "Best match for me" rank by an account
+  /// profile a guest does not have.
+  final bool showForMe;
+
   const SearchFilterStrip({
     super.key,
     required this.facetCount,
@@ -121,6 +125,7 @@ class SearchFilterStrip extends StatelessWidget {
     required this.onOpenFilterPanel,
     required this.onToggleForMe,
     required this.onSortChanged,
+    this.showForMe = true,
   });
 
   String _sortLabel(BuildContext context, String value) {
@@ -163,24 +168,25 @@ class SearchFilterStrip extends StatelessWidget {
 
         // "For Me" -- opt-in profile-eligibility filter. While on, it shows a
         // tick on the selected blue tint, like a chosen chip.
-        OutlinedButton.icon(
-          onPressed: onToggleForMe,
-          style: isForMeActive
-              ? const ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(
-                    AppColors.primarySoft,
-                  ),
-                )
-              : null,
-          icon: forMeIcon,
-          label: forMeLabel,
-        ),
+        if (showForMe)
+          OutlinedButton.icon(
+            onPressed: onToggleForMe,
+            style: isForMeActive
+                ? const ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(
+                      AppColors.primarySoft,
+                    ),
+                  )
+                : null,
+            icon: forMeIcon,
+            label: forMeLabel,
+          ),
 
         SearchDropdownChip(
           label: context.l10n.sortLabel,
-          options: const [
+          options: [
             'Relevance',
-            'Best match for me',
+            if (showForMe) 'Best match for me',
             'Scheme name (A-Z)',
           ],
           currentValue: sortBy,

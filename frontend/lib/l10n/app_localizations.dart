@@ -11448,6 +11448,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Top schemes in {state}'**
   String homeTopSchemesInState(String state);
+
+  /// No description provided for @guestSavedSignInDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to save schemes and find them here on any phone.'**
+  String get guestSavedSignInDesc;
 }
 
 class _AppLocalizationsDelegate

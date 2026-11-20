@@ -1889,5 +1889,6 @@
   "guestProfilePending": "प्रलंबित",
   "guestProfilePendingNote": "तुम्ही अतिथी म्हणून ॲप वापरत आहात. साइन इन केल्यावर तुमची प्रोफाइल जतन होईल.",
   "homeTopSchemes": "प्रमुख योजना",
-  "homeTopSchemesInState": "{state} मधील प्रमुख योजना"
+  "homeTopSchemesInState": "{state} मधील प्रमुख योजना",
+  "guestSavedSignInDesc": "योजना जतन करण्यासाठी आणि त्या कोणत्याही फोनवर येथे पाहण्यासाठी साइन इन करा."
 }
