@@ -6275,4 +6275,8 @@ class AppLocalizationsHi extends AppLocalizations {
   String homeTopSchemesInState(String state) {
     return '$state की शीर्ष योजनाएँ';
   }
+
+  @override
+  String get guestSavedSignInDesc =>
+      'योजनाएँ सहेजने और उन्हें किसी भी फ़ोन पर यहाँ देखने के लिए साइन इन करें।';
 }

@@ -77,6 +77,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Opens Saarthi on its own home: the greeting, the mic and the keyboard.
   Future<void> _openChatbot() async {
+    // Saarthi needs an account until the backend's guest token exists.
+    if (!await requireAccount(context)) return;
+    if (!mounted) return;
     await Navigator.of(context).push<void>(
       MaterialPageRoute(builder: (_) => const SaarthiVoiceScreen()),
     );

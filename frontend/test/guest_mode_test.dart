@@ -12,6 +12,9 @@ import 'package:frontend/screens/profile/guest_profile_view.dart';
 import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/regular_mode/home/guest_state_schemes.dart';
 import 'package:frontend/screens/regular_mode/home_screen.dart';
+import 'package:frontend/screens/regular_mode/saved_schemes_screen.dart';
+import 'package:frontend/screens/regular_mode/search/search_filter_strip.dart';
+import 'package:frontend/screens/regular_mode/settings_screen.dart';
 import 'package:frontend/screens/splash_screen.dart';
 import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:frontend/services/catalog/scheme_catalog_sync_service.dart';
@@ -457,6 +460,91 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.byType(LoginScreen), findsOneWidget);
+    });
+  });
+
+  group('guest surfaces without an account', () {
+    Widget app(AppProvider provider, Widget home) =>
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: home,
+          ),
+        );
+
+    testWidgets('Settings: Sign in, no logout or account rows', (tester) async {
+      final provider = AppProvider();
+      await provider.continueAsGuest();
+
+      await tester.pumpWidget(app(provider, const SettingsScreen()));
+      await tester.pump();
+
+      expect(
+        find.byKey(
+          const ValueKey('settings-guest-sign-in'),
+          skipOffstage: false,
+        ),
+        findsOneWidget,
+      );
+      expect(find.text('Logout', skipOffstage: false), findsNothing);
+      expect(find.text('Delete account', skipOffstage: false), findsNothing);
+      expect(find.text('Signed-in devices', skipOffstage: false), findsNothing);
+      expect(
+        find.text('Saarthi voice settings', skipOffstage: false),
+        findsNothing,
+      );
+    });
+
+    testWidgets('Settings: a signed-in user keeps Logout', (tester) async {
+      final provider = AppProvider()..setLoggedInForTesting(true);
+
+      await tester.pumpWidget(app(provider, const SettingsScreen()));
+      await tester.pump();
+
+      expect(find.text('Logout', skipOffstage: false), findsOneWidget);
+      expect(find.text('Delete account', skipOffstage: false), findsOneWidget);
+    });
+
+    testWidgets('Search: no For me filter or best-match sort for a guest', (
+      tester,
+    ) async {
+      Widget strip({required bool showForMe}) => MaterialApp(
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: SearchFilterStrip(
+            facetCount: 0,
+            isForMeActive: false,
+            sortBy: 'Relevance',
+            onOpenFilterPanel: () {},
+            onToggleForMe: () {},
+            onSortChanged: (_) {},
+            showForMe: showForMe,
+          ),
+        ),
+      );
+
+      await tester.pumpWidget(strip(showForMe: false));
+      expect(find.text('For me'), findsNothing);
+
+      await tester.pumpWidget(strip(showForMe: true));
+      expect(find.text('For me'), findsOneWidget);
+    });
+
+    testWidgets('Saved: a guest is asked to sign in, not to discover', (
+      tester,
+    ) async {
+      final provider = AppProvider();
+      await provider.continueAsGuest();
+
+      await tester.pumpWidget(
+        app(provider, const Scaffold(body: SavedSchemesScreen())),
+      );
+      await tester.pump();
+
+      expect(find.byKey(const ValueKey('saved-guest-sign-in')), findsOneWidget);
     });
   });
 

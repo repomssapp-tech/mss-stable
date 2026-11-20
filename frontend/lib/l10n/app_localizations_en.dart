@@ -6260,4 +6260,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String homeTopSchemesInState(String state) {
     return 'Top schemes in $state';
   }
+
+  @override
+  String get guestSavedSignInDesc =>
+      'Sign in to save schemes and find them here on any phone.';
 }

@@ -6364,4 +6364,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String homeTopSchemesInState(String state) {
     return '$state இன் முன்னணித் திட்டங்கள்';
   }
+
+  @override
+  String get guestSavedSignInDesc =>
+      'திட்டங்களைச் சேமித்து எந்தத் தொலைபேசியிலும் இங்கே பார்க்க உள்நுழையவும்.';
 }
