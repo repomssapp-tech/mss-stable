@@ -6325,4 +6325,25 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get loginBackToGuest => 'मेहमान के रूप में ब्राउज़िंग पर वापस';
+
+  @override
+  String get saarthiTourSpeakTitle => 'सारथी से बात करें';
+
+  @override
+  String get saarthiTourSpeakBody =>
+      'माइक दबाएँ और अपनी भाषा में योजनाओं, पात्रता या दस्तावेज़ों के बारे में पूछें।';
+
+  @override
+  String get saarthiTourTypeTitle => 'या लिखें';
+
+  @override
+  String get saarthiTourTypeBody =>
+      'लिखना पसंद है? अपना सवाल लिखने के लिए कीबोर्ड दबाएँ।';
+
+  @override
+  String get saarthiTourHistoryTitle => 'पिछली बातचीत';
+
+  @override
+  String get saarthiTourHistoryBody =>
+      'अपनी पिछली बातचीत यहाँ ढूँढें और जारी रखें।';
 }

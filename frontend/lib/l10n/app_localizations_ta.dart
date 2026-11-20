@@ -6415,4 +6415,25 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get loginBackToGuest => 'விருந்தினராக உலாவுவதற்குத் திரும்பு';
+
+  @override
+  String get saarthiTourSpeakTitle => 'சாரதியிடம் பேசுங்கள்';
+
+  @override
+  String get saarthiTourSpeakBody =>
+      'மைக்கைத் தொட்டு, உங்கள் மொழியில் திட்டங்கள், தகுதி அல்லது ஆவணங்கள் பற்றிக் கேளுங்கள்.';
+
+  @override
+  String get saarthiTourTypeTitle => 'அல்லது தட்டச்சு செய்யுங்கள்';
+
+  @override
+  String get saarthiTourTypeBody =>
+      'தட்டச்சு விருப்பமா? உங்கள் கேள்வியை எழுத விசைப்பலகையைத் தொடுங்கள்.';
+
+  @override
+  String get saarthiTourHistoryTitle => 'முந்தைய உரையாடல்கள்';
+
+  @override
+  String get saarthiTourHistoryBody =>
+      'உங்கள் முந்தைய உரையாடல்களை இங்கே கண்டு தொடருங்கள்.';
 }

@@ -1955,5 +1955,11 @@
   "guestGreetingName": "स्वागत है!",
   "loginGuestHint": "अभी योजनाएँ देखें, खाते की ज़रूरत नहीं",
   "loginGoogleHint": "योजनाएँ सहेजें, अलर्ट पाएँ और सारथी से बात करें",
-  "loginBackToGuest": "मेहमान के रूप में ब्राउज़िंग पर वापस"
+  "loginBackToGuest": "मेहमान के रूप में ब्राउज़िंग पर वापस",
+  "saarthiTourSpeakTitle": "सारथी से बात करें",
+  "saarthiTourSpeakBody": "माइक दबाएँ और अपनी भाषा में योजनाओं, पात्रता या दस्तावेज़ों के बारे में पूछें।",
+  "saarthiTourTypeTitle": "या लिखें",
+  "saarthiTourTypeBody": "लिखना पसंद है? अपना सवाल लिखने के लिए कीबोर्ड दबाएँ।",
+  "saarthiTourHistoryTitle": "पिछली बातचीत",
+  "saarthiTourHistoryBody": "अपनी पिछली बातचीत यहाँ ढूँढें और जारी रखें।"
 }

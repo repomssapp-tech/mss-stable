@@ -18,6 +18,7 @@ import 'package:frontend/screens/regular_mode/settings_screen.dart';
 import 'package:frontend/screens/splash_screen.dart';
 import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:frontend/services/catalog/scheme_catalog_sync_service.dart';
+import 'package:frontend/services/onboarding/home_tour_store.dart';
 import 'package:frontend/widgets/common/sign_in_required_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -550,6 +551,19 @@ void main() {
       await tester.pump();
 
       expect(find.byKey(const ValueKey('saved-guest-sign-in')), findsOneWidget);
+    });
+  });
+
+  group('first-time tours', () {
+    test('Saarthi tour has its own record, kept across sign-out', () async {
+      const saarthi = HomeTourStore(tour: 'saarthi');
+      const home = HomeTourStore();
+      await saarthi.record(null, HomeTourOutcome.completed);
+
+      expect(await home.isDone(null), isFalse);
+      await SessionCacheService.instance.clearSession();
+      expect(await saarthi.isDone(null), isTrue);
+      expect(await saarthi.isDone('u9'), isTrue);
     });
   });
 

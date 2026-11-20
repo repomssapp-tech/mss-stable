@@ -2141,5 +2141,11 @@
   "guestGreetingName": "Welcome!",
   "loginGuestHint": "Browse schemes now, no account needed",
   "loginGoogleHint": "Save schemes, get alerts and chat with Saarthi",
-  "loginBackToGuest": "Back to browsing as a guest"
+  "loginBackToGuest": "Back to browsing as a guest",
+  "saarthiTourSpeakTitle": "Talk to Saarthi",
+  "saarthiTourSpeakBody": "Tap the mic and ask about schemes, eligibility or documents in your language.",
+  "saarthiTourTypeTitle": "Or type",
+  "saarthiTourTypeBody": "Prefer typing? Tap the keyboard to write your question.",
+  "saarthiTourHistoryTitle": "Past chats",
+  "saarthiTourHistoryBody": "Find and continue your earlier conversations here."
 }

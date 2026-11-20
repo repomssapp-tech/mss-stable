@@ -11532,6 +11532,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back to browsing as a guest'**
   String get loginBackToGuest;
+
+  /// No description provided for @saarthiTourSpeakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to Saarthi'**
+  String get saarthiTourSpeakTitle;
+
+  /// No description provided for @saarthiTourSpeakBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the mic and ask about schemes, eligibility or documents in your language.'**
+  String get saarthiTourSpeakBody;
+
+  /// No description provided for @saarthiTourTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Or type'**
+  String get saarthiTourTypeTitle;
+
+  /// No description provided for @saarthiTourTypeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer typing? Tap the keyboard to write your question.'**
+  String get saarthiTourTypeBody;
+
+  /// No description provided for @saarthiTourHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Past chats'**
+  String get saarthiTourHistoryTitle;
+
+  /// No description provided for @saarthiTourHistoryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Find and continue your earlier conversations here.'**
+  String get saarthiTourHistoryBody;
 }
 
 class _AppLocalizationsDelegate

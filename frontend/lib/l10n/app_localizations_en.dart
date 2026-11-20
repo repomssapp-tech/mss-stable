@@ -6309,4 +6309,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginBackToGuest => 'Back to browsing as a guest';
+
+  @override
+  String get saarthiTourSpeakTitle => 'Talk to Saarthi';
+
+  @override
+  String get saarthiTourSpeakBody =>
+      'Tap the mic and ask about schemes, eligibility or documents in your language.';
+
+  @override
+  String get saarthiTourTypeTitle => 'Or type';
+
+  @override
+  String get saarthiTourTypeBody =>
+      'Prefer typing? Tap the keyboard to write your question.';
+
+  @override
+  String get saarthiTourHistoryTitle => 'Past chats';
+
+  @override
+  String get saarthiTourHistoryBody =>
+      'Find and continue your earlier conversations here.';
 }

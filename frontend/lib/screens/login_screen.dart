@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state_provider.dart';
 import '../l10n/l10n.dart';
+import '../widgets/common/app_icon_button.dart';
 import '../widgets/common/app_toast.dart';
 import '../widgets/legal/legal_consent_section.dart';
 import '../widgets/legal/legal_document_modal.dart';
@@ -325,10 +326,11 @@ class _LoginScreenState extends State<LoginScreen> {
             Positioned(
               top: MediaQuery.paddingOf(context).top,
               left: AppSpacing.xs,
-              child: IconButton(
+              child: AppIconButton(
                 key: const ValueKey('login-back-to-guest'),
+                icon: Icons.close_rounded,
+                semanticLabel: context.l10n.loginBackToGuest,
                 tooltip: context.l10n.loginBackToGuest,
-                icon: const Icon(Icons.close_rounded),
                 onPressed: _backToGuest,
               ),
             ),
@@ -432,8 +434,7 @@ class _LoginScreenState extends State<LoginScreen> {
         // Google Sign-In Button (strictly gated behind mandatory consent).
         // While it is disabled, a tap on it says why instead of doing
         // nothing, and screen readers hear the same reason as a hint.
-        GestureDetector(
-          // tap-ok: only explains taps on the disabled button
+        GestureDetector( // tap-ok: only explains taps on the disabled button
           onTap: isLoginEnabled || _busy
               ? null
               : () => AppToast.showWarning(
@@ -446,8 +447,7 @@ class _LoginScreenState extends State<LoginScreen> {
               width: double.infinity,
               child: OutlinedButton(
                 key: const ValueKey('login-continue-with-google'),
-                style: OutlinedButton.styleFrom(
-                  // style-ok: CTA height + explicit loading foreground colour
+                style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
                   minimumSize: const Size.fromHeight(52),
                   foregroundColor: _busy ? AppColors.primary : null,
                 ),
@@ -500,12 +500,11 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(height: AppSpacing.md),
         // Guest entry: the same size and weight as Google sign-in, an equal
         // choice rather than a fallback link.
-        SizedBox(
+        SizedBox( // spacing-ok: full-width button, same as Google
           width: double.infinity,
           child: OutlinedButton.icon(
             key: const ValueKey('login-continue-as-guest'),
-            style: OutlinedButton.styleFrom(
-              // style-ok: CTA height, same as Google
+            style: OutlinedButton.styleFrom( // style-ok: CTA height, same as Google
               minimumSize: const Size.fromHeight(52),
             ),
             onPressed: (_busy || !isLoginEnabled) ? null : _continueAsGuest,

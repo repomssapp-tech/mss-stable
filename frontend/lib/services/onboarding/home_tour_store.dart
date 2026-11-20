@@ -12,15 +12,21 @@ enum HomeTourOutcome { completed, skipped }
 /// (`SessionCacheService.clearSession` keeps every [keyPrefix] key), so
 /// signing out and back in, or a guest signing in, never shows it again.
 class HomeTourStore {
-  const HomeTourStore();
+  /// [tour] names the tour: empty for the home tour (its keys predate the
+  /// name), `saarthi` for the Saarthi-mode tour.
+  const HomeTourStore({this.tour = ''});
+
+  final String tour;
 
   /// Bump the version in this prefix to show a new tour to everyone again.
   static const String keyPrefix = 'home_tour_v1_';
 
-  /// The record for anyone on this phone, including a guest.
-  static const String deviceKey = '${keyPrefix}device';
+  String get _base => tour.isEmpty ? keyPrefix : '$keyPrefix${tour}_';
 
-  static String keyFor(String userId) => '$keyPrefix$userId';
+  /// The record for anyone on this phone, including a guest.
+  String get deviceKey => '${_base}device';
+
+  String keyFor(String userId) => '$_base$userId';
 
   /// Done on this phone, or by this account on another phone.
   Future<bool> isDone(String? userId) async {

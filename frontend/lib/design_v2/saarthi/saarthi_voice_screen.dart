@@ -33,6 +33,9 @@ import 'saarthi_voice_home.dart';
 import 'saarthi_voice_room.dart';
 import 'scheme_mentions.dart';
 import '../../widgets/common/sign_in_required_sheet.dart';
+import '../../widgets/onboarding/home_tour.dart' show HomeTourStart;
+import '../../widgets/onboarding/saarthi_tour.dart';
+import '../../services/account/app_session.dart';
 
 class SaarthiVoiceScreen extends StatefulWidget {
   const SaarthiVoiceScreen({
@@ -94,6 +97,7 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   @override
   void initState() {
     super.initState();
+    unawaited(_showTourWhenReady());
     SaarthiVoiceScreen._shown = this;
     _history = widget.history ?? LocalChatHistory.instance;
     _settings = widget.settings ?? SaarthiVoiceSettings.instance;
@@ -408,8 +412,36 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     }
   }
 
+  Timer? _tourPoll;
+
+  /// The first-time Saarthi tour, together with the Saarthi home's first
+  /// frames (checked every 80 ms), like the home tour. A tour already seen
+  /// starts no timer; the poll is cancelled with the screen.
+  Future<void> _showTourWhenReady() async {
+    if (await SaarthiTour.defaultStore.isDone(AppSession.instance.userId)) {
+      return;
+    }
+    if (!mounted) return;
+    var attempts = 0;
+    var checking = false;
+    _tourPoll = Timer.periodic(const Duration(milliseconds: 80), (timer) async {
+      if (checking) return;
+      if (!mounted || ++attempts > 75) {
+        timer.cancel();
+        return;
+      }
+      if (_active || _tab != SaarthiNavTab.home) return;
+      checking = true;
+      final result = await SaarthiTour.maybeStart(context);
+      checking = false;
+      if (result != HomeTourStart.notReady) timer.cancel();
+    });
+  }
+
   @override
   void dispose() {
+    _tourPoll?.cancel();
+    SaarthiTour.dismiss();
     if (identical(SaarthiVoiceScreen._shown, this)) {
       SaarthiVoiceScreen._shown = null;
     }
@@ -451,7 +483,9 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
         : trimmed.split(' ').first;
 
     final c = _conversation;
+    final showingHome = !_active && _tab == SaarthiNavTab.home;
     final nav = SaarthiPillNav(
+      sessionsTourKey: showingHome ? SaarthiTourTargets.sessions : null,
       selected: _active ? SaarthiNavTab.sessions : _tab,
       onHome: () => _openTab(SaarthiNavTab.home),
       onSessions: () => _openTab(SaarthiNavTab.sessions),
