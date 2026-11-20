@@ -344,12 +344,8 @@ class _LoginScreenState extends State<LoginScreen> {
     await LegalConsentStore.markLoginAgreement();
     await provider.continueAsGuest();
     if (!mounted) return;
-    await replaceWithPermissionsFirst(
-      context,
-      provider.profile.profileCompleted
-          ? const MainTabsContainer()
-          : const NavigationModeScreen(),
-    );
+    // Straight to home: a guest has no profile onboarding.
+    await replaceWithPermissionsFirst(context, const MainTabsContainer());
   }
 
   Widget _buildLoginForm() {

@@ -30,15 +30,17 @@ enum StartupDestination { home, navigationMode, language, login }
 /// Hairlines and the progress track on the splash art's blue footer.
 final Color _faintOnBlue = AppColors.textOnPrimary.withValues(alpha: 0.25);
 
-/// A guest ([isGuest]) is routed like a signed-in user: no sign-in screen and
-/// no network check, so a guest cold start works offline.
+/// A guest ([isGuest]) goes straight to home: no sign-in screen, no network
+/// check (a guest cold start works offline) and no profile onboarding, which
+/// asks for name, email and phone a guest does not give.
 StartupDestination resolveStartupDestination({
   required bool hasSession,
   required bool hasCachedLanguage,
   required bool profileCompleted,
   bool isGuest = false,
 }) {
-  if (hasSession || isGuest) {
+  if (isGuest && !hasSession) return StartupDestination.home;
+  if (hasSession) {
     return profileCompleted
         ? StartupDestination.home
         : StartupDestination.navigationMode;

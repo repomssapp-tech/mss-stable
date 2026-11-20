@@ -11,6 +11,7 @@ import 'package:frontend/screens/profile_screen.dart';
 import 'package:frontend/screens/regular_mode/home/guest_state_schemes.dart';
 import 'package:frontend/screens/regular_mode/home/home_recommended_section.dart';
 import 'package:frontend/screens/regular_mode/home/home_header_section.dart';
+import 'package:frontend/screens/regular_mode/home_screen.dart';
 import 'package:frontend/screens/splash_screen.dart';
 import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:frontend/services/catalog/scheme_catalog_sync_service.dart';
@@ -52,7 +53,7 @@ void main() {
   setUp(() => SharedPreferences.setMockInitialValues({}));
 
   group('resolveStartupDestination', () {
-    test('a guest is routed like a signed-in user, never to login', () {
+    test('a guest goes straight home: no login, no profile onboarding', () {
       expect(
         resolveStartupDestination(
           hasSession: false,
@@ -65,6 +66,18 @@ void main() {
       expect(
         resolveStartupDestination(
           hasSession: false,
+          hasCachedLanguage: true,
+          profileCompleted: false,
+          isGuest: true,
+        ),
+        StartupDestination.home,
+      );
+    });
+
+    test('a session wins over the guest flag', () {
+      expect(
+        resolveStartupDestination(
+          hasSession: true,
           hasCachedLanguage: true,
           profileCompleted: false,
           isGuest: true,
@@ -343,6 +356,60 @@ void main() {
 
       expect(find.byType(GuestProfileView), findsNothing);
       expect(find.byType(ProfileUserInfoCard), findsOneWidget);
+    });
+  });
+
+  group('HomeScreen', () {
+    testWidgets('a guest stays on home; it is not sent to login', (
+      tester,
+    ) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.5;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final provider = AppProvider();
+      await provider.continueAsGuest();
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const Scaffold(body: HomeScreen()),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LoginScreen), findsNothing);
+      expect(find.byType(HomeScreen), findsOneWidget);
+      // The completion card is shown at 0% for a guest.
+      expect(find.text('Profile incomplete'), findsOneWidget);
+    });
+
+    testWidgets('signed out and not a guest: sent to login', (tester) async {
+      tester.view.physicalSize = const Size(1080, 2400);
+      tester.view.devicePixelRatio = 2.5;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+
+      final provider = AppProvider();
+
+      await tester.pumpWidget(
+        ChangeNotifierProvider<AppProvider>.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const Scaffold(body: HomeScreen()),
+          ),
+        ),
+      );
+      await tester.pumpAndSettle();
+
+      expect(find.byType(LoginScreen), findsOneWidget);
     });
   });
 
