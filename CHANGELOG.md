@@ -11,6 +11,17 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.6.2+33] - 2026-11-21
+
+### Fixed
+- Continue as guest now asks for your name and profile details first (kept on this phone), then the short survey, as on the website.
+- Guests land on a home screen with schemes for their state and can browse, search and save without signing in (Roger-Chris/MSS_App#204 to #206).
+- Google sign-in returns to the app that started it. Each app (MSS, MSS Dev, MSS Tamil Nadu, MSS Maharashtra) has its own return link, so with two of them on one phone the sign-in no longer lands in the wrong app. Needs mssschemes/backend#7 on the server.
+
+### Changed
+- Login screen text, wording review across the app, and sign-out keeps onboarding seen (Roger-Chris/MSS_App#207).
+- Ships the Maharashtra MSME questionnaire dataset (Roger-Chris/MSS_App#201).
+
 ### Added
 - Editions. One codebase now builds three apps, chosen with `MSS_EDITION` (`--dart-define` locally, the `MSS_EDITION` repository variable in CI):
   - `central` (default): **MSS**, `com.inschemes.app`, unchanged from today, so installed apps keep updating.
