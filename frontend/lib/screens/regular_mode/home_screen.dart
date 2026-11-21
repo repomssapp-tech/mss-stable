@@ -78,11 +78,13 @@ class _HomeScreenState extends State<HomeScreen> {
   /// Opens Saarthi on its own home: the greeting, the mic and the keyboard.
   Future<void> _openChatbot() async {
     // Saarthi needs an account until the backend's guest token exists.
-    if (!await requireAccount(context)) return;
+    if (!await requireAccount(context, feature: SignInFeature.saarthi)) {
+      return;
+    }
     if (!mounted) return;
-    await Navigator.of(context).push<void>(
-      MaterialPageRoute(builder: (_) => const SaarthiVoiceScreen()),
-    );
+    await Navigator.of(
+      context,
+    ).push<void>(MaterialPageRoute(builder: (_) => const SaarthiVoiceScreen()));
   }
 
   @override
@@ -142,7 +144,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         onFilterPressed: widget.onFilterPressed,
                         onVoiceQuery: widget.onVoiceQuery,
                         onNotificationTap: () async {
-                          if (!await requireAccount(context)) return;
+                          if (!await requireAccount(
+                            context,
+                            feature: SignInFeature.alerts,
+                          )) {
+                            return;
+                          }
                           if (!context.mounted) return;
                           Navigator.of(context).push(
                             MaterialPageRoute(
@@ -152,8 +159,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
 
-                      // A guest always sees it, at 0%, as the way to sign in.
-                      if (provider.isGuest ||
+                      // A guest sees it lower down, after the schemes: value
+                      // first, then the ask to sign in.
+                      if (!provider.isGuest &&
                           provider.profileCompletionPercentage < 100) ...[
                         const SizedBox(height: AppSpacing.xl),
                         // Profile Completion (Real & Compact)
@@ -180,6 +188,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       // Recommended For You (Horizontal List)
                       HomeRecommendedSection(provider: provider),
+
+                      // For a guest: always, at 0%, as the way to sign in.
+                      if (provider.isGuest) ...[
+                        const SizedBox(height: AppSpacing.xl),
+                        HomeProfileCompletionCard(provider: provider),
+                      ],
 
                       const SizedBox(height: AppSpacing.xxl),
 

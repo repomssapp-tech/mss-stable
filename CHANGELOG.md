@@ -11,6 +11,18 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.6.2+33] - 2026-11-21
+
+### Fixed
+- Continue as guest now asks for your name and profile details first (kept on this phone), then the short survey, as on the website.
+- Guests land on a home screen with schemes for their state and can browse, search and save without signing in (Roger-Chris/MSS_App#204 to #206).
+- Google sign-in returns to the app that started it. Each app (MSS, MSS Dev, MSS Tamil Nadu, MSS Maharashtra) has its own return link, so with two of them on one phone the sign-in no longer lands in the wrong app. Needs mssschemes/backend#7 on the server.
+
+### Changed
+- App updates now come from the public repository repomssapp-tech/mss-stable. One stable release carries an APK per app (`mss-central-…`, `mss-tn-…`, `mss-mh-…`) and each app downloads only its own. Dev pre-releases stay in the private mss-dev repository and are never offered as updates.
+- Login screen text, wording review across the app, and sign-out keeps onboarding seen (Roger-Chris/MSS_App#207).
+- Ships the Maharashtra MSME questionnaire dataset (Roger-Chris/MSS_App#201).
+
 ### Added
 - Editions. One codebase now builds three apps, chosen with `MSS_EDITION` (`--dart-define` locally, the `MSS_EDITION` repository variable in CI):
   - `central` (default): **MSS**, `com.inschemes.app`, unchanged from today, so installed apps keep updating.
@@ -18,6 +30,17 @@ Unreleased items under a new heading, commit, and tag the commit.
   - `mh`: **MSS Maharashtra**, `com.inschemes.app.mh`. Central and Maharashtra schemes only, English, Hindi and Marathi, opens in Marathi.
   A state edition is fixed to its state from the first frame, with no GPS check, and checks its own releases repository for updates. A dev build of any edition adds `.dev` to the app ID and " Dev" to the name.
 - Marathi is back. The app is offered in English, Tamil, Hindi and Marathi again, including voice, search and state names. The app-lock screen and the copyright notice are translated into Marathi. Six leftover English phrases in the Marathi catalogue dictionary are now translated.
+
+## [2.6.1+32] - 2026-11-20 (dev test build only, not released to users)
+
+Test app "MSS Dev" again (`channel=dev`, location lock on). Adds guest mode (PR #202) and the profile questionnaire.
+
+### Added
+- Guest mode. "Continue as guest" on the sign-in screen: the guest gives the personal details first (kept only on the phone, with a notice on Profile and Settings that another phone or cleared app data means the guest profile is gone), then a short survey. No recommendations or match scores for guests; a "Complete your profile: sign in with Google" card on Home until they sign in.
+- Profile questionnaire (28 questions, English, Hindi, Marathi and Tamil; the same questions as the website) with the state, district, taluka and city lists from the government Local Government Directory (19 Nov 2026), a "Use my current location" button, and "Skip the rest" on the long list for guests. Gender, age and home state come from the personal details and are not asked twice.
+- Google sign-in: every question is required. A guest's answers join the account at sign-in (the account's own answers win).
+- Answers are sent to the MSS API (`/v1/questionnaire/guest`, `/v1/me/questionnaire`) for the government statistics; guests count too.
+- Profile: "My answers".
 
 ## [2.6.0+31] - 2026-11-18 (dev test build only, not released to users)
 

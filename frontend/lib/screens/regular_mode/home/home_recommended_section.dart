@@ -282,7 +282,12 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
                         // key everywhere -- `schemeCode` always
                         // differs from `id` in the real catalog.
                         onPressed: () async {
-                          if (!await requireAccount(context)) return;
+                          if (!await requireAccount(
+                            context,
+                            feature: SignInFeature.save,
+                          )) {
+                            return;
+                          }
                           appProvider.toggleBookmark(schemeObj.id);
                         },
                         tooltip: item.isBookmarked

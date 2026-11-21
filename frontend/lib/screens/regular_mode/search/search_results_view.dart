@@ -269,7 +269,9 @@ class SearchResultsList extends StatelessWidget {
           result: recResult,
           isBookmarked: provider.bookmarkedIds.contains(scheme.id),
           onBookmarkToggle: () async {
-            if (!await requireAccount(context)) return;
+            if (!await requireAccount(context, feature: SignInFeature.save)) {
+              return;
+            }
             provider.toggleBookmark(scheme.id);
           },
           showActions: false,

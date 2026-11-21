@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -45,18 +44,16 @@ class AppLocalizationsMr extends AppLocalizations {
   String get exportSupport => 'निर्यात सहाय्य';
 
   @override
-  String get exportModuleDescription =>
-      'जागतिक व्यापाराची तयारी आणि निर्यात प्रोत्साहने';
+  String get exportModuleDescription => 'निर्यात मदत आणि प्रोत्साहने';
 
   @override
   String get growBusiness => 'व्यवसाय वाढवा';
 
   @override
-  String get registerUdyam => 'UDYAM नोंदणी करा';
+  String get registerUdyam => 'Udyam नोंदणी करा';
 
   @override
-  String get udyamModuleDescription =>
-      'अधिकृत MSME नोंदणी मार्गदर्शक आणि थेट पोर्टल लिंक';
+  String get udyamModuleDescription => 'Udyam वर नोंदणी कशी करावी';
 
   @override
   String get findFunding => 'निधी शोधा';
@@ -663,7 +660,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get accountRestoredToast =>
-      'पुन्हा स्वागत आहे! तुमचे खाते पुन्हा सक्रिय झाले आहे.';
+      'पुन्हा स्वागत आहे. तुमचे खाते पुन्हा सक्रिय झाले आहे.';
 
   @override
   String get accountRestoreFailed =>
@@ -1103,25 +1100,25 @@ class AppLocalizationsMr extends AppLocalizations {
   String get navChipFastSimple => 'जलद आणि सोपे';
 
   @override
-  String get navChipTraditionalUi => 'पारंपरिक स्वरूप';
+  String get navChipTraditionalUi => 'मेनू आणि शोध';
 
   @override
   String get navChipSelfPaced => 'स्वतःच्या गतीने पाहा';
 
   @override
-  String get navChipAiAnytime => 'AI कधीही उपलब्ध';
+  String get navChipAiAnytime => 'मदत हवी असेल तर सारथीला विचारा';
 
   @override
   String get navChipVoiceFirst => 'आवाजावर आधारित अनुभव';
 
   @override
-  String get navChipPersonalized => 'वैयक्तिक मार्गदर्शन';
+  String get navChipPersonalized => 'टप्प्याटप्प्याने मदत';
 
   @override
-  String get navChipSmartRecs => 'स्मार्ट शिफारसी';
+  String get navChipSmartRecs => 'तुमच्याशी जुळणाऱ्या योजना';
 
   @override
-  String get navChipExplainsScreens => 'प्रत्येक स्क्रीन समजावून सांगते';
+  String get navChipExplainsScreens => 'तुमच्या प्रश्नांची उत्तरे देतो';
 
   @override
   String get filterTitle => 'फिल्टर';
@@ -2460,7 +2457,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFundingDescription =>
-      'कर्ज सहाय्य, तारणमुक्त व्यवसाय कर्जे आणि SIDBI कार्यक्रमांसाठी आमच्या डेटाबेसमध्ये लगेच शोधा.';
+      'कर्जे, कर्ज हमी आणि SIDBI कार्यक्रम शोधा';
 
   @override
   String get msmeFundingHeading => 'निधीचे पर्याय शोधा';
@@ -2538,7 +2535,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeValueUdyam =>
-      'प्राधान्य क्षेत्रातील बँक कर्जे, 15% भांडवली अनुदान, तारणमुक्त कर्ज (CGTMSE) आणि शासकीय निविदांमधील सवलती मिळवण्यासाठी अधिकृत MSME Udyam नोंदणी मोफत पूर्ण करा.';
+      'Udyam नोंदणी मोफत आहे. बहुतेक MSME योजना, प्राधान्य क्षेत्रातील बँक कर्जे आणि तारणमुक्त कर्ज (CGTMSE) यांसाठी तुमचा Udyam क्रमांक लागतो.';
 
   @override
   String get msmeWhatTheUserGets => 'वापरकर्त्याला काय मिळते';
@@ -2548,7 +2545,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeInteractiveToolsDesc =>
-      'तुमची प्रोफाइल पूर्ण करा किंवा शोध वापरून योजना पाहा आणि तुमच्यासाठी जुळणारे निकाल मिळवा.';
+      'तुमची प्रोफाइल पूर्ण करा किंवा योजना शोधा, म्हणजे तुमच्याशी जुळणाऱ्या योजना दिसतील.';
 
   @override
   String get msmeSearchSchemes => 'योजना शोधा';
@@ -3578,8 +3575,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get goodEvening => 'शुभ संध्या,';
 
   @override
-  String get splashPreparingSubtitle =>
-      'कृपया थांबा, आम्ही तुमच्यासाठी\nकाहीतरी खास तयार करत आहोत';
+  String get splashPreparingSubtitle => 'योजना तयार होत आहेत';
 
   @override
   String get splashNoInternetTitle => 'इंटरनेट जोडणी नाही';
@@ -3744,7 +3740,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get helpCatFeatureRequest => 'नवीन सुविधेची मागणी';
 
   @override
-  String get helpTicketSubmitted => 'धन्यवाद! तुमची तक्रार नोंदवली आहे.';
+  String get helpTicketSubmitted => 'धन्यवाद. तुमची तक्रार नोंदवली आहे.';
 
   @override
   String get helpTicketSubmitFailed =>
@@ -3758,7 +3754,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get helpFeedbackBody =>
-      'तुमचा अभिप्राय आमच्यासाठी मोलाचा आहे. तुमचा अनुभव अधिक चांगला कसा करता येईल ते सांगा!';
+      'ॲप तुमच्यासाठी अधिक चांगले कसे होईल ते आम्हाला सांगा.';
 
   @override
   String get helpRateExperience => 'तुमच्या अनुभवाला गुण द्या';
@@ -3773,7 +3769,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'उदा. mssschemessearch@gmail.com कडून उत्तरासाठी yourname@gmail.com';
 
   @override
-  String get helpFeedbackThanks => 'तुमच्या मोलाच्या अभिप्रायाबद्दल धन्यवाद!';
+  String get helpFeedbackThanks => 'तुमच्या अभिप्रायाबद्दल धन्यवाद';
 
   @override
   String get helpFeedbackSubmitFailed =>
@@ -3838,7 +3834,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get helpEmailUs => 'आम्हाला ईमेल करा';
 
   @override
-  String get helpSupportEmailCopied => 'सहाय्य ईमेल क्लिपबोर्डवर कॉपी झाला!';
+  String get helpSupportEmailCopied => 'सहाय्य ईमेल कॉपी झाला';
 
   @override
   String get helpReplyWindow => 'आम्ही साधारणपणे 24 तासांत उत्तर देतो';
@@ -4210,11 +4206,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeUdyamStep4Desc =>
-      'सारांश तपासा आणि अंतिम OTP सबमिट करा. 16 अंकी Udyam नोंदणी क्रमांक (URN) आणि QR कोडसह ई-प्रमाणपत्र कोणत्याही नोंदणी शुल्काशिवाय लगेच मिळते.';
+      'सारांश तपासा आणि अंतिम OTP सबमिट करा. तुम्हाला 16 अंकी Udyam नोंदणी क्रमांक (URN) आणि QR कोडसह ई-प्रमाणपत्र मिळते. नोंदणी शुल्क नाही.';
 
   @override
   String get msmeUdyamStep4Action =>
-      'अंतिम OTP सबमिट करा; ई-प्रमाणपत्र लगेच डाउनलोड करा.';
+      'अंतिम OTP सबमिट करा आणि ई-प्रमाणपत्र डाउनलोड करा';
 
   @override
   String voiceRelevanceMatch(Object confidence) {
@@ -5859,7 +5855,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String onbP1Badge(int count) {
-    return '$count+ पडताळलेल्या योजना';
+    return '$count+ योजना';
   }
 
   @override
@@ -5875,7 +5871,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get onbChipSubsidy => 'अनुदान';
 
   @override
-  String get onbP2Title => 'खूप योजना.\n[एक सोपा उपाय.]';
+  String get onbP2Title => 'सर्व सरकारी योजना\n[एकाच ठिकाणी]';
 
   @override
   String get onbP2Body =>
@@ -5921,7 +5917,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get onbP3Occupation => 'व्यवसाय';
 
   @override
-  String get onbP3Footer => 'अंदाज नाही. फक्त स्पष्ट उत्तरे.';
+  String get onbP3Footer => 'प्रत्येक योजना तुमच्यासाठी का योग्य आहे ते पाहा';
 
   @override
   String get onbP4Title => 'फक्त [सारथी]ला विचारा';
@@ -6076,7 +6072,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String sv2RoomHello(String name) {
-    return 'नमस्कार $name! आज तुम्हाला कशात मदत हवी आहे?';
+    return 'नमस्कार $name. आज तुम्हाला कशात मदत हवी आहे?';
   }
 
   @override
@@ -6309,4 +6305,197 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get locationDevBuildBadge => 'चाचणी आवृत्ती';
+
+  @override
+  String get eligCheckEntry => 'माझी उत्तरे';
+
+  @override
+  String get eligCheckEntrySub =>
+      'तुमच्याबद्दल आणि तुमच्या व्यवसायाबद्दल प्रश्न';
+
+  @override
+  String get eligCheckTitle => 'तुमची उत्तरे';
+
+  @override
+  String get eligCheckIntro => 'ज्याचे उत्तर माहीत नसेल ते सोडून द्या.';
+
+  @override
+  String eligCheckStepLabel(int n, int total) {
+    return 'टप्पा $n / $total';
+  }
+
+  @override
+  String get eligCheckStep0 => 'तुमच्याबद्दल';
+
+  @override
+  String get eligCheckStep1 => 'तुम्ही कुठे राहता आणि काम करता';
+
+  @override
+  String get eligCheckStep2 => 'तुमचा व्यवसाय';
+
+  @override
+  String get eligCheckStep3 => 'तुम्हाला काय हवे';
+
+  @override
+  String get eligCheckStep4 => 'तुमची कौशल्ये';
+
+  @override
+  String get eligCheckStep5 => 'आणखी थोडी माहिती (ऐच्छिक)';
+
+  @override
+  String eligCheckNeeded(String question) {
+    return 'पुढे जाण्यासाठी याचे उत्तर द्या: $question';
+  }
+
+  @override
+  String get eligCheckWomenMore =>
+      'महिला कामगार एकूण कामगारांपेक्षा जास्त असू शकत नाहीत.';
+
+  @override
+  String get eligCheckQuestionLanguage => 'प्रश्नांची भाषा';
+
+  @override
+  String get eligCheckSave => 'माझी उत्तरे जतन करा';
+
+  @override
+  String get eligCheckSaveGo => 'जतन करा आणि आत जा';
+
+  @override
+  String get eligCheckSavedTitle => 'तुमची उत्तरे जतन झाली';
+
+  @override
+  String get eligCheckSavedBody =>
+      'धन्यवाद. तुम्ही तुमची उत्तरे कधीही बदलू शकता.';
+
+  @override
+  String get eligCheckEdit => 'उत्तरे बदला';
+
+  @override
+  String get eligCheckSelect => 'निवडा';
+
+  @override
+  String get eligCheckOther => 'इतर (स्वतः लिहा)';
+
+  @override
+  String get eligCheckTypeHere => 'नाव लिहा';
+
+  @override
+  String get eligCheckSkipRest => 'बाकी सोडा';
+
+  @override
+  String get eligCheckAnswerMore => 'आणखी प्रश्नांची उत्तरे द्या';
+
+  @override
+  String get eligCheckQuickIntro =>
+      'सुरुवातीला फक्त काही प्रश्न. बाकी तुम्ही नंतर भरू शकता.';
+
+  @override
+  String get eligCheckAllRequired => 'पुढे जाण्यासाठी सर्व प्रश्न आवश्यक आहेत.';
+
+  @override
+  String get eligCheckLocate => 'माझे सध्याचे लोकेशन वापरा';
+
+  @override
+  String get eligCheckLocating => 'तुमचे लोकेशन शोधत आहोत…';
+
+  @override
+  String get eligCheckLocationFail =>
+      'लोकेशन मिळाले नाही. तुम्ही ठिकाण स्वतः निवडू शकता.';
+
+  @override
+  String get eligCheckLocationNote => 'तुमचे राज्य आणि जिल्हा आपोआप भरतो.';
+
+  @override
+  String get eligCheckLocationDone =>
+      'लोकेशन जतन झाले. कृपया खालील ठिकाण तपासा.';
+
+  @override
+  String get eligCheckFirstTitle => 'तुमच्याबद्दल सांगा';
+
+  @override
+  String get eligCheckFirstIntro =>
+      'काही प्रश्न, मग तुम्ही आत आहात. * असलेल्या प्रश्नांची उत्तरे आवश्यक आहेत.';
+
+  @override
+  String get guestName => 'पाहुणा';
+
+  @override
+  String get guestReminderText =>
+      'तुमची प्रोफाइल पूर्ण करा: प्रगती जतन करण्यासाठी Google ने साइन-इन करा.';
+
+  @override
+  String get guestLocalTitle => 'तुमची माहिती याच फोनमध्ये राहते';
+
+  @override
+  String get guestLocalBody =>
+      'पाहुणा म्हणून तुमची माहिती फक्त याच फोनमध्ये जतन होते. दुसऱ्या फोनवर किंवा डिव्हाइसवर MSS वापरल्यास, किंवा अ‍ॅपचा डेटा पुसल्यास, तुमची पाहुणा प्रोफाइल तिथे मिळणार नाही. प्रोफाइल जपण्यासाठी Google ने साइन-इन करा.';
+
+  @override
+  String get guestSignInSaveTitle => 'योजना जतन करण्यासाठी साइन इन करा';
+
+  @override
+  String get guestSignInSaveBody =>
+      'जतन केलेल्या योजना तुमच्या खात्यात राहतात, तुम्ही कोणत्याही फोनवर साइन इन करा.';
+
+  @override
+  String get guestSignInAlertsTitle => 'योजना सूचनांसाठी साइन इन करा';
+
+  @override
+  String get guestSignInAlertsBody =>
+      'तुमच्याशी जुळणाऱ्या नवीन योजना आणि अंतिम मुदतींच्या सूचना मिळवा.';
+
+  @override
+  String get guestSignInSaarthiTitle => 'सारथीशी बोलण्यासाठी साइन इन करा';
+
+  @override
+  String get guestSignInSaarthiBody =>
+      'साइन इन केल्यावर सारथी तुमच्या प्रश्नांची उत्तरे आवाजात किंवा मजकुरात देतो.';
+
+  @override
+  String get guestSignInForMeTitle =>
+      'तुमच्यासाठीच्या योजना पाहण्यासाठी साइन इन करा';
+
+  @override
+  String get guestSignInForMeBody =>
+      'साइन इन केल्यावर योजना तुमच्या प्रोफाइलशी जुळवल्या जातात.';
+
+  @override
+  String get guestSignInKeptNote =>
+      'या फोनवर तुम्ही जे केले ते तुमच्या खात्यात जाईल.';
+
+  @override
+  String get guestGreetingName => 'स्वागत आहे';
+
+  @override
+  String get loginGuestHint => 'खात्याची गरज नाही';
+
+  @override
+  String get loginGoogleHint => 'योजना जतन, सूचना आणि सारथी चॅट';
+
+  @override
+  String get loginBackToGuest => 'अतिथी म्हणून पाहण्याकडे परत';
+
+  @override
+  String get saarthiTourSpeakTitle => 'सारथीशी बोला';
+
+  @override
+  String get saarthiTourSpeakBody =>
+      'माइक दाबा आणि तुमच्या भाषेत योजना, पात्रता किंवा कागदपत्रांबद्दल विचारा.';
+
+  @override
+  String get saarthiTourTypeTitle => 'किंवा लिहा';
+
+  @override
+  String get saarthiTourTypeBody =>
+      'लिहायला आवडते? तुमचा प्रश्न लिहिण्यासाठी कीबोर्ड दाबा.';
+
+  @override
+  String get saarthiTourHistoryTitle => 'मागील संभाषणे';
+
+  @override
+  String get saarthiTourHistoryBody =>
+      'तुमची आधीची संभाषणे येथे शोधा आणि पुढे सुरू ठेवा.';
+
+  @override
+  String get loginSubtitleShort => 'तुम्ही लाभ घेऊ शकता अशा सरकारी योजना शोधा';
 }

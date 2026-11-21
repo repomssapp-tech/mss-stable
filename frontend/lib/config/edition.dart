@@ -28,6 +28,35 @@ const String kEditionKey = String.fromEnvironment(
 /// that state's languages and never asks for GPS.
 const bool kEditionHasState = kEditionKey == 'tn' || kEditionKey == 'mh';
 
+const bool _kDevChannel =
+    String.fromEnvironment('MSS_CHANNEL', defaultValue: 'prod') == 'dev';
+
+/// This build's Android app ID (the same rule as `build.gradle.kts`):
+/// `com.inschemes.app`, plus `.tn` / `.mh` for a state edition, plus `.dev`
+/// for a dev build.
+const String kAppId =
+    'com.inschemes.app'
+    '${kEditionKey == 'tn'
+        ? '.tn'
+        : kEditionKey == 'mh'
+        ? '.mh'
+        : ''}'
+    '${_kDevChannel ? '.dev' : ''}';
+
+/// Where Google sign-in returns to: a link only this app opens. Each app has
+/// its own, so with MSS and MSS Dev (or a state edition) on the same phone the
+/// sign-in always comes back to the app that started it.
+const String kAuthRedirectUrl = '$kAppId://login-callback/';
+
+/// The original MSS app's return link, which the server uses when the app
+/// sends none.
+const String kDefaultAuthRedirectUrl = 'com.inschemes.app://login-callback/';
+
+/// Where every edition's official releases are published (public). Dev
+/// pre-releases go to the private mss-dev repository and are never offered
+/// as updates.
+const String kStableReleasesRepo = 'repomssapp-tech/mss-stable';
+
 /// Everything that differs between editions.
 @immutable
 class EditionConfig {
@@ -53,15 +82,17 @@ class EditionConfig {
   final String defaultLanguage;
 
   /// Public GitHub repository (`owner/name`) whose releases this edition
-  /// checks for app updates. Each edition has its own, so one edition's
-  /// update never reaches another edition's phones.
+  /// checks for app updates: mss-stable, the only public MSS repository. A
+  /// stable release carries one APK per edition (`mss-<key>-<version>.apk`)
+  /// and each app downloads only its own (see AppRelease), so one edition's
+  /// APK never reaches another edition's phones.
   final String releasesRepo;
 
   static const central = EditionConfig(
     key: 'central',
     appName: 'MSS',
     defaultLanguage: 'en',
-    releasesRepo: 'nyxri0f8/MSS_App-releases',
+    releasesRepo: kStableReleasesRepo,
   );
 
   static const tamilNadu = EditionConfig(
@@ -69,7 +100,7 @@ class EditionConfig {
     appName: 'MSS Tamil Nadu',
     stateCode: 'IN-TN',
     defaultLanguage: 'ta',
-    releasesRepo: 'repomssapp-tech/mss-tn-releases',
+    releasesRepo: kStableReleasesRepo,
   );
 
   static const maharashtra = EditionConfig(
@@ -77,7 +108,7 @@ class EditionConfig {
     appName: 'MSS Maharashtra',
     stateCode: 'IN-MH',
     defaultLanguage: 'mr',
-    releasesRepo: 'repomssapp-tech/mss-mh-releases',
+    releasesRepo: kStableReleasesRepo,
   );
 
   static const all = [central, tamilNadu, maharashtra];

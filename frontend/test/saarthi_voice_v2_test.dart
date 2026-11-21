@@ -148,7 +148,11 @@ void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
   setUp(() {
-    SharedPreferences.setMockInitialValues({});
+    // The first-time Saarthi tour is already seen here, so its overlay does
+    // not cover the screen under test (the tour has its own tests).
+    SharedPreferences.setMockInitialValues({
+      'home_tour_v1_saarthi_device': 'completed',
+    });
     SaarthiVoiceSettings.instance.resetForTesting();
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger
         .setMockMethodCallHandler(

@@ -20,6 +20,7 @@ import '../utils/app_system_ui_style.dart';
 import '../services/beta_gate/beta_config.dart';
 import '../services/beta_gate/beta_gate_service.dart';
 import 'beta_gate_screen.dart';
+import '../widgets/onboarding/home_tour.dart';
 import '../design_v2/onboarding/onboarding_screen.dart';
 import '../services/onboarding/onboarding_store.dart';
 import 'permissions/app_permissions_screen.dart';
@@ -180,6 +181,10 @@ class _SplashScreenState extends State<SplashScreen>
       // Splash reads the cache itself; set the provider's flag before home
       // builds instead of waiting for its own _loadState.
       if (isGuest) await provider.continueAsGuest();
+      if (!mounted) return;
+
+      // The home tour's status, read before home is built (see HomeTour).
+      await HomeTour.prefetch();
       if (!mounted) return;
 
       final destination = resolveStartupDestination(

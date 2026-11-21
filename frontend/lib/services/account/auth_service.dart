@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../config/app_config.dart';
+import '../../config/edition.dart';
 import '../network/connectivity_service.dart';
 import 'app_session.dart';
 import 'rest_auth_service.dart';
@@ -47,7 +48,7 @@ class AuthService {
     }
   }
 
-  static const googleRedirectUrl = 'com.inschemes.app://login-callback/';
+  static const googleRedirectUrl = kAuthRedirectUrl;
 
   /// The signed-in account, or null.
   static AuthUser? get currentUser => AppSession.instance.currentUser;

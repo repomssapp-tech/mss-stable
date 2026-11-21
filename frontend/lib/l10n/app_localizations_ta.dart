@@ -1,6 +1,5 @@
 // ignore: unused_import
 import 'package:intl/intl.dart' as intl;
-
 import 'app_localizations.dart';
 
 // ignore_for_file: type=lint
@@ -47,8 +46,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get exportSupport => 'ஏற்றுமதி ஆதரவு';
 
   @override
-  String get exportModuleDescription =>
-      'உலகளாவிய வர்த்தக தயார்நிலை மற்றும் ஏற்றுமதி சலுகைகள்';
+  String get exportModuleDescription => 'ஏற்றுமதி உதவி மற்றும் சலுகைகள்';
 
   @override
   String get growBusiness => 'தொழிலை வளர்க்க';
@@ -58,7 +56,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get udyamModuleDescription =>
-      'அதிகாரப்பூர்வ எம் எஸ் எம் ஈ பதிவு வழிகாட்டி மற்றும் நேரடி போர்டல் இணைப்பு';
+      'எம் எஸ் எம் ஈ உத்யம் பதிவு செய்வது எப்படி';
 
   @override
   String get findFunding => 'நிதி கண்டறிக';
@@ -676,7 +674,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get accountRestoredToast =>
-      'மீண்டும் வருக! உங்கள் கணக்கு மீண்டும் செயல்பாட்டில் உள்ளது.';
+      'மீண்டும் வருக. உங்கள் கணக்கு மீண்டும் செயல்பாட்டில் உள்ளது.';
 
   @override
   String get accountRestoreFailed =>
@@ -1121,25 +1119,25 @@ class AppLocalizationsTa extends AppLocalizations {
   String get navChipFastSimple => 'வேகமும் எளிமையும்';
 
   @override
-  String get navChipTraditionalUi => 'பாரம்பரிய இடைமுகம்';
+  String get navChipTraditionalUi => 'மெனு மற்றும் தேடல்';
 
   @override
   String get navChipSelfPaced => 'சொந்த வேகத்தில் உலாவல்';
 
   @override
-  String get navChipAiAnytime => 'எப்போதும் AI கிடைக்கும்';
+  String get navChipAiAnytime => 'உதவி தேவைப்பட்டால் சாரதியிடம் கேளுங்கள்';
 
   @override
   String get navChipVoiceFirst => 'குரல் முதன்மை அனுபவம்';
 
   @override
-  String get navChipPersonalized => 'தனிப்பயன் வழிகாட்டுதல்';
+  String get navChipPersonalized => 'படிப்படியான உதவி';
 
   @override
-  String get navChipSmartRecs => 'சிறந்த பரிந்துரைகள்';
+  String get navChipSmartRecs => 'உங்களுக்குப் பொருந்தும் திட்டங்கள்';
 
   @override
-  String get navChipExplainsScreens => 'ஒவ்வொரு திரையையும் விளக்கும்';
+  String get navChipExplainsScreens => 'உங்கள் கேள்விகளுக்குப் பதில் தரும்';
 
   @override
   String get filterTitle => 'வடிகட்டிகள்';
@@ -2505,7 +2503,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeFundingDescription =>
-      'கடன் உதவி, பிணையமற்ற தொழில் கடன்கள் மற்றும் SIDBI திட்டங்களுக்காக எங்கள் தரவுத்தளத்தில் உடனடி தேடல் செய்யுங்கள்.';
+      'கடன்கள், கடன் உத்தரவாதங்கள் மற்றும் SIDBI திட்டங்களைத் தேடுங்கள்';
 
   @override
   String get msmeFundingHeading => 'நிதியுதவி விருப்பங்களைக் கண்டறியவும்';
@@ -2583,7 +2581,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeValueUdyam =>
-      'முன்னுரிமைத் துறை வங்கிக் கடன்கள், 15% மூலதன மானியம், பிணையில்லாக் கடன் (CGTMSE) மற்றும் அரசு ஒப்பந்தப் புள்ளி விலக்குகளைப் பெற, அதிகாரப்பூர்வ எம் எஸ் எம் ஈ உத்யம் பதிவை இலவசமாக முடிக்கவும்.';
+      'உத்யம் பதிவு இலவசம். பெரும்பாலான எம் எஸ் எம் ஈ திட்டங்கள், முன்னுரிமைத் துறை வங்கிக் கடன்கள் மற்றும் பிணையில்லாக் கடன் (CGTMSE) உங்கள் உத்யம் எண்ணைக் கேட்கும்.';
 
   @override
   String get msmeWhatTheUserGets => 'பயனர் பெறும் நன்மைகள்';
@@ -2593,7 +2591,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeInteractiveToolsDesc =>
-      'உங்கள் சுயவிவரத்தை பூர்த்தி செய்து அல்லது தேடுபொறி மூலம் திட்டங்களை ஆராய்ந்து பொருத்தமான முடிவுகளைப் பெறுங்கள்.';
+      'உங்கள் சுயவிவரத்தை நிறைவு செய்யுங்கள் அல்லது திட்டங்களைத் தேடுங்கள்; உங்களுக்குப் பொருந்துபவை தெரியும்.';
 
   @override
   String get msmeSearchSchemes => 'திட்டங்களை தேடுக';
@@ -3648,8 +3646,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get goodEvening => 'மாலை வணக்கம்,';
 
   @override
-  String get splashPreparingSubtitle =>
-      'உங்களுக்காக அற்புதமான ஒன்றைத்\nதயார் செய்கிறோம், சற்று காத்திருக்கவும்';
+  String get splashPreparingSubtitle => 'திட்டங்கள் தயாராகின்றன';
 
   @override
   String get splashNoInternetTitle => 'இணைய இணைப்பு இல்லை';
@@ -3818,7 +3815,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get helpTicketSubmitted =>
-      'நன்றி! உங்கள் கோரிக்கை சமர்ப்பிக்கப்பட்டது.';
+      'நன்றி. உங்கள் கோரிக்கை சமர்ப்பிக்கப்பட்டது.';
 
   @override
   String get helpTicketSubmitFailed =>
@@ -3832,7 +3829,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get helpFeedbackBody =>
-      'உங்கள் கருத்துக்கு நாங்கள் மதிப்பளிக்கிறோம். உங்கள் அனுபவத்தை எப்படி மேம்படுத்தலாம் என்று எங்களிடம் தெரிவியுங்கள்!';
+      'ஆப் உங்களுக்கு இன்னும் எப்படிச் சிறப்பாக இருக்கலாம் என்று எங்களிடம் சொல்லுங்கள்.';
 
   @override
   String get helpRateExperience => 'உங்கள் அனுபவத்தை மதிப்பிடுங்கள்';
@@ -3847,7 +3844,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'எ.கா. mssschemessearch@gmail.com இலிருந்து தொடர்பு கொள்ள yourname@gmail.com';
 
   @override
-  String get helpFeedbackThanks => 'உங்கள் மதிப்புமிக்க கருத்துக்கு நன்றி!';
+  String get helpFeedbackThanks => 'உங்கள் கருத்துக்கு நன்றி';
 
   @override
   String get helpFeedbackSubmitFailed =>
@@ -3915,8 +3912,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get helpEmailUs => 'எங்களுக்கு மின்னஞ்சல் அனுப்புங்கள்';
 
   @override
-  String get helpSupportEmailCopied =>
-      'ஆதரவு மின்னஞ்சல் கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது!';
+  String get helpSupportEmailCopied => 'ஆதரவு மின்னஞ்சல் நகலெடுக்கப்பட்டது';
 
   @override
   String get helpReplyWindow => 'பொதுவாக 24 மணி நேரத்திற்குள் பதிலளிக்கிறோம்';
@@ -4304,11 +4300,11 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get msmeUdyamStep4Desc =>
-      'சுருக்கத்தை மதிப்பாய்வு செய்து, இறுதி OTP-ஐச் சமர்ப்பிக்கவும். தனிப்பட்ட 16-இலக்க Udyam பதிவு எண் (URN) மற்றும் QR குறியீட்டுடன் கூடிய மின்-சான்றிதழ் பதிவுக் கட்டணம் இன்றி உடனடியாக வழங்கப்படும்.';
+      'சுருக்கத்தைச் சரிபார்த்து இறுதி OTP-ஐச் சமர்ப்பிக்கவும். 16-இலக்க உத்யம் பதிவு எண் (URN) மற்றும் QR குறியீட்டுடன் மின்-சான்றிதழ் கிடைக்கும். பதிவுக் கட்டணம் இல்லை.';
 
   @override
   String get msmeUdyamStep4Action =>
-      'இறுதி OTP சமர்ப்பிப்பு; உடனடி மின்-சான்றிதழைப் பதிவிறக்கவும்.';
+      'இறுதி OTP-ஐச் சமர்ப்பித்து மின்-சான்றிதழைப் பதிவிறக்கவும்';
 
   @override
   String voiceRelevanceMatch(Object confidence) {
@@ -5982,7 +5978,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String onbP1Badge(int count) {
-    return '$count+ சரிபார்க்கப்பட்ட திட்டங்கள்';
+    return '$count+ திட்டங்கள்';
   }
 
   @override
@@ -5998,7 +5994,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get onbChipSubsidy => 'மானியம்';
 
   @override
-  String get onbP2Title => 'பல திட்டங்கள்.\n[ஒரே எளிய தீர்வு.]';
+  String get onbP2Title => 'அனைத்து அரசுத் திட்டங்களும்\n[ஒரே இடத்தில்]';
 
   @override
   String get onbP2Body =>
@@ -6044,7 +6040,8 @@ class AppLocalizationsTa extends AppLocalizations {
   String get onbP3Occupation => 'தொழில்';
 
   @override
-  String get onbP3Footer => 'ஊகம் வேண்டாம். தெளிவான பதில்கள் மட்டும்.';
+  String get onbP3Footer =>
+      'ஒவ்வொரு திட்டமும் உங்களுக்கு ஏன் பொருந்தும் என்று பாருங்கள்';
 
   @override
   String get onbP4Title => '[சாரதியிடம்] கேளுங்கள்';
@@ -6199,7 +6196,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String sv2RoomHello(String name) {
-    return 'வணக்கம் $name! இன்று உங்களுக்கு என்ன உதவி வேண்டும்?';
+    return 'வணக்கம் $name. இன்று உங்களுக்கு என்ன உதவி வேண்டும்?';
   }
 
   @override
@@ -6435,4 +6432,201 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get locationDevBuildBadge => 'சோதனைப் பதிப்பு';
+
+  @override
+  String get eligCheckEntry => 'என் பதில்கள்';
+
+  @override
+  String get eligCheckEntrySub =>
+      'உங்கள் மற்றும் உங்கள் தொழில் பற்றிய கேள்விகள்';
+
+  @override
+  String get eligCheckTitle => 'உங்கள் பதில்கள்';
+
+  @override
+  String get eligCheckIntro => 'தெரியாத கேள்வியை தவிர்க்கலாம்.';
+
+  @override
+  String eligCheckStepLabel(int n, int total) {
+    return 'படி $n / $total';
+  }
+
+  @override
+  String get eligCheckStep0 => 'உங்களைப் பற்றி';
+
+  @override
+  String get eligCheckStep1 => 'நீங்கள் வசிக்கும் மற்றும் வேலை செய்யும் இடம்';
+
+  @override
+  String get eligCheckStep2 => 'உங்கள் தொழில்';
+
+  @override
+  String get eligCheckStep3 => 'உங்களுக்கு என்ன தேவை';
+
+  @override
+  String get eligCheckStep4 => 'உங்கள் திறன்கள்';
+
+  @override
+  String get eligCheckStep5 => 'இன்னும் சில (விருப்பம்)';
+
+  @override
+  String eligCheckNeeded(String question) {
+    return 'தொடர இதற்கு பதிலளிக்கவும்: $question';
+  }
+
+  @override
+  String get eligCheckWomenMore =>
+      'பெண் ஊழியர்கள் மொத்த ஊழியர்களை விட அதிகமாக இருக்க முடியாது.';
+
+  @override
+  String get eligCheckQuestionLanguage => 'கேள்வி மொழி';
+
+  @override
+  String get eligCheckSave => 'என் பதில்களைச் சேமி';
+
+  @override
+  String get eligCheckSaveGo => 'சேமித்து உள்ளே செல்';
+
+  @override
+  String get eligCheckSavedTitle => 'உங்கள் பதில்கள் சேமிக்கப்பட்டன';
+
+  @override
+  String get eligCheckSavedBody =>
+      'நன்றி. உங்கள் பதில்களை எப்போது வேண்டுமானாலும் மாற்றலாம்.';
+
+  @override
+  String get eligCheckEdit => 'பதில்களை மாற்று';
+
+  @override
+  String get eligCheckSelect => 'தேர்ந்தெடுக்கவும்';
+
+  @override
+  String get eligCheckOther => 'மற்றவை (நீங்களே உள்ளிடவும்)';
+
+  @override
+  String get eligCheckTypeHere => 'பெயரை உள்ளிடவும்';
+
+  @override
+  String get eligCheckSkipRest => 'மீதியைத் தவிர்';
+
+  @override
+  String get eligCheckAnswerMore => 'மேலும் கேள்விகளுக்கு பதிலளிக்கவும்';
+
+  @override
+  String get eligCheckQuickIntro =>
+      'தொடங்க சில கேள்விகள் மட்டும். மீதியை பிறகு நிரப்பலாம்.';
+
+  @override
+  String get eligCheckAllRequired => 'தொடர அனைத்து கேள்விகளும் அவசியம்.';
+
+  @override
+  String get eligCheckLocate => 'என் தற்போதைய இடத்தைப் பயன்படுத்து';
+
+  @override
+  String get eligCheckLocating => 'உங்கள் இடத்தைக் கண்டறிகிறோம்…';
+
+  @override
+  String get eligCheckLocationFail =>
+      'இடத்தைப் பெற முடியவில்லை. இடத்தை நீங்களே தேர்ந்தெடுக்கலாம்.';
+
+  @override
+  String get eligCheckLocationNote =>
+      'உங்கள் மாநிலம் மற்றும் மாவட்டத்தை தானாக நிரப்பும்.';
+
+  @override
+  String get eligCheckLocationDone =>
+      'இடம் சேமிக்கப்பட்டது. கீழே உள்ள இடத்தைச் சரிபார்க்கவும்.';
+
+  @override
+  String get eligCheckFirstTitle => 'உங்களைப் பற்றி சொல்லுங்கள்';
+
+  @override
+  String get eligCheckFirstIntro =>
+      'சில கேள்விகள், பிறகு உள்ளே செல்லலாம். * குறியிட்ட கேள்விகள் அவசியம்.';
+
+  @override
+  String get guestName => 'விருந்தினர்';
+
+  @override
+  String get guestReminderText =>
+      'உங்கள் சுயவிவரத்தை முடிக்கவும்: முன்னேற்றத்தைச் சேமிக்க Google மூலம் உள்நுழையவும்.';
+
+  @override
+  String get guestLocalTitle =>
+      'உங்கள் விவரங்கள் இந்த தொலைபேசியிலேயே இருக்கும்';
+
+  @override
+  String get guestLocalBody =>
+      'விருந்தினராக உங்கள் விவரங்கள் இந்தத் தொலைபேசியில் மட்டுமே சேமிக்கப்படும். வேறு தொலைபேசியிலோ சாதனத்திலோ MSS-ஐப் பயன்படுத்தினால், அல்லது செயலித் தரவை அழித்தால், உங்கள் விருந்தினர் சுயவிவரம் அங்கே இருக்காது. சுயவிவரத்தைப் பாதுகாக்க Google மூலம் உள்நுழையவும்.';
+
+  @override
+  String get guestSignInSaveTitle => 'திட்டங்களைச் சேமிக்க உள்நுழையவும்';
+
+  @override
+  String get guestSignInSaveBody =>
+      'சேமித்த திட்டங்கள் உங்கள் கணக்கில் இருக்கும்; எந்தத் தொலைபேசியில் உள்நுழைந்தாலும் கிடைக்கும்.';
+
+  @override
+  String get guestSignInAlertsTitle => 'திட்ட அறிவிப்புகளுக்கு உள்நுழையவும்';
+
+  @override
+  String get guestSignInAlertsBody =>
+      'உங்களுக்குப் பொருந்தும் புதிய திட்டங்கள், கடைசி தேதிகள் பற்றிய அறிவிப்புகளைப் பெறுங்கள்.';
+
+  @override
+  String get guestSignInSaarthiTitle => 'சாரதியுடன் உரையாட உள்நுழையவும்';
+
+  @override
+  String get guestSignInSaarthiBody =>
+      'உள்நுழைந்ததும் சாரதி உங்கள் கேள்விகளுக்குக் குரல் அல்லது எழுத்தில் பதில் தரும்.';
+
+  @override
+  String get guestSignInForMeTitle =>
+      'உங்களுக்கான திட்டங்களைப் பார்க்க உள்நுழையவும்';
+
+  @override
+  String get guestSignInForMeBody =>
+      'உள்நுழைந்ததும் திட்டங்கள் உங்கள் சுயவிவரத்துடன் பொருத்தப்படும்.';
+
+  @override
+  String get guestSignInKeptNote =>
+      'இந்தத் தொலைபேசியில் நீங்கள் செய்தவை உங்கள் கணக்கிற்கு மாற்றப்படும்.';
+
+  @override
+  String get guestGreetingName => 'வரவேற்கிறோம்';
+
+  @override
+  String get loginGuestHint => 'கணக்கு தேவையில்லை';
+
+  @override
+  String get loginGoogleHint =>
+      'திட்டங்கள் சேமிப்பு, அறிவிப்புகள், சாரதி உரையாடல்';
+
+  @override
+  String get loginBackToGuest => 'விருந்தினராக உலாவுவதற்குத் திரும்பு';
+
+  @override
+  String get saarthiTourSpeakTitle => 'சாரதியிடம் பேசுங்கள்';
+
+  @override
+  String get saarthiTourSpeakBody =>
+      'மைக்கைத் தொட்டு, உங்கள் மொழியில் திட்டங்கள், தகுதி அல்லது ஆவணங்கள் பற்றிக் கேளுங்கள்.';
+
+  @override
+  String get saarthiTourTypeTitle => 'அல்லது தட்டச்சு செய்யுங்கள்';
+
+  @override
+  String get saarthiTourTypeBody =>
+      'தட்டச்சு விருப்பமா? உங்கள் கேள்வியை எழுத விசைப்பலகையைத் தொடுங்கள்.';
+
+  @override
+  String get saarthiTourHistoryTitle => 'முந்தைய உரையாடல்கள்';
+
+  @override
+  String get saarthiTourHistoryBody =>
+      'உங்கள் முந்தைய உரையாடல்களை இங்கே கண்டு தொடருங்கள்.';
+
+  @override
+  String get loginSubtitleShort =>
+      'நீங்கள் பெறக்கூடிய அரசுத் திட்டங்களைக் கண்டறியுங்கள்';
 }

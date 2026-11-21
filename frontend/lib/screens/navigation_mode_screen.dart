@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import '../utils/app_radius.dart';
 import '../utils/app_colors.dart';
@@ -12,6 +14,8 @@ import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_text.dart';
 import '../widgets/common/app_icon_button.dart';
+import '../widgets/onboarding/home_tour.dart';
+import 'login_screen.dart';
 
 enum NavigationMode { regular, companion }
 
@@ -34,6 +38,31 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
   static const Color kSlate800 = AppColors.textPrimary;
   static const Color kSlate500 = AppColors.textMuted;
   static const Color kBorderGrey = AppColors.border;
+
+  @override
+  void initState() {
+    super.initState();
+    // Read the home tour's status now, while the user picks a mode, so home
+    // can start the tour together with its first frames.
+    unawaited(HomeTour.prefetch());
+  }
+
+  /// Back goes where the user came from. Without a previous page: a guest
+  /// returns to the sign-in choice, anyone else to the language step.
+  void _back() {
+    final navigator = Navigator.of(context);
+    if (navigator.canPop()) {
+      navigator.pop();
+      return;
+    }
+    final guest = Provider.of<AppProvider>(context, listen: false).isGuest;
+    navigator.pushReplacement(
+      MaterialPageRoute(
+        builder: (_) =>
+            guest ? const LoginScreen() : const LanguageSelectionScreen(),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,14 +106,7 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                   child: AppIconButton(
                                     icon: Icons.arrow_back_rounded,
                                     semanticLabel: context.l10n.back,
-                                    onPressed: () {
-                                      Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                          builder: (_) =>
-                                              const LanguageSelectionScreen(),
-                                        ),
-                                      );
-                                    },
+                                    onPressed: _back,
                                   ),
                                 ),
                               ),
@@ -268,6 +290,12 @@ class _NavigationModeScreenState extends State<NavigationModeScreen> {
                                     // A guest has no profile onboarding.
                                     if (provider.profile.profileCompleted ||
                                         provider.isGuest) {
+                                      // Start on the first tab (home or
+                                      // Saarthi), not the last tab used.
+                                      provider.updateTabIndex(
+                                        0,
+                                        addToHistory: false,
+                                      );
                                       Navigator.of(context).pushReplacement(
                                         MaterialPageRoute(
                                           builder: (_) =>

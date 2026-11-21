@@ -51,7 +51,9 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             tooltip: context.l10n.notificationsTooltip,
             onPressed: () async {
-              if (!await requireAccount(context)) return;
+              if (!await requireAccount(context, feature: SignInFeature.alerts)) {
+                return;
+              }
               if (!context.mounted) return;
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (_) => const NotificationsScreen()),
