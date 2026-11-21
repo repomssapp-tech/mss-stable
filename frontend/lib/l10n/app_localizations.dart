@@ -165,43 +165,43 @@ abstract class AppLocalizations {
   /// No description provided for @exportSupport.
   ///
   /// In en, this message translates to:
-  /// **'Export Support'**
+  /// **'Export support'**
   String get exportSupport;
 
   /// No description provided for @exportModuleDescription.
   ///
   /// In en, this message translates to:
-  /// **'Global Trade Readiness & Export Incentives'**
+  /// **'Export help and incentives'**
   String get exportModuleDescription;
 
   /// No description provided for @growBusiness.
   ///
   /// In en, this message translates to:
-  /// **'Grow Business'**
+  /// **'Grow your business'**
   String get growBusiness;
 
   /// No description provided for @registerUdyam.
   ///
   /// In en, this message translates to:
-  /// **'Register UDYAM'**
+  /// **'Register on Udyam'**
   String get registerUdyam;
 
   /// No description provided for @udyamModuleDescription.
   ///
   /// In en, this message translates to:
-  /// **'Official MSME Registration Guide & Direct Portal Link'**
+  /// **'How to register on Udyam'**
   String get udyamModuleDescription;
 
   /// No description provided for @findFunding.
   ///
   /// In en, this message translates to:
-  /// **'Find Funding'**
+  /// **'Find funding'**
   String get findFunding;
 
   /// No description provided for @startABusiness.
   ///
   /// In en, this message translates to:
-  /// **'Start a Business'**
+  /// **'Start a business'**
   String get startABusiness;
 
   /// No description provided for @exploreMsmeSupport.
@@ -1287,7 +1287,7 @@ abstract class AppLocalizations {
   /// No description provided for @accountRestoredToast.
   ///
   /// In en, this message translates to:
-  /// **'Welcome back! Your account is active again.'**
+  /// **'Welcome back. Your account is active again.'**
   String get accountRestoredToast;
 
   /// No description provided for @accountRestoreFailed.
@@ -2127,7 +2127,7 @@ abstract class AppLocalizations {
   /// No description provided for @navChipTraditionalUi.
   ///
   /// In en, this message translates to:
-  /// **'Traditional UI'**
+  /// **'Menus and search'**
   String get navChipTraditionalUi;
 
   /// No description provided for @navChipSelfPaced.
@@ -2139,7 +2139,7 @@ abstract class AppLocalizations {
   /// No description provided for @navChipAiAnytime.
   ///
   /// In en, this message translates to:
-  /// **'AI available anytime'**
+  /// **'Ask Saarthi when you need help'**
   String get navChipAiAnytime;
 
   /// No description provided for @navChipVoiceFirst.
@@ -2151,19 +2151,19 @@ abstract class AppLocalizations {
   /// No description provided for @navChipPersonalized.
   ///
   /// In en, this message translates to:
-  /// **'Personalized guidance'**
+  /// **'Step-by-step help'**
   String get navChipPersonalized;
 
   /// No description provided for @navChipSmartRecs.
   ///
   /// In en, this message translates to:
-  /// **'Smart recommendations'**
+  /// **'Schemes matched to you'**
   String get navChipSmartRecs;
 
   /// No description provided for @navChipExplainsScreens.
   ///
   /// In en, this message translates to:
-  /// **'Explains every screen'**
+  /// **'Answers your questions'**
   String get navChipExplainsScreens;
 
   /// No description provided for @filterTitle.
@@ -4665,7 +4665,7 @@ abstract class AppLocalizations {
   /// No description provided for @msmeFundingDescription.
   ///
   /// In en, this message translates to:
-  /// **'Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.'**
+  /// **'Search loans, credit guarantees and SIDBI programmes'**
   String get msmeFundingDescription;
 
   /// No description provided for @msmeFundingHeading.
@@ -4791,7 +4791,7 @@ abstract class AppLocalizations {
   /// No description provided for @msmeValueUdyam.
   ///
   /// In en, this message translates to:
-  /// **'Complete official MSME Udyam registration for free to unlock priority sector bank loans, 15% capital subsidies, collateral-free credit (CGTMSE), and Government tender exemptions.'**
+  /// **'Udyam registration is free. Most MSME schemes, priority sector bank loans and collateral-free credit (CGTMSE) ask for your Udyam number.'**
   String get msmeValueUdyam;
 
   /// No description provided for @msmeWhatTheUserGets.
@@ -4809,7 +4809,7 @@ abstract class AppLocalizations {
   /// No description provided for @msmeInteractiveToolsDesc.
   ///
   /// In en, this message translates to:
-  /// **'Complete your profile or explore schemes with the search engine to get smart matching results.'**
+  /// **'Complete your profile or search schemes to see the ones that match you.'**
   String get msmeInteractiveToolsDesc;
 
   /// No description provided for @msmeSearchSchemes.
@@ -6723,7 +6723,7 @@ abstract class AppLocalizations {
   /// No description provided for @splashPreparingSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Please wait while we prepare\nsomething amazing for you'**
+  /// **'Getting schemes ready'**
   String get splashPreparingSubtitle;
 
   /// No description provided for @splashNoInternetTitle.
@@ -7005,7 +7005,7 @@ abstract class AppLocalizations {
   /// No description provided for @helpTicketSubmitted.
   ///
   /// In en, this message translates to:
-  /// **'Thank you! Your ticket has been submitted.'**
+  /// **'Thank you. Your ticket has been submitted.'**
   String get helpTicketSubmitted;
 
   /// No description provided for @helpTicketSubmitFailed.
@@ -7029,7 +7029,7 @@ abstract class AppLocalizations {
   /// No description provided for @helpFeedbackBody.
   ///
   /// In en, this message translates to:
-  /// **'We value your feedback. Let us know how we can improve your experience!'**
+  /// **'Tell us what would make the app work better for you.'**
   String get helpFeedbackBody;
 
   /// No description provided for @helpRateExperience.
@@ -7053,7 +7053,7 @@ abstract class AppLocalizations {
   /// No description provided for @helpFeedbackThanks.
   ///
   /// In en, this message translates to:
-  /// **'Thank you for your valuable feedback!'**
+  /// **'Thank you for your feedback'**
   String get helpFeedbackThanks;
 
   /// No description provided for @helpFeedbackSubmitFailed.
@@ -7167,7 +7167,7 @@ abstract class AppLocalizations {
   /// No description provided for @helpSupportEmailCopied.
   ///
   /// In en, this message translates to:
-  /// **'Support email copied to clipboard!'**
+  /// **'Support email copied'**
   String get helpSupportEmailCopied;
 
   /// No description provided for @helpReplyWindow.
@@ -7839,13 +7839,13 @@ abstract class AppLocalizations {
   /// No description provided for @msmeUdyamStep4Desc.
   ///
   /// In en, this message translates to:
-  /// **'Review summary, submit final OTP. A unique 16-digit Udyam Registration Number (URN) and e-Certificate with QR code are issued instantly with zero registration fee.'**
+  /// **'Review the summary and submit the final OTP. You get a 16-digit Udyam Registration Number (URN) and an e-certificate with a QR code. There is no registration fee.'**
   String get msmeUdyamStep4Desc;
 
   /// No description provided for @msmeUdyamStep4Action.
   ///
   /// In en, this message translates to:
-  /// **'Final OTP submission; download instant e-Certificate.'**
+  /// **'Submit the final OTP and download the e-certificate'**
   String get msmeUdyamStep4Action;
 
   /// No description provided for @voiceRelevanceMatch.
@@ -10774,7 +10774,7 @@ abstract class AppLocalizations {
   /// No description provided for @onbP1Badge.
   ///
   /// In en, this message translates to:
-  /// **'{count}+ Verified Schemes'**
+  /// **'{count}+ schemes'**
   String onbP1Badge(int count);
 
   /// No description provided for @onbChipMsme.
@@ -10804,7 +10804,7 @@ abstract class AppLocalizations {
   /// No description provided for @onbP2Title.
   ///
   /// In en, this message translates to:
-  /// **'Too Many Schemes.\n[One Simple Solution.]'**
+  /// **'All government schemes\n[in one place]'**
   String get onbP2Title;
 
   /// No description provided for @onbP2Body.
@@ -10888,7 +10888,7 @@ abstract class AppLocalizations {
   /// No description provided for @onbP3Footer.
   ///
   /// In en, this message translates to:
-  /// **'No guessing. Just clear answers.'**
+  /// **'See why each scheme fits you'**
   String get onbP3Footer;
 
   /// No description provided for @onbP4Title.
@@ -11176,7 +11176,7 @@ abstract class AppLocalizations {
   /// No description provided for @sv2RoomHello.
   ///
   /// In en, this message translates to:
-  /// **'Namaste {name}! What would you like help with today?'**
+  /// **'Namaste {name}. What would you like help with today?'**
   String sv2RoomHello(String name);
 
   /// No description provided for @sv2Thinking.
@@ -11382,6 +11382,198 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The MSS App is jointly designed and developed by the above institutions. The app\'s original content, design, software and associated intellectual property are protected under applicable copyright laws. Unauthorised reproduction, modification, distribution or commercial exploitation is prohibited without prior written permission from the respective rights holders, except as permitted by law.'**
   String get copyrightNoticeBody;
+
+  /// No description provided for @loginContinueAsGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue as guest'**
+  String get loginContinueAsGuest;
+
+  /// No description provided for @guestSignInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to use this'**
+  String get guestSignInTitle;
+
+  /// No description provided for @guestSignInBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving schemes, notifications and profile sync need an account. Your answers on this phone are kept and move to your account when you sign in.'**
+  String get guestSignInBody;
+
+  /// No description provided for @guestSignInAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get guestSignInAction;
+
+  /// No description provided for @guestSignInNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get guestSignInNotNow;
+
+  /// No description provided for @guestProfileIncomplete.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile incomplete'**
+  String get guestProfileIncomplete;
+
+  /// No description provided for @guestProfileSignInPrompt.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to create your profile and see schemes matched to you.'**
+  String get guestProfileSignInPrompt;
+
+  /// No description provided for @guestProfilePending.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending'**
+  String get guestProfilePending;
+
+  /// No description provided for @guestProfilePendingNote.
+  ///
+  /// In en, this message translates to:
+  /// **'You\'re using the app as a guest. Your profile is saved once you sign in.'**
+  String get guestProfilePendingNote;
+
+  /// No description provided for @homeTopSchemes.
+  ///
+  /// In en, this message translates to:
+  /// **'Top schemes'**
+  String get homeTopSchemes;
+
+  /// Home heading for a guest: top schemes in the guest's state.
+  ///
+  /// In en, this message translates to:
+  /// **'Top schemes in {state}'**
+  String homeTopSchemesInState(String state);
+
+  /// No description provided for @guestSavedSignInDesc.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to save schemes and find them here on any phone.'**
+  String get guestSavedSignInDesc;
+
+  /// No description provided for @guestSignInSaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to save schemes'**
+  String get guestSignInSaveTitle;
+
+  /// No description provided for @guestSignInSaveBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved schemes stay in your account, on any phone you sign in on.'**
+  String get guestSignInSaveBody;
+
+  /// No description provided for @guestSignInAlertsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in for scheme alerts'**
+  String get guestSignInAlertsTitle;
+
+  /// No description provided for @guestSignInAlertsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Get alerts about new schemes and deadlines that match you.'**
+  String get guestSignInAlertsBody;
+
+  /// No description provided for @guestSignInSaarthiTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to chat with Saarthi'**
+  String get guestSignInSaarthiTitle;
+
+  /// No description provided for @guestSignInSaarthiBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Saarthi answers your questions by voice or text once you sign in.'**
+  String get guestSignInSaarthiBody;
+
+  /// No description provided for @guestSignInForMeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in to see schemes for you'**
+  String get guestSignInForMeTitle;
+
+  /// No description provided for @guestSignInForMeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Schemes are matched to your profile once you sign in.'**
+  String get guestSignInForMeBody;
+
+  /// No description provided for @guestSignInKeptNote.
+  ///
+  /// In en, this message translates to:
+  /// **'What you did on this phone moves to your account.'**
+  String get guestSignInKeptNote;
+
+  /// No description provided for @guestGreetingName.
+  ///
+  /// In en, this message translates to:
+  /// **'Welcome'**
+  String get guestGreetingName;
+
+  /// No description provided for @loginGuestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No account needed'**
+  String get loginGuestHint;
+
+  /// No description provided for @loginGoogleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Save schemes, alerts and Saarthi chat'**
+  String get loginGoogleHint;
+
+  /// No description provided for @loginBackToGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to browsing as a guest'**
+  String get loginBackToGuest;
+
+  /// No description provided for @saarthiTourSpeakTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to Saarthi'**
+  String get saarthiTourSpeakTitle;
+
+  /// No description provided for @saarthiTourSpeakBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap the mic and ask about schemes, eligibility or documents in your language.'**
+  String get saarthiTourSpeakBody;
+
+  /// No description provided for @saarthiTourTypeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Or type'**
+  String get saarthiTourTypeTitle;
+
+  /// No description provided for @saarthiTourTypeBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Prefer typing? Tap the keyboard to write your question.'**
+  String get saarthiTourTypeBody;
+
+  /// No description provided for @saarthiTourHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Past chats'**
+  String get saarthiTourHistoryTitle;
+
+  /// No description provided for @saarthiTourHistoryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Find and continue your earlier conversations here.'**
+  String get saarthiTourHistoryBody;
+
+  /// No description provided for @loginSubtitleShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Find government schemes you can claim'**
+  String get loginSubtitleShort;
 }
 
 class _AppLocalizationsDelegate

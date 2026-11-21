@@ -213,6 +213,10 @@ class SearchIdleContent extends StatelessWidget {
   final bool matchingProfileIsPartial;
   final VoidCallback onHighlightTap;
 
+  /// False for a guest: the "matches your profile" card needs an account
+  /// profile.
+  final bool showForMe;
+
   const SearchIdleContent({
     super.key,
     required this.categories,
@@ -220,6 +224,7 @@ class SearchIdleContent extends StatelessWidget {
     required this.matchingProfileCount,
     this.matchingProfileIsPartial = false,
     required this.onHighlightTap,
+    this.showForMe = true,
   });
 
   @override
@@ -229,13 +234,15 @@ class SearchIdleContent extends StatelessWidget {
       padding: const EdgeInsets.all(AppSpacing.lg),
       physics: const ClampingScrollPhysics(),
       children: [
-        SearchHighlightSummaryCard(
-          isLoadingCounts: isLoadingCounts,
-          matchingProfileCount: matchingProfileCount,
-          matchingProfileIsPartial: matchingProfileIsPartial,
-          onTap: onHighlightTap,
-        ),
-        const SizedBox(height: AppSpacing.xxl),
+        if (showForMe) ...[
+          SearchHighlightSummaryCard(
+            isLoadingCounts: isLoadingCounts,
+            matchingProfileCount: matchingProfileCount,
+            matchingProfileIsPartial: matchingProfileIsPartial,
+            onTap: onHighlightTap,
+          ),
+          const SizedBox(height: AppSpacing.xxl),
+        ],
         Text(
           context.l10n.browseCategories,
           style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),

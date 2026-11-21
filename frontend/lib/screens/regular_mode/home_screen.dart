@@ -19,6 +19,7 @@ import 'home/home_recommended_section.dart';
 import 'home/home_updates_section.dart';
 import '../../design_v2/saarthi/saarthi_voice_screen.dart';
 import '../../utils/app_text.dart';
+import '../../widgets/common/sign_in_required_sheet.dart';
 
 export 'home/home_featured_section.dart';
 export 'home/home_header_section.dart';
@@ -61,6 +62,8 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final provider = Provider.of<AppProvider>(context, listen: false);
+      // A guest browses home without an account and has no server profile.
+      if (provider.isGuest) return;
       if (!provider.isLoggedIn) {
         Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(builder: (_) => const LoginScreen()),
@@ -74,15 +77,20 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Opens Saarthi on its own home: the greeting, the mic and the keyboard.
   Future<void> _openChatbot() async {
-    await Navigator.of(context).push<void>(
-      MaterialPageRoute(builder: (_) => const SaarthiVoiceScreen()),
-    );
+    // Saarthi needs an account until the backend's guest token exists.
+    if (!await requireAccount(context, feature: SignInFeature.saarthi)) {
+      return;
+    }
+    if (!mounted) return;
+    await Navigator.of(
+      context,
+    ).push<void>(MaterialPageRoute(builder: (_) => const SaarthiVoiceScreen()));
   }
 
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
-    if (!provider.isLoggedIn) {
+    if (!provider.isLoggedIn && !provider.isGuest) {
       // Session was revoked (or refresh failed) while this screen was
       // already mounted -- initState()'s check only runs once, so without
       // this the user is stuck on a permanent spinner instead of being
@@ -135,7 +143,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         onSearchBarTap: widget.onSearchBarTap,
                         onFilterPressed: widget.onFilterPressed,
                         onVoiceQuery: widget.onVoiceQuery,
-                        onNotificationTap: () {
+                        onNotificationTap: () async {
+                          if (!await requireAccount(
+                            context,
+                            feature: SignInFeature.alerts,
+                          )) {
+                            return;
+                          }
+                          if (!context.mounted) return;
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (_) => const NotificationsScreen(),
@@ -144,7 +159,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
 
-                      if (provider.profileCompletionPercentage < 100) ...[
+                      // A guest sees it lower down, after the schemes: value
+                      // first, then the ask to sign in.
+                      if (!provider.isGuest &&
+                          provider.profileCompletionPercentage < 100) ...[
                         const SizedBox(height: AppSpacing.xl),
                         // Profile Completion (Real & Compact)
                         HomeProfileCompletionCard(provider: provider),
@@ -170,6 +188,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       // Recommended For You (Horizontal List)
                       HomeRecommendedSection(provider: provider),
+
+                      // For a guest: always, at 0%, as the way to sign in.
+                      if (provider.isGuest) ...[
+                        const SizedBox(height: AppSpacing.xl),
+                        HomeProfileCompletionCard(provider: provider),
+                      ],
 
                       const SizedBox(height: AppSpacing.xxl),
 

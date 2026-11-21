@@ -7,6 +7,7 @@ import '../../../utils/app_radius.dart';
 import '../../../utils/app_size.dart';
 import '../../../utils/app_spacing.dart';
 import '../basic_profile_screen.dart';
+import '../../../widgets/common/sign_in_required_sheet.dart';
 import '../../../utils/app_text.dart';
 
 class HomeProfileCompletionCard extends StatelessWidget {
@@ -21,7 +22,10 @@ class HomeProfileCompletionCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final completion = provider.profileCompletionPercentage;
+    // A guest has no account profile yet: always 0%, and the card leads to
+    // sign-in instead of the profile form.
+    final guest = provider.isGuest;
+    final completion = guest ? 0 : provider.profileCompletionPercentage;
 
     return Material(
       color: AppColors.surface,
@@ -46,6 +50,10 @@ class HomeProfileCompletionCard extends StatelessWidget {
           onTap:
               onTap ??
               () {
+                if (guest) {
+                  SignInRequiredSheet.show(context);
+                  return;
+                }
                 Navigator.of(context).push(
                   MaterialPageRoute(builder: (_) => const BasicProfileScreen()),
                 );
@@ -89,14 +97,18 @@ class HomeProfileCompletionCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        context.l10n.completeYourProfile,
+                        guest
+                            ? context.l10n.guestProfileIncomplete
+                            : context.l10n.completeYourProfile,
                         style: context.text.cardTitle.copyWith(
                           color: AppColors.textPrimary,
                         ),
                       ),
                       const SizedBox(height: AppSpacing.xs),
                       Text(
-                        context.l10n.unlockPersonalizedSchemeRecommendations,
+                        guest
+                            ? context.l10n.guestProfileSignInPrompt
+                            : context.l10n.unlockPersonalizedSchemeRecommendations,
                         style: context.text.bodySmall.copyWith(
                           color: AppColors.textBody,
                         ),

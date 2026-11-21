@@ -24,6 +24,7 @@ import 'settings/delete_account_screen.dart';
 import 'settings/settings_parts.dart';
 import '../../widgets/common/standard_page_header.dart';
 import '../../widgets/legal/copyright_notice.dart';
+import '../../widgets/common/sign_in_required_sheet.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -79,7 +80,10 @@ class _SettingsScreenState extends State<SettingsScreen> {
     // The Profile tab already shows the user's card and Edit Profile, so
     // repeating them here showed two different profile pages back to back.
     // Companion mode has no tab bar, so there Settings is the profile view.
-    final showProfile = provider.navigationMode == 'companion';
+    // A guest has no account: no profile, sessions, account deletion or
+    // Saarthi (which needs an account), and Sign in replaces Logout.
+    final guest = provider.isGuest;
+    final showProfile = provider.navigationMode == 'companion' && !guest;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -133,6 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     const LanguageSelectionScreen(isOnboarding: false),
                   ),
                 ),
+                // Guests pick a mode too; Saarthi voice needs an account.
                 SettingsRow(
                   icon: Icons.explore_outlined,
                   title: l10n.navigationModeSetting,
@@ -141,12 +146,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       : l10n.navigationModeRegular,
                   onTap: () => showNavigationModeDialog(context, provider),
                 ),
-                SettingsRow(
-                  icon: Icons.record_voice_over_outlined,
-                  title: l10n.settingsSaarthiVoice,
-                  onTap: () =>
-                      _push(context, const SaarthiVoiceSettingsScreen()),
-                ),
+                if (!guest)
+                  SettingsRow(
+                    icon: Icons.record_voice_over_outlined,
+                    title: l10n.settingsSaarthiVoice,
+                    onTap: () =>
+                        _push(context, const SaarthiVoiceSettingsScreen()),
+                  ),
                 ValueListenableBuilder<bool>(
                   valueListenable: HapticsService.instance.enabled,
                   builder: (context, on, _) => SettingsRow(
@@ -172,11 +178,12 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SettingsGroupHeader(l10n.securityPrivacyGroupHeader),
             SettingsGroup(
               children: [
-                SettingsRow(
-                  icon: Icons.devices_outlined,
-                  title: l10n.activeSessionsSetting,
-                  onTap: () => ActiveSessionsDialog.show(context),
-                ),
+                if (!guest)
+                  SettingsRow(
+                    icon: Icons.devices_outlined,
+                    title: l10n.activeSessionsSetting,
+                    onTap: () => ActiveSessionsDialog.show(context),
+                  ),
                 SettingsRow(
                   icon: Icons.shield_outlined,
                   title: l10n.privacyPolicySetting,
@@ -186,14 +193,16 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   icon: Icons.article_outlined,
                   title: l10n.termsConditionsSetting,
                   onTap: () => _push(context, const TermsConditionsScreen()),
+                  isLast: guest,
                 ),
-                SettingsRow(
-                  icon: Icons.delete_outline_rounded,
-                  title: l10n.deleteAccountSetting,
-                  danger: true,
-                  onTap: () => _handleDeleteAccount(context),
-                  isLast: true,
-                ),
+                if (!guest)
+                  SettingsRow(
+                    icon: Icons.delete_outline_rounded,
+                    title: l10n.deleteAccountSetting,
+                    danger: true,
+                    onTap: () => _handleDeleteAccount(context),
+                    isLast: true,
+                  ),
               ],
             ),
 
@@ -240,11 +249,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
             ),
             const SizedBox(height: AppSpacing.xxxl),
 
-            OutlinedButton.icon(
-              icon: const Icon(Icons.logout_rounded, size: AppSize.iconSm),
-              label: Text(l10n.logoutButton),
-              onPressed: () => _handleLogout(context, provider),
-            ),
+            if (guest)
+              FilledButton.icon(
+                key: const ValueKey('settings-guest-sign-in'),
+                icon: const Icon(Icons.login_rounded, size: AppSize.iconSm),
+                label: Text(l10n.guestSignInAction),
+                onPressed: () => openSignIn(context),
+              )
+            else
+              OutlinedButton.icon(
+                icon: const Icon(Icons.logout_rounded, size: AppSize.iconSm),
+                label: Text(l10n.logoutButton),
+                onPressed: () => _handleLogout(context, provider),
+              ),
             const SizedBox(height: AppSpacing.lg),
 
             // The installed build's real version (was a stale '1.2.0'

@@ -6,11 +6,13 @@ import '../utils/app_colors.dart';
 import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
 import 'notifications_screen.dart';
+import 'profile/guest_profile_view.dart';
 import 'profile/profile_banner_card.dart';
 import 'profile/profile_eligibility_details_card.dart';
 import 'profile/profile_navigation_sections.dart';
 import 'profile/profile_user_info_card.dart';
 import '../utils/app_text.dart';
+import '../widgets/common/sign_in_required_sheet.dart';
 
 // Re-exports for clean modular access and backwards compatibility
 export 'profile/avatar_cache_manager.dart';
@@ -48,9 +50,15 @@ class ProfileScreen extends StatelessWidget {
           // Notification bell; the badge carries the unread count.
           IconButton(
             tooltip: context.l10n.notificationsTooltip,
-            onPressed: () => Navigator.of(context).push(
-              MaterialPageRoute(builder: (_) => const NotificationsScreen()),
-            ),
+            onPressed: () async {
+              if (!await requireAccount(context, feature: SignInFeature.alerts)) {
+                return;
+              }
+              if (!context.mounted) return;
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => const NotificationsScreen()),
+              );
+            },
             icon: Badge(
               isLabelVisible: unreadCount > 0,
               backgroundColor: AppColors.danger,
@@ -69,12 +77,17 @@ class ProfileScreen extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
-            ProfileBannerCard(provider: provider),
-            ProfileUserInfoCard(provider: provider),
-            ProfileEligibilityDetailsCard(provider: provider),
-            ProfileNavigationCard1(provider: provider),
-            const ProfileNavigationCard2(),
-            ProfileLogoutCard(provider: provider),
+            // A guest has no account profile: Pending status, 0% and sign-in.
+            if (provider.isGuest)
+              GuestProfileView(provider: provider)
+            else ...[
+              ProfileBannerCard(provider: provider),
+              ProfileUserInfoCard(provider: provider),
+              ProfileEligibilityDetailsCard(provider: provider),
+              ProfileNavigationCard1(provider: provider),
+              const ProfileNavigationCard2(),
+              ProfileLogoutCard(provider: provider),
+            ],
             // Room to scroll the last card clear of the floating nav bar.
             SizedBox(
               height: AppSpacing.xxxl + MediaQuery.paddingOf(context).bottom,

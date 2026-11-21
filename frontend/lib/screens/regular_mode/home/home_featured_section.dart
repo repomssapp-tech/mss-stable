@@ -13,6 +13,7 @@ import '../../../utils/app_radius.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 import '../scheme_details_screen.dart';
+import 'guest_state_schemes.dart';
 import 'home_promo_carousel_section.dart';
 
 /// One Featured slide: a scheme the user qualifies for, or one newly added to
@@ -82,13 +83,22 @@ class _HomeFeaturedSectionState extends State<HomeFeaturedSection> {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
+    // A guest has no profile match, so no "Best for you" slides: only the
+    // newest schemes for their state.
+    final guest = provider.isGuest;
     final slides = pickFeaturedSlides(
       ranked: [
-        for (final e in provider.recommendedSchemes)
-          if (e.value.score > 0) MapEntry(e.key, e.value.percentage),
+        if (!guest)
+          for (final e in provider.recommendedSchemes)
+            if (e.value.score > 0) MapEntry(e.key, e.value.percentage),
       ],
       all: provider.allSchemes,
-      state: provider.profile.state,
+      state: guest
+          ? guestStateFor(
+              profileState: provider.profile.state,
+              language: provider.selectedLanguage,
+            )
+          : provider.profile.state,
     );
     if (slides.isEmpty) return const HomePromoCarouselSection();
     if (_index >= slides.length) _index = 0;

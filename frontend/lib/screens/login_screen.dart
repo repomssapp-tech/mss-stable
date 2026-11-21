@@ -5,9 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../providers/app_state_provider.dart';
 import '../l10n/l10n.dart';
+import '../widgets/common/app_icon_button.dart';
 import '../widgets/common/app_toast.dart';
-import '../widgets/legal/legal_consent_section.dart';
 import '../widgets/legal/legal_document_modal.dart';
+import '../main.dart' show MainTabsContainer;
 import 'navigation_mode_screen.dart';
 import 'permissions/app_permissions_screen.dart';
 import 'regular_mode/legal_screens.dart';
@@ -41,6 +42,21 @@ class _LoginScreenState extends State<LoginScreen> {
   void initState() {
     super.initState();
     SignInProgress.instance.phase.addListener(_onSignInPhase);
+    _restoreGuestAgreement();
+  }
+
+  /// A guest already read and accepted the Terms and Privacy Policy to enter
+  /// guest mode, so signing in from guest mode starts with both ticked. After
+  /// a sign-out the agreement is cleared and the user agrees again.
+  Future<void> _restoreGuestAgreement() async {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    if (!provider.isGuest) return;
+    if (!await LegalConsentStore.hasLoginAgreement()) return;
+    if (!mounted) return;
+    setState(() {
+      _hasViewedTerms = true;
+      _hasViewedPrivacy = true;
+    });
   }
 
   @override
@@ -192,7 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                                       // Subtitle
                                       Text(
-                                        context.l10n.loginSubtitle,
+                                        context.l10n.loginSubtitleShort,
                                         textAlign: TextAlign.center,
                                         style: context.text.bodySmall.copyWith(
                                           color: AppColors.textMuted,
@@ -302,8 +318,31 @@ class _LoginScreenState extends State<LoginScreen> {
               },
             ),
           ),
+
+          // Opened from guest mode: a way back to browsing as a guest, so
+          // the sign-in screen is never a dead end.
+          if (context.select<AppProvider, bool>((p) => p.isGuest))
+            Positioned(
+              top: MediaQuery.paddingOf(context).top,
+              left: AppSpacing.xs,
+              child: AppIconButton(
+                key: const ValueKey('login-back-to-guest'),
+                icon: Icons.close_rounded,
+                semanticLabel: context.l10n.loginBackToGuest,
+                tooltip: context.l10n.loginBackToGuest,
+                onPressed: _backToGuest,
+              ),
+            ),
         ],
       ),
+    );
+  }
+
+  /// Leaves the sign-in screen for the guest session it was opened from.
+  void _backToGuest() {
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute<void>(builder: (_) => const MainTabsContainer()),
+      (route) => false,
     );
   }
 
@@ -335,6 +374,19 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
+  /// Guest mode: no account, answers kept on this phone. Gated behind the
+  /// same Terms and Privacy acceptance as Google sign-in.
+  Future<void> _continueAsGuest() async {
+    final provider = Provider.of<AppProvider>(context, listen: false);
+    // Remembered so the agreement is recorded if the guest signs in later.
+    await LegalConsentStore.markLoginAgreement();
+    await provider.continueAsGuest();
+    if (!mounted) return;
+    // A guest picks Regular or Saarthi mode like anyone else, then goes
+    // home (no profile onboarding).
+    await replaceWithPermissionsFirst(context, const NavigationModeScreen());
+  }
+
   Widget _buildLoginForm() {
     final bool canConsent = _hasViewedTerms && _hasViewedPrivacy;
     // Does NOT include !_isLoading: the button must keep its "enabled" look
@@ -346,29 +398,20 @@ class _LoginScreenState extends State<LoginScreen> {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
+        // What to do first, always at the top of the card: amber until both
+        // documents are read, then muted (it stays as a reminder).
         Text(
-          context.l10n.continueSecurely,
+          context.l10n.loginReviewTermsNotice,
           textAlign: TextAlign.center,
-          style: context.text.titleSmall.copyWith(color: AppColors.textPrimary),
+          style: context.text.bodySmall.copyWith(
+            color: isLoginEnabled ? AppColors.textMuted : AppColors.warningText,
+          ),
         ),
-        const SizedBox(height: AppSpacing.xs),
-        Text(
-          context.l10n.googleAccountContinue,
-          textAlign: TextAlign.center,
-          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
-        ),
-        const SizedBox(height: AppSpacing.md),
-
-        // Legal & Privacy Consent Section
-        LegalConsentSection(
-          onOpenTerms: _openTermsModal,
-          onOpenPrivacy: _openPrivacyModal,
-        ),
-
         const SizedBox(height: AppSpacing.sm),
-
-        // Gate checklist: ticks each document once it was read and accepted
-        // and stays visible, so the user sees both are done.
+        // Gate checklist: each row opens its document, which is read to the
+        // end and accepted there; the row then ticks and stays visible. It is
+        // the only consent text on the screen (a separate "I have read and
+        // agree" sentence repeated it).
         _SignInChecklist(
           hasViewedTerms: _hasViewedTerms,
           hasViewedPrivacy: _hasViewedPrivacy,
@@ -393,6 +436,7 @@ class _LoginScreenState extends State<LoginScreen> {
             child: SizedBox(
               width: double.infinity,
               child: OutlinedButton(
+                key: const ValueKey('login-continue-with-google'),
                 style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
                   minimumSize: const Size.fromHeight(52),
                   foregroundColor: _busy ? AppColors.primary : null,
@@ -437,23 +481,38 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-        if (!isLoginEnabled) ...[
-          const SizedBox(height: AppSpacing.sm),
-          Text(
-            context.l10n.loginReviewTermsNotice,
-            textAlign: TextAlign.center,
-            style: context.text.bodySmall.copyWith(
-              color: AppColors.warningText,
-            ),
-          ),
-        ],
-        const SizedBox(height: AppSpacing.md),
+        const SizedBox(height: AppSpacing.xs),
         Text(
-          context.l10n.secureBrowserAuth,
+          context.l10n.loginGoogleHint,
           textAlign: TextAlign.center,
           style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
-        const SizedBox(height: AppSpacing.sm),
+        const SizedBox(height: AppSpacing.md),
+        // Guest entry: the same size and weight as Google sign-in, an equal
+        // choice rather than a fallback link.
+        SizedBox( // spacing-ok: full-width button, same as Google
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            key: const ValueKey('login-continue-as-guest'),
+            style: OutlinedButton.styleFrom( // style-ok: CTA height, same as Google
+              minimumSize: const Size.fromHeight(52),
+            ),
+            onPressed: (_busy || !isLoginEnabled) ? null : _continueAsGuest,
+            icon: const Icon(Icons.explore_outlined, size: 18),
+            label: Text(
+              context.l10n.loginContinueAsGuest,
+              textAlign: TextAlign.center,
+              maxLines: 2,
+            ),
+          ),
+        ),
+        const SizedBox(height: AppSpacing.xs),
+        Text(
+          context.l10n.loginGuestHint,
+          textAlign: TextAlign.center,
+          style: context.text.bodySmall.copyWith(color: AppColors.textMuted),
+        ),
+        const SizedBox(height: AppSpacing.lg),
         const CopyrightNotice.line(),
       ],
     );

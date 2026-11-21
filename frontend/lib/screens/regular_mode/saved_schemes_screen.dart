@@ -16,6 +16,7 @@ import '../../widgets/common/app_tappable.dart';
 import '../../widgets/scheme/inactive_scheme_badge.dart';
 import '../../utils/app_text.dart';
 import '../../widgets/common/auto_translated_text.dart';
+import '../../widgets/common/sign_in_required_sheet.dart';
 
 class SavedSchemesScreen extends StatefulWidget {
   const SavedSchemesScreen({super.key});
@@ -265,6 +266,7 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
     AppProvider provider, {
     required String title,
     required String description,
+    bool signIn = false,
   }) {
     return LayoutBuilder(
       builder: (context, constraints) => SingleChildScrollView(
@@ -306,10 +308,18 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                     ),
                   ),
                   const SizedBox(height: AppSpacing.xl),
-                  ElevatedButton(
-                    onPressed: () => provider.updateTabIndex(2),
-                    child: Text(context.l10n.navDiscover),
-                  ),
+                  // A guest cannot save: the way forward is signing in.
+                  if (signIn)
+                    ElevatedButton(
+                      key: const ValueKey('saved-guest-sign-in'),
+                      onPressed: () => openSignIn(context),
+                      child: Text(context.l10n.guestSignInAction),
+                    )
+                  else
+                    ElevatedButton(
+                      onPressed: () => provider.updateTabIndex(2),
+                      child: Text(context.l10n.navDiscover),
+                    ),
                 ],
               ),
             ),
@@ -358,6 +368,8 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                           ? context.l10n.savedSubtitleCountFormat(
                               bookmarks.length,
                             )
+                          : provider.isGuest
+                          ? context.l10n.guestSavedSignInDesc
                           : context.l10n.noSavedSchemesDesc,
                       style: context.text.bodySmall.copyWith(
                         color: AppColors.textMuted,
@@ -376,9 +388,12 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
                       title: _activeTab == 0
                           ? context.l10n.noSavedSchemes
                           : context.l10n.savedRecentlyViewedEmptyTitle,
-                      description: _activeTab == 0
-                          ? context.l10n.noSavedSchemesDesc
-                          : context.l10n.savedRecentlyViewedEmptyDesc,
+                      description: _activeTab != 0
+                          ? context.l10n.savedRecentlyViewedEmptyDesc
+                          : provider.isGuest
+                          ? context.l10n.guestSavedSignInDesc
+                          : context.l10n.noSavedSchemesDesc,
+                      signIn: _activeTab == 0 && provider.isGuest,
                     )
                   : ListView.builder(
                       physics: const ClampingScrollPhysics(),

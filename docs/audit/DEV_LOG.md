@@ -84,3 +84,8 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-10 | nyxri0f8 | #198 | unspecified | App lock by the administrator; remove Marathi (2.5.0+29) |
 | 2026-11-10 | nyxri0f8 | #199 | unspecified | Copyright notice in the app (2.5.1+30) |
 | 2026-11-19 | Roger-Chris | #200 | frontend/l10n, frontend/voice, frontend/search | Brings Marathi back to the app (removed in 2.5.0, #198), keeping the administrator app lock and the copyright notice. Also adds the Hindi/Marathi translation inventory docs. |
+| 2026-11-20 | Roger-Chris | #202 | unspecified | feat(app): guest mode on the client (DEV 1 task 1.5, draft) |
+| 2026-11-20 | Roger-Chris | #204 | unspecified | fix(app): guest home, profile and routing fixes (follow-up to #202) |
+| 2026-11-20 | Roger-Chris | #205 | unspecified | feat(app): finish guest UX across Saarthi, Settings, Search and Saved |
+| 2026-11-20 | Roger-Chris | #206 | unspecified | feat(app): guest and first-run UX (mode choice, tours, equal weight, no dead ends) |
+| 2026-11-21 | Roger-Chris | #207 | unspecified | fix(app): login text, wording audit, sign-out keeps onboarding; UX and analytics docs |

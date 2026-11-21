@@ -1,10 +1,8 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/login_screen.dart';
-import 'package:frontend/widgets/legal/legal_consent_section.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -52,8 +50,13 @@ void main() {
     expect(find.text('Sign in with password'), findsNothing);
 
     // One consent sentence, then the two "Read the ..." rows: the document
-    // names are not repeated as separate buttons.
+    // names are not repeated as separate buttons. The only text button is
+    // "Continue as guest" is now an equal outlined button, not a text link.
     expect(find.byType(TextButton), findsNothing);
+    expect(
+      find.byKey(const ValueKey('login-continue-as-guest')),
+      findsOneWidget,
+    );
     final rows = find.byWidgetPredicate(
       (w) =>
           w is Text &&
@@ -102,8 +105,9 @@ void main() {
     );
     await tester.pump();
 
-    // 1. Initial state
-    expect(find.textContaining('I have read and agree to the'), findsOneWidget);
+    // 1. Initial state: the two "Read the ..." rows are the consent text.
+    expect(find.textContaining('I have read and agree to the'), findsNothing);
+    expect(find.textContaining('Read the '), findsNWidgets(2));
 
     // The data-usage consent is collected on the profile page: no checkbox here.
     expect(find.byType(Checkbox), findsNothing);
@@ -117,23 +121,15 @@ void main() {
     OutlinedButton button = tester.widget(buttonFinder);
     expect(button.onPressed, isNull);
 
-    // 3. Open Terms of Use modal via link
-    // The consent sentence is the first Text; the document buttons follow.
-    final textWidget = tester.widget<Text>(
-      find
-          .descendant(
-            of: find.byType(LegalConsentSection),
-            matching: find.byType(Text),
-          )
-          .first,
+    // 3. Open the Terms of Use from its checklist row.
+    final termsRow = find.byWidgetPredicate(
+      (w) =>
+          w is Text &&
+          w.textSpan != null &&
+          w.textSpan!.toPlainText() == 'Read the Terms of Use',
     );
-    final textSpan = textWidget.textSpan! as TextSpan;
-    final termsSpan =
-        textSpan.children!.firstWhere(
-              (s) => s is TextSpan && s.text == 'Terms of Use',
-            )
-            as TextSpan;
-    (termsSpan.recognizer as TapGestureRecognizer).onTap!();
+    await tester.ensureVisible(termsRow);
+    await tester.tap(termsRow);
     await tester.pumpAndSettle();
 
     // Modal content is visible
@@ -162,13 +158,15 @@ void main() {
     button = tester.widget(buttonFinder);
     expect(button.onPressed, isNull);
 
-    // 4. Open Privacy Policy modal via link
-    final privacySpan =
-        textSpan.children!.firstWhere(
-              (s) => s is TextSpan && s.text == 'Privacy Policy',
-            )
-            as TextSpan;
-    (privacySpan.recognizer as TapGestureRecognizer).onTap!();
+    // 4. Open the Privacy Policy from its checklist row.
+    final privacyRow = find.byWidgetPredicate(
+      (w) =>
+          w is Text &&
+          w.textSpan != null &&
+          w.textSpan!.toPlainText() == 'Read the Privacy Policy',
+    );
+    await tester.ensureVisible(privacyRow);
+    await tester.tap(privacyRow);
     await tester.pumpAndSettle();
 
     // Modal content is visible
@@ -223,10 +221,7 @@ void main() {
       await tester.pump();
 
       expect(find.byType(LoginScreen), findsOneWidget);
-      expect(
-        find.textContaining('I have read and agree to the'),
-        findsOneWidget,
-      );
+      expect(find.textContaining('Read the '), findsNWidgets(2));
       expect(tester.takeException(), isNull);
     });
   }

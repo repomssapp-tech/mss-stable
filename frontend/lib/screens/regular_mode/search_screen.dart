@@ -23,6 +23,7 @@ import 'search/search_idle_content.dart';
 import 'search/search_input_section.dart';
 import 'search/search_models.dart';
 import 'search/search_results_view.dart';
+import '../../widgets/common/sign_in_required_sheet.dart';
 
 // Re-exports for backwards compatibility and tests
 export '../../models/scheme_filter.dart'
@@ -736,6 +737,7 @@ class SearchScreenState extends State<SearchScreen> {
             isLoadingCounts: _isLoadingCounts,
             matchingProfileCount: _matchingProfileCount,
             matchingProfileIsPartial: _matchingProfileIsPartial,
+            showForMe: !Provider.of<AppProvider>(context).isGuest,
             onHighlightTap: () {
               setState(() {
                 _activeFilter = 'For Me';
@@ -851,9 +853,19 @@ class SearchScreenState extends State<SearchScreen> {
                       SearchFilterStrip(
                         facetCount: activeSchemeFilterCount(provider.filters),
                         isForMeActive: _activeFilter == 'For Me',
+                        // A guest sees For me with a lock: tapping it says
+                        // what signing in unlocks. Best match stays hidden.
+                        forMeLocked: provider.isGuest,
                         sortBy: _sortBy,
                         onOpenFilterPanel: _openFilterPanel,
-                        onToggleForMe: () {
+                        onToggleForMe: () async {
+                          if (!await requireAccount(
+                            context,
+                            feature: SignInFeature.forMe,
+                          )) {
+                            return;
+                          }
+                          if (!mounted) return;
                           setState(() {
                             _activeFilter = _activeFilter == 'For Me'
                                 ? 'All'

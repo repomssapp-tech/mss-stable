@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user_profile.dart';
 import '../../utils/app_languages.dart';
+import '../onboarding/home_tour_store.dart';
+import '../onboarding/onboarding_store.dart';
 
 class SessionCacheService {
   SessionCacheService._privateConstructor();
@@ -18,6 +20,7 @@ class SessionCacheService {
   static const String _keyLastProfileSync = 'last_profile_sync';
   static const String _keyIsLoggedIn = 'isLoggedIn';
   static const String _keyIsGuest = 'isGuest';
+  static const String _keyGuestUploadPending = 'guestAnswersUploadPending';
   static const String _keySavedEligibilitySchemeIds =
       'savedEligibilitySchemeIds';
   static const String _keyLastEligibilitySavedAt = 'lastEligibilitySavedAt';
@@ -74,7 +77,23 @@ class SessionCacheService {
   Future<void> clearSession() async {
     try {
       final prefs = await SharedPreferences.getInstance();
+      // The first-time tours and the first-launch onboarding pages are about
+      // this phone, not the session: keep their records so sign-out never
+      // brings them back.
+      final keptTours = {
+        for (final key in prefs.getKeys())
+          if (key.startsWith(HomeTourStore.keyPrefix))
+            key: prefs.getString(key),
+      };
+      final onboardingSeen = prefs.getBool(OnboardingStore.seenKey);
       await prefs.clear();
+      for (final entry in keptTours.entries) {
+        final value = entry.value;
+        if (value != null) await prefs.setString(entry.key, value);
+      }
+      if (onboardingSeen != null) {
+        await prefs.setBool(OnboardingStore.seenKey, onboardingSeen);
+      }
       debugPrint(
         '[SessionCacheService] All session and preference data cleared.',
       );
@@ -172,6 +191,32 @@ class SessionCacheService {
       await prefs.setBool(_keyIsGuest, isGuest);
     } catch (e) {
       debugPrint('[SessionCacheService] Error saving isGuest: $e');
+    }
+  }
+
+  /// True after a guest signed in and their on-device answers have not yet
+  /// reached the new account. Kept apart from [getIsGuest] so a failed upload
+  /// is retried on the next sign-in hydrate and a done one never repeats.
+  Future<bool> getGuestUploadPending() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      return prefs.getBool(_keyGuestUploadPending) ?? false;
+    } catch (e) {
+      debugPrint('[SessionCacheService] Error getting guest upload flag: $e');
+      return false;
+    }
+  }
+
+  Future<void> saveGuestUploadPending(bool pending) async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      if (pending) {
+        await prefs.setBool(_keyGuestUploadPending, true);
+      } else {
+        await prefs.remove(_keyGuestUploadPending);
+      }
+    } catch (e) {
+      debugPrint('[SessionCacheService] Error saving guest upload flag: $e');
     }
   }
 

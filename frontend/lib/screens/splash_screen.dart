@@ -20,6 +20,7 @@ import '../utils/app_system_ui_style.dart';
 import '../services/beta_gate/beta_config.dart';
 import '../services/beta_gate/beta_gate_service.dart';
 import 'beta_gate_screen.dart';
+import '../widgets/onboarding/home_tour.dart';
 import '../design_v2/onboarding/onboarding_screen.dart';
 import '../services/onboarding/onboarding_store.dart';
 import 'permissions/app_permissions_screen.dart';
@@ -30,11 +31,16 @@ enum StartupDestination { home, navigationMode, language, login }
 /// Hairlines and the progress track on the splash art's blue footer.
 final Color _faintOnBlue = AppColors.textOnPrimary.withValues(alpha: 0.25);
 
+/// A guest ([isGuest]) goes straight to home: no sign-in screen, no network
+/// check (a guest cold start works offline) and no profile onboarding, which
+/// asks for name, email and phone a guest does not give.
 StartupDestination resolveStartupDestination({
   required bool hasSession,
   required bool hasCachedLanguage,
   required bool profileCompleted,
+  bool isGuest = false,
 }) {
+  if (isGuest && !hasSession) return StartupDestination.home;
   if (hasSession) {
     return profileCompleted
         ? StartupDestination.home
@@ -170,10 +176,22 @@ class _SplashScreenState extends State<SplashScreen>
 
       if (!mounted) return;
 
+      // A session always wins over a stored guest flag.
+      final isGuest = !hasSession && await cache.getIsGuest();
+      // Splash reads the cache itself; set the provider's flag before home
+      // builds instead of waiting for its own _loadState.
+      if (isGuest) await provider.continueAsGuest();
+      if (!mounted) return;
+
+      // The home tour's status, read before home is built (see HomeTour).
+      await HomeTour.prefetch();
+      if (!mounted) return;
+
       final destination = resolveStartupDestination(
         hasSession: hasSession,
         hasCachedLanguage: lang != null,
         profileCompleted: profile?.profileCompleted ?? false,
+        isGuest: isGuest,
       );
 
       switch (destination) {

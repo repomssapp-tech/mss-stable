@@ -113,6 +113,14 @@ class SearchFilterStrip extends StatelessWidget {
   final VoidCallback onToggleForMe;
   final ValueChanged<String> onSortChanged;
 
+  /// False for a guest: "For Me" and "Best match for me" rank by an account
+  /// profile a guest does not have.
+  final bool showForMe;
+
+  /// A guest: For me stays visible with a lock (it needs an account
+  /// profile), and Best match is hidden.
+  final bool forMeLocked;
+
   const SearchFilterStrip({
     super.key,
     required this.facetCount,
@@ -121,6 +129,8 @@ class SearchFilterStrip extends StatelessWidget {
     required this.onOpenFilterPanel,
     required this.onToggleForMe,
     required this.onSortChanged,
+    this.showForMe = true,
+    this.forMeLocked = false,
   });
 
   String _sortLabel(BuildContext context, String value) {
@@ -138,7 +148,11 @@ class SearchFilterStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final forMeIcon = Icon(
-      isForMeActive ? Icons.check_rounded : Icons.person_outline_rounded,
+      forMeLocked
+          ? Icons.lock_outline_rounded
+          : isForMeActive
+          ? Icons.check_rounded
+          : Icons.person_outline_rounded,
       size: AppSize.iconSm,
     );
     final forMeLabel = Text(context.l10n.forMe);
@@ -163,24 +177,25 @@ class SearchFilterStrip extends StatelessWidget {
 
         // "For Me" -- opt-in profile-eligibility filter. While on, it shows a
         // tick on the selected blue tint, like a chosen chip.
-        OutlinedButton.icon(
-          onPressed: onToggleForMe,
-          style: isForMeActive
-              ? const ButtonStyle(
-                  backgroundColor: WidgetStatePropertyAll(
-                    AppColors.primarySoft,
-                  ),
-                )
-              : null,
-          icon: forMeIcon,
-          label: forMeLabel,
-        ),
+        if (showForMe)
+          OutlinedButton.icon(
+            onPressed: onToggleForMe,
+            style: isForMeActive
+                ? const ButtonStyle(
+                    backgroundColor: WidgetStatePropertyAll(
+                      AppColors.primarySoft,
+                    ),
+                  )
+                : null,
+            icon: forMeIcon,
+            label: forMeLabel,
+          ),
 
         SearchDropdownChip(
           label: context.l10n.sortLabel,
-          options: const [
+          options: [
             'Relevance',
-            'Best match for me',
+            if (showForMe && !forMeLocked) 'Best match for me',
             'Scheme name (A-Z)',
           ],
           currentValue: sortBy,
