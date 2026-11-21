@@ -67,6 +67,7 @@ class SaarthiVoiceScreen extends StatefulWidget {
 
 class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   final _messages = <SaarthiMessage>[];
+  final _tour = SaarthiTour();
   final _chatLog = ChatLogService();
   final _scroll = ScrollController();
   final _typeInput = TextEditingController();
@@ -442,7 +443,7 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
       // the tour waits until it is the tab on screen.
       if (context.read<AppProvider>().currentTabIndex != 0) return;
       checking = true;
-      final result = await SaarthiTour.maybeStart(context);
+      final result = await _tour.maybeStart(context);
       checking = false;
       if (result != HomeTourStart.notReady) timer.cancel();
     });
@@ -451,7 +452,7 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   @override
   void dispose() {
     _tourPoll?.cancel();
-    SaarthiTour.dismiss();
+    _tour.dismiss();
     if (identical(SaarthiVoiceScreen._shown, this)) {
       SaarthiVoiceScreen._shown = null;
     }
@@ -495,7 +496,7 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     final c = _conversation;
     final showingHome = !_active && _tab == SaarthiNavTab.home;
     final nav = SaarthiPillNav(
-      sessionsTourKey: showingHome ? SaarthiTourTargets.sessions : null,
+      sessionsTourKey: showingHome ? _tour.targets.sessions : null,
       selected: _active ? SaarthiNavTab.sessions : _tab,
       onHome: () => _openTab(SaarthiNavTab.home),
       onSessions: () => _openTab(SaarthiNavTab.sessions),
@@ -531,6 +532,8 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
       );
     } else {
       body = SaarthiVoiceHome(
+        micTourKey: _tour.targets.mic,
+        typeTourKey: _tour.targets.type,
         userName: userName,
         onStart: () => unawaited(_start()),
         onType: () => unawaited(_start(typing: true)),
