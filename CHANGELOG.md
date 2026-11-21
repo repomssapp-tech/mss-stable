@@ -11,6 +11,11 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.6.4+35] - 2026-11-21 (dev test build)
+
+### Fixed
+- Google sign-in follows API_DOCUMENTATION again. Every app returns through the one documented link `com.inschemes.app://login-callback/`, and `/v1/auth/google/start` gets only `code_challenge` (no `redirect_uri`). The per-app return links from 2.6.2 are removed, and the server change for them (mssschemes/backend#7) was reverted in mssschemes/backend#9. With several MSS apps on one phone, Android may ask which app should finish the sign-in.
+
 ## [2.6.3+34] - 2026-11-21 (dev test build)
 
 ### Fixed
@@ -21,7 +26,7 @@ Unreleased items under a new heading, commit, and tag the commit.
 ### Fixed
 - Continue as guest now asks for your name and profile details first (kept on this phone), then the short survey, as on the website.
 - Guests land on a home screen with schemes for their state and can browse, search and save without signing in (Roger-Chris/MSS_App#204 to #206).
-- Google sign-in returns to the app that started it. Each app (MSS, MSS Dev, MSS Tamil Nadu, MSS Maharashtra) has its own return link, so with two of them on one phone the sign-in no longer lands in the wrong app. Needs mssschemes/backend#7 on the server.
+- Google sign-in returns to the app that started it. (Replaced in 2.6.4+35: per-app return links removed, one documented link again.)
 
 ### Changed
 - App updates now come from the public repository repomssapp-tech/mss-stable. One stable release carries an APK per app (`mss-central-…`, `mss-tn-…`, `mss-mh-…`) and each app downloads only its own. Dev pre-releases stay in the private mss-dev repository and are never offered as updates.
