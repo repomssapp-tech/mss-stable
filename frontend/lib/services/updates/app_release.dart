@@ -1,3 +1,4 @@
+import '../../config/edition.dart';
 import '../../utils/app_version.dart';
 
 /// One app build published as a GitHub release of the public releases
@@ -39,8 +40,9 @@ class AppRelease {
   }
 
   /// One release object from the GitHub releases API. Null when it is not a
-  /// published app build (draft, pre-release, other tag) or is malformed.
-  static AppRelease? fromJson(Object? json) {
+  /// published app build (draft, pre-release, other tag), is malformed, or
+  /// carries edition APKs but none for [edition].
+  static AppRelease? fromJson(Object? json, {String edition = kEditionKey}) {
     if (json is! Map) return null;
     if (json['draft'] == true || json['prerelease'] == true) return null;
     final tag = json['tag_name'];
@@ -49,10 +51,19 @@ class AppRelease {
     final version = versionFromTag(tag);
     final pageUrl = _githubUri(page);
     if (version == null || pageUrl == null) return null;
+    final assets = json['assets'];
+    Uri? apkUrl;
+    if (_hasEditionApks(assets)) {
+      // A stable release carries one APK per edition; this app takes its own.
+      apkUrl = _apkUrl(assets, prefix: 'mss-$edition-');
+      if (apkUrl == null) return null;
+    } else {
+      apkUrl = _apkUrl(assets);
+    }
     return AppRelease(
       version: version,
       pageUrl: pageUrl,
-      apkUrl: _apkUrl(json['assets']),
+      apkUrl: apkUrl,
       notes: notesFrom(json['body']),
     );
   }
@@ -86,11 +97,11 @@ class AppRelease {
 
   /// The newest app build in a GitHub releases list (`GET /releases`), by
   /// build number. Null when the list holds none.
-  static AppRelease? newestOf(Object? json) {
+  static AppRelease? newestOf(Object? json, {String edition = kEditionKey}) {
     if (json is! List) return null;
     AppRelease? newest;
     for (final item in json) {
-      final release = fromJson(item);
+      final release = fromJson(item, edition: edition);
       if (release == null) continue;
       if (newest == null || release.version.build > newest.version.build) {
         newest = release;
@@ -106,7 +117,23 @@ class AppRelease {
     caseSensitive: false,
   );
 
-  static Uri? _apkUrl(Object? assets) {
+  /// Stable releases name each edition's APK `mss-<edition>-<version>.apk`
+  /// (`mss-central-2.6.2+33.apk`, `mss-tn-…`, `mss-mh-…`).
+  static final RegExp _editionApk = RegExp(
+    r'^mss-(central|tn|mh)-\d',
+    caseSensitive: false,
+  );
+
+  static bool _hasEditionApks(Object? assets) =>
+      assets is List &&
+      assets.any(
+        (a) =>
+            a is Map &&
+            a['name'] is String &&
+            _editionApk.hasMatch(a['name'] as String),
+      );
+
+  static Uri? _apkUrl(Object? assets, {String? prefix}) {
     if (assets is! List) return null;
     Uri? split;
     for (final asset in assets) {
@@ -115,6 +142,11 @@ class AppRelease {
       final url = asset['browser_download_url'];
       if (name is! String || url is! String) continue;
       if (!name.toLowerCase().endsWith('.apk')) continue;
+      if (prefix != null &&
+          !(name.toLowerCase().startsWith(prefix) &&
+              _editionApk.hasMatch(name))) {
+        continue;
+      }
       final uri = _githubUri(url);
       if (uri == null) continue;
       if (!_abiSplit.hasMatch(name)) return uri;

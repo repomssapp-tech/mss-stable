@@ -19,6 +19,7 @@ Unreleased items under a new heading, commit, and tag the commit.
 - Google sign-in returns to the app that started it. Each app (MSS, MSS Dev, MSS Tamil Nadu, MSS Maharashtra) has its own return link, so with two of them on one phone the sign-in no longer lands in the wrong app. Needs mssschemes/backend#7 on the server.
 
 ### Changed
+- App updates now come from the public repository repomssapp-tech/mss-stable. One stable release carries an APK per app (`mss-central-…`, `mss-tn-…`, `mss-mh-…`) and each app downloads only its own. Dev pre-releases stay in the private mss-dev repository and are never offered as updates.
 - Login screen text, wording review across the app, and sign-out keeps onboarding seen (Roger-Chris/MSS_App#207).
 - Ships the Maharashtra MSME questionnaire dataset (Roger-Chris/MSS_App#201).
 

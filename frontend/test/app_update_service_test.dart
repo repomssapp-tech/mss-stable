@@ -134,6 +134,56 @@ void main() {
     });
   });
 
+  group('stable releases carry one APK per edition', () {
+    const stableApks = [
+      'mss-central-2.6.2+33.apk',
+      'mss-tn-2.6.2+33.apk',
+      'mss-mh-2.6.2+33.apk',
+    ];
+
+    test('each edition downloads only its own APK', () {
+      for (final edition in ['central', 'tn', 'mh']) {
+        final r = AppRelease.fromJson(
+          _release('app-v2.6.2+33', apks: stableApks),
+          edition: edition,
+        )!;
+        expect(r.apkUrl!.pathSegments.last, 'mss-$edition-2.6.2+33.apk');
+      }
+    });
+
+    test('a release without this edition APK is not offered to it', () {
+      final centralOnly = _release(
+        'app-v2.6.3+34',
+        apks: const ['mss-central-2.6.3+34.apk'],
+      );
+      expect(AppRelease.fromJson(centralOnly, edition: 'mh'), isNull);
+      final newest = AppRelease.newestOf([
+        _release('app-v2.6.2+33', apks: stableApks),
+        centralOnly,
+      ], edition: 'mh');
+      expect(newest!.version.build, 33);
+    });
+
+    test('a dev APK never counts as an edition APK', () {
+      final r = AppRelease.fromJson(
+        _release(
+          'app-v2.6.2+33',
+          apks: const ['mss-tn-dev-2.6.2+33.apk', 'mss-tn-2.6.2+33.apk'],
+        ),
+        edition: 'tn',
+      )!;
+      expect(r.apkUrl!.pathSegments.last, 'mss-tn-2.6.2+33.apk');
+    });
+
+    test('an older single-APK release still works', () {
+      final r = AppRelease.fromJson(
+        _release('app-v2.5.1+30', apks: const ['mss-app-2.5.1-build30.apk']),
+        edition: 'tn',
+      )!;
+      expect(r.apkUrl!.pathSegments.last, 'mss-app-2.5.1-build30.apk');
+    });
+  });
+
   group('AppUpdateService.shouldNotify', () {
     AppRelease build(int n) => AppRelease(
       version: AppVersion(1, 4, 8, n),
@@ -398,7 +448,7 @@ void main() {
         'https://api.github.com/repos/${AppUpdateService.releasesRepo}'
         '/releases?per_page=10',
       );
-      expect(AppUpdateService.releasesRepo, isNot('Roger-Chris/MSS_App'));
+      expect(AppUpdateService.releasesRepo, 'repomssapp-tech/mss-stable');
     });
   });
 }
