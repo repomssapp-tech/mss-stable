@@ -19,6 +19,7 @@ import 'package:frontend/screens/splash_screen.dart';
 import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:frontend/services/catalog/scheme_catalog_sync_service.dart';
 import 'package:frontend/services/onboarding/home_tour_store.dart';
+import 'package:frontend/services/onboarding/onboarding_store.dart';
 import 'package:frontend/widgets/common/sign_in_required_sheet.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -225,11 +226,12 @@ void main() {
       final google = await googleButton(tester, provider);
 
       expect(google.onPressed, isNotNull);
+      // The review line always stays at the top of the card.
       expect(
         find.text(
           'Please review the Terms of Use and Privacy Policy before continuing.',
         ),
-        findsNothing,
+        findsOneWidget,
       );
     });
 
@@ -555,6 +557,12 @@ void main() {
   });
 
   group('first-time tours', () {
+    test('sign-out keeps the onboarding pages seen', () async {
+      await const OnboardingStore().markSeen();
+      await SessionCacheService.instance.clearSession();
+      expect(await const OnboardingStore().isSeen(), isTrue);
+    });
+
     test('Saarthi tour has its own record, kept across sign-out', () async {
       const saarthi = HomeTourStore(tour: 'saarthi');
       const home = HomeTourStore();
