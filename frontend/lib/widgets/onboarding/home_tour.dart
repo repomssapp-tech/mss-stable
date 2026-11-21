@@ -32,16 +32,40 @@ class HomeTour {
   /// A tour is on screen. Only one can exist at a time.
   static bool get isShowing => _entry != null;
 
+  /// Whether the tour is already done, read ahead of time (see [prefetch]).
+  /// Null until known.
+  static bool? _knownDone;
+
+  /// True when the tour still has to be shown here. Null until [prefetch]
+  /// has run.
+  static bool? get pending => _knownDone == null ? null : !_knownDone!;
+
+  /// Reads the tour status before home is built (the navigation-mode screen
+  /// and the splash call it), so home can start the tour on its first frames
+  /// instead of waiting to find out.
+  static Future<bool> prefetch({
+    HomeTourStore store = const HomeTourStore(),
+  }) async {
+    final done = await store.isDone(AppSession.instance.userId);
+    _knownDone = done;
+    return !done;
+  }
+
+  @visibleForTesting
+  static void resetForTesting() => _knownDone = null;
+
   static Future<HomeTourStart> maybeStart(
     BuildContext context, {
     HomeTourStore store = const HomeTourStore(),
     String? userId,
   }) async {
+    // A guest has no account id; the tour is still shown, once per phone.
     final id = userId ?? AppSession.instance.userId;
-    if (id == null || id.isEmpty || _entry != null) {
-      return HomeTourStart.notApplicable;
+    if (_entry != null) return HomeTourStart.notApplicable;
+    if (await store.isDone(id)) {
+      _knownDone = true;
+      return HomeTourStart.alreadyDone;
     }
-    if (await store.isDone(id)) return HomeTourStart.alreadyDone;
     if (!context.mounted || _entry != null) return HomeTourStart.notApplicable;
     if (!HomeTourTargets.allReady) return HomeTourStart.notReady;
 
@@ -51,6 +75,7 @@ class HomeTour {
       if (_entry != entry) return;
       entry.remove();
       _entry = null;
+      _knownDone = true;
       store.record(id, outcome);
     }
 

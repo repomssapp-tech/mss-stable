@@ -8,6 +8,7 @@ import '../../utils/constants.dart';
 import '../highlight_text.dart';
 import '../mss_design.dart';
 import 'saarthi_kit.dart';
+import '../../widgets/onboarding/saarthi_tour.dart';
 
 enum SaarthiNavTab { home, sessions }
 
@@ -103,7 +104,7 @@ class SaarthiVoiceHome extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: HighlightText(
-                      '$greeting [$userName!]',
+                      '$greeting [$userName]',
                       textAlign: TextAlign.center,
                       highlight: pop(
                         28,
@@ -118,6 +119,8 @@ class SaarthiVoiceHome extends StatelessWidget {
                   SaarthiTalkControls(
                     micKey: const Key('saarthi-start-speaking'),
                     typeKey: const Key('saarthi-start-typing'),
+                    micTourKey: SaarthiTourTargets.mic,
+                    typeTourKey: SaarthiTourTargets.type,
                     micSize: 84,
                     onSpeak: onStart,
                     onType: onType,
@@ -142,10 +145,19 @@ class SaarthiTalkControls extends StatelessWidget {
     required this.onSpeak,
     required this.onType,
     this.micSize = 68,
+    this.micTourKey,
+    this.typeTourKey,
   });
 
   final Key micKey;
   final Key typeKey;
+
+  /// Set only on the Saarthi home, where the first-time tour points at them.
+  final GlobalKey? micTourKey;
+  final GlobalKey? typeTourKey;
+
+  static Widget _tour(GlobalKey? key, Widget child) =>
+      key == null ? child : KeyedSubtree(key: key, child: child);
   final VoidCallback onSpeak;
   final VoidCallback onType;
   final double micSize;
@@ -157,32 +169,38 @@ class SaarthiTalkControls extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         const SizedBox(width: 64),
-        Container(
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            boxShadow: [BoxShadow(color: kSaffronHalo, spreadRadius: 8)],
-          ),
-          child: RoundIconButton(
-            key: micKey,
-            icon: Icons.mic_none_rounded,
-            tooltip: l10n.sv2StartTalking,
-            bg: kBrand,
-            fg: Colors.white,
-            size: micSize,
-            iconSize: micSize * .42,
-            onTap: onSpeak,
+        _tour(
+          micTourKey,
+          Container(
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: [BoxShadow(color: kSaffronHalo, spreadRadius: 8)],
+            ),
+            child: RoundIconButton(
+              key: micKey,
+              icon: Icons.mic_none_rounded,
+              tooltip: l10n.sv2StartTalking,
+              bg: kBrand,
+              fg: Colors.white,
+              size: micSize,
+              iconSize: micSize * .42,
+              onTap: onSpeak,
+            ),
           ),
         ),
         const SizedBox(width: 16),
-        RoundIconButton(
-          key: typeKey,
-          icon: Icons.keyboard_outlined,
-          tooltip: l10n.sv2TypeMessage,
-          bg: Colors.white,
-          border: true,
-          size: 48,
-          iconSize: 22,
-          onTap: onType,
+        _tour(
+          typeTourKey,
+          RoundIconButton(
+            key: typeKey,
+            icon: Icons.keyboard_outlined,
+            tooltip: l10n.sv2TypeMessage,
+            bg: Colors.white,
+            border: true,
+            size: 48,
+            iconSize: 22,
+            onTap: onType,
+          ),
         ),
       ],
     );
@@ -198,7 +216,11 @@ class SaarthiPillNav extends StatelessWidget {
     required this.onHome,
     required this.onSessions,
     required this.onSettings,
+    this.sessionsTourKey,
   });
+
+  /// Set only while the Saarthi home shows, for the first-time tour.
+  final GlobalKey? sessionsTourKey;
 
   final SaarthiNavTab selected;
   final VoidCallback onHome;
@@ -267,13 +289,31 @@ class SaarthiPillNav extends StatelessWidget {
               selected == SaarthiNavTab.home,
               onHome,
             ),
-            item(
-              const Key('sv2-nav-sessions'),
-              Icons.search_rounded,
-              l10n.sv2OldSessions,
-              selected == SaarthiNavTab.sessions,
-              onSessions,
-            ),
+            if (sessionsTourKey == null)
+              item(
+                const Key('sv2-nav-sessions'),
+                Icons.search_rounded,
+                l10n.sv2OldSessions,
+                selected == SaarthiNavTab.sessions,
+                onSessions,
+              )
+            else
+              Expanded(
+                child: KeyedSubtree(
+                  key: sessionsTourKey,
+                  child: Row(
+                    children: [
+                      item(
+                        const Key('sv2-nav-sessions'),
+                        Icons.search_rounded,
+                        l10n.sv2OldSessions,
+                        selected == SaarthiNavTab.sessions,
+                        onSessions,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             item(
               const Key('sv2-nav-settings'),
               Icons.settings_outlined,

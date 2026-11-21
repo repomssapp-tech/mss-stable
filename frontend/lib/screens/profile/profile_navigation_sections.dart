@@ -4,6 +4,7 @@ import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/language_names.dart';
 import '../../widgets/common/custom_confirm_dialog.dart';
+import '../regular_mode/eligibility_check/eligibility_check_screen.dart';
 import '../regular_mode/help_support_screen.dart';
 import '../regular_mode/language_selection_screen.dart';
 import '../regular_mode/settings_screen.dart';
@@ -20,6 +21,21 @@ class ProfileNavigationCard1 extends StatelessWidget {
   Widget build(BuildContext context) {
     return ProfileGroupCard(
       tiles: [
+        ProfileTile(
+          icon: Icons.fact_check_outlined,
+          title: context.l10n.eligCheckEntry,
+          subtitle: context.l10n.eligCheckEntrySub,
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (_) => EligibilityCheckScreen(
+                profile: provider.profile,
+                // A guest may skip the long list; a signed-in user needs every answer.
+                allowSkip: provider.isGuest,
+                mandatory: !provider.isGuest,
+              ),
+            ),
+          ),
+        ),
         ProfileTile(
           icon: Icons.bookmark_border_rounded,
           title: context.l10n.navSaved,

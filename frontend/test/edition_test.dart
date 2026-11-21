@@ -40,7 +40,7 @@ void main() {
       expect(EditionConfig.forKey('kerala'), same(EditionConfig.central));
     });
 
-    test('each edition has its own state, language and update channel', () {
+    test('each edition has its own state and language', () {
       expect(EditionConfig.central.stateCode, isNull);
       expect(EditionConfig.central.defaultLanguage, 'en');
       expect(EditionConfig.tamilNadu.stateCode, 'IN-TN');
@@ -48,12 +48,20 @@ void main() {
       expect(EditionConfig.maharashtra.stateCode, 'IN-MH');
       expect(EditionConfig.maharashtra.defaultLanguage, 'mr');
 
-      final repos = {for (final e in EditionConfig.all) e.releasesRepo};
-      expect(repos, hasLength(EditionConfig.all.length));
+      // One public stable repository; each edition takes its own APK there.
+      for (final e in EditionConfig.all) {
+        expect(e.releasesRepo, kStableReleasesRepo, reason: e.key);
+      }
     });
 
-    test('Central keeps the update channel installed apps already use', () {
-      expect(AppUpdateService.releasesRepo, 'nyxri0f8/MSS_App-releases');
+    test('MSS keeps its app ID and the server default sign-in link', () {
+      expect(kAppId, 'com.inschemes.app');
+      expect(kAuthRedirectUrl, 'com.inschemes.app://login-callback/');
+      expect(kAuthRedirectUrl, kDefaultAuthRedirectUrl);
+    });
+
+    test('updates come from the public mss-stable repository', () {
+      expect(AppUpdateService.releasesRepo, 'repomssapp-tech/mss-stable');
     });
 
     test('a state edition opens in a language its state offers', () {

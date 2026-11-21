@@ -1,0 +1,1090 @@
+{
+  "schema_version": "1.0.0",
+  "region": "maharashtra",
+  "languages": [
+    "en",
+    "mr",
+    "hi"
+  ],
+  "source": {
+    "file": "msme_maharashtra_dataset_schema.csv",
+    "sha256": "aa923701c62811b5b49165ac66cdc47516d0fcda07ff6398e015c09d1390af43"
+  },
+  "fields": [
+    {
+      "id": "owner_gender",
+      "category": "core_profile",
+      "category_label_en": "Core Profile",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "Owner's gender",
+        "mr": "मालकाचे लिंग काय आहे?",
+        "hi": "मालिक का लिंग क्या है?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "woman",
+          "en": "Woman",
+          "mr": "महिला",
+          "hi": "महिला"
+        },
+        {
+          "value": "man",
+          "en": "Man",
+          "mr": "पुरुष",
+          "hi": "पुरुष"
+        },
+        {
+          "value": "other",
+          "en": "Other",
+          "mr": "इतर",
+          "hi": "अन्य"
+        }
+      ],
+      "purpose_en": "Unlocks women-entrepreneur subsidies and higher margin-money grants (e.g. CMEGP, Stand-Up India)."
+    },
+    {
+      "id": "social_category",
+      "category": "core_profile",
+      "category_label_en": "Core Profile",
+      "required_for": "both",
+      "type": "multi_select",
+      "question": {
+        "en": "Social category & background",
+        "mr": "तुमचा सामाजिक प्रवर्ग / पार्श्वभूमी कोणती?",
+        "hi": "आपकी सामाजिक श्रेणी / पृष्ठभूमि क्या है?"
+      },
+      "answer": {
+        "kind": "option_values"
+      },
+      "options": [
+        {
+          "value": "general",
+          "en": "General",
+          "mr": "खुला (General)",
+          "hi": "सामान्य (General)"
+        },
+        {
+          "value": "sc",
+          "en": "SC",
+          "mr": "अनुसूचित जाती (SC)",
+          "hi": "अनुसूचित जाति (SC)"
+        },
+        {
+          "value": "st",
+          "en": "ST",
+          "mr": "अनुसूचित जमाती (ST)",
+          "hi": "अनुसूचित जनजाति (ST)"
+        },
+        {
+          "value": "obc",
+          "en": "OBC",
+          "mr": "इतर मागासवर्गीय (OBC)",
+          "hi": "अन्य पिछड़ा वर्ग (OBC)"
+        },
+        {
+          "value": "minority",
+          "en": "Minority",
+          "mr": "अल्पसंख्याक",
+          "hi": "अल्पसंख्यक"
+        },
+        {
+          "value": "person_with_disability_divyangjan",
+          "en": "Person with Disability (Divyangjan)",
+          "mr": "दिव्यांग",
+          "hi": "दिव्यांग"
+        },
+        {
+          "value": "ex_serviceman",
+          "en": "Ex-Serviceman",
+          "mr": "माजी सैनिक",
+          "hi": "पूर्व सैनिक"
+        }
+      ],
+      "purpose_en": "Determines subsidy %, lower own-contribution (5% vs 10%), and age relaxation under CMEGP/PMEGP."
+    },
+    {
+      "id": "is_maharashtra_domicile",
+      "category": "location_area",
+      "category_label_en": "Location & Area",
+      "required_for": "both",
+      "type": "boolean_with_district",
+      "question": {
+        "en": "Are you a resident of Maharashtra? (Home district)",
+        "mr": "तुम्ही महाराष्ट्राचे रहिवासी आहात का? (मूळ जिल्हा)",
+        "hi": "क्या आप महाराष्ट्र के निवासी हैं? (गृह जिला)"
+      },
+      "answer": {
+        "kind": "object",
+        "fields": {
+          "resident": "boolean",
+          "district": "string"
+        }
+      },
+      "options": [
+        {
+          "value": "yes",
+          "en": "Yes",
+          "mr": "होय",
+          "hi": "हाँ",
+          "answer": true
+        },
+        {
+          "value": "no",
+          "en": "No",
+          "mr": "नाही",
+          "hi": "नहीं",
+          "answer": false
+        }
+      ],
+      "sub_input": {
+        "key": "district",
+        "attached_to": "no",
+        "label": {
+          "en": "Home District",
+          "mr": "मूळ जिल्हा",
+          "hi": "गृह जिला"
+        }
+      },
+      "purpose_en": "State schemes like Maharashtra CMEGP require Maharashtra domicile."
+    },
+    {
+      "id": "business_location",
+      "category": "location_area",
+      "category_label_en": "Location & Area",
+      "required_for": "both",
+      "type": "location",
+      "question": {
+        "en": "Where is your business located? (District, Taluka, Area Type)",
+        "mr": "तुमचा व्यवसाय कोठे आहे? (जिल्हा, तालुका आणि परिसर)",
+        "hi": "आपका व्यवसाय कहाँ स्थित है? (जिला, तालुका और क्षेत्र)"
+      },
+      "answer": {
+        "kind": "object",
+        "fields": {
+          "area": "option_value",
+          "district": "string",
+          "taluka": "string"
+        }
+      },
+      "options": [
+        {
+          "value": "village_rural",
+          "en": "Village (Rural)",
+          "mr": "गाव (ग्रामीण)",
+          "hi": "गाँव (ग्रामीण)"
+        },
+        {
+          "value": "town",
+          "en": "Town",
+          "mr": "नगर",
+          "hi": "कस्बा"
+        },
+        {
+          "value": "city_urban",
+          "en": "City (Urban)",
+          "mr": "शहर (शहरी)",
+          "hi": "शहर (शहरी)"
+        }
+      ],
+      "sub_input": {
+        "keys": [
+          "district",
+          "taluka"
+        ],
+        "label": {
+          "en": "District & Taluka",
+          "mr": "जिल्हा व तालुका",
+          "hi": "जिला और तालुका"
+        }
+      },
+      "purpose_en": "PSI-2019 grades incentives by Taluka (A to D+); CMEGP differentiates rural (<20,000 pop.) vs urban."
+    },
+    {
+      "id": "business_nature",
+      "category": "business_profile",
+      "category_label_en": "Business Profile",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "What does your business do?",
+        "mr": "तुमचा व्यवसाय कोणत्या प्रकारचा आहे?",
+        "hi": "आपका व्यवसाय किस प्रकार का है?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "manufacturing",
+          "en": "Manufacturing",
+          "mr": "उत्पादन (Manufacturing)",
+          "hi": "विनिर्माण (Manufacturing)"
+        },
+        {
+          "value": "services",
+          "en": "Services",
+          "mr": "सेवा (Services)",
+          "hi": "सेवा (Services)"
+        },
+        {
+          "value": "trading_retail",
+          "en": "Trading / Retail",
+          "mr": "व्यापार / विक्री (Trading)",
+          "hi": "व्यापार / खुदरा (Trading)"
+        },
+        {
+          "value": "agro_food_processing",
+          "en": "Agro & Food Processing",
+          "mr": "कृषी व अन्न प्रक्रिया",
+          "hi": "कृषि और खाद्य प्रसंस्करण"
+        }
+      ],
+      "purpose_en": "Project cost ceilings and eligible subsidies differ for Manufacturing vs Services vs Trading."
+    },
+    {
+      "id": "scheme_goal",
+      "category": "support_readiness",
+      "category_label_en": "Support & Readiness",
+      "required_for": "both",
+      "type": "multi_select",
+      "question": {
+        "en": "What goal are you trying to achieve right now?",
+        "mr": "सध्या तुम्हाला व्यवसायासाठी काय करायचे आहे?",
+        "hi": "अभी आप अपने व्यवसाय के लिए क्या करना चाहते हैं?"
+      },
+      "answer": {
+        "kind": "option_values"
+      },
+      "options": [
+        {
+          "value": "start_a_new_business",
+          "en": "Start a new business",
+          "mr": "नवीन व्यवसाय सुरू करणे",
+          "hi": "नया व्यवसाय शुरू करना"
+        },
+        {
+          "value": "expand_existing_business",
+          "en": "Expand existing business",
+          "mr": "व्यवसाय वाढवणे",
+          "hi": "मौजूदा व्यवसाय बढ़ाना"
+        },
+        {
+          "value": "buy_machinery_upgrade_tech",
+          "en": "Buy machinery / upgrade tech",
+          "mr": "नवीन यंत्रसामग्री घेणे",
+          "hi": "नई मशीनरी / तकनीक लेना"
+        },
+        {
+          "value": "daily_working_cash",
+          "en": "Daily working cash",
+          "mr": "दैनंदिन खेळते भांडवल",
+          "hi": "दैनिक कार्यशील पूंजी"
+        },
+        {
+          "value": "marketing_export",
+          "en": "Marketing & Export",
+          "mr": "मार्केटिंग व निर्यात",
+          "hi": "मार्केटिंग और निर्यात"
+        }
+      ],
+      "purpose_en": "Matches user intent to new-unit grants (CMEGP) vs expansion subsidies (PSI) vs working capital."
+    },
+    {
+      "id": "business_age",
+      "category": "business_profile",
+      "category_label_en": "Business Profile",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "How long has your business been running?",
+        "mr": "तुमचा व्यवसाय किती काळापासून सुरू आहे?",
+        "hi": "आपका व्यवसाय कितने समय से चल रहा है?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "not_started_yet_aspiring",
+          "en": "Not started yet (Aspiring)",
+          "mr": "अजून सुरू केलेला नाही (नवीन)",
+          "hi": "अभी शुरू नहीं किया है (नया)"
+        },
+        {
+          "value": "less_than_1_year",
+          "en": "Less than 1 year",
+          "mr": "१ वर्षापेक्षा कमी",
+          "hi": "1 वर्ष से कम"
+        },
+        {
+          "value": "1_3_years",
+          "en": "1-3 years",
+          "mr": "१ ते ३ वर्षे",
+          "hi": "1 से 3 वर्ष"
+        },
+        {
+          "value": "3_plus_years",
+          "en": "3+ years",
+          "mr": "३ वर्षांपेक्षा जास्त",
+          "hi": "3 वर्ष से अधिक"
+        }
+      ],
+      "purpose_en": "Separates aspiring entrepreneurs (eligible for PMEGP/CMEGP) from existing units (eligible for expansion/credit)."
+    },
+    {
+      "id": "org_structure",
+      "category": "business_profile",
+      "category_label_en": "Business Profile",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "How is your business set up?",
+        "mr": "तुमच्या व्यवसायाची नोंदणी / रचना कशी आहे?",
+        "hi": "आपके व्यवसाय का ढांचा / पंजीकरण कैसा है?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "sole_owner_proprietorship",
+          "en": "Sole Owner (Proprietorship)",
+          "mr": "एकल मालकी (Proprietorship)",
+          "hi": "एकल स्वामित्व (Proprietorship)"
+        },
+        {
+          "value": "partnership",
+          "en": "Partnership",
+          "mr": "भागीदारी (Partnership)",
+          "hi": "साझेदारी (Partnership)"
+        },
+        {
+          "value": "pvt_ltd",
+          "en": "Pvt. Ltd.",
+          "mr": "प्रायव्हेट लिमिटेड",
+          "hi": "प्राइवेट लिमिटेड"
+        },
+        {
+          "value": "llp",
+          "en": "LLP",
+          "mr": "एलएलपी (LLP)",
+          "hi": "एलएलपी (LLP)"
+        },
+        {
+          "value": "co_operative",
+          "en": "Co-operative",
+          "mr": "सहकारी संस्था",
+          "hi": "सहकारी संस्था"
+        },
+        {
+          "value": "self_help_group_shg",
+          "en": "Self-Help Group (SHG)",
+          "mr": "बचत गट (SHG)",
+          "hi": "स्वयं सहायता समूह (SHG)"
+        },
+        {
+          "value": "not_registered_yet",
+          "en": "Not Registered Yet",
+          "mr": "नोंदणी केलेली नाही",
+          "hi": "अभी पंजीकृत नहीं"
+        }
+      ],
+      "purpose_en": "SHGs, Partnerships, and Proprietorships qualify for different loan/grant tracks."
+    },
+    {
+      "id": "special_focus_zone",
+      "category": "location_area",
+      "category_label_en": "Location & Area",
+      "required_for": "both",
+      "type": "multi_select",
+      "question": {
+        "en": "Is your business in a special government focus zone?",
+        "mr": "तुमचा व्यवसाय सरकारच्या विशेष विकास क्षेत्रात आहे का?",
+        "hi": "क्या आपका व्यवसाय किसी विशेष सरकारी क्षेत्र में आता है?"
+      },
+      "answer": {
+        "kind": "option_values"
+      },
+      "options": [
+        {
+          "value": "tribal_area",
+          "en": "Tribal Area",
+          "mr": "आदिवासी क्षेत्र",
+          "hi": "आदिवासी क्षेत्र"
+        },
+        {
+          "value": "aspirational_district",
+          "en": "Aspirational District",
+          "mr": "आकांक्षी जिल्हा",
+          "hi": "आकांक्षी जिला"
+        },
+        {
+          "value": "backward_taluka",
+          "en": "Backward Taluka",
+          "mr": "मागास तालुका",
+          "hi": "पिछड़ा तालुका"
+        },
+        {
+          "value": "industrial_estate_midc",
+          "en": "Industrial Estate (MIDC)",
+          "mr": "औद्योगिक वसाहत (MIDC)",
+          "hi": "औद्योगिक क्षेत्र (MIDC)"
+        },
+        {
+          "value": "none",
+          "en": "None",
+          "mr": "यापैकी नाही",
+          "hi": "इनमें से कोई नहीं"
+        }
+      ],
+      "purpose_en": "Unlocks higher state capital/interest subsidies and stamp-duty waivers in D/D+/Naxal/Tribal areas."
+    },
+    {
+      "id": "assistance_needed",
+      "category": "support_readiness",
+      "category_label_en": "Support & Readiness",
+      "required_for": "both",
+      "type": "multi_select",
+      "question": {
+        "en": "What kind of support do you need most?",
+        "mr": "तुम्हाला कोणत्या प्रकारच्या मदतीची सर्वात जास्त गरज आहे?",
+        "hi": "आपको किस तरह की सहायता की सबसे ज्यादा ज़रूरत है?"
+      },
+      "answer": {
+        "kind": "option_values"
+      },
+      "options": [
+        {
+          "value": "money_loans_subsidy",
+          "en": "Money (Loans / Subsidy)",
+          "mr": "पैसा (कर्ज / अनुदान)",
+          "hi": "पैसा (लोन / सब्सिडी)"
+        },
+        {
+          "value": "machines_technology",
+          "en": "Machines & Technology",
+          "mr": "यंत्रसामग्री व तंत्रज्ञान",
+          "hi": "मशीनरी और तकनीक"
+        },
+        {
+          "value": "hiring_staff_training",
+          "en": "Hiring & Staff Training",
+          "mr": "कामगार व प्रशिक्षण",
+          "hi": "कर्मचारी और प्रशिक्षण"
+        },
+        {
+          "value": "finding_buyers_marketing",
+          "en": "Finding Buyers & Marketing",
+          "mr": "ग्राहक शोधणे व मार्केटिंग",
+          "hi": "ग्राहक खोजना और मार्केटिंग"
+        }
+      ],
+      "purpose_en": "Primary filter for routing between Finance, Tech Upgradation, Skill, and Market-linkage schemes."
+    },
+    {
+      "id": "digital_literacy_level",
+      "category": "support_readiness",
+      "category_label_en": "Support & Readiness",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "How comfortable are you with digital tools?",
+        "mr": "तुम्हाला मोबाईल आणि संगणक वापरण्याची किती सवय आहे?",
+        "hi": "आप मोबाइल और कंप्यूटर इस्तेमाल करने में कितने सहज हैं?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "basic_whatsapp_upi_only",
+          "en": "Basic (WhatsApp / UPI only)",
+          "mr": "प्राथमिक (फक्त WhatsApp / UPI)",
+          "hi": "बुनियादी (केवल WhatsApp / UPI)"
+        },
+        {
+          "value": "moderate_can_fill_online_forms",
+          "en": "Moderate (Can fill online forms)",
+          "mr": "मध्यम (ऑनलाइन फॉर्म भरता येतात)",
+          "hi": "मध्यम (ऑनलाइन फॉर्म भर सकते हैं)"
+        },
+        {
+          "value": "advanced_accounting_e_commerce",
+          "en": "Advanced (Accounting / E-commerce)",
+          "mr": "प्रगत (हिशोब / ई-कॉमर्स)",
+          "hi": "उन्नत (अकाउंटिंग / ई-कॉमर्स)"
+        }
+      ],
+      "purpose_en": "Determines whether to recommend assisted CSC/DIC centers, ONDC onboarding, or digital literacy programs."
+    },
+    {
+      "id": "has_gi_tag",
+      "category": "business_profile",
+      "category_label_en": "Business Profile",
+      "required_for": "existing_msme",
+      "type": "single_select",
+      "question": {
+        "en": "Does your product have a Geographical Indication (GI) tag?",
+        "mr": "तुमच्या उत्पादनाला 'GI टॅग' (भौगोलिक मानांकन) आहे का?",
+        "hi": "क्या आपके उत्पाद के पास 'GI टैग' (भौगोलिक संकेतक) है?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "yes",
+          "en": "Yes",
+          "mr": "होय",
+          "hi": "हाँ"
+        },
+        {
+          "value": "no",
+          "en": "No",
+          "mr": "नाही",
+          "hi": "नहीं"
+        },
+        {
+          "value": "not_sure",
+          "en": "Not Sure",
+          "mr": "माहित नाही",
+          "hi": "पता नहीं"
+        }
+      ],
+      "purpose_en": "Identifies artisan/ODOP/GI products eligible for special branding, exhibition, and export grants."
+    },
+    {
+      "id": "cluster_membership",
+      "category": "business_profile",
+      "category_label_en": "Business Profile",
+      "required_for": "existing_msme",
+      "type": "single_select",
+      "question": {
+        "en": "Are you part of a local industry group or cluster?",
+        "mr": "तुम्ही स्थानिक उद्योग समूह किंवा क्लस्टरचा भाग आहात का?",
+        "hi": "क्या आप किसी स्थानीय उद्योग समूह या क्लस्टर का हिस्सा हैं?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "part_of_a_cluster",
+          "en": "Part of a cluster",
+          "mr": "क्लस्टरचा भाग आहे",
+          "hi": "क्लस्टर का हिस्सा हैं"
+        },
+        {
+          "value": "independent_stand_alone_unit",
+          "en": "Independent (Stand-alone) unit",
+          "mr": "स्वतंत्र व्यवसाय आहे",
+          "hi": "स्वतंत्र इकाई है"
+        },
+        {
+          "value": "not_sure",
+          "en": "Not Sure",
+          "mr": "माहित नाही",
+          "hi": "पता नहीं"
+        }
+      ],
+      "purpose_en": "Matches MSE-CDP (Cluster Development Programme) common facility & infrastructure grants."
+    },
+    {
+      "id": "export_status",
+      "category": "business_profile",
+      "category_label_en": "Business Profile",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "Do you sell (or plan to sell) outside India?",
+        "mr": "तुम्ही तुमचा माल भारताबाहेर (निर्यात) विकता का किंवा विकायचा विचार आहे का?",
+        "hi": "क्या आप अपना सामान भारत के बाहर (निर्यात) बेचते हैं या बेचने की योजना है?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "yes_currently_exporting",
+          "en": "Yes, currently exporting",
+          "mr": "होय, सध्या निर्यात करतो",
+          "hi": "हाँ, अभी निर्यात करते हैं"
+        },
+        {
+          "value": "planning_to_export",
+          "en": "Planning to export",
+          "mr": "निर्यात करायचा विचार आहे",
+          "hi": "निर्यात करने की योजना है"
+        },
+        {
+          "value": "domestic_india_only",
+          "en": "Domestic (India) only",
+          "mr": "फक्त भारतात विक्री",
+          "hi": "केवल भारत में बिक्री"
+        }
+      ],
+      "purpose_en": "Triggers export credit, IEC/export-promotion subsidies, and export turnover exclusion under Udyam."
+    },
+    {
+      "id": "tax_compliance_comfort",
+      "category": "support_readiness",
+      "category_label_en": "Support & Readiness",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "Do you need help understanding taxes and filings?",
+        "mr": "तुम्हाला कर (Tax) आणि सरकारी नियम समजून घेण्यासाठी मदतीची गरज आहे का?",
+        "hi": "क्या आपको टैक्स और सरकारी नियमों को समझने में मदद की ज़रूरत है?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "comfortable_with_taxes",
+          "en": "Comfortable with taxes",
+          "mr": "मला कर नियमांची माहिती आहे",
+          "hi": "टैक्स की अच्छी समझ है"
+        },
+        {
+          "value": "need_basic_guidance",
+          "en": "Need basic guidance",
+          "mr": "प्राथमिक मार्गदर्शनाची गरज आहे",
+          "hi": "बुनियादी मार्गदर्शन चाहिए"
+        },
+        {
+          "value": "handled_by_a_ca_accountant",
+          "en": "Handled by a CA / Accountant",
+          "mr": "सीए (CA) पाहतात",
+          "hi": "सीए (CA) संभालते हैं"
+        }
+      ],
+      "purpose_en": "Helps personalize GST/ITR awareness guides and compliance checklists."
+    },
+    {
+      "id": "owner_age",
+      "category": "eligibility_essentials",
+      "category_label_en": "Eligibility Essentials",
+      "required_for": "both",
+      "type": "number",
+      "question": {
+        "en": "Owner's age (in years)",
+        "mr": "मालकाचे वय किती आहे? (वर्षांमध्ये)",
+        "hi": "मालिक की उम्र कितनी है? (वर्षों में)"
+      },
+      "answer": {
+        "kind": "integer",
+        "min": 18,
+        "max": 99
+      },
+      "hint": {
+        "en": "Numeric (18-99)",
+        "mr": "अंक (१८-९९)",
+        "hi": "संख्या (18-99)"
+      },
+      "purpose_en": "Hard eligibility check: CMEGP requires 18-45 years (50 for special categories)."
+    },
+    {
+      "id": "education_level",
+      "category": "eligibility_essentials",
+      "category_label_en": "Eligibility Essentials",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "Highest schooling / education completed",
+        "mr": "तुमचे शिक्षण किती झाले आहे?",
+        "hi": "आपकी अधिकतम शिक्षा क्या है?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "below_7th_pass",
+          "en": "Below 7th Pass",
+          "mr": "७ वी पेक्षा कमी",
+          "hi": "7वीं से कम"
+        },
+        {
+          "value": "7th_9th_pass",
+          "en": "7th-9th Pass",
+          "mr": "७ वी ते ९ वी पास",
+          "hi": "7वीं से 9वीं पास"
+        },
+        {
+          "value": "10th_pass",
+          "en": "10th Pass",
+          "mr": "१० वी पास",
+          "hi": "10वीं पास"
+        },
+        {
+          "value": "12th_iti_diploma",
+          "en": "12th / ITI / Diploma",
+          "mr": "१२ वी / आयटीआय / डिप्लोमा",
+          "hi": "12वीं / आईटीआई / डिप्लोमा"
+        },
+        {
+          "value": "graduate_or_above",
+          "en": "Graduate or Above",
+          "mr": "पदवीधर किंवा त्यापुढे",
+          "hi": "स्नातक या उससे अधिक"
+        }
+      ],
+      "purpose_en": "Hard eligibility check: CMEGP/PMEGP require 7th/8th pass (>Rs 10L) and 10th pass (>Rs 25L)."
+    },
+    {
+      "id": "machinery_investment_inr",
+      "category": "eligibility_essentials",
+      "category_label_en": "Eligibility Essentials",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "Money invested (or planned) in machines & equipment",
+        "mr": "यंत्रसामग्री आणि उपकरणांमध्ये किती गुंतवणूक केली आहे (किंवा करायची आहे)?",
+        "hi": "मशीनरी और उपकरणों में कितना निवेश किया है (या करने की योजना है)?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "up_to_rs_10_lakh",
+          "en": "Up to Rs 10 Lakh",
+          "mr": "१० लाख रुपयांपर्यंत",
+          "hi": "10 लाख रुपये तक"
+        },
+        {
+          "value": "rs_10_lakh_2_5_crore_micro",
+          "en": "Rs 10 Lakh - 2.5 Crore (Micro)",
+          "mr": "१० लाख ते २.५ कोटी (सूक्ष्म)",
+          "hi": "10 लाख से 2.5 करोड़ (सूक्ष्म)"
+        },
+        {
+          "value": "rs_2_5_25_crore_small",
+          "en": "Rs 2.5 - 25 Crore (Small)",
+          "mr": "२.५ ते २५ कोटी (लघु)",
+          "hi": "2.5 से 25 करोड़ (लघु)"
+        },
+        {
+          "value": "rs_25_125_crore_medium",
+          "en": "Rs 25 - 125 Crore (Medium)",
+          "mr": "२५ ते १२५ कोटी (मध्यम)",
+          "hi": "25 से 125 करोड़ (मध्यम)"
+        }
+      ],
+      "purpose_en": "Determines Micro/Small/Medium status under revised April 2025 MSME limits and CMEGP caps."
+    },
+    {
+      "id": "annual_turnover_inr",
+      "category": "eligibility_essentials",
+      "category_label_en": "Eligibility Essentials",
+      "required_for": "existing_msme",
+      "type": "single_select",
+      "question": {
+        "en": "Yearly sales (Annual Turnover, excluding exports)",
+        "mr": "तुमची वार्षिक विक्री (Turnover) किती आहे? (निर्यात वगळून)",
+        "hi": "आपकी सालाना बिक्री (टर्नओवर) कितनी है? (निर्यात छोड़कर)"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "up_to_rs_40_lakh",
+          "en": "Up to Rs 40 Lakh",
+          "mr": "४० लाख रुपयांपर्यंत",
+          "hi": "40 लाख रुपये तक"
+        },
+        {
+          "value": "rs_40_lakh_10_crore_micro",
+          "en": "Rs 40 Lakh - 10 Crore (Micro)",
+          "mr": "४० लाख ते १० कोटी (सूक्ष्म)",
+          "hi": "40 लाख से 10 करोड़ (सूक्ष्म)"
+        },
+        {
+          "value": "rs_10_100_crore_small",
+          "en": "Rs 10 - 100 Crore (Small)",
+          "mr": "१० ते १०० कोटी (लघु)",
+          "hi": "10 से 100 करोड़ (लघु)"
+        },
+        {
+          "value": "rs_100_500_crore_medium",
+          "en": "Rs 100 - 500 Crore (Medium)",
+          "mr": "१०० ते ५०० कोटी (मध्यम)",
+          "hi": "100 से 500 करोड़ (मध्यम)"
+        }
+      ],
+      "purpose_en": "Composite MSME classification check alongside machinery investment."
+    },
+    {
+      "id": "existing_registrations",
+      "category": "eligibility_essentials",
+      "category_label_en": "Eligibility Essentials",
+      "required_for": "existing_msme",
+      "type": "multi_select",
+      "question": {
+        "en": "Which government registrations do you already have?",
+        "mr": "तुमच्याकडे सध्या कोणती सरकारी नोंदणी प्रमाणपत्रे आहेत?",
+        "hi": "आपके पास अभी कौन-से सरकारी पंजीकरण उपलब्ध हैं?"
+      },
+      "answer": {
+        "kind": "option_values"
+      },
+      "options": [
+        {
+          "value": "udyam_registration",
+          "en": "Udyam Registration",
+          "mr": "उद्यम नोंदणी (Udyam)",
+          "hi": "उद्यम पंजीकरण (Udyam)"
+        },
+        {
+          "value": "gst",
+          "en": "GST",
+          "mr": "जीएसटी (GST)",
+          "hi": "जीएसटी (GST)"
+        },
+        {
+          "value": "business_pan",
+          "en": "Business PAN",
+          "mr": "व्यवसाय पॅन (PAN)",
+          "hi": "बिजनेस पैन (PAN)"
+        },
+        {
+          "value": "shop_act_gumasta",
+          "en": "Shop Act / Gumasta",
+          "mr": "शॉप अ‍ॅक्ट (गुमास्ता)",
+          "hi": "शॉप एक्ट (गुमास्ता)"
+        },
+        {
+          "value": "fssai",
+          "en": "FSSAI",
+          "mr": "FSSAI",
+          "hi": "FSSAI"
+        },
+        {
+          "value": "none",
+          "en": "None",
+          "mr": "काहीही नाही",
+          "hi": "कोई नहीं"
+        }
+      ],
+      "purpose_en": "Udyam is mandatory for most MSME subsidies and 45-day payment protection."
+    },
+    {
+      "id": "family_prior_subsidy",
+      "category": "eligibility_essentials",
+      "category_label_en": "Eligibility Essentials",
+      "required_for": "both",
+      "type": "boolean",
+      "question": {
+        "en": "Has anyone in your family (you or spouse) already taken a govt business subsidy?",
+        "mr": "तुमच्या कुटुंबातील कोणी (तुम्ही किंवा पती/पत्नी) आधी सरकारी व्यवसाय अनुदान घेतले आहे का?",
+        "hi": "क्या आपके परिवार में किसी ने (आप या जीवनसाथी) पहले कोई सरकारी व्यवसाय सब्सिडी ली है?"
+      },
+      "answer": {
+        "kind": "boolean"
+      },
+      "options": [
+        {
+          "value": "yes",
+          "en": "Yes",
+          "mr": "होय",
+          "hi": "हाँ",
+          "answer": true
+        },
+        {
+          "value": "no",
+          "en": "No",
+          "mr": "नाही",
+          "hi": "नहीं",
+          "answer": false
+        }
+      ],
+      "purpose_en": "Prevents wasted applications under one-person-per-family rules in CMEGP/PMEGP."
+    },
+    {
+      "id": "employee_count_total_women",
+      "category": "future_personalization",
+      "category_label_en": "Future Personalization",
+      "required_for": "existing_msme",
+      "type": "number_pair",
+      "question": {
+        "en": "How many people work in your business (Total & Women)?",
+        "mr": "तुमच्या व्यवसायात किती लोक काम करतात? (एकूण आणि महिला कामगार)",
+        "hi": "आपके व्यवसाय में कितने लोग काम करते हैं? (कुल और महिला कर्मचारी)"
+      },
+      "answer": {
+        "kind": "object",
+        "fields": {
+          "total": "integer",
+          "women": "integer"
+        }
+      },
+      "parts": [
+        {
+          "key": "total",
+          "label": {
+            "en": "Total Staff",
+            "mr": "एकूण कामगार",
+            "hi": "कुल कर्मचारी"
+          }
+        },
+        {
+          "key": "women",
+          "label": {
+            "en": "Women Staff",
+            "mr": "महिला कामगार",
+            "hi": "महिला कर्मचारी"
+          }
+        }
+      ],
+      "purpose_en": "Unlocks employment-generation subsidies and women-workforce incentives."
+    },
+    {
+      "id": "product_keywords_or_nic",
+      "category": "future_personalization",
+      "category_label_en": "Future Personalization",
+      "required_for": "both",
+      "type": "text_tags",
+      "question": {
+        "en": "Main product or service (in simple words or NIC/HSN code)",
+        "mr": "तुमचे मुख्य उत्पादन किंवा सेवा कोणती? (साध्या शब्दांत किंवा NIC/HSN कोड)",
+        "hi": "आपका मुख्य उत्पाद या सेवा क्या है? (सरल शब्दों में या NIC/HSN कोड)"
+      },
+      "answer": {
+        "kind": "strings"
+      },
+      "hint": {
+        "en": "Free text / searchable tags (e.g., Dairy, Tailoring, Solar, Auto Parts)",
+        "mr": "मजकूर / टॅग्स (उदा. दुग्ध व्यवसाय, शिवणकाम, सोलर, ऑटो पार्ट्स)",
+        "hi": "टेक्स्ट / टैग्स (जैसे डेयरी, सिलाई, सोलर, ऑटो पार्ट्स)"
+      },
+      "purpose_en": "Enables hyper-relevant sector scheme recommendations (textile, food, EV, IT, etc.)."
+    },
+    {
+      "id": "own_contribution_readiness",
+      "category": "future_personalization",
+      "category_label_en": "Future Personalization",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "How much of the project money can you arrange yourself?",
+        "mr": "प्रकल्पासाठी तुम्ही स्वतःचे किती पैसे गुंतवू शकता?",
+        "hi": "प्रोजेक्ट के लिए आप अपनी तरफ से कितना पैसा लगा सकते हैं?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "0_5_pct",
+          "en": "0-5%",
+          "mr": "० ते ५%",
+          "hi": "0 से 5%"
+        },
+        {
+          "value": "5_10_pct",
+          "en": "5-10%",
+          "mr": "५ ते १०%",
+          "hi": "5 से 10%"
+        },
+        {
+          "value": "more_than_10_pct",
+          "en": "More than 10%",
+          "mr": "१०% पेक्षा जास्त",
+          "hi": "10% से अधिक"
+        },
+        {
+          "value": "need_100_pct_support",
+          "en": "Need 100% support",
+          "mr": "१००% मदतीची गरज",
+          "hi": "100% सहायता चाहिए"
+        }
+      ],
+      "purpose_en": "Filters bank-linked subsidy schemes requiring 5%-10% beneficiary contribution."
+    },
+    {
+      "id": "preferred_app_language",
+      "category": "future_personalization",
+      "category_label_en": "Future Personalization",
+      "required_for": "both",
+      "type": "single_select",
+      "question": {
+        "en": "Preferred language for app & training updates",
+        "mr": "अ‍ॅप आणि प्रशिक्षणासाठी कोणती भाषा सोयीची आहे?",
+        "hi": "ऐप और प्रशिक्षण के लिए आपकी पसंदीदा भाषा कौन-सी है?"
+      },
+      "answer": {
+        "kind": "option_value"
+      },
+      "options": [
+        {
+          "value": "marathi",
+          "en": "Marathi",
+          "mr": "मराठी",
+          "hi": "मराठी"
+        },
+        {
+          "value": "hindi",
+          "en": "Hindi",
+          "mr": "हिंदी",
+          "hi": "हिंदी"
+        },
+        {
+          "value": "english",
+          "en": "English",
+          "mr": "इंग्रजी",
+          "hi": "अंग्रेज़ी"
+        }
+      ],
+      "purpose_en": "Personalizes UI, scheme summaries, and regional workshop alerts."
+    },
+    {
+      "id": "aspiring_readiness_stage",
+      "category": "future_personalization",
+      "category_label_en": "Future Personalization",
+      "required_for": "aspiring_msme",
+      "type": "multi_select",
+      "question": {
+        "en": "For new founders: What have you prepared so far?",
+        "mr": "नवीन उद्योजकांसाठी: तुम्ही आतापर्यंत काय तयारी केली आहे?",
+        "hi": "नए उद्यमियों के लिए: आपने अभी तक क्या तैयारी की है?"
+      },
+      "answer": {
+        "kind": "option_values"
+      },
+      "options": [
+        {
+          "value": "only_have_an_idea",
+          "en": "Only have an idea",
+          "mr": "फक्त कल्पना आहे",
+          "hi": "सिर्फ विचार है"
+        },
+        {
+          "value": "have_land_shop_space",
+          "en": "Have land / shop space",
+          "mr": "जागा / दुकान उपलब्ध आहे",
+          "hi": "ज़मीन / दुकान उपलब्ध है"
+        },
+        {
+          "value": "project_report_dpr_ready",
+          "en": "Project report (DPR) ready",
+          "mr": "प्रकल्प अहवाल (DPR) तयार आहे",
+          "hi": "प्रोजेक्ट रिपोर्ट (DPR) तैयार है"
+        },
+        {
+          "value": "completed_edp_training",
+          "en": "Completed EDP training",
+          "mr": "प्रशिक्षण (EDP) पूर्ण केले आहे",
+          "hi": "प्रशिक्षण (EDP) पूरा किया है"
+        }
+      ],
+      "purpose_en": "Guides aspiring founders to EDP training or DPR preparation before loan submission."
+    }
+  ]
+}

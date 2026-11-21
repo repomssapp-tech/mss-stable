@@ -55,7 +55,11 @@ class HomeHeaderSection extends StatelessWidget {
   }
 
   Widget _buildGreetingAndNotifications(BuildContext context) {
-    final displayName = provider.profile.name.isNotEmpty
+    // A guest is welcomed, not called "User", in the same headline style as
+    // a signed-in name: both get equal weight.
+    final displayName = provider.isGuest
+        ? context.l10n.guestGreetingName
+        : provider.profile.name.isNotEmpty
         ? provider.profile.name.split(' ').first
         : context.l10n.commonUserFallback;
     final unread = provider.unreadNotificationCount;
@@ -77,11 +81,9 @@ class HomeHeaderSection extends StatelessWidget {
               const SizedBox(height: AppSpacing.hairline),
               Text(
                 displayName,
-                style:
-                    (provider.isGuest
-                            ? context.text.titleMedium
-                            : context.text.headline)
-                        .copyWith(color: AppColors.textPrimary),
+                style: context.text.headline.copyWith(
+                  color: AppColors.textPrimary,
+                ),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

@@ -19,6 +19,8 @@ import '../services/network/request_manager.dart';
 import '../services/catalog/content_language_resolver.dart';
 import '../services/catalog/scheme_catalog_sync_service.dart';
 import '../services/account/session_cache_service.dart';
+import '../services/account/eligibility_answers_store.dart';
+import '../services/account/questionnaire_sync_service.dart';
 import '../services/catalog/centralized_translator.dart';
 import '../services/catalog/language_pack_manager.dart';
 import '../screens/splash_screen.dart';
@@ -243,6 +245,12 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           unawaited(AuthService.clearOAuthPending());
           _isLoggedIn = true;
           if (_isGuest) unawaited(_endGuestSession(upgradedToAccount: true));
+          // The guest's questionnaire answers join the account (the account's own win).
+          unawaited(
+            QuestionnaireSyncService.instance.afterSignIn(
+              language: _selectedLanguage,
+            ),
+          );
           final user = AppSession.instance.currentUser;
           if (user != null) _notifications.subscribe(user.id);
           notifyListeners();
@@ -250,6 +258,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           unawaited(AuthService.clearOAuthPending());
           _isLoggedIn = false;
           _isGuest = false;
+          unawaited(const EligibilityAnswersStore().clear());
           _mobileNumber = '';
           _profile = UserProfile();
           _library.reset();
@@ -411,8 +420,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   String get catalogStatusLabel => _catalog.catalogStatusLabel;
 
   // Recommended schemes (ranked by RecommendationEngine against cached list)
+  // A guest gets no recommendations or match scores, even with their own details filled in.
   List<MapEntry<Scheme, RecommendationResult>> get recommendedSchemes =>
-      _catalog.recommendedSchemes;
+      isGuest ? const [] : _catalog.recommendedSchemes;
 
   // Bookmarked schemes list
   List<Scheme> get bookmarkedSchemes {
