@@ -69,6 +69,59 @@ class AppLocalizationsHi extends AppLocalizations {
   String get schemes => 'योजनाएं';
 
   @override
+  String get assessmentResultsTitle => 'आपके लिए उपयुक्त योजनाएँ';
+
+  @override
+  String get assessmentResultsIntro =>
+      'आपके जवाबों के आधार पर योजनाओं को क्रम दिया गया है। अधिक जानने के लिए कोई योजना खोलें।';
+
+  @override
+  String get assessmentFallbackNote =>
+      'इस भाग में कुछ ही योजनाएँ मिलीं, इसलिए अधिक विकल्प देने के लिए अन्य योजनाएँ भी जोड़ी गई हैं।';
+
+  @override
+  String get profileSaveFailed =>
+      'इन जवाबों को आपकी प्रोफ़ाइल में सेव नहीं कर सके। फिर से कोशिश करें।';
+
+  @override
+  String get assessmentGoodFit => 'अच्छा मेल';
+
+  @override
+  String get assessmentPossibleFit => 'संभवतः उपयुक्त';
+
+  @override
+  String get assessmentNotNow => 'अभी आपके लिए नहीं';
+
+  @override
+  String get assessmentReasonState => 'आपके चुने हुए राज्य में उपलब्ध';
+
+  @override
+  String get assessmentReasonStateExcluded =>
+      'यह योजना केवल दूसरे राज्य के लिए है';
+
+  @override
+  String get assessmentReasonAgeExcluded =>
+      'आपकी उम्र इस योजना की बताई गई सीमा से बाहर है';
+
+  @override
+  String get assessmentReasonStageExcluded =>
+      'यह योजना व्यवसाय के दूसरे चरण के लिए है';
+
+  @override
+  String get assessmentReasonCategory =>
+      'आपके चुने हुए समूह के लिए सहायता शामिल है';
+
+  @override
+  String get assessmentReasonNature => 'आपके व्यवसाय के प्रकार से संबंधित';
+
+  @override
+  String get assessmentReasonGoal => 'आपकी चाही गई सहायता से संबंधित';
+
+  @override
+  String get assessmentReasonGeneral =>
+      'यह आपके लिए उपयुक्त है या नहीं, जानने के लिए पात्रता विवरण देखें';
+
+  @override
   String get finance => 'वित्त';
 
   @override
@@ -2104,7 +2157,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get eligibilitySubtitle =>
-      'हमें आपके लिए 100% सटीक योजनाओं और सब्सिडी की अनुशंसा करने में मदद करता है।';
+      'आपके जवाब आपकी प्रोफ़ाइल से मेल खाने वाली योजनाएँ और सब्सिडी ढूँढने में मदद करते हैं।';
 
   @override
   String get firstGenGraduate => 'पहली पीढ़ी के स्नातक';
@@ -6263,7 +6316,7 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get guestProfilePendingNote =>
-      'आप ऐप को मेहमान के रूप में इस्तेमाल कर रहे हैं। साइन इन करने पर आपकी प्रोफ़ाइल सहेजी जाएगी।';
+      'आप मेहमान के रूप में ब्राउज़ कर रहे हैं। प्रोफ़ाइल बनाने और सहेजने के लिए साइन इन करें।';
 
   @override
   String get homeTopSchemes => 'शीर्ष योजनाएँ';
@@ -6346,4 +6399,19 @@ class AppLocalizationsHi extends AppLocalizations {
   @override
   String get loginSubtitleShort =>
       'वे सरकारी योजनाएँ खोजें जिनका आप लाभ ले सकते हैं';
+
+  @override
+  String get questionnaireFromProfile =>
+      'आपकी प्रोफ़ाइल से। कोई भी उत्तर बदलें।';
+
+  @override
+  String get questionnaireLoadFailed =>
+      'प्रश्न लोड नहीं हो सके। इस आकलन को बंद करके फिर खोलें।';
+
+  @override
+  String get questionnaireSaveFailed =>
+      'आपका जवाब सहेजा नहीं जा सका। फिर से कोशिश करें।';
+
+  @override
+  String get questionnaireTaluka => 'तालुका';
 }

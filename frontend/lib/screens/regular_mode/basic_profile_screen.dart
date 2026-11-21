@@ -29,14 +29,15 @@ export 'basic_profile/step2_location_form.dart';
 export 'basic_profile/step3_about_you_form.dart';
 export 'basic_profile/step4_eligibility_form.dart';
 
-// ---------------------------------------------------------------------------
-// Consolidated Profile Completion Flow
-// All 4 forms in one file with a static outer container and sticky CTA button.
-// ---------------------------------------------------------------------------
-
 class BasicProfileScreen extends StatefulWidget {
   final int initialStep;
-  const BasicProfileScreen({super.key, this.initialStep = 1});
+  final bool resume;
+
+  const BasicProfileScreen({
+    super.key,
+    this.initialStep = 1,
+    this.resume = false,
+  });
 
   @override
   State<BasicProfileScreen> createState() => _BasicProfileScreenState();
@@ -172,6 +173,15 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       _isVeteran = false;
       _isFirstGenGraduate = false;
     }
+    if (widget.resume) {
+      _currentStep = !_isStep1Valid
+          ? 1
+          : !_isStep2Valid
+          ? 2
+          : _selectedRole == null
+          ? 3
+          : 4;
+    }
   }
 
   @override
@@ -229,6 +239,13 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   static bool _looksLikePlaceName(String value, {int min = 2}) =>
       Step2LocationForm.looksLikePlaceName(value, min: min);
 
+  bool get _isStep1Valid =>
+      _nameController.text.trim().isNotEmpty &&
+      _emailController.text.contains('@') &&
+      _phoneController.text.trim().length == 10 &&
+      _selectedGender.isNotEmpty &&
+      _selectedDob != null;
+
   bool get _isStep2Valid =>
       _addressController.text.trim().isNotEmpty &&
       _looksLikePlaceName(_cityController.text, min: 2) &&
@@ -285,12 +302,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       final email = _emailController.text.trim();
       final phone = _phoneController.text.trim();
 
-      if (name.isEmpty ||
-          email.isEmpty ||
-          !email.contains('@') ||
-          phone.length != 10 ||
-          _selectedGender.isEmpty ||
-          _selectedDob == null) {
+      if (!_isStep1Valid) {
         AppToast.showError(
           context,
           context.l10n.profileErrCompleteFieldsCorrectly,
@@ -415,113 +427,57 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         body: Stack(
           children: [
-            // 1. Background Layer (Anchored to screen height so typing keyboard does not scale/zoom it)
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              height: MediaQuery.sizeOf(context).height,
-              child: Image.asset(
-                'assets/images/Background/Login_bg.webp',
-                fit: BoxFit.cover,
-                alignment: Alignment.topCenter,
-              ),
-            ),
-
-            // 2. Foreground Layout
-            Positioned.fill(
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+            SafeArea(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Same geometry as StandardPageHeader (56px bar, 56px
-                      // leading slot, title flush after it).
-                      ConstrainedBox(
-                        constraints: const BoxConstraints.tightFor(
-                          height: kToolbarHeight,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: kToolbarHeight,
-                              child: Center(
-                                child: AppIconButton(
-                                  icon: Icons.arrow_back_rounded,
-                                  semanticLabel: l10n.back,
-                                  onPressed: _handleBack,
-                                ),
-                              ),
+                      Row(
+                        children: [
+                          AppIconButton(
+                            icon: Icons.arrow_back_rounded,
+                            semanticLabel: l10n.back,
+                            onPressed: _handleBack,
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          Expanded(
+                            child: Text(
+                              l10n.completeYourProfile,
+                              style: context.text.titleMedium,
                             ),
-                            Expanded(
-                              child: Text(
-                                l10n.completeYourProfile,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: context.text.titleMedium.copyWith(
-                                  color: AppColors.textPrimary,
-                                ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          key: ValueKey(_currentStep),
+                          padding: const EdgeInsets.all(AppSpacing.lg),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              ProfileProgressIndicator(
+                                currentStep: _currentStep,
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: AppSpacing.lg),
+                              _buildStepForm(_currentStep),
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.tight),
-
-                      // Static White Card Container
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.lg,
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.all(AppSpacing.xl),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(24),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.05),
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 8),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                // 1. Static Stepper + Progress Fraction
-                                ProfileProgressIndicator(
-                                  currentStep: _currentStep,
-                                ),
-                                const SizedBox(height: AppSpacing.sm),
-
-                                // 2. Scrollable Form Content (Only forms scroll and change!)
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    physics: const ClampingScrollPhysics(),
-                                    child: _buildStepForm(_currentStep),
-                                  ),
-                                ),
-
-                                const SizedBox(height: AppSpacing.md),
-
-                                // 3. Static Continue Button
-                                ProfileContinueButton(
-                                  currentStep: _currentStep,
-                                  isSubmitting: _isSubmitting,
-                                  isStep2Valid: _isStep2Valid,
-                                  selectedRole: _selectedRole,
-                                  isStep4Valid: _isStep4Valid,
-                                  onPressed: _handleContinue,
-                                ),
-                              ],
-                            ),
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(AppSpacing.lg),
+                        child: ProfileContinueButton(
+                          currentStep: _currentStep,
+                          isSubmitting: _isSubmitting,
+                          isStep2Valid: _isStep2Valid,
+                          selectedRole: _selectedRole,
+                          isStep4Valid: _isStep4Valid,
+                          onPressed: _handleContinue,
                         ),
                       ),
                     ],
@@ -530,7 +486,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
               ),
             ),
 
-            // 3. Final-submit overlay: the cloud sync can take a few seconds,
+            // Final-submit overlay: the cloud sync can take a few seconds,
             // so show progress instead of an idle-looking form.
             if (_isSubmitting)
               Positioned.fill(

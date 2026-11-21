@@ -79,7 +79,7 @@ void main() {
     (tester) async {
       await _pumpStep(tester, const BasicProfileScreen(initialStep: 2));
       expect(find.text('Where are you located?'), findsOneWidget);
-      expect(find.text('2/4 Complete'), findsOneWidget);
+      expect(find.text('Step 2 of 4'), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
   );

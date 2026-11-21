@@ -284,6 +284,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   /// IndexedStack then keeps them alive, so a cold start builds one tab, not
   /// five.
   final Set<int> _visitedTabs = {0};
+  Timer? _tabWarmUp;
 
   @override
   void initState() {
@@ -291,7 +292,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     // The other tabs are built one at a time once the first screen is up, so
     // the first switch to a tab does not build it in the same frames as the
     // nav bar's droplet animation (it showed as a stutter or a jump).
-    unawaited(_warmUpTabs());
+    _tabWarmUp = Timer(const Duration(milliseconds: 1200), () => _warmUpTab(1));
     unawaited(_showHomeTourWhenReady());
     // Tab switches are not broadcast to every AppProvider listener (that
     // rebuilt all five tab screens per tap); only this shell follows them.
@@ -307,6 +308,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
 
   @override
   void dispose() {
+    _tabWarmUp?.cancel();
     _tabChanges.removeListener(_onTabChanged);
     HomeTour.dismiss();
     super.dispose();
@@ -333,12 +335,13 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     }
   }
 
-  Future<void> _warmUpTabs() async {
-    await Future<void>.delayed(const Duration(milliseconds: 1200));
-    for (var i = 1; i < 5; i++) {
-      if (!mounted) return;
-      setState(() => _visitedTabs.add(i));
-      await Future<void>.delayed(const Duration(milliseconds: 400));
+  void _warmUpTab(int index) {
+    if (!_visitedTabs.contains(index)) setState(() => _visitedTabs.add(index));
+    if (index < 4) {
+      _tabWarmUp = Timer(
+        const Duration(milliseconds: 400),
+        () => _warmUpTab(index + 1),
+      );
     }
   }
 

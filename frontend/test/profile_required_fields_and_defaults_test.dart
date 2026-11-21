@@ -127,14 +127,7 @@ void main() {
         findsNothing,
       );
 
-      // Verify "2/4 Complete" fraction is centered in the middle
-      final fractionFinder = find.text('2/4 Complete');
-      expect(fractionFinder, findsOneWidget);
-      final centerAncestor = find.ancestor(
-        of: fractionFinder,
-        matching: find.byType(Center),
-      );
-      expect(centerAncestor, findsOneWidget);
+      expect(find.text('Step 2 of 4'), findsOneWidget);
 
       // Pincode is the final address field: the server needs it to complete
       // onboarding.
@@ -294,6 +287,28 @@ void main() {
       expect(find.byIcon(Icons.check), findsNothing);
     },
   );
+
+  testWidgets('resume opens the first incomplete section', (tester) async {
+    final provider = AppProvider();
+    await provider.updateProfile(
+      provider.profile.copyWith(
+        name: 'Test User',
+        email: 'test@example.invalid',
+        mobile: '9999999999',
+        gender: 'Male',
+        dob: DateTime(1990, 1, 1),
+      ),
+      requireCloudSync: false,
+    );
+
+    await tester.pumpWidget(
+      buildTestApp(const BasicProfileScreen(resume: true), provider),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Step 2 of 4'), findsOneWidget);
+    expect(find.text('Where are you located?'), findsOneWidget);
+  });
 
   testWidgets(
     'Uncompleted profile restores the saved gender and Eligibility answers (#123)',

@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 """Build questionnaire.json from the officials' Maharashtra MSME dataset.
 
-Sources (committed byte-for-byte, never edited by hand):
+Inputs:
+  The officials' dataset and eligibility rules below are committed byte-for-byte.
   backend/catalog/msme_maharashtra_dataset_schema.csv      (UTF-8 with BOM)
   backend/catalog/msme_maharashtra_eligibility_rules.json
+  The general scope is maintained in:
+  backend/catalog/questionnaire_general.json
 
 Outputs:
-  backend/catalog/questionnaire.json             the only source for questions
+  backend/catalog/questionnaire.json             generated questionnaire
   frontend/assets/data/questionnaire.json        same bytes, shipped in the app
   backend/catalog/eligibility_rules.keyed.json   the rules with every option
                                                  display text swapped for its
@@ -45,8 +48,9 @@ RULES_PATH = CATALOG / "msme_maharashtra_eligibility_rules.json"
 OUT_BACKEND = CATALOG / "questionnaire.json"
 OUT_APP = REPO / "frontend" / "assets" / "data" / "questionnaire.json"
 OUT_RULES = CATALOG / "eligibility_rules.keyed.json"
+GENERAL_PATH = CATALOG / "questionnaire_general.json"
 
-SCHEMA_VERSION = "1.0.0"
+SCHEMA_VERSION = "1.1.0"
 LANGS = ("en", "mr", "hi")
 TRANSLATED = ("mr", "hi")
 DEVANAGARI = re.compile(r"[ऀ-ॿ]")
@@ -291,12 +295,32 @@ def dump(obj) -> bytes:
     return (json.dumps(obj, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
 
 
-def build(csv_bytes: bytes, rules_bytes: bytes) -> tuple[bytes, bytes]:
+def build(
+    csv_bytes: bytes,
+    rules_bytes: bytes,
+    general_bytes: bytes | None = None,
+) -> tuple[bytes, bytes]:
+    if general_bytes is None:
+        general_bytes = GENERAL_PATH.read_bytes()
     rows = read_csv_rows(csv_bytes)
     fields = [build_field(r) for r in rows]
     ids = [f["id"] for f in fields]
     if len(ids) != len(set(ids)):
         raise BuildError("duplicate field_id in CSV")
+    general = json.loads(general_bytes.decode("utf-8"))
+    if not isinstance(general, dict):
+        raise BuildError("general scope must be an object")
+    general_fields = general.get("fields", [])
+    if not isinstance(general_fields, list) or any(
+        not isinstance(field, dict) or not isinstance(field.get("id"), str)
+        for field in general_fields
+    ):
+        raise BuildError("general scope fields must have string ids")
+    general_ids = [field["id"] for field in general_fields]
+    if len(general_ids) != len(set(general_ids)):
+        raise BuildError("general scope has duplicate or invalid field ids")
+    if set(ids) & set(general_ids):
+        raise BuildError("general scope field ids must not duplicate questionnaire fields")
     by_id = {f["id"]: f for f in fields}
 
     questionnaire = {
@@ -305,6 +329,15 @@ def build(csv_bytes: bytes, rules_bytes: bytes) -> tuple[bytes, bytes]:
         "languages": list(LANGS),
         "source": {"file": CSV_PATH.name, "sha256": hashlib.sha256(csv_bytes).hexdigest()},
         "fields": fields,
+        "scopes": {
+            "general": {
+                **general,
+                "source": {
+                    "file": GENERAL_PATH.name,
+                    "sha256": hashlib.sha256(general_bytes).hexdigest(),
+                },
+            },
+        },
     }
 
     rules = json.loads(rules_bytes.decode("utf-8"))
@@ -325,7 +358,11 @@ def main(argv: list[str] | None = None) -> int:
     ap.add_argument("--check", action="store_true", help="fail if committed outputs are stale")
     args = ap.parse_args(argv)
     try:
-        questionnaire, keyed = build(CSV_PATH.read_bytes(), RULES_PATH.read_bytes())
+        questionnaire, keyed = build(
+            CSV_PATH.read_bytes(),
+            RULES_PATH.read_bytes(),
+            GENERAL_PATH.read_bytes(),
+        )
     except BuildError as e:
         print(f"build_questionnaire: FAIL: {e}", file=sys.stderr)
         return 1

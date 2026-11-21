@@ -88,8 +88,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: StandardPageHeader(
+        MediaQuery.textScalerOf(context),
         title: l10n.profileSettingsTitle,
-        elevation: 1,
+        showDivider: true,
       ),
       body: SafeArea(
         child: ListView(

@@ -782,6 +782,7 @@ class SearchScreenState extends State<SearchScreen> {
           : null,
       appBar: widget.showBack
           ? StandardPageHeader(
+              MediaQuery.textScalerOf(context),
               title: pageTitle,
               subtitle: _currentState == SearchState.results
                   ? context.l10n.schemesAvailableCount(_searchResults.length)

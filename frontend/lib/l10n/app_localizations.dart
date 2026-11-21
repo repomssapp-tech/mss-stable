@@ -216,6 +216,96 @@ abstract class AppLocalizations {
   /// **'Schemes'**
   String get schemes;
 
+  /// No description provided for @assessmentResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your scheme matches'**
+  String get assessmentResultsTitle;
+
+  /// No description provided for @assessmentResultsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'These schemes are ranked from your answers. Open one to learn more.'**
+  String get assessmentResultsIntro;
+
+  /// No description provided for @assessmentFallbackNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Few schemes matched this section, so we added other schemes to give you more options.'**
+  String get assessmentFallbackNote;
+
+  /// No description provided for @profileSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t save these answers to your profile. Try again.'**
+  String get profileSaveFailed;
+
+  /// No description provided for @assessmentGoodFit.
+  ///
+  /// In en, this message translates to:
+  /// **'Good fit'**
+  String get assessmentGoodFit;
+
+  /// No description provided for @assessmentPossibleFit.
+  ///
+  /// In en, this message translates to:
+  /// **'Might fit'**
+  String get assessmentPossibleFit;
+
+  /// No description provided for @assessmentNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not for you now'**
+  String get assessmentNotNow;
+
+  /// No description provided for @assessmentReasonState.
+  ///
+  /// In en, this message translates to:
+  /// **'Available in your selected state'**
+  String get assessmentReasonState;
+
+  /// No description provided for @assessmentReasonStateExcluded.
+  ///
+  /// In en, this message translates to:
+  /// **'This scheme is limited to another state'**
+  String get assessmentReasonStateExcluded;
+
+  /// No description provided for @assessmentReasonAgeExcluded.
+  ///
+  /// In en, this message translates to:
+  /// **'Your age is outside this scheme\'s stated age range'**
+  String get assessmentReasonAgeExcluded;
+
+  /// No description provided for @assessmentReasonStageExcluded.
+  ///
+  /// In en, this message translates to:
+  /// **'This scheme is for a different business stage'**
+  String get assessmentReasonStageExcluded;
+
+  /// No description provided for @assessmentReasonCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes support for a group you selected'**
+  String get assessmentReasonCategory;
+
+  /// No description provided for @assessmentReasonNature.
+  ///
+  /// In en, this message translates to:
+  /// **'Relevant to your type of business'**
+  String get assessmentReasonNature;
+
+  /// No description provided for @assessmentReasonGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Related to the support you want'**
+  String get assessmentReasonGoal;
+
+  /// No description provided for @assessmentReasonGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the eligibility details to see if this fits'**
+  String get assessmentReasonGeneral;
+
   /// No description provided for @finance.
   ///
   /// In en, this message translates to:
@@ -3963,7 +4053,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligibilitySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Helps us recommend 100% accurate schemes & subsidies for you.'**
+  /// **'Your answers help us find schemes and subsidies that may fit your profile.'**
   String get eligibilitySubtitle;
 
   /// No description provided for @firstGenGraduate.
@@ -11434,7 +11524,7 @@ abstract class AppLocalizations {
   /// No description provided for @guestProfilePendingNote.
   ///
   /// In en, this message translates to:
-  /// **'You\'re using the app as a guest. Your profile is saved once you sign in.'**
+  /// **'You\'re browsing as a guest. Sign in to create and save a profile.'**
   String get guestProfilePendingNote;
 
   /// No description provided for @homeTopSchemes.
@@ -11574,6 +11664,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Find government schemes you can claim'**
   String get loginSubtitleShort;
+
+  /// No description provided for @questionnaireFromProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'From your profile. Change any answer.'**
+  String get questionnaireFromProfile;
+
+  /// No description provided for @questionnaireLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions could not load. Close and reopen this assessment.'**
+  String get questionnaireLoadFailed;
+
+  /// No description provided for @questionnaireSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save your answer. Try again.'**
+  String get questionnaireSaveFailed;
+
+  /// No description provided for @questionnaireTaluka.
+  ///
+  /// In en, this message translates to:
+  /// **'Taluka'**
+  String get questionnaireTaluka;
 }
 
 class _AppLocalizationsDelegate

@@ -19,6 +19,7 @@ class HelpSupportScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppConstants.backgroundColor,
       appBar: StandardPageHeader(
+        MediaQuery.textScalerOf(context),
         title: HelpHeaderSection.titleFor(context, initialMode),
         backgroundColor: AppConstants.backgroundColor,
       ),

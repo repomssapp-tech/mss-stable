@@ -68,6 +68,59 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemes => 'Schemes';
 
   @override
+  String get assessmentResultsTitle => 'Your scheme matches';
+
+  @override
+  String get assessmentResultsIntro =>
+      'These schemes are ranked from your answers. Open one to learn more.';
+
+  @override
+  String get assessmentFallbackNote =>
+      'Few schemes matched this section, so we added other schemes to give you more options.';
+
+  @override
+  String get profileSaveFailed =>
+      'We couldn\'t save these answers to your profile. Try again.';
+
+  @override
+  String get assessmentGoodFit => 'Good fit';
+
+  @override
+  String get assessmentPossibleFit => 'Might fit';
+
+  @override
+  String get assessmentNotNow => 'Not for you now';
+
+  @override
+  String get assessmentReasonState => 'Available in your selected state';
+
+  @override
+  String get assessmentReasonStateExcluded =>
+      'This scheme is limited to another state';
+
+  @override
+  String get assessmentReasonAgeExcluded =>
+      'Your age is outside this scheme\'s stated age range';
+
+  @override
+  String get assessmentReasonStageExcluded =>
+      'This scheme is for a different business stage';
+
+  @override
+  String get assessmentReasonCategory =>
+      'Includes support for a group you selected';
+
+  @override
+  String get assessmentReasonNature => 'Relevant to your type of business';
+
+  @override
+  String get assessmentReasonGoal => 'Related to the support you want';
+
+  @override
+  String get assessmentReasonGeneral =>
+      'Review the eligibility details to see if this fits';
+
+  @override
   String get finance => 'Finance';
 
   @override
@@ -2095,7 +2148,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eligibilitySubtitle =>
-      'Helps us recommend 100% accurate schemes & subsidies for you.';
+      'Your answers help us find schemes and subsidies that may fit your profile.';
 
   @override
   String get firstGenGraduate => 'First-generation graduate';
@@ -6248,7 +6301,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guestProfilePendingNote =>
-      'You\'re using the app as a guest. Your profile is saved once you sign in.';
+      'You\'re browsing as a guest. Sign in to create and save a profile.';
 
   @override
   String get homeTopSchemes => 'Top schemes';
@@ -6329,4 +6382,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginSubtitleShort => 'Find government schemes you can claim';
+
+  @override
+  String get questionnaireFromProfile =>
+      'From your profile. Change any answer.';
+
+  @override
+  String get questionnaireLoadFailed =>
+      'Questions could not load. Close and reopen this assessment.';
+
+  @override
+  String get questionnaireSaveFailed =>
+      'Could not save your answer. Try again.';
+
+  @override
+  String get questionnaireTaluka => 'Taluka';
 }

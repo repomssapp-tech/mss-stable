@@ -14,6 +14,7 @@ import '../../services/account/profile_api_service.dart';
 Future<void> syncProfileToServer(
   UserProfile profileToSync, {
   required bool isLoggedIn,
+  bool requireOnboardingCompletion = false,
 }) async {
   if (!isLoggedIn) {
     throw StateError('Sign in is required before saving profile data.');
@@ -43,6 +44,9 @@ Future<void> syncProfileToServer(
       OnboardingApiService.instance,
     );
     if (!await LegalConsentStore.isComplete()) {
+      if (requireOnboardingCompletion) {
+        throw StateError('Onboarding requires recorded consent.');
+      }
       debugPrint('[AppProvider] Onboarding not sent: consent not recorded.');
       return;
     }
@@ -50,6 +54,11 @@ Future<void> syncProfileToServer(
     final profileMap = buildOnboardingProfile(profileToSync);
     final missing = missingOnboardingFields(profileMap);
     if (missing.isNotEmpty) {
+      if (requireOnboardingCompletion) {
+        throw StateError(
+          'Onboarding is missing required fields: ${missing.join(', ')}.',
+        );
+      }
       debugPrint(
         '[AppProvider] Onboarding not sent: missing ${missing.join(', ')}.',
       );
@@ -119,7 +128,10 @@ List<String> missingOnboardingFields(Map<String, dynamic> profile) {
 /// Business section, or null when none applies. An active student venture with
 /// no registration, funding or registration numbers is rejected by the server
 /// (`business.STUDENT_WITHOUT_VENTURE`), so it is left out.
-BusinessProfileDto? buildOnboardingBusiness(UserProfile p, String applicantType) {
+BusinessProfileDto? buildOnboardingBusiness(
+  UserProfile p,
+  String applicantType,
+) {
   if (!p.existingBusiness && p.businessStage.isEmpty) return null;
   if (applicantType.toLowerCase() == 'student' &&
       !p.existingBusiness &&

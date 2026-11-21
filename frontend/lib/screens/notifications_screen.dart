@@ -115,6 +115,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
     return Scaffold(
       backgroundColor: AppConstants.backgroundColor,
       appBar: StandardPageHeader(
+        MediaQuery.textScalerOf(context),
         leading: _isSelectionMode
             ? AppIconButton(
                 icon: Icons.close_rounded,

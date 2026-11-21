@@ -51,7 +51,10 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             tooltip: context.l10n.notificationsTooltip,
             onPressed: () async {
-              if (!await requireAccount(context, feature: SignInFeature.alerts)) {
+              if (!await requireAccount(
+                context,
+                feature: SignInFeature.alerts,
+              )) {
                 return;
               }
               if (!context.mounted) return;
@@ -77,9 +80,8 @@ class ProfileScreen extends StatelessWidget {
         physics: const ClampingScrollPhysics(),
         child: Column(
           children: [
-            // A guest has no account profile: Pending status, 0% and sign-in.
             if (provider.isGuest)
-              GuestProfileView(provider: provider)
+              const GuestProfileView()
             else ...[
               ProfileBannerCard(provider: provider),
               ProfileUserInfoCard(provider: provider),

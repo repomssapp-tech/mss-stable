@@ -71,6 +71,60 @@ class AppLocalizationsTa extends AppLocalizations {
   String get schemes => 'திட்டங்கள்';
 
   @override
+  String get assessmentResultsTitle => 'உங்களுக்குப் பொருந்தும் திட்டங்கள்';
+
+  @override
+  String get assessmentResultsIntro =>
+      'உங்கள் பதில்களின் அடிப்படையில் திட்டங்கள் வரிசைப்படுத்தப்பட்டுள்ளன. மேலும் அறிய ஒன்றைத் திறக்கவும்.';
+
+  @override
+  String get assessmentFallbackNote =>
+      'இந்தப் பிரிவில் சில திட்டங்களே பொருந்தின. கூடுதல் தேர்வுகளுக்காக மற்ற திட்டங்களையும் சேர்த்துள்ளோம்.';
+
+  @override
+  String get profileSaveFailed =>
+      'இந்தப் பதில்களை உங்கள் சுயவிவரத்தில் சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get assessmentGoodFit => 'நல்ல பொருத்தம்';
+
+  @override
+  String get assessmentPossibleFit => 'பொருந்தக்கூடும்';
+
+  @override
+  String get assessmentNotNow => 'இப்போது பொருந்தாது';
+
+  @override
+  String get assessmentReasonState =>
+      'நீங்கள் தேர்ந்தெடுத்த மாநிலத்தில் கிடைக்கும்';
+
+  @override
+  String get assessmentReasonStateExcluded =>
+      'இந்தத் திட்டம் வேறு மாநிலத்திற்கு மட்டுமே';
+
+  @override
+  String get assessmentReasonAgeExcluded =>
+      'இந்தத் திட்டத்தின் வயது வரம்புக்கு உங்கள் வயது பொருந்தவில்லை';
+
+  @override
+  String get assessmentReasonStageExcluded =>
+      'இந்தத் திட்டம் வேறு வணிக நிலையிலுள்ளவர்களுக்கானது';
+
+  @override
+  String get assessmentReasonCategory =>
+      'நீங்கள் தேர்ந்தெடுத்த குழுவுக்கான ஆதரவு இதில் உள்ளது';
+
+  @override
+  String get assessmentReasonNature => 'உங்கள் வணிக வகைக்குத் தொடர்புடையது';
+
+  @override
+  String get assessmentReasonGoal => 'நீங்கள் விரும்பும் ஆதரவுடன் தொடர்புடையது';
+
+  @override
+  String get assessmentReasonGeneral =>
+      'இது உங்களுக்குப் பொருந்துமா என்பதைத் தகுதி விவரங்களில் பாருங்கள்';
+
+  @override
   String get finance => 'நிதி';
 
   @override
@@ -2129,7 +2183,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get eligibilitySubtitle =>
-      'உங்களுக்கான 100% துல்லியமான அரசு திட்டங்களை பரிந்துரைக்க உதவும்.';
+      'உங்கள் சுயவிவரத்திற்குப் பொருந்தக்கூடிய திட்டங்களையும் மானியங்களையும் கண்டறிய உங்கள் பதில்கள் உதவும்.';
 
   @override
   String get firstGenGraduate => 'முதல் தலைமுறை பட்டதாரி';
@@ -6353,7 +6407,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get guestProfilePendingNote =>
-      'நீங்கள் விருந்தினராக ஆப்பைப் பயன்படுத்துகிறீர்கள். உள்நுழைந்ததும் உங்கள் சுயவிவரம் சேமிக்கப்படும்.';
+      'நீங்கள் விருந்தினராகப் பயன்படுத்துகிறீர்கள். சுயவிவரத்தை உருவாக்கிச் சேமிக்க உள்நுழையுங்கள்.';
 
   @override
   String get homeTopSchemes => 'முன்னணித் திட்டங்கள்';
@@ -6437,4 +6491,19 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get loginSubtitleShort =>
       'நீங்கள் பெறக்கூடிய அரசுத் திட்டங்களைக் கண்டறியுங்கள்';
+
+  @override
+  String get questionnaireFromProfile =>
+      'உங்கள் சுயவிவரத்திலிருந்து. எந்தப் பதிலையும் மாற்றலாம்.';
+
+  @override
+  String get questionnaireLoadFailed =>
+      'கேள்விகளை ஏற்ற முடியவில்லை. இந்த மதிப்பீட்டை மூடி மீண்டும் திறக்கவும்.';
+
+  @override
+  String get questionnaireSaveFailed =>
+      'உங்கள் பதிலைச் சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get questionnaireTaluka => 'வட்டம்';
 }
