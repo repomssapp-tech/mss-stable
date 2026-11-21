@@ -1,0 +1,171 @@
+{
+  "schema_version": "1.0.0",
+  "target_region": "Maharashtra, India",
+  "msme_classification_effective_date": "2025-04-01",
+  "msme_classification_limits_inr": {
+    "micro": { "max_machinery_investment": 25000000, "max_annual_turnover_excl_exports": 100000000 },
+    "small": { "max_machinery_investment": 250000000, "max_annual_turnover_excl_exports": 1000000000 },
+    "medium": { "max_machinery_investment": 1250000000, "max_annual_turnover_excl_exports": 5000000000 }
+  },
+  "schemes": [
+    {
+      "scheme_id": "cmegp_maharashtra",
+      "name": "Chief Minister Employment Generation Programme (CMEGP)",
+      "level": "State (Maharashtra)",
+      "source_url": "https://www.myscheme.gov.in/schemes/cmegp",
+      "hard_eligibility_rules": {
+        "is_maharashtra_domicile": { "operator": "equals", "value": true },
+        "business_age": { "operator": "in", "values": ["Not started yet (Aspiring)"] },
+        "business_nature": { "operator": "in", "values": ["Manufacturing", "Services", "Agro & Food Processing"] },
+        "org_structure": { "operator": "in", "values": ["Sole Owner (Proprietorship)", "Partnership", "Self-Help Group (SHG)"] },
+        "owner_age": {
+          "general": { "min": 18, "max": 45 },
+          "special_category_relaxation": { "min": 18, "max": 50, "applies_when_any": { "owner_gender": ["Woman"], "social_category": ["SC", "ST", "Person with Disability (Divyangjan)", "Ex-Serviceman"] } }
+        },
+        "education_level": {
+          "conditional_rules": [
+            { "if_project_cost_gt_inr": 1000000, "min_level": "7th-9th Pass" },
+            { "if_project_cost_gt_inr": 2500000, "min_level": "10th Pass" }
+          ]
+        },
+        "family_prior_subsidy": { "operator": "equals", "value": false },
+        "existing_registrations": { "required_at_disbursement": ["Udyam Registration", "Business PAN"] },
+        "own_contribution_readiness": {
+          "general": { "min_percent": 10 },
+          "special_category": { "min_percent": 5 }
+        }
+      },
+      "benefit_and_tier_rules": {
+        "max_project_cost_inr": {
+          "Manufacturing": 5000000,
+          "Manufacturing_enhanced_2025_policy": 10000000,
+          "Services": 2000000,
+          "Services_enhanced_2025_policy": 5000000
+        },
+        "margin_money_subsidy_percent": {
+          "based_on": ["business_location", "owner_gender", "social_category"],
+          "rural_general": 25,
+          "rural_special": 35,
+          "urban_general": 15,
+          "urban_special": 25
+        }
+      },
+      "recommendation_boosters": {
+        "scheme_goal": ["Start a new business", "Buy machinery / upgrade tech"],
+        "assistance_needed": ["Money (Loans / Subsidy)"],
+        "special_focus_zone": ["Tribal Area", "Aspirational District", "Backward Taluka"],
+        "aspiring_readiness_stage": { "nudge_edp_if_missing": "Completed EDP training", "nudge_dpr_if_missing": "Project report (DPR) ready" },
+        "digital_literacy_level": { "if_equals": "Basic (WhatsApp / UPI only)", "action": "Recommend nearest DIC / MSKVIB facilitation center" },
+        "preferred_app_language": ["Marathi", "Hindi", "English"]
+      }
+    },
+    {
+      "scheme_id": "pmegp_central",
+      "name": "Prime Minister's Employment Generation Programme (PMEGP)",
+      "level": "Central (All-India)",
+      "source_url": "https://www.msme.gov.in/offerings/schemes-and-services/details/prime-minister-employment-generation-programme-and-other-credit-support-schemes-1-MDMzETMtQWa",
+      "hard_eligibility_rules": {
+        "is_maharashtra_domicile": { "operator": "any" },
+        "business_age": { "operator": "in", "values": ["Not started yet (Aspiring)"], "note": "2nd loan upgradation allowed for existing PMEGP/MUDRA units" },
+        "business_nature": { "operator": "in", "values": ["Manufacturing", "Services", "Agro & Food Processing"] },
+        "org_structure": { "operator": "in", "values": ["Sole Owner (Proprietorship)", "Co-operative", "Self-Help Group (SHG)"] },
+        "owner_age": { "min": 18, "max": null },
+        "education_level": {
+          "conditional_rules": [
+            { "if_sector": "Manufacturing", "if_project_cost_gt_inr": 1000000, "min_level": "7th-9th Pass", "note": "8th pass statutory minimum" },
+            { "if_sector": "Services", "if_project_cost_gt_inr": 500000, "min_level": "7th-9th Pass", "note": "8th pass statutory minimum" }
+          ]
+        },
+        "family_prior_subsidy": { "operator": "equals", "value": false },
+        "own_contribution_readiness": {
+          "general": { "min_percent": 10 },
+          "special_category": { "min_percent": 5 }
+        }
+      },
+      "benefit_and_tier_rules": {
+        "max_project_cost_inr": {
+          "new_unit_manufacturing": 5000000,
+          "new_unit_services": 2000000,
+          "upgradation_manufacturing": 10000000,
+          "upgradation_services": 2500000
+        },
+        "margin_money_subsidy_percent": {
+          "based_on": ["business_location", "owner_gender", "social_category"],
+          "rural_general": 25,
+          "rural_special": 35,
+          "urban_general": 15,
+          "urban_special": 25
+        }
+      },
+      "recommendation_boosters": {
+        "scheme_goal": ["Start a new business", "Expand existing business"],
+        "assistance_needed": ["Money (Loans / Subsidy)"],
+        "has_gi_tag": { "if_equals": "Yes", "action": "Highlight artisan/KVIC project templates" },
+        "cluster_membership": { "if_equals": "Part of a cluster", "action": "Pair with MSE-CDP cluster support" },
+        "aspiring_readiness_stage": { "nudge_edp_if_missing": "Completed EDP training" },
+        "preferred_app_language": ["Marathi", "Hindi", "English"]
+      }
+    },
+    {
+      "scheme_id": "psi_maharashtra",
+      "name": "Maharashtra Package Scheme of Incentives (PSI-2019)",
+      "level": "State (Maharashtra)",
+      "source_url": "https://www.iifl.com/blogs/business-loan/maharashtra-msme-subsidy-schemes",
+      "hard_eligibility_rules": {
+        "is_maharashtra_domicile": { "operator": "any", "note": "Enterprise unit must be located in Maharashtra (business_location)" },
+        "business_location": { "state": "Maharashtra", "requires_district_taluka": true },
+        "business_age": { "operator": "in", "values": ["Not started yet (Aspiring)", "Less than 1 year", "1-3 years", "3+ years"], "note": "Must be a new unit or approved expansion/diversification" },
+        "business_nature": { "operator": "in", "values": ["Manufacturing", "Agro & Food Processing", "Services"] },
+        "machinery_investment_inr": { "operator": "in", "values": ["Up to Rs 10 Lakh", "Rs 10 Lakh - 2.5 Crore (Micro)", "Rs 2.5 - 25 Crore (Small)", "Rs 25 - 125 Crore (Medium)"] },
+        "annual_turnover_inr": { "operator": "in", "values": ["Up to Rs 40 Lakh", "Rs 40 Lakh - 10 Crore (Micro)", "Rs 10 - 100 Crore (Small)", "Rs 100 - 500 Crore (Medium)"] },
+        "existing_registrations": { "required": ["Udyam Registration"] }
+      },
+      "benefit_and_tier_rules": {
+        "incentives_by_zone": {
+          "based_on": ["business_location", "special_focus_zone"],
+          "taluka_grades": ["A", "B", "C", "D", "D+", "No Industry District", "Naxalite/Aspirational"],
+          "components": ["Industrial Promotion Subsidy (SGST reimbursement)", "Term Loan Interest Subsidy", "Stamp Duty Exemption", "Electricity Duty Waiver", "Technology Upgradation Support"]
+        }
+      },
+      "recommendation_boosters": {
+        "scheme_goal": ["Start a new business", "Expand existing business", "Buy machinery / upgrade tech"],
+        "assistance_needed": ["Money (Loans / Subsidy)", "Machines & Technology"],
+        "special_focus_zone": ["Tribal Area", "Aspirational District", "Backward Taluka", "Industrial Estate (MIDC)"],
+        "employee_count_total_women": { "action": "Prioritize employment-linked SGST incentives for higher headcount/women ratio" },
+        "export_status": { "if_in": ["Yes, currently exporting", "Planning to export"], "action": "Note export turnover exclusion in MSME cap calculation" },
+        "product_keywords_or_nic": { "action": "Check thrust-sector eligibility (Food, Textile, EV, IT)" },
+        "tax_compliance_comfort": { "if_equals": "Need basic guidance", "action": "Surface SGST claim & filing checklist" }
+      }
+    },
+    {
+      "scheme_id": "pmmy_mudra",
+      "name": "Pradhan Mantri MUDRA Yojana (PMMY)",
+      "level": "Central (All-India)",
+      "source_url": "https://www.jansamarth.in/business-loan-pradhan-mantri-mudra-yojana-scheme",
+      "hard_eligibility_rules": {
+        "owner_age": { "min": 18, "max": null },
+        "business_nature": { "operator": "in", "values": ["Manufacturing", "Services", "Trading / Retail", "Agro & Food Processing"], "note": "Non-farm income-generating activities only" },
+        "org_structure": { "operator": "in", "values": ["Sole Owner (Proprietorship)", "Partnership", "Not Registered Yet"], "note": "Non-Corporate Small Business Segment (excludes Pvt. Ltd. corporates)" },
+        "machinery_investment_inr": { "operator": "in", "values": ["Up to Rs 10 Lakh", "Rs 10 Lakh - 2.5 Crore (Micro)", "Rs 2.5 - 25 Crore (Small)"] },
+        "existing_registrations": { "recommended_for_kishore_and_above": ["Udyam Registration", "Shop Act / Gumasta", "GST"] }
+      },
+      "benefit_and_tier_rules": {
+        "collateral_free": true,
+        "loan_tiers_inr": {
+          "Shishu": { "min": 0, "max": 50000 },
+          "Kishore": { "min": 50001, "max": 500000 },
+          "Tarun": { "min": 500001, "max": 1000000 },
+          "Tarun_Plus": { "min": 1000001, "max": 2000000, "condition": "Must have availed and repaid an earlier Tarun loan" }
+        }
+      },
+      "recommendation_boosters": {
+        "scheme_goal": ["Start a new business", "Expand existing business", "Daily working cash"],
+        "assistance_needed": ["Money (Loans / Subsidy)"],
+        "own_contribution_readiness": { "if_equals": "0-5%", "action": "Recommend Shishu tier (banks may waive margin)" },
+        "digital_literacy_level": { "if_equals": "Basic (WhatsApp / UPI only)", "action": "Guide to nearest bank branch / JanSamarth assisted desk" },
+        "tax_compliance_comfort": { "if_equals": "Need basic guidance", "action": "Remind about 2-year ITR requirement for Kishore/Tarun" },
+        "preferred_app_language": ["Marathi", "Hindi", "English"]
+      }
+    }
+  ]
+}
