@@ -136,9 +136,14 @@ class _StatePickerSheetState extends State<_StatePickerSheet> {
     final l10n = context.l10n;
     final lang = Localizations.localeOf(context).languageCode;
     final q = _query.trim().toLowerCase();
+    final code = IndianStates.code(q);
+    final canonical = code == null
+        ? IndianStates.canonical(q)
+        : IndianStates.nameForCode(code);
     final states = [
       for (final name in IndianStates.names)
         if (q.isEmpty ||
+            name == canonical ||
             name.toLowerCase().contains(q) ||
             IndianStates.displayName(name, lang).toLowerCase().contains(q))
           name,

@@ -24,6 +24,10 @@ class MsmeHeaderSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final localizedDescription = CentralizedTranslator.instance.localizeFor(
+      Localizations.localeOf(context).languageCode,
+      description,
+    );
     return Padding(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.lg,
@@ -34,14 +38,13 @@ class MsmeHeaderSection extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            CentralizedTranslator.instance.localizeFor(
-              Localizations.localeOf(context).languageCode,
-              description,
+          if (localizedDescription.trim().isNotEmpty) ...[
+            Text(
+              localizedDescription,
+              style: context.text.body.copyWith(color: AppColors.textSecondary),
             ),
-            style: context.text.body.copyWith(color: AppColors.textSecondary),
-          ),
-          const SizedBox(height: AppSpacing.lg),
+            const SizedBox(height: AppSpacing.lg),
+          ],
           _buildWhatUserGets(context),
         ],
       ),

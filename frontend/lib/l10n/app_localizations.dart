@@ -216,6 +216,96 @@ abstract class AppLocalizations {
   /// **'Schemes'**
   String get schemes;
 
+  /// No description provided for @assessmentResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your scheme matches'**
+  String get assessmentResultsTitle;
+
+  /// No description provided for @assessmentResultsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'These schemes are ranked from your answers. Open one to learn more.'**
+  String get assessmentResultsIntro;
+
+  /// No description provided for @assessmentFallbackNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Few schemes matched this section, so we added other schemes to give you more options.'**
+  String get assessmentFallbackNote;
+
+  /// No description provided for @profileSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'We couldn\'t save these answers to your profile. Try again.'**
+  String get profileSaveFailed;
+
+  /// No description provided for @assessmentGoodFit.
+  ///
+  /// In en, this message translates to:
+  /// **'Good fit'**
+  String get assessmentGoodFit;
+
+  /// No description provided for @assessmentPossibleFit.
+  ///
+  /// In en, this message translates to:
+  /// **'Might fit'**
+  String get assessmentPossibleFit;
+
+  /// No description provided for @assessmentNotNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Not for you now'**
+  String get assessmentNotNow;
+
+  /// No description provided for @assessmentReasonState.
+  ///
+  /// In en, this message translates to:
+  /// **'Available in your selected state'**
+  String get assessmentReasonState;
+
+  /// No description provided for @assessmentReasonStateExcluded.
+  ///
+  /// In en, this message translates to:
+  /// **'This scheme is limited to another state'**
+  String get assessmentReasonStateExcluded;
+
+  /// No description provided for @assessmentReasonAgeExcluded.
+  ///
+  /// In en, this message translates to:
+  /// **'Your age is outside this scheme\'s stated age range'**
+  String get assessmentReasonAgeExcluded;
+
+  /// No description provided for @assessmentReasonStageExcluded.
+  ///
+  /// In en, this message translates to:
+  /// **'This scheme is for a different business stage'**
+  String get assessmentReasonStageExcluded;
+
+  /// No description provided for @assessmentReasonCategory.
+  ///
+  /// In en, this message translates to:
+  /// **'Includes support for a group you selected'**
+  String get assessmentReasonCategory;
+
+  /// No description provided for @assessmentReasonNature.
+  ///
+  /// In en, this message translates to:
+  /// **'Relevant to your type of business'**
+  String get assessmentReasonNature;
+
+  /// No description provided for @assessmentReasonGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Related to the support you want'**
+  String get assessmentReasonGoal;
+
+  /// No description provided for @assessmentReasonGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'Review the eligibility details to see if this fits'**
+  String get assessmentReasonGeneral;
+
   /// No description provided for @finance.
   ///
   /// In en, this message translates to:
@@ -3741,7 +3831,7 @@ abstract class AppLocalizations {
   /// No description provided for @aboutYouSubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Choose the option that best describes you.'**
+  /// **'Select all that apply.'**
   String get aboutYouSubtitle;
 
   /// No description provided for @studentSubtitle.
@@ -3963,7 +4053,7 @@ abstract class AppLocalizations {
   /// No description provided for @eligibilitySubtitle.
   ///
   /// In en, this message translates to:
-  /// **'Helps us recommend 100% accurate schemes & subsidies for you.'**
+  /// **'Your answers help us find schemes and subsidies that may fit your profile.'**
   String get eligibilitySubtitle;
 
   /// No description provided for @firstGenGraduate.
@@ -11434,7 +11524,7 @@ abstract class AppLocalizations {
   /// No description provided for @guestProfilePendingNote.
   ///
   /// In en, this message translates to:
-  /// **'You\'re using the app as a guest. Your profile is saved once you sign in.'**
+  /// **'You\'re browsing as a guest. Sign in to create and save a profile.'**
   String get guestProfilePendingNote;
 
   /// No description provided for @homeTopSchemes.
@@ -11562,204 +11652,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Test build'**
   String get locationDevBuildBadge;
-
-  /// No description provided for @eligCheckEntry.
-  ///
-  /// In en, this message translates to:
-  /// **'My answers'**
-  String get eligCheckEntry;
-
-  /// No description provided for @eligCheckEntrySub.
-  ///
-  /// In en, this message translates to:
-  /// **'Questions about you and your business'**
-  String get eligCheckEntrySub;
-
-  /// No description provided for @eligCheckTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Your answers'**
-  String get eligCheckTitle;
-
-  /// No description provided for @eligCheckIntro.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip any question you are unsure about.'**
-  String get eligCheckIntro;
-
-  /// No description provided for @eligCheckStepLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Step {n} of {total}'**
-  String eligCheckStepLabel(int n, int total);
-
-  /// No description provided for @eligCheckStep0.
-  ///
-  /// In en, this message translates to:
-  /// **'About you'**
-  String get eligCheckStep0;
-
-  /// No description provided for @eligCheckStep1.
-  ///
-  /// In en, this message translates to:
-  /// **'Where you live and work'**
-  String get eligCheckStep1;
-
-  /// No description provided for @eligCheckStep2.
-  ///
-  /// In en, this message translates to:
-  /// **'Your business'**
-  String get eligCheckStep2;
-
-  /// No description provided for @eligCheckStep3.
-  ///
-  /// In en, this message translates to:
-  /// **'What you need'**
-  String get eligCheckStep3;
-
-  /// No description provided for @eligCheckStep4.
-  ///
-  /// In en, this message translates to:
-  /// **'Your skills'**
-  String get eligCheckStep4;
-
-  /// No description provided for @eligCheckStep5.
-  ///
-  /// In en, this message translates to:
-  /// **'A little more (optional)'**
-  String get eligCheckStep5;
-
-  /// No description provided for @eligCheckNeeded.
-  ///
-  /// In en, this message translates to:
-  /// **'Please answer this to continue: {question}'**
-  String eligCheckNeeded(String question);
-
-  /// No description provided for @eligCheckWomenMore.
-  ///
-  /// In en, this message translates to:
-  /// **'Women staff cannot be more than total staff.'**
-  String get eligCheckWomenMore;
-
-  /// No description provided for @eligCheckQuestionLanguage.
-  ///
-  /// In en, this message translates to:
-  /// **'Question language'**
-  String get eligCheckQuestionLanguage;
-
-  /// No description provided for @eligCheckSave.
-  ///
-  /// In en, this message translates to:
-  /// **'Save my answers'**
-  String get eligCheckSave;
-
-  /// No description provided for @eligCheckSaveGo.
-  ///
-  /// In en, this message translates to:
-  /// **'Save and go in'**
-  String get eligCheckSaveGo;
-
-  /// No description provided for @eligCheckSavedTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Your answers are saved'**
-  String get eligCheckSavedTitle;
-
-  /// No description provided for @eligCheckSavedBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Thank you. You can change your answers any time.'**
-  String get eligCheckSavedBody;
-
-  /// No description provided for @eligCheckEdit.
-  ///
-  /// In en, this message translates to:
-  /// **'Change my answers'**
-  String get eligCheckEdit;
-
-  /// No description provided for @eligCheckSelect.
-  ///
-  /// In en, this message translates to:
-  /// **'Select'**
-  String get eligCheckSelect;
-
-  /// No description provided for @eligCheckOther.
-  ///
-  /// In en, this message translates to:
-  /// **'Other (type it)'**
-  String get eligCheckOther;
-
-  /// No description provided for @eligCheckTypeHere.
-  ///
-  /// In en, this message translates to:
-  /// **'Type the name'**
-  String get eligCheckTypeHere;
-
-  /// No description provided for @eligCheckSkipRest.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip the rest'**
-  String get eligCheckSkipRest;
-
-  /// No description provided for @eligCheckAnswerMore.
-  ///
-  /// In en, this message translates to:
-  /// **'Answer more questions'**
-  String get eligCheckAnswerMore;
-
-  /// No description provided for @eligCheckQuickIntro.
-  ///
-  /// In en, this message translates to:
-  /// **'Just a few questions to start. You can answer more later.'**
-  String get eligCheckQuickIntro;
-
-  /// No description provided for @eligCheckAllRequired.
-  ///
-  /// In en, this message translates to:
-  /// **'All questions are needed to continue.'**
-  String get eligCheckAllRequired;
-
-  /// No description provided for @eligCheckLocate.
-  ///
-  /// In en, this message translates to:
-  /// **'Use my current location'**
-  String get eligCheckLocate;
-
-  /// No description provided for @eligCheckLocating.
-  ///
-  /// In en, this message translates to:
-  /// **'Finding your location…'**
-  String get eligCheckLocating;
-
-  /// No description provided for @eligCheckLocationFail.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not get your location. You can choose the place instead.'**
-  String get eligCheckLocationFail;
-
-  /// No description provided for @eligCheckLocationNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Fills in your state and district for you.'**
-  String get eligCheckLocationNote;
-
-  /// No description provided for @eligCheckLocationDone.
-  ///
-  /// In en, this message translates to:
-  /// **'Location saved. Please check the place below.'**
-  String get eligCheckLocationDone;
-
-  /// No description provided for @eligCheckFirstTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Tell us about you'**
-  String get eligCheckFirstTitle;
-
-  /// No description provided for @eligCheckFirstIntro.
-  ///
-  /// In en, this message translates to:
-  /// **'A few questions, then you are in. Questions marked * are needed.'**
-  String get eligCheckFirstIntro;
 
   /// No description provided for @guestName.
   ///
@@ -11904,6 +11796,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Find government schemes you can claim'**
   String get loginSubtitleShort;
+
+  /// No description provided for @questionnaireFromProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'From your profile. Change any answer.'**
+  String get questionnaireFromProfile;
+
+  /// No description provided for @questionnaireLoadFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Questions could not load. Close and reopen this assessment.'**
+  String get questionnaireLoadFailed;
+
+  /// No description provided for @questionnaireSaveFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not save your answer. Try again.'**
+  String get questionnaireSaveFailed;
+
+  /// No description provided for @questionnaireTaluka.
+  ///
+  /// In en, this message translates to:
+  /// **'Taluka'**
+  String get questionnaireTaluka;
 }
 
 class _AppLocalizationsDelegate

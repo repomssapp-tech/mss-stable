@@ -75,6 +75,7 @@ class _NotificationDetailScreenState extends State<NotificationDetailScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: StandardPageHeader(
+        MediaQuery.textScalerOf(context),
         title: l10n.notifDetailTitle,
         actions: [
           IconButton(

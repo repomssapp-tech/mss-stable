@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../l10n/l10n.dart';
 import '../../providers/app_state_provider.dart';
 import '../../screens/login_screen.dart';
+import '../../services/analytics/app_analytics.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
@@ -50,12 +51,28 @@ class SignInRequiredSheet extends StatelessWidget {
   static Future<void> show(
     BuildContext context, {
     SignInFeature feature = SignInFeature.general,
-  }) {
-    return showModalBottomSheet<void>(
+  }) async {
+    final analytics = AppAnalytics.instance;
+    final interactionId = analytics.interactionId();
+    final featureKey = feature == SignInFeature.forMe ? 'for_me' : feature.name;
+    analytics.track(
+      AnalyticsEvent.signInPrompt,
+      interactionId: interactionId,
+      properties: {'feature': featureKey, 'action': 'shown'},
+    );
+    final selected = await showModalBottomSheet<bool>(
       context: context,
       showDragHandle: true,
       isScrollControlled: true,
       builder: (_) => SignInRequiredSheet(feature: feature),
+    );
+    analytics.track(
+      AnalyticsEvent.signInPrompt,
+      interactionId: interactionId,
+      properties: {
+        'feature': featureKey,
+        'action': selected == true ? 'selected' : 'dismissed',
+      },
     );
   }
 
@@ -117,7 +134,7 @@ class SignInRequiredSheet extends StatelessWidget {
             FilledButton(
               onPressed: () {
                 final navigator = Navigator.of(context);
-                navigator.pop();
+                navigator.pop(true);
                 openSignIn(navigator.context);
               },
               child: Text(l10n.guestSignInAction),

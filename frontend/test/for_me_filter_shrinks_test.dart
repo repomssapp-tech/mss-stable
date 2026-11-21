@@ -171,6 +171,35 @@ void main() {
       });
 
       test(
+        'every selected role gets its matching schemes without stacking the boost',
+        () {
+          Scheme scheme(String name) =>
+              Scheme(id: name, name: name, state: 'Tamil Nadu');
+          final farmer = scheme('Farmer support');
+          final artisan = scheme('Handloom weaver support');
+          final msme = scheme('MSME working capital support');
+          final combined = scheme('Farmer and handloom weaver support');
+          final multiRole = tn(role: 'Farmer, Artisan / SHG Member, MSME Owner');
+
+          for (final match in [farmer, artisan, msme]) {
+            expect(
+              RecommendationEngine.evaluate(multiRole, match).score,
+              greaterThanOrEqualTo(RecommendationEngine.forMeThreshold),
+            );
+            expect(
+              RecommendationEngine.evaluate(tn(), match).score,
+              lessThan(RecommendationEngine.forMeThreshold),
+            );
+          }
+          final result = RecommendationEngine.evaluate(multiRole, combined);
+          expect(
+            result.score,
+            RecommendationEngine.evaluate(tn(role: 'Farmer'), combined).score,
+          );
+        },
+      );
+
+      test(
         'a non-TN entrepreneur is still hard-disqualified from a TN scheme',
         () {
           final tanseed = all.firstWhere(

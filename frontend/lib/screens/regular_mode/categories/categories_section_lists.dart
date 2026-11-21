@@ -40,17 +40,6 @@ String formatSchemeCount(BuildContext context, int? cnt, AppProvider provider) {
   return context.l10n.schemeCountFormat(cnt);
 }
 
-/// Height of a Discover horizontal card row (categories, ministries, states).
-/// The icon and padding are fixed; the text allowance grows with the user's
-/// font size so larger text reflows instead of overflowing (issue #144).
-double discoverRowHeight(BuildContext context, AppProvider provider) {
-  const chrome = 56.0;
-  final textAllowance = provider.selectedLanguage == 'ta' ? 82.0 : 70.0;
-  return chrome + MediaQuery.textScalerOf(context).scale(textAllowance);
-}
-
-/// The leading mark's size: [discoverRowHeight]'s fixed chrome is this plus
-/// the card's padding.
 const double _markSize = AppSize.iconLg + AppSpacing.sm;
 
 class CategoriesSectionHeader extends StatelessWidget {
@@ -183,28 +172,26 @@ class _IconMark extends StatelessWidget {
   }
 }
 
-/// A horizontal row of [_DiscoverCard]s, as tall as [discoverRowHeight].
 class _DiscoverRow extends StatelessWidget {
-  const _DiscoverRow({
-    required this.provider,
-    required this.itemCount,
-    required this.itemBuilder,
-  });
+  const _DiscoverRow({required this.itemCount, required this.itemBuilder});
 
-  final AppProvider provider;
   final int itemCount;
   final IndexedWidgetBuilder itemBuilder;
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: discoverRowHeight(context, provider),
-      child: ListView.builder(
-        scrollDirection: Axis.horizontal,
-        physics: const ClampingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
-        itemCount: itemCount,
-        itemBuilder: itemBuilder,
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      physics: const ClampingScrollPhysics(),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.md),
+      child: IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: List.generate(
+            itemCount,
+            (index) => itemBuilder(context, index),
+          ),
+        ),
       ),
     );
   }
@@ -225,7 +212,6 @@ class CategoryHorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _DiscoverRow(
-      provider: provider,
       itemCount: displayCategories.length,
       itemBuilder: (context, index) {
         final item = displayCategories[index];
@@ -259,7 +245,6 @@ class MinistryHorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _DiscoverRow(
-      provider: provider,
       itemCount: displayMinistries.length,
       itemBuilder: (context, index) {
         final item = displayMinistries[index];
@@ -293,7 +278,6 @@ class StateHorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return _DiscoverRow(
-      provider: provider,
       itemCount: displayStates.length,
       itemBuilder: (context, index) {
         final item = displayStates[index];

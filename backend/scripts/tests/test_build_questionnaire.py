@@ -106,6 +106,18 @@ def test_committed_outputs_are_current():
     assert (fields["owner_age"]["answer"]["min"], fields["owner_age"]["answer"]["max"]) == (18, 99)
 
 
+def test_general_scope_windows_checkout_preserves_generated_outputs():
+    general = bq.GENERAL_PATH.read_bytes().replace(b"\r\n", b"\n")
+    questionnaire, keyed = bq.build(
+        bq.CSV_PATH.read_bytes(),
+        bq.RULES_PATH.read_bytes(),
+        general.replace(b"\n", b"\r\n"),
+    )
+    assert questionnaire == bq.OUT_BACKEND.read_bytes()
+    assert questionnaire == bq.OUT_APP.read_bytes()
+    assert keyed == bq.OUT_RULES.read_bytes()
+
+
 def test_rules_inside_lists_are_keyed():
     """Conditional rules are dicts in a list; their option refs must be keyed too."""
     keyed = json.loads(bq.OUT_RULES.read_bytes())

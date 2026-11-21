@@ -200,7 +200,10 @@ class _FeaturedCard extends StatelessWidget {
             child: InkWell(
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute<void>(
-                  builder: (_) => SchemeDetailsScreen(scheme: slide.scheme),
+                  builder: (_) => SchemeDetailsScreen(
+                    scheme: slide.scheme,
+                    analyticsEntryPoint: 'home',
+                  ),
                 ),
               ),
               child: Padding(

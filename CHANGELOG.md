@@ -11,6 +11,18 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+### Added
+- Adaptive Smart Assessment uses category-specific questions, saved answers, profile prefill and the shared recommendation engine. Results open in Search with fit chips.
+- Buffered mobile analytics is enabled by default; builds can disable it with MSS_ANALYTICS_ENABLED=false. Backend deployment remains separate.
+
+### Changed
+- Imported the assessment, guest, login, profile, responsive option controls and multiple-employment-role improvements from the original app repository.
+- Removed the separate first-run profile questionnaire and its cloud synchronization. Kept edition rules, location lock, tour gating, the documented sign-in callback and stable update routing.
+
+### Fixed
+- Translated notification and onboarding text and fixed Discover and Help/Support layouts for translated content.
+- Made questionnaire source hashing consistent across Windows and LF checkouts.
+
 ## [2.6.4+35] - 2026-11-21 (dev test build)
 
 ### Fixed

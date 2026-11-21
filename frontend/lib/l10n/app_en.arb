@@ -19,6 +19,21 @@
   "startABusiness": "Start a business",
   "exploreMsmeSupport": "MSME support",
   "schemes": "Schemes",
+  "assessmentResultsTitle": "Your scheme matches",
+  "assessmentResultsIntro": "These schemes are ranked from your answers. Open one to learn more.",
+  "assessmentFallbackNote": "Few schemes matched this section, so we added other schemes to give you more options.",
+  "profileSaveFailed": "We couldn't save these answers to your profile. Try again.",
+  "assessmentGoodFit": "Good fit",
+  "assessmentPossibleFit": "Might fit",
+  "assessmentNotNow": "Not for you now",
+  "assessmentReasonState": "Available in your selected state",
+  "assessmentReasonStateExcluded": "This scheme is limited to another state",
+  "assessmentReasonAgeExcluded": "Your age is outside this scheme's stated age range",
+  "assessmentReasonStageExcluded": "This scheme is for a different business stage",
+  "assessmentReasonCategory": "Includes support for a group you selected",
+  "assessmentReasonNature": "Relevant to your type of business",
+  "assessmentReasonGoal": "Related to the support you want",
+  "assessmentReasonGeneral": "Review the eligibility details to see if this fits",
   "finance": "Finance",
   "taxGst": "Tax & GST",
   "export": "Export",
@@ -646,7 +661,7 @@
   "readHowDataUsed": "Read how your data is used →",
   "pleaseConsentToContinue": "Please consent to continue",
   "tellUsAboutYou": "Tell us about you",
-  "aboutYouSubtitle": "Choose the option that best describes you.",
+  "aboutYouSubtitle": "Select all that apply.",
   "studentSubtitle": "Looking for learning, innovation and startup opportunities.",
   "aspiringEntrepreneur": "Entrepreneur",
   "aspiringEntrepreneurSubtitle": "I have an idea and want to start a business.",
@@ -683,7 +698,7 @@
   "registrationNumbers": "Registration Numbers (Udyam, GST, etc.)",
   "checkEligibility": "Check Eligibility",
   "eligibilityDetails": "Eligibility Details",
-  "eligibilitySubtitle": "Helps us recommend 100% accurate schemes & subsidies for you.",
+  "eligibilitySubtitle": "Your answers help us find schemes and subsidies that may fit your profile.",
   "firstGenGraduate": "First-generation graduate",
   "skipForNow": "Skip for now",
   "completeProfile": "Complete Profile",
@@ -2118,7 +2133,7 @@
   "guestProfileIncomplete": "Profile incomplete",
   "guestProfileSignInPrompt": "Sign in to create your profile and see schemes matched to you.",
   "guestProfilePending": "Pending",
-  "guestProfilePendingNote": "You're using the app as a guest. Your profile is saved once you sign in.",
+  "guestProfilePendingNote": "You're browsing as a guest. Sign in to create and save a profile.",
   "homeTopSchemes": "Top schemes",
   "homeTopSchemesInState": "Top schemes in {state}",
   "@homeTopSchemesInState": {
@@ -2152,11 +2167,6 @@
   "@locationGateTitle": {
     "description": "Title of the blocking screen that asks for precise GPS location (dev build location lock)."
   },
-  "eligCheckEntry": "My answers",
-  "eligCheckEntrySub": "Questions about you and your business",
-  "eligCheckTitle": "Your answers",
-  "eligCheckIntro": "Skip any question you are unsure about.",
-  "eligCheckStepLabel": "Step {n} of {total}",
   "@eligCheckStepLabel": {
     "placeholders": {
       "n": {
@@ -2167,13 +2177,6 @@
       }
     }
   },
-  "eligCheckStep0": "About you",
-  "eligCheckStep1": "Where you live and work",
-  "eligCheckStep2": "Your business",
-  "eligCheckStep3": "What you need",
-  "eligCheckStep4": "Your skills",
-  "eligCheckStep5": "A little more (optional)",
-  "eligCheckNeeded": "Please answer this to continue: {question}",
   "@eligCheckNeeded": {
     "placeholders": {
       "question": {
@@ -2181,27 +2184,6 @@
       }
     }
   },
-  "eligCheckWomenMore": "Women staff cannot be more than total staff.",
-  "eligCheckQuestionLanguage": "Question language",
-  "eligCheckSave": "Save my answers",
-  "eligCheckSaveGo": "Save and go in",
-  "eligCheckSavedTitle": "Your answers are saved",
-  "eligCheckSavedBody": "Thank you. You can change your answers any time.",
-  "eligCheckEdit": "Change my answers",
-  "eligCheckSelect": "Select",
-  "eligCheckOther": "Other (type it)",
-  "eligCheckTypeHere": "Type the name",
-  "eligCheckSkipRest": "Skip the rest",
-  "eligCheckAnswerMore": "Answer more questions",
-  "eligCheckQuickIntro": "Just a few questions to start. You can answer more later.",
-  "eligCheckAllRequired": "All questions are needed to continue.",
-  "eligCheckLocate": "Use my current location",
-  "eligCheckLocating": "Finding your location…",
-  "eligCheckLocationFail": "Could not get your location. You can choose the place instead.",
-  "eligCheckLocationNote": "Fills in your state and district for you.",
-  "eligCheckLocationDone": "Location saved. Please check the place below.",
-  "eligCheckFirstTitle": "Tell us about you",
-  "eligCheckFirstIntro": "A few questions, then you are in. Questions marked * are needed.",
   "guestName": "Guest",
   "guestReminderText": "Complete your profile: sign in with Google to save your progress.",
   "guestLocalTitle": "Your details stay on this phone",
@@ -2225,5 +2207,9 @@
   "saarthiTourTypeBody": "Prefer typing? Tap the keyboard to write your question.",
   "saarthiTourHistoryTitle": "Past chats",
   "saarthiTourHistoryBody": "Find and continue your earlier conversations here.",
-  "loginSubtitleShort": "Find government schemes you can claim"
+  "loginSubtitleShort": "Find government schemes you can claim",
+  "questionnaireFromProfile": "From your profile. Change any answer.",
+  "questionnaireLoadFailed": "Questions could not load. Close and reopen this assessment.",
+  "questionnaireSaveFailed": "Could not save your answer. Try again.",
+  "questionnaireTaluka": "Taluka"
 }

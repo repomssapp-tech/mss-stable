@@ -307,7 +307,10 @@ class SchemeMatchCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(18),
           onTap: () => Navigator.of(context).push(
             MaterialPageRoute<void>(
-              builder: (_) => SchemeDetailsScreen(scheme: scheme),
+              builder: (_) => SchemeDetailsScreen(
+                scheme: scheme,
+                analyticsEntryPoint: 'saarthi',
+              ),
             ),
           ),
           child: Container(

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../../services/questionnaire/questionnaire_qa_metrics.dart';
+import '../../../services/questionnaire/questionnaire_recommendation_service.dart';
 import '../../../services/recommendation/recommendation_engine.dart';
 import '../../../l10n/l10n.dart';
 import '../../../models/scheme_model.dart';
@@ -85,6 +87,9 @@ class SearchResultsList extends StatelessWidget {
   final bool isForMe;
   final ForMeEmptyState forMeEmptyState;
   final AppProvider provider;
+  final Map<String, QuestionnaireFit> assessmentFits;
+  final String? interactionId;
+  final String entryPoint;
 
   /// A corrected spelling of [queryText] to offer ("laon" -> "loan"), shown
   /// as a tappable "Did you mean ...?" line; null when there is none.
@@ -110,6 +115,9 @@ class SearchResultsList extends StatelessWidget {
     required this.isForMe,
     required this.forMeEmptyState,
     required this.provider,
+    this.assessmentFits = const {},
+    this.interactionId,
+    this.entryPoint = 'search',
     this.didYouMean,
     this.onDidYouMeanTap,
     this.notApplicableIds = const {},
@@ -259,6 +267,7 @@ class SearchResultsList extends StatelessWidget {
         }
 
         final scheme = searchResults[index - 1];
+        final assessmentFit = assessmentFits[scheme.id];
         final recResult = RecommendationEngine.evaluate(
           provider.profile,
           scheme,
@@ -276,13 +285,32 @@ class SearchResultsList extends StatelessWidget {
           },
           showActions: false,
           showMatchPercentage: isForMe && !notApplicableIds.contains(scheme.id),
+          matchLabel: switch (assessmentFit) {
+            QuestionnaireFit.good => context.l10n.assessmentGoodFit,
+            QuestionnaireFit.possible => context.l10n.assessmentPossibleFit,
+            QuestionnaireFit.notNow => context.l10n.assessmentNotNow,
+            null => null,
+          },
           notApplicable: notApplicableIds.contains(scheme.id),
           filterMismatch: filterMismatchIds.contains(scheme.id),
           onTap: () {
+            if (assessmentFit != null) {
+              QuestionnaireQaMetrics.emit('scheme_opened', {
+                'fit': assessmentFit.name,
+              });
+            }
             Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (_) => SchemeDetailsScreen(
                   scheme: scheme,
+                  analyticsEntryPoint: assessmentFit == null
+                      ? entryPoint
+                      : 'assessment',
+                  analyticsInteractionId: interactionId,
+                  analyticsRank: index,
+                  analyticsFit: assessmentFit == QuestionnaireFit.notNow
+                      ? 'not_now'
+                      : assessmentFit?.name,
                   notApplicable: notApplicableIds.contains(scheme.id),
                   matchPercentage:
                       isForMe && !notApplicableIds.contains(scheme.id)

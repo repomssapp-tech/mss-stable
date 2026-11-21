@@ -88,3 +88,4 @@ See `docs/RULES.md` §4 for the rule this log enforces.
 | 2026-11-20 | Roger-Chris | #204 | unspecified | fix(app): guest home, profile and routing fixes (follow-up to #202) |
 | 2026-11-20 | Roger-Chris | #205 | unspecified | feat(app): finish guest UX across Saarthi, Settings, Search and Saved |
 | 2026-11-20 | Roger-Chris | #206 | unspecified | feat(app): guest and first-run UX (mode choice, tours, equal weight, no dead ends) |
+| 2026-11-21 | Roger-Chris | #207 | unspecified | fix(app): login text, wording audit, sign-out keeps onboarding; UX and analytics docs |

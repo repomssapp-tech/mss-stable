@@ -95,34 +95,26 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       return;
     }
 
-    SmartAssessmentBottomSheet.show(
-      context,
-      categoryName,
-      'category',
-      () async {
-        final all = await SchemeRepository.instance.getAllSchemes();
-        final schemes = DiscoverCounts.schemesFor(
-          categoryName,
-          'category',
-          all,
-        );
-        if (!mounted) return;
-        if (schemes.isEmpty) {
-          showComingSoonInfo(context, categoryName, 'category');
-          return;
-        }
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => SearchResultsScreen(
-              title: categoryName,
-              type: 'category',
-              initialSchemes: schemes,
-              keepFilters: true,
-            ),
-          ),
-        );
-      },
-    );
+    SmartAssessmentBottomSheet.show(context, categoryName, 'category', (
+      answers,
+      interactionId,
+    ) async {
+      final all = await SchemeRepository.instance.getAllSchemes();
+      final schemes = DiscoverCounts.schemesFor(categoryName, 'category', all);
+      if (!mounted) return;
+      if (schemes.isEmpty) {
+        showComingSoonInfo(context, categoryName, 'category');
+        return;
+      }
+
+      SearchResultsScreen.openAssessment(
+        context,
+        title: categoryName,
+        schemes: schemes,
+        answers: answers,
+        interactionId: interactionId,
+      );
+    });
   }
 
   void _onMinistrySelected(String ministryName, AppProvider provider) {
@@ -132,34 +124,25 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       return;
     }
 
-    SmartAssessmentBottomSheet.show(
-      context,
-      ministryName,
-      'ministry',
-      () async {
-        final all = await SchemeRepository.instance.getAllSchemes();
-        final schemes = DiscoverCounts.schemesFor(
-          ministryName,
-          'ministry',
-          all,
-        );
-        if (!mounted) return;
-        if (schemes.isEmpty) {
-          showComingSoonInfo(context, ministryName, 'ministry');
-          return;
-        }
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) => SearchResultsScreen(
-              title: ministryName,
-              type: 'ministry',
-              initialSchemes: schemes,
-              keepFilters: true,
-            ),
-          ),
-        );
-      },
-    );
+    SmartAssessmentBottomSheet.show(context, ministryName, 'ministry', (
+      answers,
+      interactionId,
+    ) async {
+      final all = await SchemeRepository.instance.getAllSchemes();
+      final schemes = DiscoverCounts.schemesFor(ministryName, 'ministry', all);
+      if (!mounted) return;
+      if (schemes.isEmpty) {
+        showComingSoonInfo(context, ministryName, 'ministry');
+        return;
+      }
+      SearchResultsScreen.openAssessment(
+        context,
+        title: ministryName,
+        schemes: schemes,
+        answers: answers,
+        interactionId: interactionId,
+      );
+    });
   }
 
   void _onStateSelected(String stateName, AppProvider provider) {
@@ -169,7 +152,10 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
       return;
     }
 
-    SmartAssessmentBottomSheet.show(context, stateName, 'state', () async {
+    SmartAssessmentBottomSheet.show(context, stateName, 'state', (
+      answers,
+      interactionId,
+    ) async {
       final all = await SchemeRepository.instance.getAllSchemes();
       final schemes = DiscoverCounts.schemesFor(stateName, 'state', all);
       if (!mounted) return;
@@ -177,15 +163,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         showComingSoonInfo(context, stateName, 'state');
         return;
       }
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => SearchResultsScreen(
-            title: stateName,
-            type: 'state',
-            initialSchemes: schemes,
-            keepFilters: true,
-          ),
-        ),
+      SearchResultsScreen.openAssessment(
+        context,
+        title: stateName,
+        schemes: schemes,
+        answers: answers,
+        interactionId: interactionId,
       );
     });
   }

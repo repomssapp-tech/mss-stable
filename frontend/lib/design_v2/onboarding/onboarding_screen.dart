@@ -589,8 +589,6 @@ class _EligibilityPage extends StatelessWidget {
                       Expanded(
                         child: Text(
                           l10n.onbP3Found(12),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                           style: pop(11.5, FontWeight.w700, MssColors.green, s),
                         ),
                       ),

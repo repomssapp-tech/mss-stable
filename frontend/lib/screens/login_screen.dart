@@ -7,6 +7,7 @@ import '../providers/app_state_provider.dart';
 import '../l10n/l10n.dart';
 import '../widgets/common/app_icon_button.dart';
 import '../widgets/common/app_toast.dart';
+import '../widgets/common/app_tappable.dart';
 import '../widgets/legal/legal_document_modal.dart';
 import '../main.dart' show MainTabsContainer;
 import 'navigation_mode_screen.dart';
@@ -29,6 +30,7 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoading = false;
+  bool _enteringGuest = false;
   bool _navigationScheduled = false;
   bool _hasViewedTerms = false;
   bool _hasViewedPrivacy = false;
@@ -71,11 +73,9 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> _openTermsModal() async {
     bool? accepted;
-    var usedFallback = false;
     try {
       accepted = await LegalDocumentModal.showTermsOfUse(context);
     } catch (_) {
-      usedFallback = true;
       if (mounted) {
         await Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => const TermsConditionsScreen()),
@@ -86,18 +86,16 @@ class _LoginScreenState extends State<LoginScreen> {
       setState(() {
         // A document counts as read only when it was scrolled to the end and
         // accepted (the modal enforces that); closing it early does not.
-        if (accepted == true || usedFallback) _hasViewedTerms = true;
+        if (accepted == true) _hasViewedTerms = true;
       });
     }
   }
 
   Future<void> _openPrivacyModal() async {
     bool? accepted;
-    var usedFallback = false;
     try {
       accepted = await LegalDocumentModal.showPrivacyPolicy(context);
     } catch (_) {
-      usedFallback = true;
       if (mounted) {
         await Navigator.of(
           context,
@@ -106,7 +104,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
     if (mounted) {
       setState(() {
-        if (accepted == true || usedFallback) _hasViewedPrivacy = true;
+        if (accepted == true) _hasViewedPrivacy = true;
       });
     }
   }
@@ -347,6 +345,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Future<void> _signIn() async {
+    if (_enteringGuest || _busy) return;
     setState(() {
       _isLoading = true;
     });
@@ -377,14 +376,21 @@ class _LoginScreenState extends State<LoginScreen> {
   /// Guest mode: no account, answers kept on this phone. Gated behind the
   /// same Terms and Privacy acceptance as Google sign-in.
   Future<void> _continueAsGuest() async {
+    if (_enteringGuest || _busy) return;
     final provider = Provider.of<AppProvider>(context, listen: false);
-    // Remembered so the agreement is recorded if the guest signs in later.
-    await LegalConsentStore.markLoginAgreement();
-    await provider.continueAsGuest();
-    if (!mounted) return;
-    // A guest picks Regular or Saarthi mode like anyone else, then goes
-    // home (no profile onboarding).
-    await replaceWithPermissionsFirst(context, const NavigationModeScreen());
+    setState(() => _enteringGuest = true);
+    try {
+      // Remembered so the agreement is recorded if the guest signs in later.
+      await LegalConsentStore.markLoginAgreement();
+      await provider.continueAsGuest();
+      if (!mounted) return;
+      await replaceWithPermissionsFirst(context, const NavigationModeScreen());
+    } catch (error) {
+      debugPrint('[LoginScreen] Guest entry failed: $error');
+      if (!mounted) return;
+      setState(() => _enteringGuest = false);
+      AppToast.showError(context, context.l10n.companionGenericErrorRetry);
+    }
   }
 
   Widget _buildLoginForm() {
@@ -393,6 +399,49 @@ class _LoginScreenState extends State<LoginScreen> {
     // (not greyed out) while a sign-in is already in flight; onPressed below
     // separately swallows taps during loading.
     final bool isLoginEnabled = canConsent;
+
+    final googleButton = SizedBox(
+      width: double.infinity,
+      child: OutlinedButton(
+        key: const ValueKey('login-continue-with-google'),
+        // Swallow taps while loading (so a stray tap can't double-fire
+        // sign-in) without visually disabling the button.
+        onPressed: _busy ? () {} : (isLoginEnabled ? _signIn : null),
+        child: _busy
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Flexible(
+                    child: Text(
+                      context.l10n.loginOpeningGoogle,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const GoogleIcon(size: 18),
+                  const SizedBox(width: AppSpacing.sm),
+                  Flexible(
+                    child: Text(
+                      context.l10n.continueWithGoogle,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                    ),
+                  ),
+                ],
+              ),
+      ),
+    );
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -421,66 +470,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
         const SizedBox(height: AppSpacing.md),
 
-        // Google Sign-In Button (strictly gated behind mandatory consent).
-        // While it is disabled, a tap on it says why instead of doing
-        // nothing, and screen readers hear the same reason as a hint.
-        GestureDetector( // tap-ok: only explains taps on the disabled button
-          onTap: isLoginEnabled || _busy
-              ? null
-              : () => AppToast.showWarning(
-                  context,
-                  context.l10n.loginReviewTermsNotice,
-                ),
-          child: Semantics(
-            hint: isLoginEnabled ? null : context.l10n.loginReviewTermsNotice,
-            child: SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                key: const ValueKey('login-continue-with-google'),
-                style: OutlinedButton.styleFrom( // style-ok: CTA height + explicit loading foreground colour
-                  minimumSize: const Size.fromHeight(52),
-                  foregroundColor: _busy ? AppColors.primary : null,
-                ),
-                // Swallow taps while loading (so a stray tap can't double-fire
-                // sign-in) without visually disabling the button.
-                onPressed: _busy ? () {} : (isLoginEnabled ? _signIn : null),
-                child: _busy
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          ),
-                          const SizedBox(width: AppSpacing.sm),
-                          Flexible(
-                            child: Text(
-                              context.l10n.loginOpeningGoogle,
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const GoogleIcon(size: 18),
-                          const SizedBox(width: AppSpacing.sm),
-                          Flexible(
-                            child: Text(
-                              context.l10n.continueWithGoogle,
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
+        if (isLoginEnabled || _busy)
+          googleButton
+        else
+          AppTappable(
+            isButton: false,
+            onTap: () => AppToast.showWarning(
+              context,
+              context.l10n.loginReviewTermsNotice,
+            ),
+            child: Semantics(
+              hint: context.l10n.loginReviewTermsNotice,
+              child: googleButton,
             ),
           ),
-        ),
         const SizedBox(height: AppSpacing.xs),
         Text(
           context.l10n.loginGoogleHint,
@@ -490,14 +493,14 @@ class _LoginScreenState extends State<LoginScreen> {
         const SizedBox(height: AppSpacing.md),
         // Guest entry: the same size and weight as Google sign-in, an equal
         // choice rather than a fallback link.
-        SizedBox( // spacing-ok: full-width button, same as Google
+        SizedBox(
+          // spacing-ok: full-width button, same as Google
           width: double.infinity,
           child: OutlinedButton.icon(
             key: const ValueKey('login-continue-as-guest'),
-            style: OutlinedButton.styleFrom( // style-ok: CTA height, same as Google
-              minimumSize: const Size.fromHeight(52),
-            ),
-            onPressed: (_busy || !isLoginEnabled) ? null : _continueAsGuest,
+            onPressed: (_enteringGuest || _busy || !isLoginEnabled)
+                ? null
+                : _continueAsGuest,
             icon: const Icon(Icons.explore_outlined, size: 18),
             label: Text(
               context.l10n.loginContinueAsGuest,

@@ -23,7 +23,10 @@ class TermsConditionsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.surface,
-      appBar: StandardPageHeader(title: context.l10n.legalTermsOfUseLink),
+      appBar: StandardPageHeader(
+        MediaQuery.textScalerOf(context),
+        title: context.l10n.legalTermsOfUseLink,
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(AppSpacing.xl),

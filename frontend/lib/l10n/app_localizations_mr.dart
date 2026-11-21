@@ -68,6 +68,59 @@ class AppLocalizationsMr extends AppLocalizations {
   String get schemes => 'योजना';
 
   @override
+  String get assessmentResultsTitle => 'तुमच्यासाठी योग्य योजना';
+
+  @override
+  String get assessmentResultsIntro =>
+      'तुमच्या उत्तरांनुसार योजनांचा क्रम लावला आहे. अधिक माहितीसाठी योजना उघडा.';
+
+  @override
+  String get assessmentFallbackNote =>
+      'या विभागात कमी योजना जुळल्या, म्हणून अधिक पर्याय देण्यासाठी इतर योजनाही जोडल्या आहेत.';
+
+  @override
+  String get profileSaveFailed =>
+      'ही उत्तरे तुमच्या प्रोफाइलमध्ये जतन करता आली नाहीत. पुन्हा प्रयत्न करा.';
+
+  @override
+  String get assessmentGoodFit => 'चांगली जुळवणी';
+
+  @override
+  String get assessmentPossibleFit => 'कदाचित योग्य';
+
+  @override
+  String get assessmentNotNow => 'सध्या तुमच्यासाठी नाही';
+
+  @override
+  String get assessmentReasonState => 'तुम्ही निवडलेल्या राज्यात उपलब्ध';
+
+  @override
+  String get assessmentReasonStateExcluded =>
+      'ही योजना फक्त दुसऱ्या राज्यासाठी आहे';
+
+  @override
+  String get assessmentReasonAgeExcluded =>
+      'तुमचे वय या योजनेच्या दिलेल्या मर्यादेबाहेर आहे';
+
+  @override
+  String get assessmentReasonStageExcluded =>
+      'ही योजना व्यवसायाच्या वेगळ्या टप्प्यासाठी आहे';
+
+  @override
+  String get assessmentReasonCategory =>
+      'तुम्ही निवडलेल्या गटासाठी सहाय्य समाविष्ट आहे';
+
+  @override
+  String get assessmentReasonNature => 'तुमच्या व्यवसायाच्या प्रकाराशी संबंधित';
+
+  @override
+  String get assessmentReasonGoal => 'तुम्हाला हवे असलेल्या सहाय्याशी संबंधित';
+
+  @override
+  String get assessmentReasonGeneral =>
+      'हे तुमच्यासाठी योग्य आहे का हे पात्रता तपशीलात पाहा';
+
+  @override
   String get finance => 'वित्त';
 
   @override
@@ -831,7 +884,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get commObc => 'इतर मागास वर्ग';
 
   @override
-  String get commEws => 'EWS';
+  String get commEws => 'आर्थिकदृष्ट्या दुर्बल घटक (EWS)';
 
   @override
   String get commSc => 'SC';
@@ -1970,8 +2023,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get tellUsAboutYou => 'तुमच्याबद्दल सांगा';
 
   @override
-  String get aboutYouSubtitle =>
-      'तुमचे सर्वात योग्य वर्णन करणारा पर्याय निवडा.';
+  String get aboutYouSubtitle => 'लागू होणारे सर्व पर्याय निवडा.';
 
   @override
   String get studentSubtitle =>
@@ -2088,7 +2140,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get eligibilitySubtitle =>
-      'तुमच्यासाठी 100% अचूक योजना आणि अनुदाने सुचवण्यास मदत होते.';
+      'तुमच्या प्रोफाइलशी जुळू शकणाऱ्या योजना आणि अनुदाने शोधण्यास तुमची उत्तरे मदत करतात.';
 
   @override
   String get firstGenGraduate => 'पहिल्या पिढीतील पदवीधर';
@@ -3050,7 +3102,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessWomenQ4CasteOpt1 => 'सर्वसाधारण';
 
   @override
-  String get assessWomenQ4CasteOpt2 => 'OBC';
+  String get assessWomenQ4CasteOpt2 => 'आर्थिकदृष्ट्या दुर्बल घटक (EWS)';
 
   @override
   String get assessWomenQ4CasteOpt3 => 'SC / ST';
@@ -3239,7 +3291,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessAgriQ3CasteOpt1 => 'सर्वसाधारण';
 
   @override
-  String get assessAgriQ3CasteOpt2 => 'OBC';
+  String get assessAgriQ3CasteOpt2 => 'आर्थिकदृष्ट्या दुर्बल घटक (EWS)';
 
   @override
   String get assessAgriQ3CasteOpt3 => 'SC / ST';
@@ -3439,7 +3491,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get assessStateQ2Opt1 => 'BC / SEBC / OBC';
+  String get assessStateQ2Opt1 => 'आर्थिकदृष्ट्या दुर्बल घटक (EWS)';
 
   @override
   String get assessStateQ2Opt2 => 'SC / ST';
@@ -4062,7 +4114,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get docEntityOpc => 'एक व्यक्ती कंपनी (OPC)';
 
   @override
-  String get docEntityLlp => 'LLP';
+  String get docEntityLlp => 'मर्यादित दायित्व भागीदारी (LLP)';
 
   @override
   String get docItemDsc => 'डिजिटल स्वाक्षरी प्रमाणपत्र (DSC)';
@@ -4420,7 +4472,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get profileErrSelectDob => 'कृपया तुमची जन्मतारीख निवडा';
 
   @override
-  String get profileHintDdmmyyyy => 'DD/MM/YYYY';
+  String get profileHintDdmmyyyy => 'दिवस/महिना/वर्ष';
 
   @override
   String get profileHintDoorStreetExample => 'उदा. फ्लॅट 402, रॉयल एन्क्लेव्ह';
@@ -4783,7 +4835,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get commGeneralOc => 'सर्वसाधारण (OC)';
 
   @override
-  String get commObcBcMbc => 'OBC / BC / MBC';
+  String get commObcBcMbc => 'इतर मागासवर्ग / मागासवर्ग / अत्यंत मागासवर्ग';
 
   @override
   String get commScCategory => 'SC';
@@ -4792,7 +4844,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get commStCategory => 'ST';
 
   @override
-  String get commEwsCategory => 'EWS';
+  String get commEwsCategory => 'आर्थिकदृष्ट्या दुर्बल घटक (EWS)';
 
   @override
   String get commMinority => 'अल्पसंख्याक';
@@ -5837,7 +5889,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String onbStep(String step, String total) {
-    return '$step / $total';
+    return 'टप्पा $step / $total';
   }
 
   @override
@@ -5859,7 +5911,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get onbChipMsme => 'MSME';
+  String get onbChipMsme => 'एमएसएमई';
 
   @override
   String get onbChipStartup => 'स्टार्टअप';
@@ -6227,7 +6279,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get guestProfilePendingNote =>
-      'तुम्ही अतिथी म्हणून ॲप वापरत आहात. साइन इन केल्यावर तुमची प्रोफाइल जतन होईल.';
+      'तुम्ही अतिथी म्हणून ब्राउझ करत आहात. प्रोफाइल तयार करून जतन करण्यासाठी साइन इन करा.';
 
   @override
   String get homeTopSchemes => 'प्रमुख योजना';
@@ -6305,116 +6357,6 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get locationDevBuildBadge => 'चाचणी आवृत्ती';
-
-  @override
-  String get eligCheckEntry => 'माझी उत्तरे';
-
-  @override
-  String get eligCheckEntrySub =>
-      'तुमच्याबद्दल आणि तुमच्या व्यवसायाबद्दल प्रश्न';
-
-  @override
-  String get eligCheckTitle => 'तुमची उत्तरे';
-
-  @override
-  String get eligCheckIntro => 'ज्याचे उत्तर माहीत नसेल ते सोडून द्या.';
-
-  @override
-  String eligCheckStepLabel(int n, int total) {
-    return 'टप्पा $n / $total';
-  }
-
-  @override
-  String get eligCheckStep0 => 'तुमच्याबद्दल';
-
-  @override
-  String get eligCheckStep1 => 'तुम्ही कुठे राहता आणि काम करता';
-
-  @override
-  String get eligCheckStep2 => 'तुमचा व्यवसाय';
-
-  @override
-  String get eligCheckStep3 => 'तुम्हाला काय हवे';
-
-  @override
-  String get eligCheckStep4 => 'तुमची कौशल्ये';
-
-  @override
-  String get eligCheckStep5 => 'आणखी थोडी माहिती (ऐच्छिक)';
-
-  @override
-  String eligCheckNeeded(String question) {
-    return 'पुढे जाण्यासाठी याचे उत्तर द्या: $question';
-  }
-
-  @override
-  String get eligCheckWomenMore =>
-      'महिला कामगार एकूण कामगारांपेक्षा जास्त असू शकत नाहीत.';
-
-  @override
-  String get eligCheckQuestionLanguage => 'प्रश्नांची भाषा';
-
-  @override
-  String get eligCheckSave => 'माझी उत्तरे जतन करा';
-
-  @override
-  String get eligCheckSaveGo => 'जतन करा आणि आत जा';
-
-  @override
-  String get eligCheckSavedTitle => 'तुमची उत्तरे जतन झाली';
-
-  @override
-  String get eligCheckSavedBody =>
-      'धन्यवाद. तुम्ही तुमची उत्तरे कधीही बदलू शकता.';
-
-  @override
-  String get eligCheckEdit => 'उत्तरे बदला';
-
-  @override
-  String get eligCheckSelect => 'निवडा';
-
-  @override
-  String get eligCheckOther => 'इतर (स्वतः लिहा)';
-
-  @override
-  String get eligCheckTypeHere => 'नाव लिहा';
-
-  @override
-  String get eligCheckSkipRest => 'बाकी सोडा';
-
-  @override
-  String get eligCheckAnswerMore => 'आणखी प्रश्नांची उत्तरे द्या';
-
-  @override
-  String get eligCheckQuickIntro =>
-      'सुरुवातीला फक्त काही प्रश्न. बाकी तुम्ही नंतर भरू शकता.';
-
-  @override
-  String get eligCheckAllRequired => 'पुढे जाण्यासाठी सर्व प्रश्न आवश्यक आहेत.';
-
-  @override
-  String get eligCheckLocate => 'माझे सध्याचे लोकेशन वापरा';
-
-  @override
-  String get eligCheckLocating => 'तुमचे लोकेशन शोधत आहोत…';
-
-  @override
-  String get eligCheckLocationFail =>
-      'लोकेशन मिळाले नाही. तुम्ही ठिकाण स्वतः निवडू शकता.';
-
-  @override
-  String get eligCheckLocationNote => 'तुमचे राज्य आणि जिल्हा आपोआप भरतो.';
-
-  @override
-  String get eligCheckLocationDone =>
-      'लोकेशन जतन झाले. कृपया खालील ठिकाण तपासा.';
-
-  @override
-  String get eligCheckFirstTitle => 'तुमच्याबद्दल सांगा';
-
-  @override
-  String get eligCheckFirstIntro =>
-      'काही प्रश्न, मग तुम्ही आत आहात. * असलेल्या प्रश्नांची उत्तरे आवश्यक आहेत.';
 
   @override
   String get guestName => 'पाहुणा';
@@ -6498,4 +6440,19 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get loginSubtitleShort => 'तुम्ही लाभ घेऊ शकता अशा सरकारी योजना शोधा';
+
+  @override
+  String get questionnaireFromProfile =>
+      'तुमच्या प्रोफाइलमधून. कोणतेही उत्तर बदला.';
+
+  @override
+  String get questionnaireLoadFailed =>
+      'प्रश्न लोड झाले नाहीत. हे मूल्यांकन बंद करून पुन्हा उघडा.';
+
+  @override
+  String get questionnaireSaveFailed =>
+      'तुमचे उत्तर जतन करता आले नाही. पुन्हा प्रयत्न करा.';
+
+  @override
+  String get questionnaireTaluka => 'तालुका';
 }

@@ -29,6 +29,25 @@ void main() {
       expect(calculateMissingProfileSections(p), isEmpty);
     });
 
+    test(
+      'a completed server profile can omit the optional disability field',
+      () {
+        final restored = _complete().copyWith(
+          disability: 'None',
+          profileCompleted: true,
+        );
+        expect(calculateProfileCompletionPercentage(restored), 100);
+        expect(calculateMissingProfileSections(restored), isEmpty);
+
+        final incomplete = restored.copyWith(community: '');
+        expect(calculateProfileCompletionPercentage(incomplete), lessThan(100));
+        expect(
+          calculateMissingProfileSections(incomplete),
+          contains('Eligibility'),
+        );
+      },
+    );
+
     test('an area-only profile also counts as having an address', () {
       final p = _complete(house: '', area: '12 Main Road');
       expect(calculateProfileCompletionPercentage(p), 100);

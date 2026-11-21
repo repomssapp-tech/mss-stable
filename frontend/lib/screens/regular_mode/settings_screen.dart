@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../../services/analytics/app_analytics.dart';
 import '../../providers/app_state_provider.dart';
 import '../../l10n/l10n.dart';
 import 'language_selection_screen.dart';
@@ -35,6 +36,15 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  @override
+  void initState() {
+    super.initState();
+    AppAnalytics.instance.track(
+      AnalyticsEvent.featureOpened,
+      properties: const {'feature': 'settings'},
+    );
+  }
+
   void _handleDeleteAccount(BuildContext context) {
     CustomConfirmDialog.show(
       context,
@@ -89,8 +99,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: StandardPageHeader(
+        MediaQuery.textScalerOf(context),
         title: l10n.profileSettingsTitle,
-        elevation: 1,
+        showDivider: true,
       ),
       body: SafeArea(
         child: ListView(

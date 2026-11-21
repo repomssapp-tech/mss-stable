@@ -8,6 +8,7 @@
 // child flexible, so they collided and overflowed at this size.
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:frontend/utils/app_colors.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
@@ -74,12 +75,69 @@ void main() {
     );
   });
 
+  testWidgets('Undergraduate label fits at 320dp with large text', (
+    tester,
+  ) async {
+    await _pumpStep(tester, const BasicProfileScreen(initialStep: 4));
+    final label = find.text('Undergraduate (Degree)');
+    await tester.ensureVisible(label);
+    final paragraph = tester.renderObject<RenderParagraph>(label);
+    expect(paragraph.didExceedMaxLines, isFalse);
+    final lastCharacter = paragraph.text.toPlainText().length - 1;
+    final lastGlyph = paragraph
+        .getBoxesForSelection(
+          TextSelection(
+            baseOffset: lastCharacter,
+            extentOffset: lastCharacter + 1,
+          ),
+        )
+        .single;
+    expect(lastGlyph.bottom, lessThanOrEqualTo(paragraph.size.height));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('About you saves multiple independently selected roles', (
+    tester,
+  ) async {
+    await _pumpStep(tester, const BasicProfileScreen(initialStep: 3));
+    final context = tester.element(find.byType(BasicProfileScreen));
+    final provider = context.read<AppProvider>();
+    for (final role in ['Student', 'Farmer', 'MSME Owner', 'Student']) {
+      final option = find.text(role);
+      await tester.ensureVisible(option);
+      await tester.tap(option);
+      await tester.pumpAndSettle();
+    }
+    final continueButton = find.widgetWithText(ElevatedButton, 'Continue');
+    await tester.ensureVisible(continueButton);
+    await tester.tap(continueButton);
+    await tester.pumpAndSettle();
+    expect(provider.profile.employmentStatus, 'Farmer, MSME Owner');
+  });
+
+  testWidgets('State picker can find a state by former name and a UT by code', (
+    tester,
+  ) async {
+    await _pumpStep(tester, const BasicProfileScreen(initialStep: 2));
+    final picker = find.text('Select your state');
+    await tester.ensureVisible(picker);
+    await tester.tap(picker);
+    await tester.pumpAndSettle();
+    final search = find.byType(TextField).last;
+    await tester.enterText(search, 'Orissa');
+    await tester.pumpAndSettle();
+    expect(find.text('Odisha'), findsOneWidget);
+    await tester.enterText(search, 'IN-LD');
+    await tester.pumpAndSettle();
+    expect(find.text('Lakshadweep'), findsOneWidget);
+  });
+
   testWidgets(
     'Step 2 heading and step counter are both fully visible (no collision)',
     (tester) async {
       await _pumpStep(tester, const BasicProfileScreen(initialStep: 2));
       expect(find.text('Where are you located?'), findsOneWidget);
-      expect(find.text('2/4 Complete'), findsOneWidget);
+      expect(find.text('Step 2 of 4'), findsOneWidget);
       expect(tester.takeException(), isNull);
     },
   );

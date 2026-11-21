@@ -188,10 +188,7 @@ void main() {
       final guest = find.byKey(const ValueKey('login-continue-as-guest'));
       expect(guest, findsOneWidget);
       expect(find.text('Continue as guest'), findsOneWidget);
-      expect(
-        tester.widget<ButtonStyleButton>(guest).onPressed,
-        isNull,
-      );
+      expect(tester.widget<ButtonStyleButton>(guest).onPressed, isNull);
     });
   });
 
@@ -367,7 +364,7 @@ void main() {
   });
 
   group('guest Profile tab', () {
-    testWidgets('shows Pending, 0% and Sign in instead of the profile', (
+    testWidgets('shows a single sign-in action instead of a profile', (
       tester,
     ) async {
       final provider = AppProvider();
@@ -387,8 +384,7 @@ void main() {
 
       expect(find.byType(GuestProfileView), findsOneWidget);
       expect(find.text('Pending'), findsOneWidget);
-      expect(find.text('0%'), findsOneWidget);
-      expect(find.text('Profile incomplete'), findsOneWidget);
+      expect(find.text('Sign in'), findsOneWidget);
       expect(
         find.byKey(const ValueKey('guest-profile-sign-in')),
         findsOneWidget,

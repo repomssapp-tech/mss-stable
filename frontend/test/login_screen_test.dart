@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/l10n/app_localizations.dart';
+import 'package:frontend/main.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/login_screen.dart';
+import 'package:frontend/screens/navigation_mode_screen.dart';
+import 'package:frontend/screens/permissions/app_permissions_screen.dart';
+import 'package:frontend/screens/regular_mode/basic_profile_screen.dart';
+import 'package:frontend/services/account/onboarding_api_service.dart';
+import 'package:frontend/services/account/session_cache_service.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -90,107 +96,138 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('mandatory legal document consent flow gates Google sign-in button', (
-    tester,
-  ) async {
-    await tester.pumpWidget(
-      ChangeNotifierProvider(
-        create: (_) => AppProvider(),
-        child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: const LoginScreen(),
+  testWidgets(
+    'guest entry requires both legal documents and persists the session',
+    (tester) async {
+      SharedPreferences.setMockInitialValues({
+        AppPermissionsStore.askedKey: true,
+      });
+      final provider = AppProvider();
+      await tester.pumpWidget(
+        ChangeNotifierProvider.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: const LoginScreen(),
+          ),
         ),
-      ),
-    );
-    await tester.pump();
+      );
+      await tester.pump();
 
-    // 1. Initial state: the two "Read the ..." rows are the consent text.
-    expect(find.textContaining('I have read and agree to the'), findsNothing);
-    expect(find.textContaining('Read the '), findsNWidgets(2));
+      // 1. Initial state: the two "Read the ..." rows are the consent text.
+      expect(find.textContaining('I have read and agree to the'), findsNothing);
+      expect(find.textContaining('Read the '), findsNWidgets(2));
 
-    // The data-usage consent is collected on the profile page: no checkbox here.
-    expect(find.byType(Checkbox), findsNothing);
+      // The data-usage consent is collected on the profile page: no checkbox here.
+      expect(find.byType(Checkbox), findsNothing);
 
-    // Button is disabled initially
-    final buttonFinder = find.widgetWithText(
-      OutlinedButton,
-      'Continue with Google',
-    );
-    expect(buttonFinder, findsOneWidget);
-    OutlinedButton button = tester.widget(buttonFinder);
-    expect(button.onPressed, isNull);
+      // Button is disabled initially
+      final buttonFinder = find.widgetWithText(
+        OutlinedButton,
+        'Continue with Google',
+      );
+      expect(buttonFinder, findsOneWidget);
+      OutlinedButton button = tester.widget(buttonFinder);
+      expect(button.onPressed, isNull);
 
-    // 3. Open the Terms of Use from its checklist row.
-    final termsRow = find.byWidgetPredicate(
-      (w) =>
-          w is Text &&
-          w.textSpan != null &&
-          w.textSpan!.toPlainText() == 'Read the Terms of Use',
-    );
-    await tester.ensureVisible(termsRow);
-    await tester.tap(termsRow);
-    await tester.pumpAndSettle();
+      // 3. Open the Terms of Use from its checklist row.
+      final termsRow = find.byWidgetPredicate(
+        (w) =>
+            w is Text &&
+            w.textSpan != null &&
+            w.textSpan!.toPlainText() == 'Read the Terms of Use',
+      );
+      await tester.ensureVisible(termsRow);
+      await tester.tap(termsRow);
+      await tester.pumpAndSettle();
 
-    // Modal content is visible
-    expect(
-      find.text('Rules and guidelines for using the MSS App'),
-      findsOneWidget,
-    );
-    expect(find.text('Effective Date: 1 September 2026'), findsOneWidget);
-    expect(find.text('Use of the MSS App'), findsOneWidget);
+      // Modal content is visible
+      expect(
+        find.text('Rules and guidelines for using the MSS App'),
+        findsOneWidget,
+      );
+      expect(find.text('Effective Date: 1 September 2026'), findsOneWidget);
+      expect(find.text('Use of the MSS App'), findsOneWidget);
 
-    // Before the end, Accept stays disabled and the sheet stays open.
-    final accept = find.widgetWithText(ElevatedButton, 'Accept');
-    expect(tester.widget<ElevatedButton>(accept).onPressed, isNull);
-    expect(find.text('Scroll to the end to enable Accept'), findsOneWidget);
-    await tester.tap(accept);
-    await tester.pumpAndSettle();
-    expect(find.text('Use of the MSS App'), findsOneWidget);
+      // Before the end, Accept stays disabled and the sheet stays open.
+      final accept = find.widgetWithText(ElevatedButton, 'Accept');
+      expect(tester.widget<ElevatedButton>(accept).onPressed, isNull);
+      expect(find.text('Scroll to the end to enable Accept'), findsOneWidget);
+      await tester.tap(accept);
+      await tester.pumpAndSettle();
+      expect(find.text('Use of the MSS App'), findsOneWidget);
 
-    // Accept Terms modal after scrolling to the end
-    await scrollToEnd(tester);
-    expect(tester.widget<ElevatedButton>(accept).onPressed, isNotNull);
-    await tester.tap(accept);
-    await tester.pumpAndSettle();
+      await tester.tap(find.byTooltip('Close'));
+      await tester.pumpAndSettle();
+      final guest = find.byKey(const ValueKey('login-continue-as-guest'));
+      expect(tester.widget<OutlinedButton>(guest).onPressed, isNull);
+      await tester.tap(termsRow);
+      await tester.pumpAndSettle();
 
-    // Button still disabled (Privacy Policy not yet accepted)
-    button = tester.widget(buttonFinder);
-    expect(button.onPressed, isNull);
+      // Accept Terms modal after scrolling to the end
+      await scrollToEnd(tester);
+      expect(tester.widget<ElevatedButton>(accept).onPressed, isNotNull);
+      await tester.tap(accept);
+      await tester.pumpAndSettle();
 
-    // 4. Open the Privacy Policy from its checklist row.
-    final privacyRow = find.byWidgetPredicate(
-      (w) =>
-          w is Text &&
-          w.textSpan != null &&
-          w.textSpan!.toPlainText() == 'Read the Privacy Policy',
-    );
-    await tester.ensureVisible(privacyRow);
-    await tester.tap(privacyRow);
-    await tester.pumpAndSettle();
+      // Button still disabled (Privacy Policy not yet accepted)
+      button = tester.widget(buttonFinder);
+      expect(button.onPressed, isNull);
 
-    // Modal content is visible
-    expect(
-      find.text('How MSS collects, uses and protects your information'),
-      findsOneWidget,
-    );
-    expect(find.text('Personal Data We Collect'), findsOneWidget);
-    expect(tester.widget<ElevatedButton>(accept).onPressed, isNull);
+      // 4. Open the Privacy Policy from its checklist row.
+      final privacyRow = find.byWidgetPredicate(
+        (w) =>
+            w is Text &&
+            w.textSpan != null &&
+            w.textSpan!.toPlainText() == 'Read the Privacy Policy',
+      );
+      await tester.ensureVisible(privacyRow);
+      await tester.tap(privacyRow);
+      await tester.pumpAndSettle();
 
-    // Accept Privacy modal (after scrolling to the end)
-    await scrollToEnd(tester);
-    expect(tester.widget<ElevatedButton>(accept).onPressed, isNotNull);
-    await tester.tap(accept);
-    await tester.pumpAndSettle();
+      // Modal content is visible
+      expect(
+        find.text('How MSS collects, uses and protects your information'),
+        findsOneWidget,
+      );
+      expect(find.text('Personal Data We Collect'), findsOneWidget);
+      expect(tester.widget<ElevatedButton>(accept).onPressed, isNull);
 
-    // 5. Accepting BOTH legal documents enables login
-    button = tester.widget(buttonFinder);
-    expect(button.onPressed, isNotNull);
+      // Accept Privacy modal (after scrolling to the end)
+      await scrollToEnd(tester);
+      expect(tester.widget<ElevatedButton>(accept).onPressed, isNotNull);
+      await tester.tap(accept);
+      await tester.pumpAndSettle();
 
-    // The two rows stay on screen, both ticked.
-    expect(find.byIcon(Icons.check_circle_rounded), findsNWidgets(2));
-    expect(find.byIcon(Icons.radio_button_unchecked), findsNothing);
-  });
+      // 5. Accepting BOTH legal documents enables login
+      button = tester.widget(buttonFinder);
+      expect(button.onPressed, isNotNull);
+
+      // The two rows stay on screen, both ticked.
+      expect(find.byIcon(Icons.check_circle_rounded), findsNWidgets(2));
+      expect(find.byIcon(Icons.radio_button_unchecked), findsNothing);
+
+      await tester.ensureVisible(guest);
+      await tester.tap(guest);
+      await tester.tap(guest);
+      await tester.pumpAndSettle();
+
+      expect(find.byType(NavigationModeScreen), findsOneWidget);
+      expect(find.byType(LoginScreen), findsNothing);
+      expect(provider.isGuest, isTrue);
+      expect(await SessionCacheService.instance.getIsGuest(), isTrue);
+      expect(await LegalConsentStore.hasLoginAgreement(), isTrue);
+
+      final continueButton = find.byType(PrimaryButton);
+      await tester.ensureVisible(continueButton);
+      await tester.tap(continueButton);
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(find.byType(MainTabsContainer), findsOneWidget);
+      expect(find.byType(BasicProfileScreen), findsNothing);
+    },
+  );
 
   const testDevices = <String, Size>{
     '320x568 (very small phone)': Size(320, 568),

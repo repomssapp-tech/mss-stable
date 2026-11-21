@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import '../../../l10n/l10n.dart';
 import '../../../providers/app_state_provider.dart';
 import '../../../services/catalog/centralized_translator.dart';
+import '../../../services/catalog/scheme_repository.dart';
 import '../../../utils/app_colors.dart';
 import '../../../utils/app_elevation.dart';
 import '../../../utils/app_radius.dart';
@@ -12,6 +13,7 @@ import '../../../utils/app_spacing.dart';
 import '../../../widgets/assistant/smart_assessment_bottom_sheet.dart';
 import '../../notifications_screen.dart';
 import '../search_results_screen.dart';
+import '../categories/discover_counts.dart';
 import '../../../utils/app_text.dart';
 
 /// The promotions cards shown in Featured's place when there is nothing to
@@ -114,14 +116,21 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
         ),
       );
     } else if (route == 'draft_session') {
-      SmartAssessmentBottomSheet.show(context, targetTitle, targetType, () {
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) =>
-                SearchResultsScreen(title: targetTitle, type: targetType),
-          ),
+      SmartAssessmentBottomSheet.show(context, targetTitle, targetType, (
+        answers,
+        interactionId,
+      ) async {
+        final all = await SchemeRepository.instance.getAllSchemes();
+        final schemes = DiscoverCounts.schemesFor(targetTitle, targetType, all);
+        if (!context.mounted) return;
+        SearchResultsScreen.openAssessment(
+          context,
+          title: targetTitle,
+          schemes: schemes,
+          answers: answers,
+          interactionId: interactionId,
         );
-      });
+      }, source: 'home');
     }
   }
 

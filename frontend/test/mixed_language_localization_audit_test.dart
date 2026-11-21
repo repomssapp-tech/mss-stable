@@ -99,51 +99,51 @@ void main() {
       }
     });
 
-    testWidgets('2. Verify standard page header widget grows with text scale', (
+    testWidgets('page body starts directly below the scaled toolbar', (
       tester,
     ) async {
-      // Phase 3 group 4 (G6): preferredSize is now a fixed upper bound for
-      // the Scaffold (PreferredSizeWidget can't see a BuildContext); the
-      // real, text-scale-aware height comes from the AppBar's toolbarHeight
-      // at build time, verified here via the rendered size instead.
-      const headerNormal = StandardPageHeader(title: 'Test Header');
-      expect(headerNormal.preferredSize.height, equals(96.0));
-
-      // Read the AppBar widget's own `toolbarHeight` property directly --
-      // its rendered box size depends on the ancestor (a Scaffold's
-      // `appBar:` slot always stretches to `preferredSize.height`, the
-      // fixed 96 upper bound), but `toolbarHeight` itself is exactly what
-      // `_height(context)` computed, independent of that ancestor.
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: const Scaffold(
-            appBar: StandardPageHeader(title: 'Test Header'),
-          ),
-        ),
-      );
-      final normalHeight = tester
-          .widget<AppBar>(find.byType(AppBar))
-          .toolbarHeight;
-      expect(normalHeight, closeTo(56.0, 0.5));
-
-      await tester.pumpWidget(
-        MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: Scaffold(
-            appBar: const StandardPageHeader(
-              title: 'Test Header',
-              subtitle: 'Test Subtitle',
+      const bodyKey = ValueKey('page-body');
+      Future<void> showHeader(double scale, {String? subtitle}) {
+        return tester.pumpWidget(
+          MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            builder: (context, child) => MediaQuery(
+              data: MediaQuery.of(context).copyWith(
+                padding: const EdgeInsets.only(top: 24),
+                textScaler: TextScaler.linear(scale),
+              ),
+              child: child!,
+            ),
+            home: Builder(
+              builder: (context) => Scaffold(
+                appBar: StandardPageHeader(
+                  MediaQuery.textScalerOf(context),
+                  title: 'Test Header',
+                  subtitle: subtitle,
+                  showDivider: subtitle != null,
+                ),
+                body: const SizedBox.expand(key: bodyKey),
+              ),
             ),
           ),
-        ),
+        );
+      }
+
+      await showHeader(1);
+      final body = find.byKey(bodyKey);
+      final normalBodyTop = tester.getTopLeft(body).dy;
+      expect(normalBodyTop, 24 + kToolbarHeight);
+
+      await showHeader(1.3, subtitle: 'Test Subtitle');
+      final subtitleBounds = tester.getRect(find.text('Test Subtitle'));
+      expect(tester.getTopLeft(body).dy, greaterThan(normalBodyTop));
+      expect(subtitleBounds.bottom, lessThan(tester.getTopLeft(body).dy));
+      expect(
+        tester.getTopLeft(body).dy,
+        closeTo(tester.getBottomLeft(find.byType(Divider)).dy, 0.5),
       );
-      final withSubtitleHeight = tester
-          .widget<AppBar>(find.byType(AppBar))
-          .toolbarHeight;
-      expect(withSubtitleHeight, greaterThan(normalHeight!));
+      expect(tester.takeException(), isNull);
     });
 
     test(

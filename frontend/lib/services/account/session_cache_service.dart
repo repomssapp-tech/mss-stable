@@ -5,6 +5,7 @@ import '../../models/user_profile.dart';
 import '../../utils/app_languages.dart';
 import '../onboarding/home_tour_store.dart';
 import '../onboarding/onboarding_store.dart';
+import '../questionnaire/questionnaire_answers_store.dart';
 
 class SessionCacheService {
   SessionCacheService._privateConstructor();
@@ -74,7 +75,7 @@ class SessionCacheService {
   }
 
   /// Clears all SharedPreferences keys to completely reset the application like a fresh install.
-  Future<void> clearSession() async {
+  Future<void> clearSession({bool preserveQuestionnaireAnswers = false}) async {
     try {
       final prefs = await SharedPreferences.getInstance();
       // The first-time tours and the first-launch onboarding pages are about
@@ -86,6 +87,9 @@ class SessionCacheService {
             key: prefs.getString(key),
       };
       final onboardingSeen = prefs.getBool(OnboardingStore.seenKey);
+      final questionnaireAnswers = preserveQuestionnaireAnswers
+          ? prefs.getString(QuestionnaireAnswersStore.preferencesKey)
+          : null;
       await prefs.clear();
       for (final entry in keptTours.entries) {
         final value = entry.value;
@@ -93,6 +97,12 @@ class SessionCacheService {
       }
       if (onboardingSeen != null) {
         await prefs.setBool(OnboardingStore.seenKey, onboardingSeen);
+      }
+      if (questionnaireAnswers != null) {
+        await prefs.setString(
+          QuestionnaireAnswersStore.preferencesKey,
+          questionnaireAnswers,
+        );
       }
       debugPrint(
         '[SessionCacheService] All session and preference data cleared.',

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, listEquals;
 import 'package:flutter/material.dart';
 import '../models/user_profile.dart';
 import '../models/scheme_model.dart';
@@ -19,8 +19,6 @@ import '../services/network/request_manager.dart';
 import '../services/catalog/content_language_resolver.dart';
 import '../services/catalog/scheme_catalog_sync_service.dart';
 import '../services/account/session_cache_service.dart';
-import '../services/account/eligibility_answers_store.dart';
-import '../services/account/questionnaire_sync_service.dart';
 import '../services/catalog/centralized_translator.dart';
 import '../services/catalog/language_pack_manager.dart';
 import '../screens/splash_screen.dart';
@@ -47,6 +45,7 @@ import '../services/account/deep_link_service.dart';
 import '../services/notifications/push_models.dart' show PushMessagingGateway;
 import '../models/user_profile_api_dto.dart'
     show ProfileAggregate, serverLanguages;
+import '../services/analytics/app_analytics.dart';
 import '../services/account/onboarding_api_service.dart'
     show LegalConsentStore, OnboardingApiService;
 import '../services/account/profile_api_service.dart';
@@ -166,6 +165,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   // Guest mode (DEV 1 task 1.5): browsing without an account. Persisted with
   // SessionCacheService.saveIsGuest; a real session always wins over it.
   bool _isGuest = false;
+  bool _uploadingGuestProfile = false;
   bool _isLoggingOut = false;
   String _mobileNumber = '';
   String _selectedLanguageValue = kEdition.defaultLanguage;
@@ -243,22 +243,22 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         case AuthChange.signedIn:
           // Auth resolved -- retire the startup grace marker for OAuth redirects.
           unawaited(AuthService.clearOAuthPending());
+          final fromGuest = _isGuest;
           _isLoggedIn = true;
-          if (_isGuest) unawaited(_endGuestSession(upgradedToAccount: true));
-          // The guest's questionnaire answers join the account (the account's own win).
-          unawaited(
-            QuestionnaireSyncService.instance.afterSignIn(
-              language: _selectedLanguage,
-            ),
+          AppAnalytics.instance.endSession();
+          AppAnalytics.instance.track(
+            AnalyticsEvent.signInCompleted,
+            properties: {'from_guest': fromGuest},
           );
+          if (_isGuest) unawaited(_endGuestSession(upgradedToAccount: true));
           final user = AppSession.instance.currentUser;
           if (user != null) _notifications.subscribe(user.id);
           notifyListeners();
         case AuthChange.signedOut:
+          AppAnalytics.instance.endSession();
           unawaited(AuthService.clearOAuthPending());
           _isLoggedIn = false;
           _isGuest = false;
-          unawaited(const EligibilityAnswersStore().clear());
           _mobileNumber = '';
           _profile = UserProfile();
           _library.reset();
@@ -274,6 +274,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
           _pendingProfileOwner = null;
           unawaited(_librarySync.reset());
           unawaited(LegalConsentStore.clear());
+          unawaited(SessionCacheService.instance.saveGuestUploadPending(false));
           RequestManager.instance.reset();
           notifyListeners();
       }
@@ -319,8 +320,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     await SessionCacheService.instance.saveIsGuest(true);
   }
 
-  /// Leaves guest mode. After a sign-in the guest's on-device answers are
-  /// marked for one upload to the new account (see [_uploadGuestAnswers]).
+  /// Leaves guest mode. After sign-in the merged guest profile is
+  /// marked for one upload to the new account (see [_uploadGuestProfile]).
   Future<void> _endGuestSession({required bool upgradedToAccount}) async {
     _isGuest = false;
     final cache = SessionCacheService.instance;
@@ -330,20 +331,26 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     await cache.saveIsGuest(false);
   }
 
-  /// Sends the answers a guest gave on this phone to the account they just
-  /// signed in to, once. A failure keeps the marker for the next hydrate.
-  ///
-  /// Today this is the existing profile write. When DEV 1 task 1.4's guest
-  /// upgrade route exists (see `PendingEndpoints.guestUpgrade`) the
-  /// questionnaire answers go there too.
-  Future<void> _uploadGuestAnswers() async {
+  /// Syncs the merged guest profile once after sign-in. Questionnaire
+  /// answers remain on the device until a separate transfer is implemented.
+  Future<void> _uploadGuestProfile() async {
+    final owner = AppSession.instance.userId;
+    if (owner == null || _uploadingGuestProfile) return;
+    _uploadingGuestProfile = true;
     final cache = SessionCacheService.instance;
-    if (!await cache.getGuestUploadPending()) return;
     try {
+      if (!await cache.getGuestUploadPending() ||
+          AppSession.instance.userId != owner) {
+        return;
+      }
       await _syncProfileToServer(_profile);
-      await cache.saveGuestUploadPending(false);
-    } catch (e) {
-      debugPrint('[AppProvider] Guest answers upload deferred: $e');
+      if (AppSession.instance.userId == owner) {
+        await cache.saveGuestUploadPending(false);
+      }
+    } catch (error) {
+      debugPrint('[AppProvider] Guest profile upload deferred: $error');
+    } finally {
+      _uploadingGuestProfile = false;
     }
   }
 
@@ -541,7 +548,7 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         fetchPromoAlerts();
         fetchDraftSessions();
         unawaited(_librarySync.pull());
-        unawaited(_uploadGuestAnswers());
+        unawaited(_uploadGuestProfile());
       } else {
         debugPrint('[AppProvider] No active session found during _loadState.');
         _isGuest = await SessionCacheService.instance.getIsGuest();
@@ -565,11 +572,14 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     await SessionCacheService.instance.saveProfile(_profile);
   }
 
-  Future<void> _syncProfileToServer(UserProfile profileToSync) =>
-      profile_cloud_sync.syncProfileToServer(
-        profileToSync,
-        isLoggedIn: _isLoggedIn,
-      );
+  Future<void> _syncProfileToServer(
+    UserProfile profileToSync, {
+    bool requireOnboardingCompletion = false,
+  }) => profile_cloud_sync.syncProfileToServer(
+    profileToSync,
+    isLoggedIn: _isLoggedIn,
+    requireOnboardingCompletion: requireOnboardingCompletion,
+  );
 
   /// Sends the latest profile in the background, [Debouncer] seconds after the
   /// last edit. A failed send is kept and retried when the network returns.
@@ -887,9 +897,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       fetchPromoAlerts();
       fetchDraftSessions();
       unawaited(_librarySync.pull(force: true));
-      // A guest who just signed in: their on-device answers survived the merge
-      // above (local values fill empty server fields); send them once.
-      unawaited(_uploadGuestAnswers());
+      // The merge above fills empty server fields from the local profile.
+      unawaited(_uploadGuestProfile());
       // Turn the agreement given on the sign-in screen into recorded consent.
       unawaited(
         LegalConsentStore.recordFromLoginAgreement(
@@ -939,7 +948,9 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       debugPrint('[AppProvider] Error during AuthService.signOut(): $e');
     }
 
-    await SessionCacheService.instance.clearSession();
+    await SessionCacheService.instance.clearSession(
+      preserveQuestionnaireAnswers: true,
+    );
     await SessionCacheService.instance.saveLanguage(keptLanguage);
     await TokenStorage.instance.clearTokens();
 
@@ -1084,7 +1095,15 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   bool popTabIndex() => _tabs.popTabIndex();
 
   void toggleBookmark(String id) {
+    final wasSaved = bookmarkedIds.contains(id);
     _library.toggleBookmark(id);
+    final isSaved = bookmarkedIds.contains(id);
+    if (wasSaved != isSaved) {
+      AppAnalytics.instance.track(
+        AnalyticsEvent.schemeAction,
+        properties: {'scheme_id': id, 'action': isSaved ? 'saved' : 'unsaved'},
+      );
+    }
     unawaited(
       _librarySync.recordFavorite(
         id,
@@ -1109,8 +1128,38 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   void updateSearchQuery(String query) =>
       _searchFilter.updateSearchQuery(query);
 
-  void updateFilter(String key, dynamic value) =>
-      _searchFilter.updateFilter(key, value);
+  void updateFilter(String key, dynamic value) {
+    final previous = filters[key];
+    _searchFilter.updateFilter(key, value);
+    if (previous == value ||
+        (previous is List && value is List && listEquals(previous, value))) {
+      return;
+    }
+    if (const {
+      'category',
+      'ministry',
+      'state',
+      'schemeTypes',
+      'beneficiaries',
+      'coverage',
+    }.contains(key)) {
+      AppAnalytics.instance.track(
+        AnalyticsEvent.filterChanged,
+        properties: {
+          'filter_key': switch (key) {
+            'schemeTypes' => 'scheme_types',
+            _ => key,
+          },
+          'enabled': switch (value) {
+            List items => items.isNotEmpty,
+            String text => text.isNotEmpty && text != 'All',
+            bool flag => flag,
+            _ => false,
+          },
+        },
+      );
+    }
+  }
 
   void clearFilters() => _searchFilter.clearFilters();
 
@@ -1150,9 +1199,13 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
     // hosted database confirms both profile upserts. This prevents a restart
     // from bypassing onboarding after a failed or offline cloud write.
     // A guest's profile stays on this phone until they sign in; it is sent
-    // then by _uploadGuestAnswers.
+    // then by _uploadGuestProfile.
     if (requireCloudSync && !isGuest) {
-      await _syncProfileToServer(candidate);
+      await _syncProfileToServer(
+        candidate,
+        requireOnboardingCompletion:
+            candidate.profileCompleted && !_profile.profileCompleted,
+      );
       // This save is newer than any queued background draft, which must not
       // be sent after it.
       _pendingProfile = null;
