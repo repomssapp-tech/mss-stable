@@ -25,27 +25,19 @@ class QuestionnaireFieldControl extends StatefulWidget {
 }
 
 class _QuestionnaireFieldControlState extends State<QuestionnaireFieldControl> {
-  late final TextEditingController _stateController;
-
-  @override
-  void initState() {
-    super.initState();
-    _stateController = TextEditingController(
-      text: widget.answer as String? ?? '',
-    );
-  }
+  TextEditingController? _stateController;
 
   @override
   void didUpdateWidget(covariant QuestionnaireFieldControl oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.answer != widget.answer && widget.field.type == 'state') {
-      _stateController.text = widget.answer as String? ?? '';
+      _stateController?.text = widget.answer as String? ?? '';
     }
   }
 
   @override
   void dispose() {
-    _stateController.dispose();
+    _stateController?.dispose();
     super.dispose();
   }
 
@@ -60,13 +52,20 @@ class _QuestionnaireFieldControlState extends State<QuestionnaireFieldControl> {
       'number' => _number(),
       'number_pair' => _numberPair(),
       'text_tags' => _textTags(),
-      'state' => StatePickerField(
-        controller: _stateController,
-        errorText: null,
-        onChanged: () => widget.onChanged(_stateController.text),
-      ),
+      'state' => _statePicker(),
       _ => const SizedBox.shrink(),
     };
+  }
+
+  Widget _statePicker() {
+    final controller = _stateController ??= TextEditingController(
+      text: widget.answer as String?,
+    );
+    return StatePickerField(
+      controller: controller,
+      errorText: null,
+      onChanged: () => widget.onChanged(controller.text),
+    );
   }
 
   Widget _singleSelect() {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,12 +8,17 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/questionnaire_results_screen.dart';
+import 'package:frontend/services/questionnaire/questionnaire_answers_store.dart';
+import 'package:frontend/services/questionnaire/questionnaire_repository.dart';
 import 'package:frontend/widgets/assistant/smart_assessment_bottom_sheet.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUp(() => SharedPreferences.setMockInitialValues({}));
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+    rootBundle.evict(QuestionnaireRepository.assetPath);
+  });
 
   Widget hostSheet({
     required AppProvider provider,
@@ -39,6 +45,40 @@ void main() {
   }
 
   group('SmartAssessmentBottomSheet', () {
+    testWidgets('reopened assessment shows saved selections through results', (
+      tester,
+    ) async {
+      SharedPreferences.setMockInitialValues({
+        QuestionnaireAnswersStore.preferencesKey:
+            '{"schema_version":"1.0.0","answers":{"general_state":"Andhra Pradesh",'
+            '"general_gender":"woman","general_need":["start_business"]}}',
+      });
+      final provider = AppProvider();
+      var completed = false;
+      await tester.pumpWidget(
+        hostSheet(
+          provider: provider,
+          cardTitle: 'Business & MSME',
+          cardType: 'category',
+          onCompleted: () => completed = true,
+        ),
+      );
+      await tester.pumpAndSettle();
+      for (var i = 0; i < 2; i++) {
+        await tester.tap(find.text('Next'));
+        await tester.pumpAndSettle();
+      }
+
+      final startingBusiness = find.widgetWithText(
+        FilterChip,
+        'Start a new business',
+      );
+      expect(tester.widget<FilterChip>(startingBusiness).selected, isTrue);
+      await tester.tap(find.text('Next'));
+      await tester.pumpAndSettle();
+      expect(completed, isTrue);
+    });
+
     testWidgets('uses general questions and leaves profile unchanged', (
       tester,
     ) async {
