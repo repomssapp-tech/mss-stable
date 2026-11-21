@@ -259,10 +259,7 @@ void main() {
       'are on screen', (tester) async {
     await tester.pumpWidget(_page());
     final ctx = tester.element(find.byType(Scaffold).first);
-    expect(
-      await HomeTour.maybeStart(ctx, userId: ''),
-      HomeTourStart.started,
-    );
+    expect(await HomeTour.maybeStart(ctx, userId: ''), HomeTourStart.started);
     HomeTour.dismiss();
     // Targets missing: replace the page with an empty one.
     await tester.pumpWidget(const MaterialApp(home: Scaffold()));
@@ -272,6 +269,32 @@ void main() {
         userId: 'u3',
       ),
       HomeTourStart.notReady,
+    );
+  });
+
+  testWidgets('it waits while another page (profile form, survey) is open '
+      'on top of home, and starts once home is back in front', (tester) async {
+    await tester.pumpWidget(_page());
+    final home = tester.element(find.byType(Scaffold).first);
+    Navigator.of(home).push(
+      MaterialPageRoute<void>(
+        builder: (_) => const Scaffold(body: Text('profile form')),
+      ),
+    );
+    await tester.pumpAndSettle();
+    expect(HomeTour.isFrontmost(home), isFalse);
+    expect(
+      await HomeTour.maybeStart(home, userId: 'u9'),
+      HomeTourStart.notReady,
+    );
+    expect(find.byType(SpotlightTour), findsNothing);
+
+    Navigator.of(home).pop();
+    await tester.pumpAndSettle();
+    expect(HomeTour.isFrontmost(home), isTrue);
+    expect(
+      await HomeTour.maybeStart(home, userId: 'u9'),
+      HomeTourStart.started,
     );
   });
 

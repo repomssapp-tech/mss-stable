@@ -11,6 +11,11 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.6.3+34] - 2026-11-21 (dev test build)
+
+### Fixed
+- The first-time home tour no longer opens on top of the profile form or the short survey. It waits until you are back on the home screen. The Saarthi-mode tour waits the same way.
+
 ## [2.6.2+33] - 2026-11-21
 
 ### Fixed
