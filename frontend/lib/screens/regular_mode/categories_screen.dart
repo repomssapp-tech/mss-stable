@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../config/edition.dart';
 import '../../l10n/l10n.dart';
 import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
@@ -260,25 +261,26 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
                     ),
                     const SizedBox(height: AppSpacing.lg),
 
-                    // Section 3: By State
-                    CategoriesSectionHeader(
-                      key: _stateSectionKey,
-                      title: context.l10n.browseByState,
-                      onViewAll: () => showAllStatesBottomSheet(
-                        context: context,
+                    if (!kEditionHasState) ...[
+                      CategoriesSectionHeader(
+                        key: _stateSectionKey,
+                        title: context.l10n.browseByState,
+                        onViewAll: () => showAllStatesBottomSheet(
+                          context: context,
+                          provider: provider,
+                          dynamicCategoryCounts: _dynamicCategoryCounts,
+                          onStateSelected: (state) =>
+                              _onStateSelected(state, provider),
+                        ),
+                      ),
+                      StateHorizontalList(
                         provider: provider,
                         dynamicCategoryCounts: _dynamicCategoryCounts,
                         onStateSelected: (state) =>
                             _onStateSelected(state, provider),
                       ),
-                    ),
-                    StateHorizontalList(
-                      provider: provider,
-                      dynamicCategoryCounts: _dynamicCategoryCounts,
-                      onStateSelected: (state) =>
-                          _onStateSelected(state, provider),
-                    ),
-                    const SizedBox(height: AppSpacing.lg),
+                      const SizedBox(height: AppSpacing.lg),
+                    ],
                     const CategoriesBusinessUtilitiesSection(),
                     const SizedBox(height: AppSpacing.xxl),
                   ],
