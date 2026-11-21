@@ -54,11 +54,6 @@ void main() {
       }
     });
 
-    test('MSS keeps its app ID and the server default sign-in link', () {
-      expect(kAppId, 'com.inschemes.app');
-      expect(kAuthRedirectUrl, 'com.inschemes.app://login-callback/');
-      expect(kAuthRedirectUrl, kDefaultAuthRedirectUrl);
-    });
 
     test('updates come from the public mss-stable repository', () {
       expect(AppUpdateService.releasesRepo, 'repomssapp-tech/mss-stable');

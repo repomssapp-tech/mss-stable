@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 
-import '../../config/edition.dart';
 import '../network/api_client.dart';
 import '../network/api_exception.dart';
 import 'account_pending_deletion.dart';
@@ -84,10 +83,9 @@ class RestAuthService {
   /// Starts Google PKCE OAuth flow:
   /// 1. Generates RFC 7636 code_verifier and code_challenge.
   /// 2. Persists verifier locally across the browser roundtrip.
-  /// 3. Calls POST /v1/auth/google/start with the challenge. MSS gets the
-  ///    server's default return link (com.inschemes.app://login-callback/);
-  ///    any other app ID sends its own [kAuthRedirectUrl], which the server
-  ///    accepts only from its allowlist.
+  /// 3. Calls POST /v1/auth/google/start with only the challenge. The redirect
+  ///    back to the app (com.inschemes.app://login-callback/) is configured on
+  ///    the server, never sent by the client.
   /// 4. Returns authorization_url to be opened in the system browser.
   Future<String> startGoogleLogin() async {
     final verifier = PkceHelper.generateCodeVerifier();
@@ -98,14 +96,7 @@ class RestAuthService {
 
     final response = await _apiClient.post(
       '/auth/google/start',
-      body: {
-        'code_challenge': challenge,
-        // MSS itself uses the server's default return link. Every other
-        // app (MSS Dev, a state edition) asks for its own, so the sign-in
-        // comes back to it and not to MSS on the same phone.
-        if (kAuthRedirectUrl != kDefaultAuthRedirectUrl)
-          'redirect_uri': kAuthRedirectUrl,
-      },
+      body: {'code_challenge': challenge},
       requiresAuth: false,
     );
 
