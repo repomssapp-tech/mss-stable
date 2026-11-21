@@ -41,27 +41,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get whatWouldYouLikeToDoToday => 'What would you like to do today?';
 
   @override
-  String get exportSupport => 'Export Support';
+  String get exportSupport => 'Export support';
 
   @override
-  String get exportModuleDescription =>
-      'Global Trade Readiness & Export Incentives';
+  String get exportModuleDescription => 'Export help and incentives';
 
   @override
-  String get growBusiness => 'Grow Business';
+  String get growBusiness => 'Grow your business';
 
   @override
-  String get registerUdyam => 'Register UDYAM';
+  String get registerUdyam => 'Register on Udyam';
 
   @override
-  String get udyamModuleDescription =>
-      'Official MSME Registration Guide & Direct Portal Link';
+  String get udyamModuleDescription => 'How to register on Udyam';
 
   @override
-  String get findFunding => 'Find Funding';
+  String get findFunding => 'Find funding';
 
   @override
-  String get startABusiness => 'Start a Business';
+  String get startABusiness => 'Start a business';
 
   @override
   String get exploreMsmeSupport => 'MSME support';
@@ -668,7 +666,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get accountRestoredToast =>
-      'Welcome back! Your account is active again.';
+      'Welcome back. Your account is active again.';
 
   @override
   String get accountRestoreFailed =>
@@ -1107,25 +1105,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navChipFastSimple => 'Fast & Simple';
 
   @override
-  String get navChipTraditionalUi => 'Traditional UI';
+  String get navChipTraditionalUi => 'Menus and search';
 
   @override
   String get navChipSelfPaced => 'Self-paced browsing';
 
   @override
-  String get navChipAiAnytime => 'AI available anytime';
+  String get navChipAiAnytime => 'Ask Saarthi when you need help';
 
   @override
   String get navChipVoiceFirst => 'Voice-first experience';
 
   @override
-  String get navChipPersonalized => 'Personalized guidance';
+  String get navChipPersonalized => 'Step-by-step help';
 
   @override
-  String get navChipSmartRecs => 'Smart recommendations';
+  String get navChipSmartRecs => 'Schemes matched to you';
 
   @override
-  String get navChipExplainsScreens => 'Explains every screen';
+  String get navChipExplainsScreens => 'Answers your questions';
 
   @override
   String get filterTitle => 'Filters';
@@ -2467,7 +2465,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msmeFundingDescription =>
-      'Instantly search our database for credit support, collateral-free business loans, and SIDBI programs.';
+      'Search loans, credit guarantees and SIDBI programmes';
 
   @override
   String get msmeFundingHeading => 'Find Funding Options';
@@ -2544,7 +2542,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msmeValueUdyam =>
-      'Complete official MSME Udyam registration for free to unlock priority sector bank loans, 15% capital subsidies, collateral-free credit (CGTMSE), and Government tender exemptions.';
+      'Udyam registration is free. Most MSME schemes, priority sector bank loans and collateral-free credit (CGTMSE) ask for your Udyam number.';
 
   @override
   String get msmeWhatTheUserGets => 'WHAT THE USER GETS';
@@ -2554,7 +2552,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msmeInteractiveToolsDesc =>
-      'Complete your profile or explore schemes with the search engine to get smart matching results.';
+      'Complete your profile or search schemes to see the ones that match you.';
 
   @override
   String get msmeSearchSchemes => 'Search Schemes';
@@ -3600,8 +3598,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get goodEvening => 'Good Evening,';
 
   @override
-  String get splashPreparingSubtitle =>
-      'Please wait while we prepare\nsomething amazing for you';
+  String get splashPreparingSubtitle => 'Getting schemes ready';
 
   @override
   String get splashNoInternetTitle => 'No internet connection';
@@ -3768,7 +3765,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpTicketSubmitted =>
-      'Thank you! Your ticket has been submitted.';
+      'Thank you. Your ticket has been submitted.';
 
   @override
   String get helpTicketSubmitFailed =>
@@ -3782,7 +3779,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get helpFeedbackBody =>
-      'We value your feedback. Let us know how we can improve your experience!';
+      'Tell us what would make the app work better for you.';
 
   @override
   String get helpRateExperience => 'Rate your experience';
@@ -3797,7 +3794,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'e.g. yourname@gmail.com for follow-up from mssschemessearch@gmail.com';
 
   @override
-  String get helpFeedbackThanks => 'Thank you for your valuable feedback!';
+  String get helpFeedbackThanks => 'Thank you for your feedback';
 
   @override
   String get helpFeedbackSubmitFailed =>
@@ -3863,7 +3860,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get helpEmailUs => 'Email Us';
 
   @override
-  String get helpSupportEmailCopied => 'Support email copied to clipboard!';
+  String get helpSupportEmailCopied => 'Support email copied';
 
   @override
   String get helpReplyWindow => 'We typically reply within 24 hours';
@@ -4236,11 +4233,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get msmeUdyamStep4Desc =>
-      'Review summary, submit final OTP. A unique 16-digit Udyam Registration Number (URN) and e-Certificate with QR code are issued instantly with zero registration fee.';
+      'Review the summary and submit the final OTP. You get a 16-digit Udyam Registration Number (URN) and an e-certificate with a QR code. There is no registration fee.';
 
   @override
   String get msmeUdyamStep4Action =>
-      'Final OTP submission; download instant e-Certificate.';
+      'Submit the final OTP and download the e-certificate';
 
   @override
   String voiceRelevanceMatch(Object confidence) {
@@ -5879,7 +5876,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String onbP1Badge(int count) {
-    return '$count+ Verified Schemes';
+    return '$count+ schemes';
   }
 
   @override
@@ -5895,7 +5892,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onbChipSubsidy => 'Subsidy';
 
   @override
-  String get onbP2Title => 'Too Many Schemes.\n[One Simple Solution.]';
+  String get onbP2Title => 'All government schemes\n[in one place]';
 
   @override
   String get onbP2Body =>
@@ -5941,7 +5938,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get onbP3Occupation => 'Occupation';
 
   @override
-  String get onbP3Footer => 'No guessing. Just clear answers.';
+  String get onbP3Footer => 'See why each scheme fits you';
 
   @override
   String get onbP4Title => 'Just Ask [Saarthi]';
@@ -6096,7 +6093,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String sv2RoomHello(String name) {
-    return 'Namaste $name! What would you like help with today?';
+    return 'Namaste $name. What would you like help with today?';
   }
 
   @override
@@ -6452,4 +6449,72 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get guestLocalBody =>
       'As a guest, your details are saved only on this phone. If you use MSS on another phone or device, or clear the app data, your guest profile will not be there. Sign in with Google to keep your profile.';
+
+  @override
+  String get guestSignInSaveTitle => 'Sign in to save schemes';
+
+  @override
+  String get guestSignInSaveBody =>
+      'Saved schemes stay in your account, on any phone you sign in on.';
+
+  @override
+  String get guestSignInAlertsTitle => 'Sign in for scheme alerts';
+
+  @override
+  String get guestSignInAlertsBody =>
+      'Get alerts about new schemes and deadlines that match you.';
+
+  @override
+  String get guestSignInSaarthiTitle => 'Sign in to chat with Saarthi';
+
+  @override
+  String get guestSignInSaarthiBody =>
+      'Saarthi answers your questions by voice or text once you sign in.';
+
+  @override
+  String get guestSignInForMeTitle => 'Sign in to see schemes for you';
+
+  @override
+  String get guestSignInForMeBody =>
+      'Schemes are matched to your profile once you sign in.';
+
+  @override
+  String get guestSignInKeptNote =>
+      'What you did on this phone moves to your account.';
+
+  @override
+  String get guestGreetingName => 'Welcome';
+
+  @override
+  String get loginGuestHint => 'No account needed';
+
+  @override
+  String get loginGoogleHint => 'Save schemes, alerts and Saarthi chat';
+
+  @override
+  String get loginBackToGuest => 'Back to browsing as a guest';
+
+  @override
+  String get saarthiTourSpeakTitle => 'Talk to Saarthi';
+
+  @override
+  String get saarthiTourSpeakBody =>
+      'Tap the mic and ask about schemes, eligibility or documents in your language.';
+
+  @override
+  String get saarthiTourTypeTitle => 'Or type';
+
+  @override
+  String get saarthiTourTypeBody =>
+      'Prefer typing? Tap the keyboard to write your question.';
+
+  @override
+  String get saarthiTourHistoryTitle => 'Past chats';
+
+  @override
+  String get saarthiTourHistoryBody =>
+      'Find and continue your earlier conversations here.';
+
+  @override
+  String get loginSubtitleShort => 'Find government schemes you can claim';
 }

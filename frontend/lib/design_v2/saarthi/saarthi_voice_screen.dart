@@ -32,6 +32,10 @@ import 'saarthi_history_screen.dart';
 import 'saarthi_voice_home.dart';
 import 'saarthi_voice_room.dart';
 import 'scheme_mentions.dart';
+import '../../widgets/common/sign_in_required_sheet.dart';
+import '../../widgets/onboarding/home_tour.dart' show HomeTourStart;
+import '../../widgets/onboarding/saarthi_tour.dart';
+import '../../services/account/app_session.dart';
 
 class SaarthiVoiceScreen extends StatefulWidget {
   const SaarthiVoiceScreen({
@@ -93,6 +97,7 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   @override
   void initState() {
     super.initState();
+    unawaited(_showTourWhenReady());
     SaarthiVoiceScreen._shown = this;
     _history = widget.history ?? LocalChatHistory.instance;
     _settings = widget.settings ?? SaarthiVoiceSettings.instance;
@@ -163,6 +168,10 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   /// A new chat, listening straight away or (with [typing]) waiting for text.
   Future<void> _start({bool typing = false}) async {
     if (_starting || _active) return;
+    // Saarthi (voice and typed) needs an account until the backend's guest
+    // token exists: a guest is asked to sign in instead.
+    if (!await requireAccount(context, feature: SignInFeature.saarthi)) return;
+    if (!mounted) return;
     _starting = true;
     try {
       await _initializeConversation();
@@ -194,6 +203,8 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
   /// it, spoken or typed; the mic stays off until the user taps it.
   Future<void> _resume(SavedChat chat) async {
     if (_starting || _active) return;
+    if (!await requireAccount(context, feature: SignInFeature.saarthi)) return;
+    if (!mounted) return;
     _starting = true;
     try {
       await _initializeConversation();
@@ -401,8 +412,39 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     }
   }
 
+  Timer? _tourPoll;
+
+  /// The first-time Saarthi tour, together with the Saarthi home's first
+  /// frames (checked every 80 ms), like the home tour. A tour already seen
+  /// starts no timer; the poll is cancelled with the screen.
+  Future<void> _showTourWhenReady() async {
+    if (await SaarthiTour.defaultStore.isDone(AppSession.instance.userId)) {
+      return;
+    }
+    if (!mounted) return;
+    var attempts = 0;
+    var checking = false;
+    _tourPoll = Timer.periodic(const Duration(milliseconds: 80), (timer) async {
+      if (checking) return;
+      if (!mounted || ++attempts > 75) {
+        timer.cancel();
+        return;
+      }
+      if (_active || _tab != SaarthiNavTab.home) return;
+      // In companion mode this screen stays mounted behind the other tabs;
+      // the tour waits until it is the tab on screen.
+      if (context.read<AppProvider>().currentTabIndex != 0) return;
+      checking = true;
+      final result = await SaarthiTour.maybeStart(context);
+      checking = false;
+      if (result != HomeTourStart.notReady) timer.cancel();
+    });
+  }
+
   @override
   void dispose() {
+    _tourPoll?.cancel();
+    SaarthiTour.dismiss();
     if (identical(SaarthiVoiceScreen._shown, this)) {
       SaarthiVoiceScreen._shown = null;
     }
@@ -444,7 +486,9 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
         : trimmed.split(' ').first;
 
     final c = _conversation;
+    final showingHome = !_active && _tab == SaarthiNavTab.home;
     final nav = SaarthiPillNav(
+      sessionsTourKey: showingHome ? SaarthiTourTargets.sessions : null,
       selected: _active ? SaarthiNavTab.sessions : _tab,
       onHome: () => _openTab(SaarthiNavTab.home),
       onSessions: () => _openTab(SaarthiNavTab.sessions),

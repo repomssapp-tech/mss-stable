@@ -381,14 +381,16 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     super.dispose();
   }
 
-  /// The first-time tour of the home screen: shown once per account, after the
-  /// home screen and the bottom bar are on screen (retried a few times while
-  /// their widgets are still being laid out).
+  /// The first-time tour of the home screen: shown once per phone, guest or
+  /// signed-in, together with home: it starts on the first frames in which the
+  /// search bar, Saarthi button and bottom bar are laid out (checked every
+  /// 80 ms), not after a fixed wait. The status is read ahead by the
+  /// navigation-mode screen and the splash ([HomeTour.prefetch]), so a tour
+  /// already done costs nothing here.
   Future<void> _showHomeTourWhenReady() async {
-    for (var attempt = 0; attempt < 8; attempt++) {
-      await Future<void>.delayed(
-        Duration(milliseconds: attempt == 0 ? 1800 : 1000),
-      );
+    if (HomeTour.pending == false) return;
+    for (var attempt = 0; attempt < 75; attempt++) {
+      await Future<void>.delayed(const Duration(milliseconds: 80));
       if (!mounted) return;
       final provider = Provider.of<AppProvider>(context, listen: false);
       if (provider.currentTabIndex != 0 ||
@@ -414,9 +416,9 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
 
   // Screens matching the tabs.
   List<Widget> _buildTabs(AppProvider provider, String navigationMode) => [
-    // A guest cannot use Saarthi yet (it needs an account), so companion
-    // mode falls back to the regular home for guests.
-    navigationMode == 'companion' && !provider.isGuest
+    // A guest may pick companion mode too; chatting with Saarthi there asks
+    // them to sign in (see SaarthiVoiceScreen).
+    navigationMode == 'companion'
         ? const SaarthiVoiceScreen()
         : HomeScreen(
             onVoiceQuery: (query) {
