@@ -11,8 +11,17 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.6.0+31] - 2026-11-21
+
 ### Added
 - Marathi is back. The app is offered in English, Tamil, Hindi and Marathi again, including voice, search and state names. The app-lock screen and the copyright notice are translated into Marathi. Six leftover English phrases in the Marathi catalogue dictionary are now translated.
+
+- Added buffered mobile analytics for guest and signed-in flows. Uploads are disabled in this release while backend integration is pending.
+
+### Changed
+- Discover cards ask different Smart Assessment questions and reuse profile answers where available. The assessment opens the standard Search results with fit chips.
+- Fit ranking uses the shared recommendation engine and the selected support. Results stay within the chosen Discover category.
+- Updated guest and profile completion flows, including sign-out preserving local onboarding progress.
 
 ## [2.5.1+30] - 2026-11-10
 

@@ -7,6 +7,7 @@ import '../providers/app_state_provider.dart';
 import '../l10n/l10n.dart';
 import '../widgets/common/app_icon_button.dart';
 import '../widgets/common/app_toast.dart';
+import '../widgets/common/app_tappable.dart';
 import '../widgets/legal/legal_document_modal.dart';
 import '../main.dart' show MainTabsContainer;
 import 'navigation_mode_screen.dart';
@@ -399,6 +400,49 @@ class _LoginScreenState extends State<LoginScreen> {
     // separately swallows taps during loading.
     final bool isLoginEnabled = canConsent;
 
+    final googleButton = SizedBox(
+      width: double.infinity,
+      child: OutlinedButton(
+        key: const ValueKey('login-continue-with-google'),
+        // Swallow taps while loading (so a stray tap can't double-fire
+        // sign-in) without visually disabling the button.
+        onPressed: _busy ? () {} : (isLoginEnabled ? _signIn : null),
+        child: _busy
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const SizedBox(
+                    width: 18,
+                    height: 18,
+                    child: CircularProgressIndicator(strokeWidth: 2),
+                  ),
+                  const SizedBox(width: AppSpacing.sm),
+                  Flexible(
+                    child: Text(
+                      context.l10n.loginOpeningGoogle,
+                      maxLines: 2,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const GoogleIcon(size: 18),
+                  const SizedBox(width: AppSpacing.sm),
+                  Flexible(
+                    child: Text(
+                      context.l10n.continueWithGoogle,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                    ),
+                  ),
+                ],
+              ),
+      ),
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
@@ -426,68 +470,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
         const SizedBox(height: AppSpacing.md),
 
-        // Google Sign-In Button (strictly gated behind mandatory consent).
-        // While it is disabled, a tap on it says why instead of doing
-        // nothing, and screen readers hear the same reason as a hint.
-        GestureDetector(
-          // tap-ok: only explains taps on the disabled button
-          onTap: isLoginEnabled || _busy
-              ? null
-              : () => AppToast.showWarning(
-                  context,
-                  context.l10n.loginReviewTermsNotice,
-                ),
-          child: Semantics(
-            hint: isLoginEnabled ? null : context.l10n.loginReviewTermsNotice,
-            child: SizedBox(
-              width: double.infinity,
-              child: OutlinedButton(
-                key: const ValueKey('login-continue-with-google'),
-                style: OutlinedButton.styleFrom(
-                  // style-ok: CTA height + explicit loading foreground colour
-                  minimumSize: const Size.fromHeight(52),
-                  foregroundColor: _busy ? AppColors.primary : null,
-                ),
-                // Swallow taps while loading (so a stray tap can't double-fire
-                // sign-in) without visually disabling the button.
-                onPressed: _busy ? () {} : (isLoginEnabled ? _signIn : null),
-                child: _busy
-                    ? Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const SizedBox(
-                            width: 18,
-                            height: 18,
-                            child: CircularProgressIndicator(strokeWidth: 2),
-                          ),
-                          const SizedBox(width: AppSpacing.sm),
-                          Flexible(
-                            child: Text(
-                              context.l10n.loginOpeningGoogle,
-                              maxLines: 2,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const GoogleIcon(size: 18),
-                          const SizedBox(width: AppSpacing.sm),
-                          Flexible(
-                            child: Text(
-                              context.l10n.continueWithGoogle,
-                              textAlign: TextAlign.center,
-                              maxLines: 2,
-                            ),
-                          ),
-                        ],
-                      ),
-              ),
+        if (isLoginEnabled || _busy)
+          googleButton
+        else
+          AppTappable(
+            isButton: false,
+            onTap: () => AppToast.showWarning(
+              context,
+              context.l10n.loginReviewTermsNotice,
+            ),
+            child: Semantics(
+              hint: context.l10n.loginReviewTermsNotice,
+              child: googleButton,
             ),
           ),
-        ),
         const SizedBox(height: AppSpacing.xs),
         Text(
           context.l10n.loginGoogleHint,
@@ -502,10 +498,6 @@ class _LoginScreenState extends State<LoginScreen> {
           width: double.infinity,
           child: OutlinedButton.icon(
             key: const ValueKey('login-continue-as-guest'),
-            style: OutlinedButton.styleFrom(
-              // style-ok: CTA height, same as Google
-              minimumSize: const Size.fromHeight(52),
-            ),
             onPressed: (_enteringGuest || _busy || !isLoginEnabled)
                 ? null
                 : _continueAsGuest,

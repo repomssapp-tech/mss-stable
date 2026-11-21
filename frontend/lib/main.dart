@@ -30,6 +30,8 @@ import 'utils/app_system_ui_style.dart';
 import 'widgets/common/app_bottom_nav_bar.dart';
 import 'widgets/common/app_update_prompt.dart';
 import 'widgets/onboarding/home_tour.dart';
+import 'services/analytics/app_analytics.dart';
+import 'services/catalog/mss_catalog_bundle.dart';
 import 'widgets/onboarding/home_tour_targets.dart';
 import 'widgets/common/device_integrity_gate.dart';
 import 'widgets/common/app_lock_gate.dart';
@@ -107,7 +109,19 @@ void main() async {
 
   runApp(
     ChangeNotifierProvider(
-      create: (_) => AppProvider(pushGateway: pushGateway),
+      create: (_) {
+        final provider = AppProvider(pushGateway: pushGateway);
+        AppAnalytics.instance.start(() {
+          if (!provider.isLoggedIn && !provider.isGuest) return null;
+          return {
+            'user_kind': provider.isLoggedIn ? 'signed_in' : 'guest',
+            'language': provider.selectedLanguage,
+            'mode': provider.navigationMode,
+            'catalog_release': ?MssCatalogBundle.loadedReleaseTag,
+          };
+        });
+        return provider;
+      },
       child: const MSSApp(),
     ),
   );
@@ -298,12 +312,32 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     // rebuilt all five tab screens per tap); only this shell follows them.
     _tabChanges = Provider.of<AppProvider>(context, listen: false).tabChanges
       ..addListener(_onTabChanged);
+    _trackTab();
   }
 
   late final Listenable _tabChanges;
 
   void _onTabChanged() {
-    if (mounted) setState(() {});
+    if (!mounted) return;
+    _trackTab();
+    setState(() {});
+  }
+
+  void _trackTab() {
+    final provider = context.read<AppProvider>();
+    final tabs = [
+      provider.navigationMode == 'companion' ? 'saarthi' : 'home',
+      'search',
+      'discover',
+      'saved',
+      'profile',
+    ];
+    final index = provider.currentTabIndex;
+    if (index < 0 || index >= tabs.length) return;
+    AppAnalytics.instance.track(
+      AnalyticsEvent.featureOpened,
+      properties: {'feature': tabs[index]},
+    );
   }
 
   @override
@@ -379,7 +413,10 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
       onCategorySelected: (category) {
         provider.updateTabIndex(1);
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          searchTabKey.currentState?.submitVoiceQuery(category);
+          searchTabKey.currentState?.submitVoiceQuery(
+            category,
+            source: 'category',
+          );
         });
       },
     ),

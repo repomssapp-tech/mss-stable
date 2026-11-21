@@ -213,7 +213,10 @@ class _HomeRecommendedSectionState extends State<HomeRecommendedSection> {
       child: InkWell(
         onTap: () => Navigator.of(context).push(
           MaterialPageRoute(
-            builder: (_) => SchemeDetailsScreen(scheme: schemeObj),
+            builder: (_) => SchemeDetailsScreen(
+              scheme: schemeObj,
+              analyticsEntryPoint: 'recommendation',
+            ),
           ),
         ),
         child: Stack(

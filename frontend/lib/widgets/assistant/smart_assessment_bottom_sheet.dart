@@ -4,17 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../../l10n/l10n.dart';
+import '../../services/analytics/app_analytics.dart';
 import '../../models/questionnaire.dart';
-import '../../models/scheme_model.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
-import '../../services/catalog/scheme_repository.dart';
+import '../../services/questionnaire/assessment_fields.dart';
 import '../../services/questionnaire/questionnaire_answers_store.dart';
 import '../../services/questionnaire/questionnaire_profile_prefill.dart';
 import '../../services/questionnaire/questionnaire_qa_metrics.dart';
 import '../../services/questionnaire/questionnaire_repository.dart';
-import '../../services/questionnaire/questionnaire_recommendation_service.dart';
-import '../../services/recommendation/indian_states.dart';
+import '../../services/recommendation/profile_canonicalizer.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_radius.dart';
 import '../../utils/app_spacing.dart';
@@ -27,25 +26,33 @@ class SmartAssessmentBottomSheet extends StatefulWidget {
   final String cardTitle;
   final String cardType;
   final VoidCallback? onCompleted;
+  final String? interactionId;
   final ValueChanged<Map<String, Object?>>? onAnswersCompleted;
-  final bool editSavedAnswers;
 
   const SmartAssessmentBottomSheet({
     super.key,
     required this.cardTitle,
     required this.cardType,
     this.onCompleted,
+    this.interactionId,
     this.onAnswersCompleted,
-    this.editSavedAnswers = false,
   });
 
   static void show(
     BuildContext context,
     String title,
     String type,
-    ValueChanged<Map<String, Object?>> onCompleted, {
-    bool editSavedAnswers = false,
+    void Function(Map<String, Object?> answers, String? interactionId)
+    onCompleted, {
+    String? source,
   }) {
+    final analytics = AppAnalytics.instance;
+    final interactionId = analytics.interactionId();
+    analytics.track(
+      AnalyticsEvent.questionnaireStarted,
+      interactionId: interactionId,
+      properties: {'source': source ?? type},
+    );
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
@@ -54,8 +61,8 @@ class SmartAssessmentBottomSheet extends StatefulWidget {
       builder: (context) => SmartAssessmentBottomSheet(
         cardTitle: title,
         cardType: type,
-        onAnswersCompleted: onCompleted,
-        editSavedAnswers: editSavedAnswers,
+        interactionId: interactionId,
+        onAnswersCompleted: (answers) => onCompleted(answers, interactionId),
       ),
     );
   }
@@ -71,15 +78,13 @@ class _SmartAssessmentBottomSheetState
   final _store = QuestionnaireAnswersStore();
   final _qa = QuestionnaireQaMetrics.enabled ? QuestionnaireQaMetrics() : null;
   final Map<String, Object?> _answers = {};
-  final List<String> _adaptiveFieldIds = [];
-  List<Scheme> _candidateSchemes = const [];
   final Set<String> _profilePrefilled = {};
   late final Future<void> _ready;
-  QuestionnaireDefinition? _definition;
+  late final List<QuestionnaireField> _categoryFields;
   String _language = 'en';
-  bool _usingGeneralScope = true;
-  bool _candidateSchemesLoaded = false;
   int _currentIndex = 0;
+  bool _completed = false;
+  final _shownFields = <String>{};
   String? _saveError;
   Future<void> _saveQueue = Future<void>.value();
 
@@ -93,100 +98,47 @@ class _SmartAssessmentBottomSheetState
     final provider = Provider.of<AppProvider>(context, listen: false);
     final definition = await _repository.load();
     final saved = await _store.loadAnswers();
-    final profile = provider.profile;
+    final profile = ProfileCanonicalizer.canonicalize(provider.profile);
     _language = provider.selectedLanguage;
-    _definition = definition;
+    _categoryFields = assessmentFields(
+      definition,
+      title: widget.cardTitle,
+      cardType: widget.cardType,
+    );
     _answers.addAll(saved);
 
-    final savedState = saved['general_state'];
-    final profileState = _knownState(profile.state);
-    final state = savedState is String
-        ? savedState
-        : profileState ??
-              (widget.cardType == 'state'
-                  ? _knownState(widget.cardTitle)
-                  : null);
-    _usingGeneralScope = _shouldUseGeneralScope(_language, state);
-
     for (final field in definition.allFields) {
-      if (_answers.containsKey(field.id)) continue;
       final answer = QuestionnaireProfilePrefill.valueFor(field, profile);
       if (answer != null && _store.isValidAnswer(field, answer)) {
         _answers[field.id] = answer;
         _profilePrefilled.add(field.id);
       }
     }
-    if (!_answers.containsKey('general_state') && widget.cardType == 'state') {
-      final cardState = _knownState(widget.cardTitle);
-      if (cardState != null) _answers['general_state'] = cardState;
-    }
+    final area = QuestionnaireProfilePrefill.businessArea(profile);
+    if (area != null) _answers['business_location'] = {'area': area};
   }
 
-  String? _knownState(String state) {
-    final canonical = IndianStates.canonical(state);
-    if (IndianStates.names.contains(canonical)) return canonical;
-    final code = IndianStates.code(state);
-    return code == null ? null : IndianStates.nameForCode(code);
-  }
-
-  bool _shouldUseGeneralScope(String language, String? state) =>
-      language == 'ta' || state != 'Maharashtra';
-
-  List<QuestionnaireField> _visibleFields() {
-    final definition = _definition;
-    if (definition == null) return const [];
-    if (_usingGeneralScope) return definition.generalFields;
-
-    const firstIds = ['scheme_goal', 'business_age', 'is_maharashtra_domicile'];
-    final byId = {for (final field in definition.fields) field.id: field};
-    return [
-      ...firstIds.map((id) => byId[id]).whereType<QuestionnaireField>(),
-      ..._adaptiveFieldIds
-          .map((id) => byId[id])
-          .whereType<QuestionnaireField>(),
-    ];
-  }
-
-  List<QuestionnaireField> _adaptiveCandidates() {
-    final definition = _definition;
-    if (definition == null) return const [];
+  List<QuestionnaireField> _relevantFields() {
     final businessAge = _answers['business_age'];
-    final requiredFor = businessAge == 'not_started_yet_aspiring'
-        ? 'aspiring_msme'
-        : 'existing_msme';
-    const fixedIds = {'scheme_goal', 'business_age', 'is_maharashtra_domicile'};
-    return definition.fields
-        .where(
-          (field) =>
-              !fixedIds.contains(field.id) &&
-              (field.requiredFor == 'both' ||
-                  (businessAge is String && field.requiredFor == requiredFor)),
-        )
-        .toList(growable: false);
+    return _categoryFields.where((field) {
+      return field.requiredFor == 'both' ||
+          businessAge == null ||
+          field.requiredFor ==
+              (businessAge == 'not_started_yet_aspiring'
+                  ? 'aspiring_msme'
+                  : 'existing_msme');
+    }).toList();
   }
 
-  Future<void> _loadCandidateSchemes() async {
-    if (_candidateSchemesLoaded) return;
-    _candidateSchemesLoaded = true;
-    try {
-      _candidateSchemes = await SchemeRepository.instance.getAllSchemes();
-    } catch (error) {
-      debugPrint('[SmartAssessment] adaptive catalog unavailable: $error');
-    }
-  }
-
-  QuestionnaireField? get _currentField {
-    final fields = _visibleFields();
-    if (_currentIndex >= fields.length) return null;
-    return fields[_currentIndex];
-  }
+  List<QuestionnaireField> _visibleFields() => _relevantFields()
+      .where((field) => !_profilePrefilled.contains(field.id))
+      .toList();
 
   void _changeAnswer(QuestionnaireField field, Object? answer) {
     final saveFailedMessage = context.l10n.questionnaireSaveFailed;
     setState(() {
       if (answer == null) {
         _answers.remove(field.id);
-        _profilePrefilled.remove(field.id);
       } else {
         _answers[field.id] = answer;
       }
@@ -208,53 +160,29 @@ class _SmartAssessmentBottomSheetState
   }
 
   Future<void> _advance({bool skipCurrent = false}) async {
-    final field = _currentField;
-    if (field == null) return;
+    final fields = _visibleFields();
+    if (_currentIndex >= fields.length) return;
+    final field = fields[_currentIndex];
     if (skipCurrent) _changeAnswer(field, null);
     await _saveQueue;
     if (!mounted || _saveError != null) return;
     final answer = _answers[field.id];
+    AppAnalytics.instance.track(
+      AnalyticsEvent.questionnaireProgress,
+      interactionId: widget.interactionId,
+      properties: {
+        'field_id': field.id,
+        'action': answer != null && _store.isValidAnswer(field, answer)
+            ? 'answered'
+            : 'skipped',
+      },
+    );
     _qa?.advance(
       field.id,
       answered: answer != null && _store.isValidAnswer(field, answer),
     );
 
-    if (field.id == 'general_state' && _usingGeneralScope) {
-      final selectedState = _answers[field.id] as String?;
-      final shouldUseGeneral = _shouldUseGeneralScope(_language, selectedState);
-      if (!shouldUseGeneral) {
-        setState(() {
-          _usingGeneralScope = false;
-          _currentIndex = 0;
-        });
-        return;
-      }
-    }
-
-    if (!_usingGeneralScope && _currentIndex >= 2 && _currentIndex < 6) {
-      await _loadCandidateSchemes();
-      if (!mounted || _saveError != null) return;
-      final next = const QuestionnaireRecommendationService()
-          .chooseNextQuestion(
-            schemes: _candidateSchemes,
-            fields: _adaptiveCandidates(),
-            answers: _answers,
-            excludedIds: {..._adaptiveFieldIds},
-            includeAnswered: widget.editSavedAnswers,
-          );
-      if (next != null) {
-        setState(() {
-          _adaptiveFieldIds.add(next.id);
-          _currentIndex++;
-        });
-        return;
-      }
-      await _finish();
-      return;
-    }
-
-    final fields = _visibleFields();
-    if (_currentIndex + 1 >= fields.length) {
+    if (_currentIndex + 1 >= _visibleFields().length) {
       await _finish();
       return;
     }
@@ -263,32 +191,22 @@ class _SmartAssessmentBottomSheetState
 
   Future<void> _finish() async {
     final navigator = Navigator.of(context);
-    final saveFailedMessage = context.l10n.questionnaireSaveFailed;
     await _saveQueue;
     if (!mounted || _saveError != null) return;
-    final fieldsById = {
-      for (final field in _definition!.allFields) field.id: field,
+    final relevantIds = {
+      'general_state',
+      'business_location',
+      'is_maharashtra_domicile',
+      'owner_age',
+      if (_profilePrefilled.contains('general_gender')) 'general_gender',
+      if (_profilePrefilled.contains('social_category')) 'social_category',
+      for (final field in _relevantFields()) field.id,
     };
-    final validAnswers = <String, Object?>{};
-    for (final entry in _answers.entries) {
-      final field = fieldsById[entry.key];
-      if (field != null && _store.isValidAnswer(field, entry.value)) {
-        validAnswers[entry.key] = entry.value;
-      }
-    }
-    try {
-      await _store.saveAnswers(validAnswers);
-    } on ArgumentError {
-      if (mounted) {
-        setState(() => _saveError = saveFailedMessage);
-      }
-      return;
-    } on StateError {
-      if (mounted) {
-        setState(() => _saveError = saveFailedMessage);
-      }
-      return;
-    }
+    final validAnswers = {
+      for (final entry in _answers.entries)
+        if (relevantIds.contains(entry.key)) entry.key: entry.value,
+    };
+    _completed = true;
     _qa?.completed = true;
     navigator.pop();
     widget.onAnswersCompleted?.call(validAnswers);
@@ -298,6 +216,11 @@ class _SmartAssessmentBottomSheetState
   @override
   void dispose() {
     _qa?.reportRun();
+    AppAnalytics.instance.track(
+      AnalyticsEvent.questionnaireClosed,
+      interactionId: widget.interactionId,
+      properties: {'outcome': _completed ? 'completed' : 'abandoned'},
+    );
     super.dispose();
   }
 
@@ -341,15 +264,29 @@ class _SmartAssessmentBottomSheetState
 
   Widget _questionnaire(BuildContext context) {
     final fields = _visibleFields();
-    final field = _currentField;
-    if (field == null) {
-      return _message(context, context.l10n.questionnaireLoadFailed);
+    if (fields.isEmpty) {
+      return SafeArea(
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: FilledButton(
+            onPressed: _finish,
+            child: Text(context.l10n.assessSkipToResults),
+          ),
+        ),
+      );
     }
+    final field = fields[_currentIndex];
     _qa?.showField(field.id);
+    if (widget.interactionId != null && _shownFields.add(field.id)) {
+      AppAnalytics.instance.track(
+        AnalyticsEvent.questionnaireProgress,
+        interactionId: widget.interactionId,
+        properties: {'field_id': field.id, 'action': 'shown'},
+      );
+    }
 
     final l10n = context.l10n;
-    final maxQuestions = _usingGeneralScope ? fields.length : 7;
-    final progress = ((_currentIndex + 1) / maxQuestions).clamp(0.0, 1.0);
+    final progress = (_currentIndex + 1) / fields.length;
     final cardTitle = CentralizedTranslator.instance.localizeTagFor(
       _language,
       widget.cardTitle,
@@ -405,13 +342,6 @@ class _SmartAssessmentBottomSheetState
                   field.questionFor(_language),
                   style: Theme.of(context).textTheme.titleMedium,
                 ),
-                if (_profilePrefilled.contains(field.id)) ...[
-                  const SizedBox(height: AppSpacing.xs),
-                  Text(
-                    l10n.questionnaireFromProfile,
-                    style: Theme.of(context).textTheme.bodySmall,
-                  ),
-                ],
                 const SizedBox(height: AppSpacing.lg),
                 QuestionnaireFieldControl(
                   key: ValueKey(field.id),

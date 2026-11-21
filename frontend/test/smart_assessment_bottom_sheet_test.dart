@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,24 +6,27 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/providers/app_state_provider.dart';
-import 'package:frontend/screens/regular_mode/questionnaire_results_screen.dart';
+import 'package:frontend/screens/regular_mode/categories/categories_data.dart';
+import 'package:frontend/screens/regular_mode/search_results_screen.dart';
+import 'package:frontend/screens/regular_mode/search_screen.dart';
+import 'package:frontend/services/questionnaire/assessment_fields.dart';
 import 'package:frontend/services/questionnaire/questionnaire_answers_store.dart';
 import 'package:frontend/services/questionnaire/questionnaire_repository.dart';
 import 'package:frontend/widgets/assistant/smart_assessment_bottom_sheet.dart';
 
+import 'questionnaire_widget_test_assets.dart';
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUp(() {
-    SharedPreferences.setMockInitialValues({});
-    rootBundle.evict(QuestionnaireRepository.assetPath);
-  });
+  setUp(() => SharedPreferences.setMockInitialValues({}));
 
   Widget hostSheet({
     required AppProvider provider,
     required String cardTitle,
     required String cardType,
     required VoidCallback onCompleted,
+    ValueChanged<Map<String, Object?>>? onAnswersCompleted,
     Locale locale = const Locale('en'),
   }) {
     return ChangeNotifierProvider<AppProvider>.value(
@@ -38,20 +40,113 @@ void main() {
             cardTitle: cardTitle,
             cardType: cardType,
             onCompleted: onCompleted,
+            onAnswersCompleted: onAnswersCompleted,
           ),
         ),
       ),
     );
   }
 
+  test(
+    'every Discover card has localized questions and no location entry',
+    () async {
+      final definition = await QuestionnaireRepository().load();
+      final cards = [
+        for (final category in allCategoriesList) ('category', category.title),
+        for (final ministry in allMinistriesList) ('ministry', ministry),
+        for (final state in allStatesList) ('state', state),
+      ];
+      final covered = <String>{};
+      for (final (type, title) in cards) {
+        final fields = assessmentFields(
+          definition,
+          title: title,
+          cardType: type,
+        );
+        expect(fields.length, inInclusiveRange(3, 5), reason: title);
+        for (final field in fields) {
+          covered.add(field.id);
+          expect(
+            field.type,
+            isNot(isIn(['location', 'state', 'boolean_with_district'])),
+          );
+          expect(field.question['ta'], isNotEmpty, reason: field.id);
+          expect(
+            field.options.every(
+              (option) => option.labels['ta']?.isNotEmpty ?? false,
+            ),
+            isTrue,
+          );
+        }
+      }
+      expect(
+        covered,
+        containsAll([
+          'general_gender',
+          'social_category',
+          'business_nature',
+          'scheme_goal',
+          'business_age',
+          'org_structure',
+          'special_focus_zone',
+          'assistance_needed',
+          'digital_literacy_level',
+          'has_gi_tag',
+          'cluster_membership',
+          'export_status',
+          'tax_compliance_comfort',
+        ]),
+      );
+    },
+  );
+
   group('SmartAssessmentBottomSheet', () {
+    useQuestionnaireWidgetAssets();
+
+    testWidgets('uses saved profile values without asking for them', (
+      tester,
+    ) async {
+      final provider = AppProvider();
+      provider.setProfileForTesting(
+        provider.profile.copyWith(
+          state: 'Tamil Nadu',
+          gender: 'Female',
+          area: 'Rural',
+          businessIndustry: 'Manufacturing',
+        ),
+      );
+      Map<String, Object?>? submitted;
+      await tester.pumpWidget(
+        hostSheet(
+          provider: provider,
+          cardTitle: 'Business & MSME',
+          cardType: 'category',
+          onCompleted: () {},
+          onAnswersCompleted: (answers) => submitted = answers,
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Where do you live or run your business?'),
+        findsNothing,
+      );
+      expect(find.text('What is your gender?'), findsNothing);
+      expect(find.text('What does your business do?'), findsNothing);
+      expect(find.text('What would you like to do?'), findsOneWidget);
+      await tester.tap(find.text('Skip to Results'));
+      await tester.pumpAndSettle();
+      expect(submitted?['general_state'], 'Tamil Nadu');
+      expect(submitted?['general_gender'], 'woman');
+      expect(submitted?['business_location'], {'area': 'village_rural'});
+    });
+
     testWidgets('reopened assessment shows saved selections through results', (
       tester,
     ) async {
       SharedPreferences.setMockInitialValues({
         QuestionnaireAnswersStore.preferencesKey:
             '{"schema_version":"1.0.0","answers":{"general_state":"Andhra Pradesh",'
-            '"general_gender":"woman","general_need":["start_business"]}}',
+            '"general_gender":"woman","scheme_goal":["start_a_new_business"]}}',
       });
       final provider = AppProvider();
       var completed = false;
@@ -64,7 +159,11 @@ void main() {
         ),
       );
       await tester.pumpAndSettle();
-      for (var i = 0; i < 2; i++) {
+      for (final question in [
+        'What does your business do?',
+        'What is your gender?',
+      ]) {
+        expect(find.text(question), findsOneWidget);
         await tester.tap(find.text('Next'));
         await tester.pumpAndSettle();
       }
@@ -74,72 +173,134 @@ void main() {
         'Start a new business',
       );
       expect(tester.widget<FilterChip>(startingBusiness).selected, isTrue);
-      await tester.tap(find.text('Next'));
+      await tester.tap(find.text('Skip to Results'));
       await tester.pumpAndSettle();
       expect(completed, isTrue);
     });
 
-    testWidgets('uses general questions and leaves profile unchanged', (
-      tester,
-    ) async {
+    testWidgets(
+      'guest assessment skips location and leaves profile unchanged',
+      (tester) async {
+        final provider = AppProvider();
+        var completed = false;
+        await tester.pumpWidget(
+          hostSheet(
+            provider: provider,
+            cardTitle: 'Education & Fellowship',
+            cardType: 'category',
+            onCompleted: () => completed = true,
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        expect(
+          find.text('Where do you live or run your business?'),
+          findsNothing,
+        );
+        expect(
+          find.text('What is your highest level of education?'),
+          findsOneWidget,
+        );
+        expect(find.text('Skip to Results'), findsOneWidget);
+        await tester.tap(find.text('Skip to Results'));
+        await tester.pumpAndSettle();
+
+        expect(completed, isTrue);
+        expect(provider.profile.gender, isEmpty);
+        expect(provider.profile.community, isEmpty);
+      },
+    );
+
+    testWidgets('browsing a state does not assert residency', (tester) async {
       final provider = AppProvider();
-      var completed = false;
+      Map<String, Object?>? submitted;
       await tester.pumpWidget(
         hostSheet(
           provider: provider,
-          cardTitle: 'Education',
-          cardType: 'category',
-          onCompleted: () => completed = true,
+          cardTitle: 'Tamil Nadu',
+          cardType: 'state',
+          onCompleted: () {},
+          onAnswersCompleted: (answers) => submitted = answers,
         ),
       );
       await tester.pumpAndSettle();
-
-      expect(
-        find.text('Where do you live or run your business?'),
-        findsOneWidget,
-      );
-      expect(find.text('Skip to Results'), findsOneWidget);
       await tester.tap(find.text('Skip to Results'));
       await tester.pumpAndSettle();
 
-      expect(completed, isTrue);
-      expect(provider.profile.gender, isEmpty);
-      expect(provider.profile.community, isEmpty);
+      expect(submitted, isNotNull);
+      expect(submitted, isNot(contains('general_state')));
     });
+
+    testWidgets(
+      'export asks trade questions and skips GI for aspiring businesses',
+      (tester) async {
+        final provider = AppProvider();
+        await tester.pumpWidget(
+          hostSheet(
+            provider: provider,
+            cardTitle: 'Export & Trade Promotion',
+            cardType: 'category',
+            onCompleted: () {},
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(
+          find.text('Do you sell or plan to sell outside India?'),
+          findsOneWidget,
+        );
+        await tester.tap(find.text('Next'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Not started yet (Aspiring)'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Next'));
+        await tester.pumpAndSettle();
+        expect(find.text('What kind of support do you need?'), findsOneWidget);
+        expect(find.textContaining('Geographical Indication'), findsNothing);
+      },
+    );
   });
 
-  testWidgets('results fill a card with five ineligible schemes from catalog', (
-    tester,
-  ) async {
-    final provider = AppProvider();
-    await tester.pumpWidget(
-      ChangeNotifierProvider.value(
-        value: provider,
-        child: MaterialApp(
-          localizationsDelegates: AppLocalizations.localizationsDelegates,
-          supportedLocales: AppLocalizations.supportedLocales,
-          home: QuestionnaireResultsScreen(
-            title: 'Test card',
-            cardType: 'category',
-            schemes: [
-              for (var i = 0; i < 5; i++)
-                Scheme(
-                  id: 'card-$i',
-                  name: 'Card scheme $i',
-                  eligibilityMaxAge: 45,
+  testWidgets(
+    'results keep the selected card when all its schemes have a known conflict',
+    (tester) async {
+      final provider = AppProvider();
+      await tester.pumpWidget(
+        ChangeNotifierProvider.value(
+          value: provider,
+          child: MaterialApp(
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            home: Builder(
+              builder: (context) => Scaffold(
+                body: TextButton(
+                  onPressed: () => SearchResultsScreen.openAssessment(
+                    context,
+                    title: 'Test card',
+                    schemes: [
+                      for (var i = 0; i < 5; i++)
+                        Scheme(
+                          id: 'card-$i',
+                          name: 'Card scheme $i',
+                          eligibilityMaxAge: 45,
+                        ),
+                    ],
+                    answers: const {'owner_age': 46},
+                  ),
+                  child: const Text('Open assessment results'),
                 ),
-            ],
-            catalogSchemes: const [
-              Scheme(id: 'national', name: 'National scheme'),
-            ],
-            answers: const {'owner_age': 46},
+              ),
+            ),
           ),
         ),
-      ),
-    );
-    await tester.pumpAndSettle();
+      );
+      await tester.tap(find.text('Open assessment results'));
+      await tester.pumpAndSettle();
 
-    expect(find.text('National scheme'), findsOneWidget);
-    expect(find.text('Might fit'), findsOneWidget);
-  });
+      expect(find.byType(SearchScreen), findsOneWidget);
+      expect(find.text('Filter'), findsOneWidget);
+      expect(find.text('Card scheme 0'), findsOneWidget);
+      expect(find.text('Not for you now'), findsWidgets);
+      expect(find.text('Good fit'), findsNothing);
+    },
+  );
 }

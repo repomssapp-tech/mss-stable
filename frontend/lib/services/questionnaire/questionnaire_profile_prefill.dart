@@ -1,6 +1,7 @@
 import '../../models/questionnaire.dart';
 import '../../models/user_profile.dart';
 import '../recommendation/indian_states.dart';
+import '../recommendation/profile_canonicalizer.dart';
 
 class QuestionnaireProfilePrefill {
   static Object? valueFor(QuestionnaireField field, UserProfile profile) {
@@ -8,11 +9,15 @@ class QuestionnaireProfilePrefill {
       'general_state' => _knownState(profile.state),
       'general_gender' || 'owner_gender' => _gender(profile.gender),
       'social_category' => _socialCategories(field, profile),
-      'business_location' => _businessLocation(field, profile),
       'business_nature' => _businessNature(field, profile.businessIndustry),
       'business_age' => _businessAge(field, profile),
       'owner_age' => _age(field, profile),
-      'education_level' => _education(field, profile.educationLevel),
+      'education_level' => _education(
+        field,
+        profile.educationLevel.isEmpty
+            ? profile.qualification
+            : profile.educationLevel,
+      ),
       'existing_registrations' => _registrations(
         field,
         profile.registrationNumbers,
@@ -64,28 +69,21 @@ class QuestionnaireProfilePrefill {
         community == 'bc') {
       categories.add('obc');
     }
-    if (profile.disability.trim().isNotEmpty &&
-        profile.disability.toLowerCase() != 'none') {
+    if (ProfileCanonicalizer.isDifferentlyAbled(profile.disability)) {
       categories.add('person_with_disability_divyangjan');
     }
     if (profile.veteran) categories.add('ex_serviceman');
     return categories.isEmpty ? null : _options(field, categories);
   }
 
-  static Map<String, Object?>? _businessLocation(
-    QuestionnaireField field,
-    UserProfile profile,
-  ) {
+  static String? businessArea(UserProfile profile) {
     final area = profile.area.toLowerCase();
-    final value = area.contains('rural') || area.contains('village')
-        ? 'village_rural'
-        : area.contains('town')
-        ? 'town'
-        : area.contains('urban') || area.contains('city')
-        ? 'city_urban'
-        : null;
-    if (value == null || !_hasOption(field, value)) return null;
-    return {'area': value, 'district': profile.district, 'taluka': ''};
+    if (area.contains('rural') || area.contains('village')) {
+      return 'village_rural';
+    }
+    if (area.contains('town')) return 'town';
+    if (area.contains('urban') || area.contains('city')) return 'city_urban';
+    return null;
   }
 
   static String? _businessNature(QuestionnaireField field, String industry) {
@@ -126,7 +124,9 @@ class QuestionnaireProfilePrefill {
   static String? _education(QuestionnaireField field, String education) {
     final value = education.toLowerCase();
     if (value.isEmpty) return null;
-    if (value.contains('graduate') || value.contains('bachelor')) {
+    if (value.contains('graduate') ||
+        value.contains('bachelor') ||
+        value == 'ph.d.') {
       return _option(field, 'graduate_or_above');
     }
     if (value.contains('diploma') || value.contains('iti')) {

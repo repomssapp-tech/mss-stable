@@ -1,0 +1,271 @@
+{
+  "social_category": {
+    "question": {
+      "ta": "சமூகம் / பிரிவு",
+      "en": "Community / Category"
+    },
+    "options": {
+      "general": {
+        "ta": "பொதுப் பிரிவு"
+      },
+      "sc": {
+        "ta": "பட்டியல் சாதி (SC)"
+      },
+      "st": {
+        "ta": "பட்டியல் பழங்குடியினர் (ST)"
+      },
+      "obc": {
+        "ta": "பிற பிற்படுத்தப்பட்ட வகுப்பினர் (OBC)"
+      },
+      "minority": {
+        "ta": "சிறுபான்மையினர்"
+      },
+      "person_with_disability_divyangjan": {
+        "ta": "மாற்றுத்திறனாளி"
+      },
+      "ex_serviceman": {
+        "ta": "முன்னாள் படைவீரர்"
+      }
+    }
+  },
+  "business_nature": {
+    "question": {
+      "ta": "உங்கள் தொழில் எந்த வகையைச் சேர்ந்தது?"
+    },
+    "options": {
+      "manufacturing": {
+        "ta": "உற்பத்தி"
+      },
+      "services": {
+        "ta": "சேவைகள்"
+      },
+      "trading_retail": {
+        "ta": "வர்த்தகம் / சில்லறை விற்பனை"
+      },
+      "agro_food_processing": {
+        "ta": "வேளாண்மை மற்றும் உணவுப் பதப்படுத்துதல்"
+      }
+    }
+  },
+  "scheme_goal": {
+    "question": {
+      "ta": "நீங்கள் என்ன செய்ய விரும்புகிறீர்கள்?",
+      "en": "What would you like to do?"
+    },
+    "options": {
+      "start_a_new_business": {
+        "ta": "புதிய தொழில் தொடங்குதல்"
+      },
+      "expand_existing_business": {
+        "ta": "தற்போதைய தொழிலை விரிவுபடுத்துதல்"
+      },
+      "buy_machinery_upgrade_tech": {
+        "ta": "இயந்திரங்கள் வாங்குதல் / தொழில்நுட்பத்தை மேம்படுத்துதல்"
+      },
+      "daily_working_cash": {
+        "ta": "அன்றாடச் செலவுகளைச் சமாளித்தல்"
+      },
+      "marketing_export": {
+        "ta": "சந்தைப்படுத்துதல் மற்றும் ஏற்றுமதி"
+      }
+    }
+  },
+  "business_age": {
+    "question": {
+      "ta": "உங்கள் தொழிலை எத்தனை ஆண்டுகளாக நடத்துகிறீர்கள்?"
+    },
+    "options": {
+      "not_started_yet_aspiring": {
+        "ta": "இன்னும் தொடங்கவில்லை"
+      },
+      "less_than_1_year": {
+        "ta": "1 ஆண்டுக்குக் குறைவு"
+      },
+      "1_3_years": {
+        "ta": "1 முதல் 3 ஆண்டுகள்"
+      },
+      "3_plus_years": {
+        "ta": "3 ஆண்டுகளுக்கு மேல்"
+      }
+    }
+  },
+  "org_structure": {
+    "question": {
+      "ta": "உங்கள் தொழில் எந்த அமைப்பின் கீழ் இயங்குகிறது?"
+    },
+    "options": {
+      "sole_owner_proprietorship": {
+        "ta": "தனி உரிமையாளர்"
+      },
+      "partnership": {
+        "ta": "கூட்டாண்மை"
+      },
+      "pvt_ltd": {
+        "ta": "தனியார் வரையறுக்கப்பட்ட நிறுவனம்"
+      },
+      "llp": {
+        "ta": "வரையறுக்கப்பட்ட பொறுப்புக் கூட்டாண்மை (LLP)"
+      },
+      "co_operative": {
+        "ta": "கூட்டுறவு"
+      },
+      "self_help_group_shg": {
+        "ta": "சுய உதவிக் குழு (SHG)"
+      },
+      "not_registered_yet": {
+        "ta": "இன்னும் பதிவு செய்யவில்லை"
+      }
+    }
+  },
+  "special_focus_zone": {
+    "question": {
+      "ta": "அரசால் வகைப்படுத்தப்பட்ட சிறப்புப் பகுதியில் உங்கள் தொழில் உள்ளதா?",
+      "en": "Does your business fall under a government-designated area?"
+    },
+    "options": {
+      "tribal_area": {
+        "ta": "பழங்குடியினர் பகுதி"
+      },
+      "aspirational_district": {
+        "ta": "முன்னேற்ற இலக்கு மாவட்டம்"
+      },
+      "backward_taluka": {
+        "ta": "பின்தங்கிய வட்டம்"
+      },
+      "industrial_estate_midc": {
+        "ta": "தொழிற்பேட்டை",
+        "en": "Industrial Estate"
+      },
+      "none": {
+        "ta": "எதுவும் இல்லை"
+      }
+    }
+  },
+  "assistance_needed": {
+    "question": {
+      "ta": "உங்களுக்கு எந்த வகையான உதவி தேவை?",
+      "en": "What kind of support do you need?"
+    },
+    "options": {
+      "money_loans_subsidy": {
+        "ta": "நிதி (கடன்கள் / மானியங்கள்)",
+        "en": "Finance (Loans / Subsidies)"
+      },
+      "machines_technology": {
+        "ta": "இயந்திரங்கள் மற்றும் தொழில்நுட்பம்"
+      },
+      "hiring_staff_training": {
+        "ta": "பணியமர்த்தல் மற்றும் பணியாளர் பயிற்சி"
+      },
+      "finding_buyers_marketing": {
+        "ta": "வாடிக்கையாளர்களைக் கண்டறிதல் மற்றும் சந்தைப்படுத்துதல்"
+      }
+    }
+  },
+  "digital_literacy_level": {
+    "question": {
+      "ta": "டிஜிட்டல் கருவிகளை எந்த அளவுக்குப் பயன்படுத்துவீர்கள்?"
+    },
+    "options": {
+      "basic_whatsapp_upi_only": {
+        "ta": "அடிப்படை (வாட்ஸ்அப் / UPI மட்டும்)"
+      },
+      "moderate_can_fill_online_forms": {
+        "ta": "இடைநிலை (இணையப் படிவங்களை நிரப்புவேன்)"
+      },
+      "advanced_accounting_e_commerce": {
+        "ta": "மேம்பட்ட நிலை (கணக்கியல் / மின்னணு வணிகம்)"
+      }
+    }
+  },
+  "has_gi_tag": {
+    "question": {
+      "ta": "உங்கள் தயாரிப்புக்குப் புவிசார் குறியீடு (GI) உள்ளதா?"
+    },
+    "options": {
+      "yes": {
+        "ta": "ஆம்"
+      },
+      "no": {
+        "ta": "இல்லை"
+      },
+      "not_sure": {
+        "ta": "தெரியவில்லை"
+      }
+    }
+  },
+  "cluster_membership": {
+    "question": {
+      "ta": "உங்கள் தொழில் ஒரு தொழில் குழுமத்தின் அங்கமா?",
+      "en": "Is your business part of an industry cluster?"
+    },
+    "options": {
+      "part_of_a_cluster": {
+        "ta": "தொழில் குழுமத்தின் அங்கம்"
+      },
+      "independent_stand_alone_unit": {
+        "ta": "தனித்து இயங்கும் தொழில்"
+      },
+      "not_sure": {
+        "ta": "தெரியவில்லை"
+      }
+    }
+  },
+  "export_status": {
+    "question": {
+      "ta": "இந்தியாவுக்கு வெளியே விற்பனை செய்கிறீர்களா அல்லது செய்யத் திட்டமிட்டுள்ளீர்களா?",
+      "en": "Do you sell or plan to sell outside India?"
+    },
+    "options": {
+      "yes_currently_exporting": {
+        "ta": "தற்போது ஏற்றுமதி செய்கிறேன்"
+      },
+      "planning_to_export": {
+        "ta": "ஏற்றுமதி செய்யத் திட்டமிட்டுள்ளேன்"
+      },
+      "domestic_india_only": {
+        "ta": "இந்தியாவுக்குள் மட்டும் விற்பனை செய்கிறேன்"
+      }
+    }
+  },
+  "tax_compliance_comfort": {
+    "question": {
+      "ta": "வரி மற்றும் வரித் தாக்கல் தொடர்பாக உங்களுக்கு உதவி தேவையா?",
+      "en": "Do you need help with taxes and filings?"
+    },
+    "options": {
+      "comfortable_with_taxes": {
+        "ta": "வரி நடைமுறைகள் எனக்குத் தெரியும்"
+      },
+      "need_basic_guidance": {
+        "ta": "அடிப்படை வழிகாட்டுதல் தேவை"
+      },
+      "handled_by_a_ca_accountant": {
+        "ta": "கணக்காளர் கவனித்துக் கொள்கிறார்"
+      }
+    }
+  },
+  "education_level": {
+    "question": {
+      "ta": "நீங்கள் முடித்த உயர்ந்த கல்வி நிலை எது?",
+      "en": "What is your highest level of education?"
+    },
+    "options": {
+      "below_7th_pass": {
+        "ta": "7 ஆம் வகுப்புக்குக் கீழ்"
+      },
+      "7th_9th_pass": {
+        "ta": "7 முதல் 9 ஆம் வகுப்பு"
+      },
+      "10th_pass": {
+        "ta": "10 ஆம் வகுப்பு தேர்ச்சி"
+      },
+      "12th_iti_diploma": {
+        "ta": "12 ஆம் வகுப்பு / ITI / பட்டயம்"
+      },
+      "graduate_or_above": {
+        "ta": "பட்டப்படிப்பு அல்லது அதற்கு மேல்"
+      }
+    }
+  }
+}

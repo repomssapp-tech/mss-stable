@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb, listEquals;
 import 'package:flutter/material.dart';
 import '../models/user_profile.dart';
 import '../models/scheme_model.dart';
@@ -45,6 +45,7 @@ import '../services/account/deep_link_service.dart';
 import '../services/notifications/push_models.dart' show PushMessagingGateway;
 import '../models/user_profile_api_dto.dart'
     show ProfileAggregate, serverLanguages;
+import '../services/analytics/app_analytics.dart';
 import '../services/account/onboarding_api_service.dart'
     show LegalConsentStore, OnboardingApiService;
 import '../services/account/profile_api_service.dart';
@@ -235,12 +236,19 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
         case AuthChange.signedIn:
           // Auth resolved -- retire the startup grace marker for OAuth redirects.
           unawaited(AuthService.clearOAuthPending());
+          final fromGuest = _isGuest;
           _isLoggedIn = true;
+          AppAnalytics.instance.endSession();
+          AppAnalytics.instance.track(
+            AnalyticsEvent.signInCompleted,
+            properties: {'from_guest': fromGuest},
+          );
           if (_isGuest) unawaited(_endGuestSession(upgradedToAccount: true));
           final user = AppSession.instance.currentUser;
           if (user != null) _notifications.subscribe(user.id);
           notifyListeners();
         case AuthChange.signedOut:
+          AppAnalytics.instance.endSession();
           unawaited(AuthService.clearOAuthPending());
           _isLoggedIn = false;
           _isGuest = false;
@@ -1036,7 +1044,15 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   bool popTabIndex() => _tabs.popTabIndex();
 
   void toggleBookmark(String id) {
+    final wasSaved = bookmarkedIds.contains(id);
     _library.toggleBookmark(id);
+    final isSaved = bookmarkedIds.contains(id);
+    if (wasSaved != isSaved) {
+      AppAnalytics.instance.track(
+        AnalyticsEvent.schemeAction,
+        properties: {'scheme_id': id, 'action': isSaved ? 'saved' : 'unsaved'},
+      );
+    }
     unawaited(
       _librarySync.recordFavorite(
         id,
@@ -1061,8 +1077,38 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   void updateSearchQuery(String query) =>
       _searchFilter.updateSearchQuery(query);
 
-  void updateFilter(String key, dynamic value) =>
-      _searchFilter.updateFilter(key, value);
+  void updateFilter(String key, dynamic value) {
+    final previous = filters[key];
+    _searchFilter.updateFilter(key, value);
+    if (previous == value ||
+        (previous is List && value is List && listEquals(previous, value))) {
+      return;
+    }
+    if (const {
+      'category',
+      'ministry',
+      'state',
+      'schemeTypes',
+      'beneficiaries',
+      'coverage',
+    }.contains(key)) {
+      AppAnalytics.instance.track(
+        AnalyticsEvent.filterChanged,
+        properties: {
+          'filter_key': switch (key) {
+            'schemeTypes' => 'scheme_types',
+            _ => key,
+          },
+          'enabled': switch (value) {
+            List items => items.isNotEmpty,
+            String text => text.isNotEmpty && text != 'All',
+            bool flag => flag,
+            _ => false,
+          },
+        },
+      );
+    }
+  }
 
   void clearFilters() => _searchFilter.clearFilters();
 

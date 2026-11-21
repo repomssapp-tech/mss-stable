@@ -4,12 +4,12 @@ Proposed routes for the MSS REST backend. These paths are not in the published A
 
 ## POST `/v1/analytics/events`
 
-Accept JSON and gzip-compressed JSON. The proposed app client batches up to 100 events and queues only after an explicit, versioned analytics opt-in. This initial contract treats both modes as pseudonymous and excludes account tokens, account IDs and profile snapshots. Guest/signed-in mode describes where the event occurred and confers no permissions. If account-linked cohorts are approved later, design and review a separate authenticated version and its deletion rules.
+Accept JSON. The app buffers events locally and sends at most 100 in one request. There is no in-app analytics toggle. The release owner sets `MSS_ANALYTICS_ENABLED=true` and a nonempty `MSS_ANALYTICS_NOTICE_VERSION` after confirming that the published notice covers the approved events and the ingestion route is ready. This contract treats both modes as pseudonymous and excludes account tokens, account IDs, and profile values. Guest/signed-in mode describes where the event occurred and confers no permissions.
 
 ```json
 {
   "schema_version": 1,
-  "consent_version": "analytics-v1",
+  "notice_version": "analytics-v1",
   "install_id": "a6e90b43-7a05-47cf-a046-cf868dbe8c79",
   "events": [
     {
@@ -32,10 +32,10 @@ Accept JSON and gzip-compressed JSON. The proposed app client batches up to 100 
 }
 ```
 
-- Use randomly generated IDs. Keep an event ID across retries, rotate session ID after 30 minutes of inactivity or a cold start, and start a new session when changing account or mode between guest and signed-in. Use an interaction ID to link events in one search, assessment or profile flow. Each event carries its own context at the time it occurred.
-- Validate and accept a batch atomically. A repeat of an already stored event with the same payload succeeds with deduplication. Reject changed payloads under the same event ID with `409`. Return `200 {"accepted": 1, "duplicates": 0}` for the example. Return `400` for invalid shape, unknown properties or unsupported schema, `413` for size limits, and `429` with `Retry-After` for rate limits. Limit compressed and decoded sizes. Reject unreasonable timestamps, including future clock drift above an agreed tolerance. Proposed maximum age is 30 days, with configurable drift.
+- Use randomly generated IDs. Keep an event ID across retries, rotate session ID after 30 minutes of inactivity or a cold start, and start a new session when changing account or mode between guest and signed-in. Use an interaction ID to link events in one search, assessment or profile flow. Each event carries its own context at the time it occurred. `catalog_release` is optional until the catalog is loaded. Accept `unknown` for unavailable app version. Accept the platforms used by the shipped Flutter targets. An interaction ID can span a guest-to-account transition where the originating UI remains mounted. Never infer identity from these IDs.
+- Validate and accept a batch atomically. A repeat of an already stored event with the same payload succeeds with deduplication. Reject changed payloads under the same event ID with `409`. Return `200 {"accepted": 1, "duplicates": 0}` for the example. Return `400` for invalid shape, unknown properties or unsupported schema, `413` for size limits, and `429` with `Retry-After` for rate limits. Limit request size. The client currently sends uncompressed JSON. Reject unreasonable timestamps, including future clock drift above an agreed tolerance. Proposed maximum age is 30 days, with configurable drift.
 - Keep installation and IP rate limits. Use IP transiently for enforcement. Do not store IP, user agent, authorization headers or event bodies in request logs. Use request IDs and error codes in logs. Retain raw accepted records for a proposed 90 days and document deletion and retention for records, backups and exports.
-- Client retries transport errors, `429` and `5xx` with bounded backoff. It removes accepted and explicitly rejected batches. Run uploads off the browse/search path. Consent off clears queued data immediately, cancels future sends and rotates the identifier before a later opt-in. Any server-side withdrawal or deletion interface needs a separately reviewed proof-of-control design. A client-generated install ID alone never authorizes reading or deleting server data.
+- The client flushes at startup, approximately every minute when running, on reconnect, and when returning to or leaving the foreground. The client keeps each event for up to 30 days and caps the buffer at 2,000 events. It removes a batch only on a complete `200` acknowledgment or a permanent rejection (`400`, `409`, `422`, or a single-event `413`). It reduces batch size on a multi-event `413` and retries transient errors using 1-, 5-, and 30-minute delays. Return an integer number of seconds in `Retry-After`. A new notice version resets the prior local buffer and installation ID when initialized. A client-generated install ID alone never authorizes reading or deleting server data.
 
 ### Initial event allow-list
 
@@ -45,9 +45,9 @@ The following are proposed production events. The local QA log is a separate for
 |---|---|
 | `session_start` | `launch_kind`: cold, resumed |
 | `feature_opened` | `feature`: home, discover, search, saved, settings, profile, saarthi |
-| `search_submitted` | `source`: typed, quick_pill, voice, category. `result_count`: integer ≥0. Optional `topic_key` from a versioned app catalog allow-list. |
-| `filter_changed` | `filter_key` from an allow-list, `enabled`: boolean |
-| `scheme_opened` | `scheme_id` from the catalogue, `entry_point`: search, discovery, home, saved, recommendation, assessment, saarthi, deeplink. Optional `rank`: integer ≥1. Optional `fit`: good, possible, not_now for assessment. |
+| `search_submitted` | `source`: typed, quick_pill, voice, category. `result_count`: integer ≥0. Reserve optional `topic_key` for a versioned app catalog allow-list. The current app sends source and count. Count distinct settled queries observed by the client, including debounced typed searches. |
+| `filter_changed` | `filter_key`: coverage, state, scheme_types, beneficiaries, category, ministry, for_me, sort, `enabled`: boolean |
+| `scheme_opened` | `scheme_id` from the catalogue, `entry_point`: search, discovery, home, saved, recommendation, assessment, saarthi, deeplink, other. Optional `rank`: integer ≥1. Optional `fit`: good, possible, not_now for assessment. |
 | `scheme_action` | `scheme_id`, `action`: apply_link_opened, info_link_opened, saved, unsaved |
 | `questionnaire_started` | `source`: category, ministry, state, home, edit_results |
 | `questionnaire_progress` | `field_id` from the shipped questionnaire, `action`: shown, answered, skipped. No selected answer. |
@@ -92,4 +92,4 @@ Use `suppressed` and `unavailable` as distinct statuses with null value and no n
 
 Existing account, legal, profile and catalogue APIs retain their published contracts. Account sign-in and profile sync use those routes. Guest assessment, browse and search work from the device catalog. Optional cross-account transfer of questionnaire answers and official eligibility checks remain separate integrations under the existing [backend handoff](../handoff/2026-11-20-dev1-backend-tasks-1.2-1.4.md).
 
-Before enabling uploads: agree on consent version and UI, allowed fields and guests, retention, suppression and admin roles. Verify retry deduplication, bounded payloads, offline reconnection, consent withdrawal, and guest/signed-in parity against synthetic data.
+Before enabling uploads, agree on the notice version, event allow-list, retention, suppression, and admin roles. Verify retry deduplication, bounded payloads, offline reconnection, disabled-build behavior, and guest and signed-in event delivery against synthetic data.

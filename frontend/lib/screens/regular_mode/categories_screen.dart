@@ -12,7 +12,7 @@ import 'categories/categories_business_utilities_section.dart';
 import 'categories/categories_section_lists.dart';
 import 'categories/categories_view_all_sheets.dart';
 import 'categories/discover_counts.dart';
-import 'questionnaire_results_screen.dart';
+import 'search_results_screen.dart';
 import '../../utils/app_text.dart';
 
 // Re-exports for backwards compatibility across tests and consumers
@@ -97,6 +97,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
     SmartAssessmentBottomSheet.show(context, categoryName, 'category', (
       answers,
+      interactionId,
     ) async {
       final all = await SchemeRepository.instance.getAllSchemes();
       final schemes = DiscoverCounts.schemesFor(categoryName, 'category', all);
@@ -106,16 +107,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         return;
       }
 
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => QuestionnaireResultsScreen(
-            title: categoryName,
-            cardType: 'category',
-            schemes: schemes,
-            catalogSchemes: all,
-            answers: answers,
-          ),
-        ),
+      SearchResultsScreen.openAssessment(
+        context,
+        title: categoryName,
+        schemes: schemes,
+        answers: answers,
+        interactionId: interactionId,
       );
     });
   }
@@ -129,6 +126,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
     SmartAssessmentBottomSheet.show(context, ministryName, 'ministry', (
       answers,
+      interactionId,
     ) async {
       final all = await SchemeRepository.instance.getAllSchemes();
       final schemes = DiscoverCounts.schemesFor(ministryName, 'ministry', all);
@@ -137,16 +135,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         showComingSoonInfo(context, ministryName, 'ministry');
         return;
       }
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => QuestionnaireResultsScreen(
-            title: ministryName,
-            cardType: 'ministry',
-            schemes: schemes,
-            catalogSchemes: all,
-            answers: answers,
-          ),
-        ),
+      SearchResultsScreen.openAssessment(
+        context,
+        title: ministryName,
+        schemes: schemes,
+        answers: answers,
+        interactionId: interactionId,
       );
     });
   }
@@ -160,6 +154,7 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
 
     SmartAssessmentBottomSheet.show(context, stateName, 'state', (
       answers,
+      interactionId,
     ) async {
       final all = await SchemeRepository.instance.getAllSchemes();
       final schemes = DiscoverCounts.schemesFor(stateName, 'state', all);
@@ -168,16 +163,12 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         showComingSoonInfo(context, stateName, 'state');
         return;
       }
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (_) => QuestionnaireResultsScreen(
-            title: stateName,
-            cardType: 'state',
-            schemes: schemes,
-            catalogSchemes: all,
-            answers: answers,
-          ),
-        ),
+      SearchResultsScreen.openAssessment(
+        context,
+        title: stateName,
+        schemes: schemes,
+        answers: answers,
+        interactionId: interactionId,
       );
     });
   }

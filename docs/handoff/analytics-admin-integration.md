@@ -1,12 +1,12 @@
 # Mobile analytics in the existing admin site
 
-This handoff is for the backend and admin engineers. Add an Analytics section to the existing admin site. The companion [API contract](../backend/mobile-analytics-api.md) is proposed. The mobile app currently emits only opt-in Smart Assessment QA logs for synthetic runs. Production charts should show **Awaiting instrumentation** until the API is deployed, consent is configured and the corresponding app version has shipped.
+This handoff is for the backend and admin engineers. Add an Analytics section to the existing admin site. The companion [API contract](../backend/mobile-analytics-api.md) is proposed. The mobile app implements a persistent event buffer and batch upload behind a release flag. Production charts should show **Awaiting instrumentation** until the ingest endpoint is deployed, the release owner enables the approved notice version, and the corresponding app version sends accepted data.
 
 ## Reports and measurement
 
 | Admin view | What to show | Evidence and limits |
 |---|---|---|
-| Reach and engagement | Daily, weekly and monthly active installs, sessions, returning installs, sessions per install, feature entry counts | Count distinct opted-in install IDs in the selected window. An install can be reset or shared. Recompute uniques over the whole window instead of adding daily uniques. |
+| Reach and engagement | Daily, weekly and monthly active installs, sessions, returning installs, sessions per install, feature entry counts | Count distinct reporting install IDs in the selected window. An install can be reset or shared. Recompute uniques over the whole window instead of adding daily uniques. |
 | Discover and search | Searches by source, zero-result rate, result-count distribution, common catalog topic keys, screen-to-detail conversion, first opened rank, facet usage | Search executes on device. Capture the displayed count and an optional catalog taxonomy key. Link scheme opens by search interaction ID. Search intent is unknown if no known topic matches. |
 | Scheme interest | Details opened by scheme and entry point, saves, apply-link launches, detail-to-apply conversion | An external link launch indicates outbound interest. The app cannot see an application submission, decision or payout. |
 | Smart Assessment | Starts, completions, abandons, per-question reach and skips, median viable results, zero viable results, no Good fit, opens by fit group | Use an assessment interaction ID. Report only fields and action counts. For interrupted runs without a close event, mark abandonment after the agreed inactivity window, with the last observed step. Good fit and Might fit are app ranking labels. |
@@ -22,10 +22,10 @@ Break down the first release by date, app version, platform, language, regular/c
 ## Build and release order
 
 1. Implement ingest, idempotent storage and aggregate queries using the API contract. Schedule aggregation in the backend and expose only aggregates through the existing admin authorization. Restricted source data should remain server-side.
-2. Start with Reach, Discover, Scheme interest, Smart Assessment and Profile. Track event coverage by app version, known consent scope and schema version. Show delayed uploads and withheld groups as separate conditions from genuine zeros.
+2. Start with Reach, Discover, Scheme interest, Smart Assessment and Profile. Track event coverage by app version, notice version and schema version. Show delayed uploads and withheld groups as separate conditions from genuine zeros.
 3. Apply a minimum of 10 distinct installs per released cell as the proposed initial rule. Confirm the threshold before launch. Suppress complementary cells and totals where subtraction would reveal a suppressed count. Apply the same rules to downloads and all filter combinations.
 4. Roll up by event date in Asia/Kolkata and show that timezone in the UI. Store timestamps in UTC and keep receipt time separately. Reprocess late arrivals within the accepted window. Include numerator, denominator, sample size and measured date window wherever a rate appears.
-5. Validate with synthetic fixtures across both modes: duplicate retries do not inflate metrics, profile sections count correctly after a resume, rankings sum to the displayed result counts, anonymous search correlation stays scoped to one search, and small cells remain suppressed in exports. Include revoked consent, account deletion and guest-to-sign-in transitions.
-6. Ship behind a release flag after privacy and consent review, on a staged app rollout. Use a synthetic admin tenant for QA and confirm chart totals against known fixtures before treating them as decision data.
+5. Validate with synthetic fixtures across both modes: duplicate retries do not inflate metrics, profile sections count correctly after a resume, rankings sum to the displayed result counts, anonymous search correlation stays scoped to one search, and small cells remain suppressed in exports. Include disabled builds, pseudonymous data retention, and guest-to-sign-in transitions.
+6. Ship behind a release flag after disclosure review, on a staged app rollout. Use a synthetic admin tenant for QA and confirm chart totals against known fixtures before treating them as decision data.
 
 Existing backend logs may support service volume and errors if source coverage is known. They cannot recover historical on-device searches, answer progress or offline browsing. Funnel comparisons start when the corresponding client events ship.

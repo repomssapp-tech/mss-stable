@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../services/analytics/app_analytics.dart';
 import '../../providers/app_state_provider.dart';
 import '../../l10n/l10n.dart';
 import '../../services/recommendation/indian_states.dart';
@@ -44,6 +45,22 @@ class BasicProfileScreen extends StatefulWidget {
 }
 
 class _BasicProfileScreenState extends State<BasicProfileScreen> {
+  final _analyticsInteractionId = AppAnalytics.instance.interactionId();
+  static const _analyticsSections = [
+    'basic_details',
+    'location',
+    'about_you',
+    'eligibility',
+  ];
+
+  void _trackProfileStep(int step, String action) {
+    AppAnalytics.instance.track(
+      AnalyticsEvent.profileProgress,
+      interactionId: _analyticsInteractionId,
+      properties: {'section': _analyticsSections[step - 1], 'action': action},
+    );
+  }
+
   late int _currentStep;
 
   // Theme Constants
@@ -93,6 +110,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   void initState() {
     super.initState();
     _currentStep = widget.initialStep;
+    _trackProfileStep(_currentStep, 'shown');
     final provider = Provider.of<AppProvider>(context, listen: false);
     final profile = provider.profile;
 
@@ -284,6 +302,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   void _handleBack() {
     if (_currentStep > 1) {
       setState(() => _currentStep--);
+      _trackProfileStep(_currentStep, 'shown');
     } else {
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
@@ -311,18 +330,21 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       }
 
       final provider = Provider.of<AppProvider>(context, listen: false);
-      provider.updateProfile(
-        provider.profile.copyWith(
-          name: name,
-          email: email,
-          mobile: phone,
-          gender: _selectedGender,
-          dob: _selectedDob,
-        ),
-        requireCloudSync: false,
-      );
+      provider
+          .updateProfile(
+            provider.profile.copyWith(
+              name: name,
+              email: email,
+              mobile: phone,
+              gender: _selectedGender,
+              dob: _selectedDob,
+            ),
+            requireCloudSync: false,
+          )
+          .then((_) => _trackProfileStep(1, 'draft_saved'));
 
       setState(() => _currentStep = 2);
+      _trackProfileStep(2, 'shown');
     } else if (_currentStep == 2) {
       setState(() => _hasSubmittedStep2 = true);
       if (!_isStep2Valid) {
@@ -339,19 +361,22 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       final state = IndianStates.canonical(_stateController.text);
 
       final provider = Provider.of<AppProvider>(context, listen: false);
-      provider.updateProfile(
-        provider.profile.copyWith(
-          house: address,
-          area: address,
-          city: city,
-          district: district,
-          state: state,
-          pinCode: _pincodeController.text.trim(),
-        ),
-        requireCloudSync: false,
-      );
+      provider
+          .updateProfile(
+            provider.profile.copyWith(
+              house: address,
+              area: address,
+              city: city,
+              district: district,
+              state: state,
+              pinCode: _pincodeController.text.trim(),
+            ),
+            requireCloudSync: false,
+          )
+          .then((_) => _trackProfileStep(2, 'draft_saved'));
 
       setState(() => _currentStep = 3);
+      _trackProfileStep(3, 'shown');
     } else if (_currentStep == 3) {
       if (_selectedRole == null) {
         setState(() => _hasSubmittedStep3 = true);
@@ -360,14 +385,17 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
 
       final selectedRole = _selectedRole!;
       final provider = Provider.of<AppProvider>(context, listen: false);
-      provider.updateProfile(
-        provider.profile.copyWith(
-          employmentStatus: _canonicalRoleTitle(selectedRole),
-        ),
-        requireCloudSync: false,
-      );
+      provider
+          .updateProfile(
+            provider.profile.copyWith(
+              employmentStatus: _canonicalRoleTitle(selectedRole),
+            ),
+            requireCloudSync: false,
+          )
+          .then((_) => _trackProfileStep(3, 'draft_saved'));
 
       setState(() => _currentStep = 4);
+      _trackProfileStep(4, 'shown');
     } else if (_currentStep == 4) {
       setState(() => _hasSubmittedStep4 = true);
       if (!_isStep4Valid) {
@@ -398,7 +426,9 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     );
 
     try {
+      final localOnly = provider.isGuest;
       await provider.updateProfile(updatedProfile, requireCloudSync: true);
+      _trackProfileStep(4, localOnly ? 'draft_saved' : 'cloud_saved');
 
       if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
@@ -406,6 +436,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         (route) => false,
       );
     } catch (error, stackTrace) {
+      if (!provider.isGuest) _trackProfileStep(4, 'sync_failed');
       debugPrint(
         '[BasicProfileScreen] Error submitting profile: $error\n$stackTrace',
       );

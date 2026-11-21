@@ -13,7 +13,6 @@ import '../../../utils/app_spacing.dart';
 import '../../../widgets/assistant/smart_assessment_bottom_sheet.dart';
 import '../../notifications_screen.dart';
 import '../search_results_screen.dart';
-import '../questionnaire_results_screen.dart';
 import '../categories/discover_counts.dart';
 import '../../../utils/app_text.dart';
 
@@ -119,31 +118,19 @@ class _HomePromoCarouselSectionState extends State<HomePromoCarouselSection> {
     } else if (route == 'draft_session') {
       SmartAssessmentBottomSheet.show(context, targetTitle, targetType, (
         answers,
+        interactionId,
       ) async {
         final all = await SchemeRepository.instance.getAllSchemes();
         final schemes = DiscoverCounts.schemesFor(targetTitle, targetType, all);
         if (!context.mounted) return;
-        if (schemes.isNotEmpty) {
-          Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (_) => QuestionnaireResultsScreen(
-                title: targetTitle,
-                cardType: targetType,
-                schemes: schemes,
-                catalogSchemes: all,
-                answers: answers,
-              ),
-            ),
-          );
-          return;
-        }
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (_) =>
-                SearchResultsScreen(title: targetTitle, type: targetType),
-          ),
+        SearchResultsScreen.openAssessment(
+          context,
+          title: targetTitle,
+          schemes: schemes,
+          answers: answers,
+          interactionId: interactionId,
         );
-      });
+      }, source: 'home');
     }
   }
 

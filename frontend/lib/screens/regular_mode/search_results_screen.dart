@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../models/scheme_model.dart';
+import '../../services/analytics/app_analytics.dart';
+import '../../providers/app_state_provider.dart';
+import '../../services/questionnaire/questionnaire_qa_metrics.dart';
+import '../../services/questionnaire/questionnaire_recommendation_service.dart';
 import 'search/browse_scope.dart';
 import 'search_screen.dart';
 
@@ -24,12 +29,61 @@ class SearchResultsScreen extends StatelessWidget {
     this.type,
     this.initialSchemes,
     this.keepFilters = false,
+    this.assessmentFits = const {},
+    this.interactionId,
   });
 
   final String title;
   final String? type;
   final List<Scheme>? initialSchemes;
   final bool keepFilters;
+  final Map<String, QuestionnaireFit> assessmentFits;
+  final String? interactionId;
+
+  static void openAssessment(
+    BuildContext context, {
+    required String title,
+    required List<Scheme> schemes,
+    required Map<String, Object?> answers,
+    String? interactionId,
+  }) {
+    const engine = QuestionnaireRecommendationService();
+    final ordered = engine.rank(
+      schemes,
+      answers,
+      profile: context.read<AppProvider>().profile,
+    );
+    QuestionnaireQaMetrics.emit('results', {
+      for (final fit in QuestionnaireFit.values)
+        fit.name: ordered.where((result) => result.fit == fit).length,
+    });
+    AppAnalytics.instance.track(
+      AnalyticsEvent.questionnaireResults,
+      interactionId: interactionId,
+      properties: {
+        'good': ordered.where((row) => row.fit == QuestionnaireFit.good).length,
+        'possible': ordered
+            .where((row) => row.fit == QuestionnaireFit.possible)
+            .length,
+        'not_now': ordered
+            .where((row) => row.fit == QuestionnaireFit.notNow)
+            .length,
+      },
+    );
+    Navigator.of(context).push(
+      MaterialPageRoute<void>(
+        builder: (_) => SearchResultsScreen(
+          title: title,
+          type: 'assessment',
+          interactionId: interactionId,
+          initialSchemes: ordered.map((result) => result.scheme).toList(),
+          assessmentFits: {
+            for (final result in ordered) result.scheme.id: result.fit,
+          },
+        ),
+      ),
+    );
+  }
 
   bool get _isQuery {
     final t = type?.toLowerCase();
@@ -44,7 +98,13 @@ class SearchResultsScreen extends StatelessWidget {
       initialQuery: _isQuery ? title : null,
       scope: _isQuery
           ? null
-          : BrowseScope(title: title, type: type, schemes: initialSchemes),
+          : BrowseScope(
+              title: title,
+              type: type,
+              schemes: initialSchemes,
+              assessmentFits: assessmentFits,
+              interactionId: interactionId,
+            ),
     );
   }
 }

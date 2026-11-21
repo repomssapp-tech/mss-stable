@@ -37,10 +37,6 @@ class GuestProfileView extends StatelessWidget {
                 width: double.infinity,
                 child: FilledButton(
                   key: const ValueKey('guest-profile-sign-in'),
-                  style: FilledButton.styleFrom(
-                    // style-ok: CTA height
-                    minimumSize: const Size.fromHeight(AppSize.tapTarget),
-                  ),
                   onPressed: () => openSignIn(context),
                   child: Text(l10n.guestSignInAction),
                 ),

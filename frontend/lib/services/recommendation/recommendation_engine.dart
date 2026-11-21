@@ -2,19 +2,28 @@ import '../../models/user_profile.dart';
 import '../../models/scheme_model.dart';
 import '../search/hybrid_scheme_search.dart';
 import '../../models/scheme_filter.dart';
+import 'indian_states.dart';
 import 'profile_canonicalizer.dart';
+
+enum RecommendationRestriction { state, gender, age }
 
 class RecommendationResult {
   final double score; // 0.0 to 1.0
   final List<String> matchingReasons;
   final List<String> missingRequirements;
   final List<String> missingDocuments;
+  final RecommendationRestriction? restriction;
+  final bool needsEligibilityReview;
+  final bool usesFallbackScore;
 
   RecommendationResult({
     required this.score,
     required this.matchingReasons,
     required this.missingRequirements,
     required this.missingDocuments,
+    this.restriction,
+    this.needsEligibilityReview = false,
+    this.usesFallbackScore = false,
   });
 
   int get percentage => (score * 100).round();
@@ -56,12 +65,19 @@ class RecommendationEngine {
   /// is canonicalised once (see [ProfileCanonicalizer]) rather than per scheme.
   static List<MapEntry<Scheme, RecommendationResult>> getRecommendations(
     UserProfile profile,
-    List<Scheme> schemes,
-  ) {
+    List<Scheme> schemes, {
+    int? ageInYears,
+    Set<String> additionalCategories = const {},
+  }) {
     final canonical = ProfileCanonicalizer.canonicalize(profile);
     final results = <MapEntry<Scheme, RecommendationResult>>[];
     for (var scheme in schemes) {
-      final res = _score(canonical, scheme);
+      final res = _score(
+        canonical,
+        scheme,
+        ageInYears: ageInYears,
+        additionalCategories: additionalCategories,
+      );
       results.add(MapEntry(scheme, res));
     }
     // Sort by score descending, scheme id as a deterministic tiebreak so
@@ -105,18 +121,41 @@ class RecommendationEngine {
       _score(ProfileCanonicalizer.canonicalize(profile), scheme);
 
   /// [p] must already be canonical (see [ProfileCanonicalizer.canonicalize]).
-  static RecommendationResult _score(UserProfile p, Scheme scheme) {
+  static RecommendationResult _score(
+    UserProfile p,
+    Scheme scheme, {
+    int? ageInYears,
+    Set<String> additionalCategories = const {},
+  }) {
     double score = 0.0;
     final matchingReasons = <String>[];
     final missingRequirements = <String>[];
     final missingDocuments = <String>[];
 
-    // Get basic stats
-    final age = p.age;
-    final hasAge = p.dob != null;
+    RecommendationRestriction? restriction;
+    var needsEligibilityReview = false;
+    final age = ageInYears ?? (p.dob == null ? null : p.age);
     final isTN = p.state == 'Tamil Nadu';
     final isFemale = p.gender == 'Female' || p.gender == 'Transgender';
-    final isSCST = p.community == 'SC' || p.community == 'ST';
+    final profileCategories = <String>{
+      ...additionalCategories,
+      if (p.community == 'SC') 'sc',
+      if (p.community == 'ST') 'st',
+      if (p.community == 'OBC') 'obc',
+      if (isFemale) 'women',
+      if (p.gender == 'Transgender') 'transgender',
+      if (ProfileCanonicalizer.isDifferentlyAbled(p.disability))
+        'differently_abled',
+      if (p.veteran) 'ex_servicemen',
+      if (p.community == 'Minority' ||
+          _minorityReligions.contains(p.religion.toLowerCase()))
+        'minority',
+    };
+    final isSCST =
+        profileCategories.contains('sc') || profileCategories.contains('st');
+    final schemeCategories = scheme.specialCategories
+        .map((c) => c.toLowerCase())
+        .toSet();
 
     // Document checks helper: We check what documents they might miss based on profile inputs.
     // By default, we assume they have Aadhaar and PAN (or they are easy to obtain, but we flag if not filled in profile)
@@ -149,68 +188,91 @@ class RecommendationEngine {
       }
     }
 
-    // Early-return helper for a hard disqualification: the profile concretely
-    // contradicts a real, exclusive scheme rule.
-    RecommendationResult disqualified() => RecommendationResult(
-      score: 0.0,
-      matchingReasons: matchingReasons,
-      missingRequirements: missingRequirements,
-      missingDocuments: missingDocuments,
-    );
+    RecommendationResult disqualified(RecommendationRestriction? reason) =>
+        RecommendationResult(
+          score: 0,
+          matchingReasons: matchingReasons,
+          missingRequirements: missingRequirements,
+          missingDocuments: missingDocuments,
+          restriction: reason,
+          needsEligibilityReview: reason == null,
+        );
 
-    // 1. State / Residency -- HARD when the scheme is not available in the
-    //    profile's state. Coverage is the catalog's structured
-    //    appliesNationally / states (see schemeAppliesInState), and states
-    //    are compared by code, so "தமிழ்நாடு", "Tamil Nadu" and "IN-TN" are
-    //    the same state.
+    final hasState = IndianStates.code(p.state) != null;
     final stateIsNational = schemeAppliesNationally(scheme);
-    if (!stateIsNational && !schemeAppliesInState(scheme, p.state)) {
+    final hasStateRestriction =
+        !stateIsNational &&
+        (scheme.stateCodes.isNotEmpty ||
+            (scheme.appliesNationally == null &&
+                IndianStates.code(scheme.state) != null));
+    if (scheme.appliesNationally == false && !hasStateRestriction) {
+      needsEligibilityReview = true;
+    }
+    if (hasStateRestriction && !schemeAppliesInState(scheme, p.state)) {
       missingRequirements.add(
         'Residency: This scheme is for residents of ${scheme.state}.',
       );
-      return disqualified();
+      return disqualified(hasState ? RecommendationRestriction.state : null);
     }
-    if (!stateIsNational) {
+    if (hasStateRestriction) {
       matchingReasons.add(
         'Location: You reside in ${scheme.state} where this scheme is offered.',
       );
       score += _wState;
-    } else if (p.state.trim().isNotEmpty) {
+    } else if (stateIsNational && hasState) {
       matchingReasons.add(
         'Coverage: Applies across India, including ${p.state}.',
       );
       score += _wNationalCoverage;
     }
 
-    // 2. Gender -- structured eligibility.gender facet is authoritative
-    //    when the catalog asserts it; free-text targetBeneficiary is the
-    //    fallback. A female-only scheme HARD-excludes non-female profiles.
     final targetUpper = scheme.targetBeneficiary.toUpperCase();
-    final hasWomenKeyword =
-        targetUpper.contains('WOMEN') || targetUpper.contains('FEMALE');
-    bool wantsFemale = false;
-    if (scheme.eligibilityGenderValues.isNotEmpty) {
-      wantsFemale = scheme.eligibilityGenderValues.any(
-        (v) => v.toLowerCase() == 'female',
+    final hasWomenKeyword = _womenTarget.hasMatch(targetUpper);
+    final allowedGenders = scheme.eligibilityGenderValues
+        .map((value) => value.toLowerCase())
+        .toSet();
+    final matchesGender =
+        allowedGenders.contains(p.gender.toLowerCase()) ||
+        (allowedGenders.contains('female') && isFemale);
+    if (allowedGenders.isNotEmpty && !matchesGender) {
+      final alternateAudience = _alternateGenderAudience.stringMatch(
+        targetUpper,
       );
-    } else {
-      wantsFemale = hasWomenKeyword;
-    }
-    if (wantsFemale) {
-      if (!isFemale) {
+      final alternateCommunities = {
+        if (alternateAudience != null &&
+            _scheduledCaste.hasMatch(alternateAudience))
+          'sc',
+        if (alternateAudience != null &&
+            _scheduledTribe.hasMatch(alternateAudience))
+          'st',
+      };
+      if (profileCategories.intersection(alternateCommunities).isEmpty) {
         missingRequirements.add(
-          'Gender: This scheme is targeted towards Women/Female entrepreneurs.',
+          'Gender: This scheme targets ${scheme.eligibilityGenderValues.join(', ')} applicants.',
         );
-        return disqualified();
+        final hasGender = const {
+          'Male',
+          'Female',
+          'Other',
+          'Transgender',
+        }.contains(p.gender);
+        final knowsCommunity =
+            p.community.trim().isNotEmpty ||
+            additionalCategories.any(
+              const {'general', 'sc', 'st', 'obc'}.contains,
+            );
+        return disqualified(
+          hasGender && (alternateCommunities.isEmpty || knowsCommunity)
+              ? RecommendationRestriction.gender
+              : null,
+        );
       }
-      // SUBSTANTIVE: the scheme is gender-scoped and the profile matches.
-      matchingReasons.add('Gender: You match the target female demographic.');
+    }
+    if (matchesGender ||
+        (allowedGenders.isEmpty && hasWomenKeyword && isFemale)) {
+      matchingReasons.add('Gender: You match the target demographic.');
       score += _wGender;
     }
-    // A gender-agnostic scheme earns NOTHING for gender -- "silent on X"
-    // is not a match (previously this granted +_wGender to every scheme
-    // for anyone with a gender set, which recreated the "no info => still
-    // matches" bug at a lower score).
 
     // 3. Special-category -- structured eligibility.specialCategory facet
     //    is authoritative when populated; SC/ST keyword is the fallback.
@@ -223,22 +285,6 @@ class RecommendationEngine {
         targetUpper.contains('SC-ST') ||
         targetUpper.contains('SC/ST');
     if (scheme.specialCategories.isNotEmpty) {
-      final profileCategories = <String>{
-        if (p.community == 'SC') 'sc',
-        if (p.community == 'ST') 'st',
-        if (p.community == 'OBC') 'obc',
-        if (isFemale) 'women',
-        if (p.gender == 'Transgender') 'transgender',
-        if (ProfileCanonicalizer.isDifferentlyAbled(p.disability))
-          'differently_abled',
-        if (p.veteran) 'ex_servicemen',
-        if (p.community == 'Minority' ||
-            _minorityReligions.contains(p.religion.toLowerCase()))
-          'minority',
-      };
-      final schemeCategories = scheme.specialCategories
-          .map((c) => c.toLowerCase())
-          .toSet();
       final overlap = schemeCategories.intersection(profileCategories);
       if (overlap.isEmpty) {
         missingRequirements.add(
@@ -270,15 +316,18 @@ class RecommendationEngine {
     if (scheme.eligibilityMinAge != null || scheme.eligibilityMaxAge != null) {
       final minAge = scheme.eligibilityMinAge ?? 0;
       final maxAge = scheme.eligibilityMaxAge ?? 200;
-      if (hasAge && age >= minAge && age <= maxAge) {
+      if (age != null && age >= minAge && age <= maxAge) {
         matchingReasons.add(
           'Age: Your age ($age) is within the eligible range of $minAge-$maxAge years.',
         );
         score += _wAge;
-      } else if (hasAge) {
+      } else if (age != null) {
+        restriction = RecommendationRestriction.age;
         missingRequirements.add(
           'Age: Your age ($age) is outside the eligible range of $minAge-$maxAge years.',
         );
+      } else {
+        needsEligibilityReview = true;
       }
     }
 
@@ -295,6 +344,7 @@ class RecommendationEngine {
         );
         score += _wSectorStage;
       } else {
+        needsEligibilityReview = true;
         missingRequirements.add(
           'Business Stage: This scheme targets ${scheme.eligibilityBusinessStageValues.join(', ')} businesses.',
         );
@@ -379,7 +429,8 @@ class RecommendationEngine {
     // 7. Genuinely unconstrained scheme that matched nothing at all --
     //    keep it findable (search / browse) but well below the "For Me"
     //    bar. This is NOT a match, it is the absence of one.
-    if (score == 0.0 && matchingReasons.isEmpty) {
+    final usesFallbackScore = score == 0 && matchingReasons.isEmpty;
+    if (usesFallbackScore) {
       score = 0.3;
       matchingReasons.add(
         'Relevance: No specific eligibility conflicts detected.',
@@ -397,11 +448,25 @@ class RecommendationEngine {
 
     return RecommendationResult(
       score: score.clamp(0.0, 1.0),
+      restriction: restriction,
+      needsEligibilityReview: needsEligibilityReview,
+      usesFallbackScore: usesFallbackScore,
       matchingReasons: matchingReasons,
       missingRequirements: missingRequirements,
       missingDocuments: missingDocuments,
     );
   }
+
+  static final _womenTarget = RegExp(r'\b(?:WOMEN|WOMAN|FEMALE)\b');
+  static const _womenAudience = r'(?:WOMEN|WOMAN|FEMALE)(?:\s+ENTREPRENEURS?)?';
+  static const _communityAudience =
+      r'(?:SC\s*/\s*ST|SC|ST|SCHEDULED CASTES?|SCHEDULED TRIBES?)(?:\s+ENTREPRENEURS?)?';
+  static final _alternateGenderAudience = RegExp(
+    '\\b(?:$_womenAudience\\s+(?:AND/)?OR\\s+$_communityAudience|'
+    '$_communityAudience\\s+(?:AND/)?OR\\s+$_womenAudience)\\b',
+  );
+  static final _scheduledCaste = RegExp(r'\b(?:SC|SCHEDULED CASTES?)\b');
+  static final _scheduledTribe = RegExp(r'\b(?:ST|SCHEDULED TRIBES?)\b');
 
   // Role self-identification from the "About You" onboarding step
   // (UserProfile.employmentStatus). Canonical titles: Student,

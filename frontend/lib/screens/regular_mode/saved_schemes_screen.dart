@@ -153,7 +153,10 @@ class _SavedSchemesScreenState extends State<SavedSchemesScreen> {
             AppFeedback.light();
             Navigator.of(context).push(
               MaterialPageRoute(
-                builder: (_) => SchemeDetailsScreen(scheme: scheme),
+                builder: (_) => SchemeDetailsScreen(
+                  scheme: scheme,
+                  analyticsEntryPoint: 'saved',
+                ),
               ),
             );
           },

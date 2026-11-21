@@ -3,6 +3,7 @@ import 'package:flutter/foundation.dart';
 import '../../models/onboarding_api_dto.dart';
 import '../../models/user_profile.dart';
 import '../../services/account/app_session.dart';
+import '../../services/analytics/app_analytics.dart';
 import '../../services/account/onboarding_api_service.dart';
 import '../../services/account/profile_api_service.dart';
 
@@ -76,6 +77,7 @@ Future<void> syncProfileToServer(
       legalAcceptances: acceptances,
     );
     await OnboardingApiService.instance.submitOnboarding(submission);
+    AppAnalytics.instance.track(AnalyticsEvent.profileCompleted);
   }
   debugPrint('[AppProvider] Profile sync completed.');
 }
