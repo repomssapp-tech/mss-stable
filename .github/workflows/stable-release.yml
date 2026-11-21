@@ -1,0 +1,220 @@
+name: Stable release
+
+# Builds the three MSS apps from main and publishes them as one release,
+# "Stable vN", in this repository. Runs only in repomssapp-tech/mss-stable
+# (the public repository the apps' updater reads); in every other copy of
+# the code it does nothing.
+#
+#   Actions → Stable release → Run workflow
+#     publish = false   analyze, test, build and check the three signed APKs
+#     publish = true    the same, then publish "Stable vN" (tag app-v<version>)
+#
+# Assets: mss-central-<version>.apk (com.inschemes.app, "MSS"),
+#         mss-tn-<version>.apk (com.inschemes.app.tn, "MSS Tamil Nadu"),
+#         mss-mh-<version>.apk (com.inschemes.app.mh, "MSS Maharashtra").
+# Each app's updater picks its own file (lib/models/app_release.dart).
+#
+# Signing: secrets of the "production" environment (main only):
+#   ANDROID_KEYSTORE_BASE64, ANDROID_KEYSTORE_PASSWORD, ANDROID_KEY_ALIAS,
+#   ANDROID_KEY_PASSWORD. Every APK must carry the release certificate
+#   SHA-256 cc58f15a…847af1, the key the installed MSS app is signed with,
+#   or nothing is published.
+
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Publish Stable vN (otherwise only build and check)"
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: stable-release
+  cancel-in-progress: false
+
+env:
+  FLUTTER_VERSION: ${{ vars.FLUTTER_VERSION || '3.47.5' }}
+  RELEASE_CERT_SHA256: cc58f15af1edd4a4d2aa8d3109953fcfc1acf57843d195e0a7ec04a5de847af1
+
+defaults:
+  run:
+    working-directory: frontend
+
+jobs:
+  verify:
+    if: ${{ github.repository == 'repomssapp-tech/mss-stable' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run: flutter pub get
+      - name: Version must be new
+        id: version
+        run: |
+          set -euo pipefail
+          v=$(grep -m1 '^version:' pubspec.yaml | awk '{print $2}')
+          echo "Version $v"
+          if git rev-parse -q --verify "refs/tags/app-v$v" >/dev/null; then
+            echo "::error::app-v$v already exists: bump the version in pubspec.yaml first."
+            exit 1
+          fi
+          grep -q "^## \[$v\]" ../CHANGELOG.md || { echo "::error::CHANGELOG.md has no entry for $v."; exit 1; }
+          echo "version=$v" >> "$GITHUB_OUTPUT"
+      - run: flutter analyze
+      - run: flutter test
+
+  build:
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: production
+    strategy:
+      fail-fast: true
+      matrix:
+        edition: [central, tn, mh]
+    env:
+      MSS_EDITION: ${{ matrix.edition }}
+      VERSION: ${{ needs.verify.outputs.version }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Free disk space
+        working-directory: .
+        run: sudo rm -rf /usr/share/dotnet /opt/ghc /usr/local/.ghcup /usr/local/share/boost "$AGENT_TOOLSDIRECTORY/CodeQL"
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - uses: gradle/actions/setup-gradle@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+          cache: true
+      - run: flutter pub get
+
+      - name: App ID
+        id: app
+        run: |
+          pkg=com.inschemes.app
+          if [ "$MSS_EDITION" != central ]; then pkg="$pkg.$MSS_EDITION"; fi
+          echo "pkg=$pkg" >> "$GITHUB_OUTPUT"
+          echo "App ID: $pkg"
+
+      # The Google services plugin needs a client entry for the app ID.
+      - name: Firebase config for the state apps
+        if: ${{ matrix.edition != 'central' }}
+        run: |
+          set -euo pipefail
+          f=android/app/google-services.json
+          jq --arg pkg "${{ steps.app.outputs.pkg }}" '.client += [.client[0] | .client_info.android_client_info.package_name = $pkg]' "$f" > "$f.tmp"
+          mv "$f.tmp" "$f"
+
+      - name: Signing
+        env:
+          KEYSTORE_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          set -euo pipefail
+          for v in KEYSTORE_B64 KEYSTORE_PASSWORD KEY_ALIAS KEY_PASSWORD; do
+            if [ -z "${!v:-}" ]; then echo "::error::Signing secret missing in the production environment ($v)."; exit 1; fi
+          done
+          echo "$KEYSTORE_B64" | base64 -d > android/app/upload-keystore.jks
+          printf 'storeFile=app/upload-keystore.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
+            "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" > android/key.properties
+
+      - name: Build
+        run: |
+          set -euo pipefail
+          jq -n --arg edition "$MSS_EDITION" \
+            '{API_BASE_URL: "https://mssapi.msmeschemes.org", MSS_CHANNEL: "prod", MSS_LOCATION_LOCK: "false", MSS_EDITION: $edition}' > dart_defines.json
+          flutter build apk --release --obfuscate --split-debug-info=build/debug-symbols \
+            --dart-define-from-file=dart_defines.json
+
+      - name: Remove build secrets
+        if: ${{ always() }}
+        run: rm -f android/key.properties android/app/upload-keystore.jks dart_defines.json
+
+      - name: Check signature, app ID and version
+        run: |
+          set -euo pipefail
+          apk=build/app/outputs/flutter-apk/app-release.apk
+          bt="$ANDROID_HOME/build-tools/36.0.0"
+          [ -x "$bt/apksigner" ] && [ -x "$bt/aapt2" ] || sdkmanager 'build-tools;36.0.0'
+          signer=$("$bt/apksigner" verify --print-certs "$apk" | awk -F ': ' '/certificate SHA-256 digest:/ { print tolower($2); exit }')
+          if [ "$signer" != "$RELEASE_CERT_SHA256" ]; then
+            echo "::error::Signed with the wrong key ($signer)."
+            exit 1
+          fi
+          "$bt/aapt2" dump badging "$apk" | grep -F "package: name='${{ steps.app.outputs.pkg }}' versionCode='${VERSION##*+}' versionName='${VERSION%%+*}'"
+          mkdir -p out && cp "$apk" "out/mss-$MSS_EDITION-$VERSION.apk"
+          ls -la out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk-${{ matrix.edition }}
+          path: frontend/out/*.apk
+          if-no-files-found: error
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: debug-symbols-${{ matrix.edition }}
+          path: frontend/build/debug-symbols
+          if-no-files-found: error
+          retention-days: 90
+
+  publish:
+    needs: [verify, build]
+    if: ${{ inputs.publish }}
+    runs-on: ubuntu-latest
+    environment: production
+    permissions:
+      contents: write
+    defaults:
+      run:
+        working-directory: .
+    env:
+      VERSION: ${{ needs.verify.outputs.version }}
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: apk-*
+          merge-multiple: true
+          path: apks
+      - name: Publish Stable vN
+        run: |
+          set -euo pipefail
+          ls -la apks
+          for e in central tn mh; do [ -s "apks/mss-$e-$VERSION.apk" ] || { echo "::error::Missing mss-$e-$VERSION.apk"; exit 1; }; done
+          n=$(( $(gh release list --repo "$GITHUB_REPOSITORY" --limit 200 --json name --jq '[.[] | select(.name | startswith("Stable v"))] | length') + 1 ))
+          {
+            echo "**MSS ${VERSION%%+*} (build ${VERSION##*+}).** Installs as an update and keeps your data."
+            echo
+            echo "| App | File |"
+            echo "|---|---|"
+            echo "| MSS (Central) | \`mss-central-$VERSION.apk\` |"
+            echo "| MSS Tamil Nadu | \`mss-tn-$VERSION.apk\` |"
+            echo "| MSS Maharashtra | \`mss-mh-$VERSION.apk\` |"
+            echo
+            awk -v head="## [$VERSION]" 'index($0, head) == 1 { f = 1; next } /^## \[/ { f = 0 } f' CHANGELOG.md
+            echo
+            echo "Built by GitHub Actions run $GITHUB_RUN_ID from ${GITHUB_SHA::7}."
+          } > notes.md
+          gh release create "app-v$VERSION" apks/*.apk --repo "$GITHUB_REPOSITORY" --target "$GITHUB_SHA" \
+            --title "Stable v$n · $VERSION" --notes-file notes.md --latest
+          echo "Published Stable v$n"

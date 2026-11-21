@@ -80,10 +80,6 @@ android {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = mssAppId
         manifestPlaceholders["appLabel"] = mssAppLabel
-        // Google sign-in returns to "<app ID>://login-callback/" (see
-        // kAuthRedirectUrl in lib/config/edition.dart), so each app only
-        // receives its own sign-in.
-        manifestPlaceholders["appAuthScheme"] = mssAppId
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         // The on-device llama.cpp bridge requires API 26. This still covers

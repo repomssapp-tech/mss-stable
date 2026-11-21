@@ -49,7 +49,9 @@ class SaarthiTour {
     }
     if (await store.isDone(id)) return HomeTourStart.alreadyDone;
     if (!context.mounted || _entry != null) return HomeTourStart.notApplicable;
-    if (!SaarthiTourTargets.allReady) return HomeTourStart.notReady;
+    if (!SaarthiTourTargets.allReady || !HomeTour.isFrontmost(context)) {
+      return HomeTourStart.notReady;
+    }
 
     final overlay = Overlay.of(context, rootOverlay: true);
     late final OverlayEntry entry;
