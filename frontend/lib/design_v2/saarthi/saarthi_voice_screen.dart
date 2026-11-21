@@ -33,7 +33,7 @@ import 'saarthi_voice_home.dart';
 import 'saarthi_voice_room.dart';
 import 'scheme_mentions.dart';
 import '../../widgets/common/sign_in_required_sheet.dart';
-import '../../widgets/onboarding/home_tour.dart' show HomeTourStart;
+import '../../widgets/onboarding/home_tour.dart' show HomeTour, HomeTourStart;
 import '../../widgets/onboarding/saarthi_tour.dart';
 import '../../services/account/app_session.dart';
 
@@ -426,7 +426,14 @@ class _SaarthiVoiceScreenState extends State<SaarthiVoiceScreen> {
     var checking = false;
     _tourPoll = Timer.periodic(const Duration(milliseconds: 80), (timer) async {
       if (checking) return;
-      if (!mounted || ++attempts > 75) {
+      if (!mounted) {
+        timer.cancel();
+        return;
+      }
+      // A screen open on top (first-run profile form, survey) pauses the
+      // count: the tour starts once Saarthi is back in front.
+      if (!HomeTour.isFrontmost(context)) return;
+      if (++attempts > 75) {
         timer.cancel();
         return;
       }

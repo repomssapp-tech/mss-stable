@@ -387,11 +387,19 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   /// 80 ms), not after a fixed wait. The status is read ahead by the
   /// navigation-mode screen and the splash ([HomeTour.prefetch]), so a tour
   /// already done costs nothing here.
+  ///
+  /// While another screen is open on top of home (the first-run profile form
+  /// or the short survey), the tour waits: it would otherwise point at home's
+  /// search bar and bottom bar through that screen. It starts once the user is
+  /// back on home.
   Future<void> _showHomeTourWhenReady() async {
     if (HomeTour.pending == false) return;
-    for (var attempt = 0; attempt < 75; attempt++) {
+    var attempt = 0;
+    while (attempt < 75) {
       await Future<void>.delayed(const Duration(milliseconds: 80));
       if (!mounted) return;
+      if (!HomeTour.isFrontmost(context)) continue;
+      attempt++;
       final provider = Provider.of<AppProvider>(context, listen: false);
       if (provider.currentTabIndex != 0 ||
           provider.navigationMode == 'companion') {

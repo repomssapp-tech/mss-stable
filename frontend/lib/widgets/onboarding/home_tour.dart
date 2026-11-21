@@ -54,6 +54,12 @@ class HomeTour {
   @visibleForTesting
   static void resetForTesting() => _knownDone = null;
 
+  /// True when the screen holding [context] is the one in front: no other
+  /// page (profile form, survey) or dialog is open on top of it. The tour's
+  /// spotlights point at home, so it is only started then.
+  static bool isFrontmost(BuildContext context) =>
+      ModalRoute.of(context)?.isCurrent ?? true;
+
   static Future<HomeTourStart> maybeStart(
     BuildContext context, {
     HomeTourStore store = const HomeTourStore(),
@@ -67,7 +73,9 @@ class HomeTour {
       return HomeTourStart.alreadyDone;
     }
     if (!context.mounted || _entry != null) return HomeTourStart.notApplicable;
-    if (!HomeTourTargets.allReady) return HomeTourStart.notReady;
+    if (!HomeTourTargets.allReady || !isFrontmost(context)) {
+      return HomeTourStart.notReady;
+    }
 
     final overlay = Overlay.of(context, rootOverlay: true);
     late final OverlayEntry entry;
