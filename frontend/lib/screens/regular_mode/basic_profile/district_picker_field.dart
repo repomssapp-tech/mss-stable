@@ -51,7 +51,8 @@ class DistrictPickerField extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final raw = controller.text.trim();
-    final shown = raw.isEmpty ? null : raw;
+    final lang = Localizations.localeOf(context).languageCode;
+    final shown = raw.isEmpty ? null : IndianDistricts.displayName(raw, lang);
     final hint = _hasState
         ? l10n.profileSelectDistrict
         : l10n.profileSelectStateFirst;
@@ -131,6 +132,7 @@ class _DistrictPickerSheetState extends State<_DistrictPickerSheet> {
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final lang = Localizations.localeOf(context).languageCode;
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: FractionallySizedBox(
@@ -165,7 +167,13 @@ class _DistrictPickerSheetState extends State<_DistrictPickerSheet> {
                   final q = _query.trim().toLowerCase();
                   final list = [
                     for (final d in snap.data ?? const <String>[])
-                      if (q.isEmpty || d.toLowerCase().contains(q)) d,
+                      if (q.isEmpty ||
+                          d.toLowerCase().contains(q) ||
+                          IndianDistricts.displayName(
+                            d,
+                            lang,
+                          ).toLowerCase().contains(q))
+                        d,
                   ];
                   if (list.isEmpty) {
                     return Center(child: Text(l10n.profileNoDistrictMatch));
@@ -177,7 +185,7 @@ class _DistrictPickerSheetState extends State<_DistrictPickerSheet> {
                       final name = list[i];
                       final isSelected = name.toLowerCase() == selected;
                       return ListTile(
-                        title: Text(name),
+                        title: Text(IndianDistricts.displayName(name, lang)),
                         selected: isSelected,
                         trailing: isSelected
                             ? const Icon(Icons.check_rounded)

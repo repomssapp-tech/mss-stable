@@ -11820,6 +11820,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Taluka'**
   String get questionnaireTaluka;
+
+  /// No description provided for @copyrightOwnership.
+  ///
+  /// In en, this message translates to:
+  /// **'© 2026 Swadeshi Shodh Sansthan, Tamil Nadu Chapter & Rajalakshmi Institute of Technology, Chennai. All Rights Reserved.'**
+  String get copyrightOwnership;
+
+  /// No description provided for @aboutInstitutionCredits.
+  ///
+  /// In en, this message translates to:
+  /// **'• Rajalakshmi Institute of Technology (RIT)\n• Swadeshi Shodh Sansthan (SSS TN Chapter)'**
+  String get aboutInstitutionCredits;
 }
 
 class _AppLocalizationsDelegate

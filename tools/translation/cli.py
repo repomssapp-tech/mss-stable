@@ -58,6 +58,7 @@ def _parser() -> argparse.ArgumentParser:
         (("--file",), {"required": True, "type": Path}),
         (("--engine",), {"required": True}),
         (("--revision",), {"required": True}),
+        (("--allow-name-fallback",), {"action": "store_true", "help": "allow requested general scheme-label translations or traced unsuccessful official-name searches; never marks them official"}),
     )
     command("report", (("--batch",), {"required": True}), (("--out",), {"required": True, "type": Path}))
     command(
@@ -102,7 +103,8 @@ def main(argv=None) -> int:
             limit=args.limit, include_pending=args.include_pending, retry_failed=args.retry_failed, stale=args.stale, official_names=args.official_names,
         )
     elif args.command == "ingest":
-        result = stages.ingest(bundle, config, args.lang, ledger, args.file, args.engine, args.revision)
+        result = stages.ingest(bundle, config, args.lang, ledger, args.file, args.engine, args.revision,
+                               allow_name_fallback=args.allow_name_fallback)
     elif args.command == "report":
         result = stages.report(ledger, bundle, config, args.lang, args.batch, args.out)
     elif args.command == "approve":

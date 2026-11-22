@@ -2211,5 +2211,7 @@
   "questionnaireFromProfile": "From your profile. Change any answer.",
   "questionnaireLoadFailed": "Questions could not load. Close and reopen this assessment.",
   "questionnaireSaveFailed": "Could not save your answer. Try again.",
-  "questionnaireTaluka": "Taluka"
+  "questionnaireTaluka": "Taluka",
+  "copyrightOwnership": "© 2026 Swadeshi Shodh Sansthan, Tamil Nadu Chapter & Rajalakshmi Institute of Technology, Chennai. All Rights Reserved.",
+  "aboutInstitutionCredits": "• Rajalakshmi Institute of Technology (RIT)\n• Swadeshi Shodh Sansthan (SSS TN Chapter)"
 }

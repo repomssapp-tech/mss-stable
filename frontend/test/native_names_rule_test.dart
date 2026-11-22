@@ -180,6 +180,6 @@ void main() {
       );
     }
     final tn = bundle.schemes.firstWhere((s) => s.id.startsWith('TN2026'));
-    expect(tn.availableLanguages, ['en', 'hi', 'ta']);
+    expect(tn.availableLanguages, ['en', 'hi', 'mr', 'ta']);
   });
 }

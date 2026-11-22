@@ -111,7 +111,7 @@ void showAboutAppDialog(BuildContext context) {
                 ),
                 const SizedBox(height: AppSpacing.sm),
                 Text(
-                  '• Rajalakshmi Institute of Technology (RIT)\n• Swadeshi Shodh Sansthan (SSS TN Chapter)',
+                  context.l10n.aboutInstitutionCredits,
                   style: text.bodySmall.copyWith(
                     color: AppColors.textSecondary,
                   ),

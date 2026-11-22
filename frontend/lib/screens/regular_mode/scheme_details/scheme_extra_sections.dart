@@ -12,6 +12,11 @@ import '../../../utils/app_text.dart';
 import '../../../utils/language_names.dart';
 import '../../../utils/money_format.dart';
 
+String _storedText(String lang, String value) =>
+    CentralizedTranslator.instance.rewritesEnglish(lang)
+    ? value
+    : CentralizedTranslator.instance.localizeFor(lang, value);
+
 /// Sections built from the 2026 source fields that have no dedicated slot on
 /// the older scheme page: status/deadline, fees, benefit figures, contacts,
 /// official links, alternate names and related schemes. Every section hides
@@ -109,6 +114,7 @@ class _Line extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = context.text;
+    final lang = Localizations.localeOf(context).languageCode;
     return Padding(
       padding: const EdgeInsets.only(bottom: AppSpacing.xs),
       child: Row(
@@ -120,7 +126,7 @@ class _Line extends StatelessWidget {
             ConstrainedBox(
               constraints: const BoxConstraints(minWidth: 96, maxWidth: 140),
               child: Text(
-                label!,
+                _storedText(lang, label!),
                 style: text.label.copyWith(color: AppColors.textSecondary),
               ),
             ),
@@ -128,7 +134,7 @@ class _Line extends StatelessWidget {
           Expanded(
             flex: 5,
             child: SelectableText(
-              value,
+              _storedText(lang, value),
               style: text.body.copyWith(color: AppColors.textBody),
             ),
           ),
@@ -421,7 +427,9 @@ class _LinksCard extends StatelessWidget {
         _ => l10n.schemeLinkInfo,
       };
       final title = link.title;
-      return title == null ? kindLabel : '$kindLabel · $title';
+      return title == null
+          ? kindLabel
+          : '$kindLabel · ${_storedText(lang, title)}';
     }
 
     return _Card(
@@ -475,7 +483,7 @@ class _AltNamesCard extends StatelessWidget {
             for (final n in names)
               Chip(
                 label: Text(
-                  n,
+                  _storedText(lang, n),
                   style: context.text.bodySmall.copyWith(
                     color: AppColors.textBody,
                   ),

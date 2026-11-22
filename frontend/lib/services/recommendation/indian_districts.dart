@@ -4,6 +4,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 
 import 'indian_states.dart';
+import '../catalog/centralized_translator.dart';
 
 /// Official district list per state / union territory, from the Government of
 /// India Local Government Directory (LGD), bundled in
@@ -18,6 +19,14 @@ class IndianDistricts {
 
   @visibleForTesting
   static void resetForTest() => _loading = null;
+
+  static String displayName(String district, String lang) {
+    final translator = CentralizedTranslator.instance;
+    if (translator.rewritesEnglish(lang)) return district;
+    final key = 'district:${district.trim()}';
+    final value = translator.localizeFor(lang, key);
+    return value == key ? district : value;
+  }
 
   static Future<Map<String, List<String>>> _load() => _loading ??= () async {
     try {

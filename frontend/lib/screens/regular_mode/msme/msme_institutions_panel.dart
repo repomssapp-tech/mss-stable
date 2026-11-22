@@ -127,6 +127,8 @@ class _InstitutionsInteractivePanelState
 
   @override
   Widget build(BuildContext context) {
+    final language = Localizations.localeOf(context).languageCode;
+    final translator = CentralizedTranslator.instance;
     final filtered = _institutions.where((inst) {
       final text = _institutionsSearch.toLowerCase();
       final translator = CentralizedTranslator.instance;
@@ -213,7 +215,12 @@ class _InstitutionsInteractivePanelState
                             ).copyWith(dividerColor: Colors.transparent),
                             child: ExpansionTile(
                               title: Text(
-                                inst['name'],
+                                translator.rewritesEnglish(language)
+                                    ? inst['name']
+                                    : translator.localizeFor(
+                                        language,
+                                        inst['name'],
+                                      ),
                                 style: context.text.cardTitle.copyWith(
                                   color: widget.iconColor,
                                 ),

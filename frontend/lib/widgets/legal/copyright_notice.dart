@@ -5,8 +5,7 @@ import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
 
-/// The rights holders' copyright line, exactly as supplied. It is a legal
-/// notice naming the institutions, so it is the same in every language.
+/// The canonical English copyright line supplied by the rights holders.
 const String mssCopyrightLine =
     '© 2026 Swadeshi Shodh Sansthan, Tamil Nadu Chapter & Rajalakshmi '
     'Institute of Technology, Chennai. All Rights Reserved.';
@@ -29,7 +28,7 @@ class CopyrightNotice extends StatelessWidget {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.sm),
         child: Text(
-          mssCopyrightLine,
+          context.l10n.copyrightOwnership,
           textAlign: TextAlign.center,
           style: text.bodySmall.copyWith(color: AppColors.textMuted),
         ),
@@ -45,7 +44,7 @@ class CopyrightNotice extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.sm),
         Text(
-          mssCopyrightLine,
+          context.l10n.copyrightOwnership,
           style: text.bodySmall.copyWith(
             color: AppColors.textPrimary,
             fontWeight: FontWeight.w600,

@@ -207,7 +207,7 @@ class SchemeBenefitsResolver {
 
     final taxProvisions = bundle.getTaxProvisionsForScheme(entity);
     final taxExemptionsSummary = taxProvisions
-        .map((t) => '${t.getLocalizedName(langCode)} (${t.code})')
+        .map((t) => t.getLocalizedName(langCode))
         .toList();
     final applicableTaxesList = taxProvisions
         .map(

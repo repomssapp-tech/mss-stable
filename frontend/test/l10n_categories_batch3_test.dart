@@ -91,8 +91,10 @@ void main() {
         );
         await tester.pumpAndSettle();
         for (final name in entry.value) {
+          await tester.ensureVisible(find.text(name));
           expect(find.text(name), findsOneWidget);
         }
+        await tester.ensureVisible(find.text(entry.value.first));
         await tester.tap(find.text(entry.value.first));
         expect(selected, 'Ministry of MSME');
         expect(tester.takeException(), isNull);

@@ -1,0 +1,969 @@
+{
+  "review": "Official regional names where matched to primary text; otherwise identity-preserving transliteration after the recorded searches. Ordinary prose fragments use general translation. Protected URLs and document identifiers are unchanged. Machine origin; verified:false.",
+  "entries": [
+    {
+      "source": "हवाई व संरक्षण उत्पादन कॉरिडॉर (MIISP 2025)",
+      "translation": "हवाई व संरक्षण उत्पादन कॉरिडॉर (एमआयआयएसपी 2025)"
+    },
+    {
+      "source": "MIISP 2025 - महिला उद्योजकांसाठी अतिरिक्त प्रोत्साहने (तक्ता 8)",
+      "translation": "एमआयआयएसपी 2025 - महिला उद्योजकांसाठी अतिरिक्त प्रोत्साहने (तक्ता 8)"
+    },
+    {
+      "source": "MIISP 2025 - विशेष श्रेणी प्रोत्साहन",
+      "translation": "एमआयआयएसपी 2025 - विशेष श्रेणी प्रोत्साहन"
+    },
+    {
+      "source": "महाराष्ट्र उद्योग, गुंतवणूक व सेवा धोरण 2025 अंतर्गत तीनपैकी एका विशेष श्रेणीतील पात्र MSME युनिटना संयंत्र व यंत्रसामग्रीतील स्थिर भांडवली गुंतवणुकीच्या (FCI) 10% अतिरिक्त प्रोत्साहन मिळते (कलम 4.1.1(A), छापील पृ. 49-50).",
+      "translation": "महाराष्ट्र उद्योग, गुंतवणूक व सेवा धोरण 2025 अंतर्गत तीनपैकी एका विशेष श्रेणीतील पात्र एमएसएमई युनिटना संयंत्र व यंत्रसामग्रीतील स्थिर भांडवली गुंतवणुकीच्या (एफसीआय) 10% अतिरिक्त प्रोत्साहन मिळते (कलम 4.1.1(ए), छापील पृ. 49-50)."
+    },
+    {
+      "source": "MSME",
+      "translation": "एमएसएमई"
+    },
+    {
+      "source": "तुमच्याकडे DGFT कडून आयात निर्यात कोड (IEC) आहे का?",
+      "translation": "तुमच्याकडे डीजीएफटी कडून आयात निर्यात कोड (आयईसी) आहे का?"
+    },
+    {
+      "source": "dgft.gov.in वर ऑनलाइन अर्ज करा. तो PAN च्या आधारे लगेच दिला जातो.",
+      "translation": "dgft.gov.in वर ऑनलाइन अर्ज करा. तो पीएएन च्या आधारे लगेच दिला जातो."
+    },
+    {
+      "source": "तुमच्याकडे सक्रिय बँक खाते आणि AD Code नोंदणी आहे का?",
+      "translation": "तुमच्याकडे सक्रिय बँक खाते आणि ए. डी. कोड नोंदणी आहे का?"
+    },
+    {
+      "source": "तुम्ही तुमच्या उत्पादनाचा HS Code (Harmonized System Code) निश्चित केला आहे का?",
+      "translation": "तुम्ही तुमच्या उत्पादनाचा एच. एस. कोड (सामंजस्यपूर्ण प्रणाली कोड) निश्चित केला आहे का?"
+    },
+    {
+      "source": "HS Code उत्पादनांचे जागतिक स्तरावर वर्गीकरण करतात. ऑनलाइन शोधा किंवा कस्टम ब्रोकरचा सल्ला घ्या.",
+      "translation": "एच. एस. कोड उत्पादनांचे जागतिक स्तरावर वर्गीकरण करतात. ऑनलाइन शोधा किंवा कस्टम ब्रोकरचा सल्ला घ्या."
+    },
+    {
+      "source": "तुमचा व्यवसाय Udyam (MSME नोंदणी) अंतर्गत नोंदणीकृत आहे का?",
+      "translation": "तुमचा व्यवसाय उद्यम (एमएसएमई नोंदणी) अंतर्गत नोंदणीकृत आहे का?"
+    },
+    {
+      "source": "तुमच्याकडे निर्यात प्रोत्साहन परिषदेचे RCMC आहे का?",
+      "translation": "तुमच्याकडे निर्यात प्रोत्साहन परिषदेचे आरसीएमसी आहे का?"
+    },
+    {
+      "source": "शुल्क परतावा/प्रोत्साहनांचा दावा करण्यासाठी नोंदणी-सह-सदस्यत्व प्रमाणपत्र (RCMC) आवश्यक आहे.",
+      "translation": "शुल्क परतावा/प्रोत्साहनांचा दावा करण्यासाठी नोंदणी-सह-सदस्यत्व प्रमाणपत्र (आरसीएमसी) आवश्यक आहे."
+    },
+    {
+      "source": "MSME विक्रेता कॉर्पोरेट खरेदीदाराला दिलेल्या वस्तू/सेवांचे बीजक TReDS प्लॅटफॉर्मवर (RXIL/M1xchange/Invoicemart) अपलोड करतो.",
+      "translation": "एमएसएमई विक्रेता कॉर्पोरेट खरेदीदाराला दिलेल्या वस्तू/सेवांचे बीजक ट्रेड्स प्लॅटफॉर्मवर (आरएक्सआयएल/एम1एक्सचेंज/इनवॉइसमार्ट) अपलोड करतो."
+    },
+    {
+      "source": "Ministry of Micro, Small and Medium Enterprises (M/o MSME)",
+      "translation": "सूक्ष्म, लघु आणि मध्यम उद्योग मंत्रालय (एमएसएमई मंत्रालय)"
+    },
+    {
+      "source": "• नियम, विनियम आणि कायदे तयार करणे व त्यांची अंमलबजावणी करणे.\n• सर्वोच्च विकास योजनांची (PMEGP, CGTMSE, SFURTI) आखणी करणे.\n• राष्ट्रीय धोरणासाठी इतर केंद्रीय मंत्रालयांशी समन्वय साधणे.",
+      "translation": "• नियम, विनियम आणि कायदे तयार करणे व त्यांची अंमलबजावणी करणे.\n• सर्वोच्च विकास योजनांची (पीएमईजीपी, सीजीटीएमएसई, स्फूर्ति) आखणी करणे.\n• राष्ट्रीय धोरणासाठी इतर केंद्रीय मंत्रालयांशी समन्वय साधणे."
+    },
+    {
+      "source": "उद्योग भवन, नवी दिल्ली येथे स्थित. देशभरात MSME विकास संस्था (MSME-DI) चालवते.",
+      "translation": "उद्योग भवन, नवी दिल्ली येथे स्थित. देशभरात एमएसएमई विकास संस्था (एमएसएमई-डीआय) चालवते."
+    },
+    {
+      "source": "SIDBI",
+      "translation": "सिडबी"
+    },
+    {
+      "source": "NSIC",
+      "translation": "एनएसआयसी"
+    },
+    {
+      "source": "DIC",
+      "translation": "डीआयसी"
+    },
+    {
+      "source": "KVIC",
+      "translation": "केवीआयसी"
+    },
+    {
+      "source": "TIIC",
+      "translation": "टीआयआयसी"
+    },
+    {
+      "source": "StartupTN / FaMeTN",
+      "translation": "स्टार्टअप टीएन / फेम टीएन"
+    },
+    {
+      "source": "Startup Tamil Nadu & Facilitating MSMEs Tamil Nadu",
+      "translation": "स्टार्टअप तमिळनाडू आणि तमिळनाडू एमएसएमई सुविधा संस्था"
+    },
+    {
+      "source": "SIPCOT",
+      "translation": "एसआयपीसीओटी"
+    },
+    {
+      "source": "State Industries Promotion Corporation of Tamil Nadu",
+      "translation": "तामिळनाडू राज्य उद्योग प्रोत्साहन महामंडळ"
+    },
+    {
+      "source": "AI",
+      "translation": "एआय"
+    },
+    {
+      "source": "EMI",
+      "translation": "ईएमआय"
+    },
+    {
+      "source": "Saarthi",
+      "translation": "सारथी"
+    },
+    {
+      "source": "Udyam",
+      "translation": "उद्यम"
+    },
+    {
+      "source": "GST",
+      "translation": "जीएसटी"
+    },
+    {
+      "source": "Udyam MSME",
+      "translation": "उद्यम एम. एस. एम. ई."
+    },
+    {
+      "source": "MSME",
+      "translation": "एमएसएमई"
+    },
+    {
+      "source": "TReDS",
+      "translation": "ट्रेड्स"
+    },
+    {
+      "source": "DIC",
+      "translation": "डीआयसी"
+    },
+    {
+      "source": "CSR",
+      "translation": "सीएसआर"
+    },
+    {
+      "source": "DPDPA",
+      "translation": "डीपीडीपीए"
+    },
+    {
+      "source": "DGFT",
+      "translation": "डीजीएफटी"
+    },
+    {
+      "source": "IEC",
+      "translation": "आयईसी"
+    },
+    {
+      "source": "RCMC",
+      "translation": "आरसीएमसी"
+    },
+    {
+      "source": "AD Code",
+      "translation": "ए. डी. कोड"
+    },
+    {
+      "source": "PAN",
+      "translation": "पीएएन"
+    },
+    {
+      "source": "TANSEED",
+      "translation": "टीएएनएसईईडी"
+    },
+    {
+      "source": "Android",
+      "translation": "अँड्रॉइड"
+    },
+    {
+      "source": "HS Code",
+      "translation": "एच. एस. कोड"
+    },
+    {
+      "source": "Harmonized System Code",
+      "translation": "सामंजस्यपूर्ण प्रणाली कोड"
+    },
+    {
+      "source": "AD",
+      "translation": "एडी"
+    },
+    {
+      "source": "PMEGP",
+      "translation": "पीएमईजीपी"
+    },
+    {
+      "source": "SFURTI",
+      "translation": "स्फूर्ति"
+    },
+    {
+      "source": "MSME-DI",
+      "translation": "एमएसएमई-डीआय"
+    },
+    {
+      "source": "SIDBI",
+      "translation": "सिडबी"
+    },
+    {
+      "source": "NBFC",
+      "translation": "एनबीएफसी"
+    },
+    {
+      "source": "NSIC",
+      "translation": "एनएसआयसी"
+    },
+    {
+      "source": "KVIC",
+      "translation": "केवीआयसी"
+    },
+    {
+      "source": "RXIL/M",
+      "translation": "आरएक्सआयएल/एम"
+    },
+    {
+      "source": "xchange/Invoicemart",
+      "translation": "एक्सचेंज/इनवॉइसमार्ट"
+    },
+    {
+      "source": "Google",
+      "translation": "गूगल"
+    },
+    {
+      "source": "T",
+      "translation": "टी"
+    },
+    {
+      "source": "CGTMSE",
+      "translation": "सीजीटीएमएसई"
+    },
+    {
+      "source": "MSME Udyam",
+      "translation": "एम. एस. एम. ई. उद्यम"
+    },
+    {
+      "source": "x",
+      "translation": "एक्स"
+    },
+    {
+      "source": "Rs",
+      "translation": "रु."
+    },
+    {
+      "source": "p",
+      "translation": "पी."
+    },
+    {
+      "source": "a",
+      "translation": "अ."
+    },
+    {
+      "source": "SCHEME",
+      "translation": "एससीएचईएमई"
+    },
+    {
+      "source": "DATA",
+      "translation": "डीएटीए"
+    },
+    {
+      "source": "CONFLICT",
+      "translation": "सीओएनएफएलआयसीटी"
+    },
+    {
+      "source": "REPORT",
+      "translation": "आरईपीओआरटी"
+    },
+    {
+      "source": "md",
+      "translation": "एम. डी."
+    },
+    {
+      "source": "capitalSubsidy",
+      "translation": "भांडवल अनुदान"
+    },
+    {
+      "source": "description",
+      "translation": "वर्णन"
+    },
+    {
+      "source": "B",
+      "translation": "बी"
+    },
+    {
+      "source": "Com",
+      "translation": "कॉम."
+    },
+    {
+      "source": "Pharma",
+      "translation": "औषधनिर्मिती."
+    },
+    {
+      "source": "M",
+      "translation": "एम"
+    },
+    {
+      "source": "Tech",
+      "translation": "तंत्रज्ञान"
+    },
+    {
+      "source": "WISE-SCOPE",
+      "translation": "डब्ल्यूआयएसई-एससीओपीई"
+    },
+    {
+      "source": "ZED",
+      "translation": "झेडईडी"
+    },
+    {
+      "source": "CA",
+      "translation": "सीए"
+    },
+    {
+      "source": "TWARIT",
+      "translation": "टीडब्ल्यूएआरआयटी"
+    },
+    {
+      "source": "WISE-KIRAN",
+      "translation": "डब्ल्यूआयएसई-केआयआरएएन"
+    },
+    {
+      "source": "S",
+      "translation": "एस"
+    },
+    {
+      "source": "s",
+      "translation": "एस."
+    },
+    {
+      "source": "L",
+      "translation": "एल"
+    },
+    {
+      "source": "G",
+      "translation": "जी"
+    },
+    {
+      "source": "g",
+      "translation": "जी."
+    },
+    {
+      "source": "P",
+      "translation": "पी"
+    },
+    {
+      "source": "E",
+      "translation": "ई"
+    },
+    {
+      "source": "D",
+      "translation": "डी"
+    },
+    {
+      "source": "PRATHAM",
+      "translation": "पीआरएटीएचएएम"
+    },
+    {
+      "source": "HTTP",
+      "translation": "एचटीटीपी"
+    },
+    {
+      "source": "WISE",
+      "translation": "डब्ल्यूआयएसई"
+    },
+    {
+      "source": "IPR",
+      "translation": "आयपीआर"
+    },
+    {
+      "source": "DST",
+      "translation": "डीएसटी"
+    },
+    {
+      "source": "verification",
+      "translation": "पडताळणी"
+    },
+    {
+      "source": "notes",
+      "translation": "नोट्स"
+    },
+    {
+      "source": "kashmirlife",
+      "translation": "काश्मिरी जीवन"
+    },
+    {
+      "source": "net",
+      "translation": "नेट"
+    },
+    {
+      "source": "W",
+      "translation": "डब्ल्यू"
+    },
+    {
+      "source": "STF",
+      "translation": "एसटीएफ"
+    },
+    {
+      "source": "pdf",
+      "translation": "पी. डी. एफ."
+    },
+    {
+      "source": "MIG",
+      "translation": "एमआयजी"
+    },
+    {
+      "source": "MSInS",
+      "translation": "एम. एस. आय. एन. एस."
+    },
+    {
+      "source": "GR",
+      "translation": "जीआर"
+    },
+    {
+      "source": "MTNL",
+      "translation": "एमटीएनएल"
+    },
+    {
+      "source": "HPC",
+      "translation": "एचपीसी"
+    },
+    {
+      "source": "GPU",
+      "translation": "जीपीयू"
+    },
+    {
+      "source": "j",
+      "translation": "जे."
+    },
+    {
+      "source": "Initiatives",
+      "translation": "उपक्रम"
+    },
+    {
+      "source": "Funding Programs",
+      "translation": "निधी योजना"
+    },
+    {
+      "source": "Apply Now",
+      "translation": "आताच अर्ज करा"
+    },
+    {
+      "source": "DPIIT",
+      "translation": "डीपीआयआयटी"
+    },
+    {
+      "source": "VC",
+      "translation": "वीसी"
+    },
+    {
+      "source": "DAP",
+      "translation": "डीएपी"
+    },
+    {
+      "source": "PR",
+      "translation": "पीआर"
+    },
+    {
+      "source": "No",
+      "translation": "नाही"
+    },
+    {
+      "source": "Ka",
+      "translation": "का."
+    },
+    {
+      "source": "WEC",
+      "translation": "डब्ल्यूईसी"
+    },
+    {
+      "source": "PCT",
+      "translation": "पीसीटी"
+    },
+    {
+      "source": "Post grant Reimbursement",
+      "translation": "अनुदानानंतरची परतफेड"
+    },
+    {
+      "source": "Not Active",
+      "translation": "सक्रिय नाही"
+    },
+    {
+      "source": "QC",
+      "translation": "क्यूसी"
+    },
+    {
+      "source": "NABL",
+      "translation": "एनएबीएल"
+    },
+    {
+      "source": "BIS",
+      "translation": "बीआयएस"
+    },
+    {
+      "source": "MVP",
+      "translation": "एमवीपी"
+    },
+    {
+      "source": "MSW",
+      "translation": "एमएसडब्ल्यू"
+    },
+    {
+      "source": "Register Your Startup",
+      "translation": "तुमच्या स्टार्टअपची नोंदणी करा"
+    },
+    {
+      "source": "bit",
+      "translation": "थोडासा"
+    },
+    {
+      "source": "ly/MSW",
+      "translation": "ली/एम. एस. डब्ल्यू."
+    },
+    {
+      "source": "Apply",
+      "translation": "आवेदन करें"
+    },
+    {
+      "source": "MAITRI",
+      "translation": "एमएआयटीआरआय"
+    },
+    {
+      "source": "Apply Here",
+      "translation": "येथे करा अर्ज"
+    },
+    {
+      "source": "IT/ITeS",
+      "translation": "आय. टी./आय. टी. ई. एस."
+    },
+    {
+      "source": "MIC",
+      "translation": "एमआयसी"
+    },
+    {
+      "source": "Registration Guide",
+      "translation": "नोंदणी मार्गदर्शक"
+    },
+    {
+      "source": "PDF",
+      "translation": "पीडीएफ"
+    },
+    {
+      "source": "Not Found",
+      "translation": "सापडले नाही."
+    },
+    {
+      "source": "LLP",
+      "translation": "एलएलपी"
+    },
+    {
+      "source": "QualityTesting",
+      "translation": "गुणवत्ता चाचणी"
+    },
+    {
+      "source": "MCA",
+      "translation": "एमसीए"
+    },
+    {
+      "source": "IFMR/MSInS",
+      "translation": "आय. एफ. एम. आर./एम. एस. आय. एन. एस."
+    },
+    {
+      "source": "IndiaFilings",
+      "translation": "इंडिया फायलिंग्ज"
+    },
+    {
+      "source": "PMU",
+      "translation": "पीएमयू"
+    },
+    {
+      "source": "MahaIT",
+      "translation": "महा."
+    },
+    {
+      "source": "CIDCO",
+      "translation": "सीआयडीसीओ"
+    },
+    {
+      "source": "MIDC",
+      "translation": "एमआयडीसी"
+    },
+    {
+      "source": "MMRDA",
+      "translation": "एमएमआरडीए"
+    },
+    {
+      "source": "A",
+      "translation": "ए"
+    },
+    {
+      "source": "DIT",
+      "translation": "डीआयटी"
+    },
+    {
+      "source": "C",
+      "translation": "सी"
+    },
+    {
+      "source": "R",
+      "translation": "आर"
+    },
+    {
+      "source": "Startup India",
+      "translation": "स्टार्टअप इंडिया"
+    },
+    {
+      "source": "EMD",
+      "translation": "ईएमडी"
+    },
+    {
+      "source": "AIF",
+      "translation": "एआयएफ"
+    },
+    {
+      "source": "SIDBI Venture",
+      "translation": "सिडबी व्हेंचर"
+    },
+    {
+      "source": "Services",
+      "translation": "सेवा"
+    },
+    {
+      "source": "Services Applied",
+      "translation": "लागू केलेल्या सेवा"
+    },
+    {
+      "source": "MIISP",
+      "translation": "एमआयआयएसपी"
+    },
+    {
+      "source": "SGST",
+      "translation": "एसजीएसटी"
+    },
+    {
+      "source": "FCI",
+      "translation": "एफसीआय"
+    },
+    {
+      "source": "ICAI",
+      "translation": "आयसीएआय"
+    },
+    {
+      "source": "i",
+      "translation": "मी."
+    },
+    {
+      "source": "ii",
+      "translation": "आयआय"
+    },
+    {
+      "source": "iii",
+      "translation": "आयआयआय"
+    },
+    {
+      "source": "EOU",
+      "translation": "ईओयू"
+    },
+    {
+      "source": "EPF",
+      "translation": "ईपीएफ"
+    },
+    {
+      "source": "SME",
+      "translation": "एसएमई"
+    },
+    {
+      "source": "GMP",
+      "translation": "जीएमपी"
+    },
+    {
+      "source": "GI",
+      "translation": "जीआय"
+    },
+    {
+      "source": "LSI",
+      "translation": "एलएसआय"
+    },
+    {
+      "source": "Business Application Form",
+      "translation": "व्यवसाय अर्ज फॉर्म"
+    },
+    {
+      "source": "TRN",
+      "translation": "टीआरएन"
+    },
+    {
+      "source": "DPR",
+      "translation": "डीपीआर"
+    },
+    {
+      "source": "ETP",
+      "translation": "ईटीपी"
+    },
+    {
+      "source": "ZLD",
+      "translation": "झेडएलडी"
+    },
+    {
+      "source": "MEDA",
+      "translation": "एमईडीए"
+    },
+    {
+      "source": "CUF",
+      "translation": "सीयूएफ"
+    },
+    {
+      "source": "LT",
+      "translation": "एलटी"
+    },
+    {
+      "source": "HP",
+      "translation": "एचपी"
+    },
+    {
+      "source": "HT",
+      "translation": "एचटी"
+    },
+    {
+      "source": "ETP/CETP",
+      "translation": "ईटीपी/सीईटीपी"
+    },
+    {
+      "source": "CMEGP",
+      "translation": "सीएमईजीपी"
+    },
+    {
+      "source": "PMRY",
+      "translation": "पीएमआरवाई"
+    },
+    {
+      "source": "REGP",
+      "translation": "आरईजीपी"
+    },
+    {
+      "source": "KVIB",
+      "translation": "केवीआयबी"
+    },
+    {
+      "source": "EDP/REDP",
+      "translation": "ईडीपी/आरईडीपी"
+    },
+    {
+      "source": "MB",
+      "translation": "एमबी"
+    },
+    {
+      "source": "MAVIM",
+      "translation": "एमएवीआयएम"
+    },
+    {
+      "source": "UMED",
+      "translation": "यूएमईडी"
+    },
+    {
+      "source": "PSI",
+      "translation": "पीएसआय"
+    },
+    {
+      "source": "MPCB",
+      "translation": "एमपीसीबी"
+    },
+    {
+      "source": "IEM",
+      "translation": "आयईएम"
+    },
+    {
+      "source": "JDI MMR",
+      "translation": "जेडीआय एमएमआर"
+    },
+    {
+      "source": "EC",
+      "translation": "ईसी"
+    },
+    {
+      "source": "IPS",
+      "translation": "आयपीएस"
+    },
+    {
+      "source": "SDEC",
+      "translation": "एसडीईसी"
+    },
+    {
+      "source": "SAPRO",
+      "translation": "एसएपीआरओ"
+    },
+    {
+      "source": "MITDF",
+      "translation": "एमआयटीडीएफ"
+    },
+    {
+      "source": "Application for MITDF",
+      "translation": "एम. आय. टी. डी. एफ. साठी अर्ज"
+    },
+    {
+      "source": "IDBI",
+      "translation": "आयडीबीआय"
+    },
+    {
+      "source": "SEBI",
+      "translation": "एसईबीआय"
+    },
+    {
+      "source": "IN/AIF",
+      "translation": "आयएन/एआयएफ"
+    },
+    {
+      "source": "Google Form",
+      "translation": "गुगल फॉर्म"
+    },
+    {
+      "source": "ECGC",
+      "translation": "ईसीजीसी"
+    },
+    {
+      "source": "EOIP",
+      "translation": "ईओआयपी"
+    },
+    {
+      "source": "LOI",
+      "translation": "एलओआय"
+    },
+    {
+      "source": "GSTR",
+      "translation": "जीएसटीआर"
+    },
+    {
+      "source": "SHA",
+      "translation": "एसएचए"
+    },
+    {
+      "source": "bytes",
+      "translation": "बाइट"
+    },
+    {
+      "source": "COI",
+      "translation": "सीओआय"
+    },
+    {
+      "source": "MOA",
+      "translation": "एमओए"
+    },
+    {
+      "source": "AOA",
+      "translation": "एओए"
+    },
+    {
+      "source": "MSEDCL",
+      "translation": "एमएसईडीसीएल"
+    },
+    {
+      "source": "ELP",
+      "translation": "ईएलपी"
+    },
+    {
+      "source": "FAQ",
+      "translation": "एफएक्यू"
+    },
+    {
+      "source": "PLI",
+      "translation": "पीएलआय"
+    },
+    {
+      "source": "FPO/FPC",
+      "translation": "एफपीओ/एफपीसी"
+    },
+    {
+      "source": "EPC",
+      "translation": "ईपीसी"
+    },
+    {
+      "source": "FIEO",
+      "translation": "एफआयईओ"
+    },
+    {
+      "source": "EXIM",
+      "translation": "ईएक्सआयएम"
+    },
+    {
+      "source": "SEZ",
+      "translation": "एसईझेड"
+    },
+    {
+      "source": "WTC",
+      "translation": "डब्ल्यूटीसी"
+    },
+    {
+      "source": "SEPC",
+      "translation": "एसईपीसी"
+    },
+    {
+      "source": "EOSP",
+      "translation": "ईओएसपी"
+    },
+    {
+      "source": "GSTIN",
+      "translation": "जीएसटीआयएन"
+    },
+    {
+      "source": "SICOM",
+      "translation": "एसआयसीओएम"
+    },
+    {
+      "source": "NOC",
+      "translation": "एनओसी"
+    },
+    {
+      "source": "DGCA",
+      "translation": "डीजीसीए"
+    },
+    {
+      "source": "iv",
+      "translation": "आयवी"
+    },
+    {
+      "source": "ix",
+      "translation": "आयएक्स"
+    },
+    {
+      "source": "Ministry of Micro",
+      "translation": "सूक्ष्म मंत्रालय"
+    },
+    {
+      "source": "Small and Medium Enterprises",
+      "translation": "लघु आणि मध्यम उद्योग"
+    },
+    {
+      "source": "M/o MSME",
+      "translation": "एम/ओ एमएसएमई"
+    },
+    {
+      "source": "TIIC",
+      "translation": "टीआयआयसी"
+    },
+    {
+      "source": "StartupTN / FaMeTN",
+      "translation": "स्टार्टअप टीएन / फेम टीएन"
+    },
+    {
+      "source": "Startup Tamil Nadu & Facilitating MSMEs Tamil Nadu",
+      "translation": "स्टार्टअप तमिळनाडू आणि तमिळनाडू एमएसएमई सुविधा संस्था"
+    },
+    {
+      "source": "SIPCOT",
+      "translation": "एसआयपीसीओटी"
+    },
+    {
+      "source": "State Industries Promotion Corporation of Tamil Nadu",
+      "translation": "तामिळनाडू राज्य उद्योग प्रोत्साहन महामंडळ"
+    },
+    {
+      "source": "Ministry of Micro, Small and Medium Enterprises (M/o MSME)",
+      "translation": "सूक्ष्म, लघु आणि मध्यम उद्योग मंत्रालय (एमएसएमई मंत्रालय)"
+    },
+    {
+      "source": "Code",
+      "translation": "कोड"
+    },
+    {
+      "source": "IES",
+      "translation": "आयईएस"
+    }
+  ]
+}

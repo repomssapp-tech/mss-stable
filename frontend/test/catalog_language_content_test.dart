@@ -153,11 +153,11 @@ void main() {
       expect(checked, greaterThan(20));
     });
 
-    test('a scheme with no Marathi falls back to English, field by field', () {
+    test('an unavailable language falls back to English, field by field', () {
       final central = bundle.schemes.firstWhere((e) => !inMaharashtra(e));
-      expect(stored(central, 'mr', 'name'), isNull);
-      final s = MssSchemeAdapter.toScheme(central, bundle, langCode: 'mr');
-      final shown = LocalizedScheme.fromScheme(s, 'mr');
+      expect(stored(central, 'xx', 'name'), isNull);
+      final s = MssSchemeAdapter.toScheme(central, bundle, langCode: 'xx');
+      final shown = LocalizedScheme.fromScheme(s, 'xx');
       expect(shown.name, s.name);
       expect(shown.overview, s.overview);
       expect(shown.benefits, s.benefits);

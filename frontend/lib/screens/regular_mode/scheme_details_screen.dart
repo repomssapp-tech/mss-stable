@@ -115,21 +115,6 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   Scheme? _detailedScheme;
   bool _detailsLoading = true;
 
-  LocalizedScheme? _localizedCache;
-  Scheme? _localizedCacheSource;
-  String? _localizedCacheLang;
-
-  LocalizedScheme _localized(Scheme raw, String lang) {
-    if (identical(_localizedCacheSource, raw) && _localizedCacheLang == lang) {
-      return _localizedCache!;
-    }
-    final localized = raw.toLocalized(lang);
-    _localizedCache = localized;
-    _localizedCacheSource = raw;
-    _localizedCacheLang = lang;
-    return localized;
-  }
-
   @override
   void initState() {
     super.initState();
@@ -313,10 +298,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   Widget build(BuildContext context) {
     final rawScheme = _detailedScheme ?? widget.scheme;
     final provider = Provider.of<AppProvider>(context);
-    final LocalizedScheme scheme = _localized(
-      rawScheme,
-      provider.selectedLanguage,
-    );
+    final scheme = rawScheme.toLocalized(provider.selectedLanguage);
 
     return Scaffold(
       backgroundColor: AppColors.surface,

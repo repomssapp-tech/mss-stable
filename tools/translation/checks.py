@@ -15,7 +15,7 @@ from .config import Config, Language
 
 BLOCK, FLAG = "block", "flag"
 
-URL_RE = re.compile(r"https?://[^\s<>\"'।]+|www\.[^\s<>\"'।]+", re.I)
+URL_RE = re.compile(r"https?://[^\s<>\"'।]+|www\.[^\s<>\"'।]+|\b(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)*[a-z0-9][a-z0-9-]*[a-z0-9]\.(?:in|org|com|net|edu)(?:/[^\s<>\"'।]*)?", re.I)
 EMAIL_RE = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
 NUMBER_RE = re.compile(r"\d+(?:[.,/]\d+)*")
 ORDINAL_RE = re.compile(r"(?<!\d)(\d+)(?:st|nd|rd|th)\b", re.I)
@@ -69,7 +69,7 @@ def links(text: str) -> Counter:
 
 
 def script_ratio(text: str, lang: Language) -> float:
-    letters = [c for c in text if c.isalpha()]
+    letters = [c for c in _strip_links(text) if c.isalpha()]
     if not letters:
         return 1.0
     hits = sum(any(lo <= ord(c) <= hi for lo, hi in lang.script_ranges) for c in letters)
@@ -103,7 +103,10 @@ def _check_magnitudes(en: str, text: str, lang: Language) -> list[Finding]:
     for unit, pattern in MAGNITUDE_EN.items():
         want = len(pattern.findall(en))
         forms = lang.magnitudes[unit]
-        have = len(re.findall("|".join(re.escape(f) for f in sorted(forms, key=len, reverse=True)), text))
+        native = "|".join(re.escape(f) for f in sorted(forms, key=len, reverse=True))
+        other = "|".join(re.escape(f) for k, values in lang.magnitudes.items() if k != unit for f in values)
+        amount = r"(?:\d[\d,./–—%+ -]*|एक|दो|दोन|तीन|चार|पाँच|पाच|सहा|छह|सात|आठ|नऊ|नौ|दहा|दस|अडीच|डेढ़)"
+        have = len(re.findall(rf"{amount}\s*(?:(?:{other})\s*)?(?:{native})", western_digits(text)))
         have += len(pattern.findall(text))  # the English word kept as written
         if want != have:
             out.append(Finding(BLOCK, f"{unit}_mismatch", f"source {want}, target {have}"))

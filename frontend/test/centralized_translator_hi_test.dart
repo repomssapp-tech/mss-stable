@@ -49,6 +49,17 @@ void main() {
         final key = e.key as String;
         final value = e.value as String;
         for (final m in RegExp(r'\d+').allMatches(key)) {
+          final ordinal = RegExp(
+            r'^(st|nd|rd|th)\b',
+          ).hasMatch(key.substring(m.end));
+          final forms = {
+            '1': ['पहला', 'पहली', 'पहले', 'प्रथम'],
+            '2': ['दूसरा', 'दूसरी', 'दूसरे', 'द्वितीय'],
+            '3': ['तीसरा', 'तीसरी', 'तीसरे', 'तृतीय'],
+            '4': ['चौथा', 'चौथी', 'चौथे', 'चतुर्थ'],
+          };
+          if (ordinal && (forms[m[0]] ?? const <String>[]).any(value.contains))
+            continue;
           expect(value, contains(m.group(0)!), reason: key);
         }
         for (final m in RegExp(r'[a-z0-9.-]+\.gov\.in').allMatches(key)) {

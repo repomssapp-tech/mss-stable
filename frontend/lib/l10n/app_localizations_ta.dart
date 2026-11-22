@@ -6587,4 +6587,12 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get questionnaireTaluka => 'வட்டம்';
+
+  @override
+  String get copyrightOwnership =>
+      '© 2026 சுதேசி சோத் சன்ஸ்தான், தமிழ்நாடு கிளை மற்றும் ராஜலட்சுமி தொழில்நுட்ப நிறுவனம், சென்னை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.';
+
+  @override
+  String get aboutInstitutionCredits =>
+      '• ராஜலட்சுமி தொழில்நுட்ப நிறுவனம் (ஆர்ஐடி)\n• சுதேசி சோத் சன்ஸ்தான் (எஸ்எஸ்எஸ் தமிழ்நாடு கிளை)';
 }

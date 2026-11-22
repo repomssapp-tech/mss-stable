@@ -6475,4 +6475,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get questionnaireTaluka => 'Taluka';
+
+  @override
+  String get copyrightOwnership =>
+      '© 2026 Swadeshi Shodh Sansthan, Tamil Nadu Chapter & Rajalakshmi Institute of Technology, Chennai. All Rights Reserved.';
+
+  @override
+  String get aboutInstitutionCredits =>
+      '• Rajalakshmi Institute of Technology (RIT)\n• Swadeshi Shodh Sansthan (SSS TN Chapter)';
 }

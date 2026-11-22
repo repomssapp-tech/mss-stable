@@ -4,6 +4,14 @@ One pipeline for every language. A new language is a config entry; the code does
 
 Code: `tools/translation/`. Config and ledgers: `backend/catalog/translations/`. Tests: `tools/test_translation_pipeline.py`.
 
+## Authorized regional-name fallback
+
+Official institution and program names remain the first choice. When the product owner explicitly requests fallback translation after an unsuccessful search, ingest with `--allow-name-fallback` and attach `name_fallback` containing `status: "not_found"`, the actual queries, a durable search record and the reason. Ordinary descriptive scheme labels may use `status: "general_scheme_label"` with a reason; acronyms require a recorded search. Default ingest still rejects unsupported machine-translated government names.
+
+Fallbacks never receive an `official_source`. Automated corrections use `editor_engine: "codex"` in per-unit decisions and remain machine-origin with `verified: false`. A sampled or automated review is not human linguistic certification. Round 003 evidence is in [round-003/name-searches.json](round-003/name-searches.json) and [round-003/official-names.json](round-003/official-names.json).
+
+Exact display dictionaries also cover newer public OTA text. This localizes its actual strings without replacing newer English facts with older shipped content. Figures, money units, links and list structure are checked before those entries are added.
+
 ## Why it exists
 
 Translation had four separate lanes (Supabase content, central procedure steps, Maharashtra Hindi, the local AI4Bharat factory), and none of them was set up to grow:

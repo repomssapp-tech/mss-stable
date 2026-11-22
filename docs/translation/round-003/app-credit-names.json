@@ -1,0 +1,12 @@
+{
+  "queries": [
+    "\"Rajalakshmi Institute of Technology\" हिंदी मराठी official",
+    "\"Swadeshi Shodh Sansthan\" हिंदी मराठी official"
+  ],
+  "sources": [
+    "https://ritchennai.org/about-us",
+    "https://swadeshishodh.org/about-us/",
+    "https://www.swadeshionline.in/assets/uploads/magazine-19-01-2022-335.pdf"
+  ],
+  "decisions": "Swadeshi Shodh Sansthan Hindi spelling is attested by its organization journal. No exact official Hindi/Marathi RIT name or Marathi SSS name was verified; use native translation/transliteration without claiming official status. English legal ownership wording remains unchanged."
+}
