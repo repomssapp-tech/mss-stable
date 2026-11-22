@@ -58,12 +58,18 @@ void main() {
             '3': ['तीसरा', 'तीसरी', 'तीसरे', 'तृतीय'],
             '4': ['चौथा', 'चौथी', 'चौथे', 'चतुर्थ'],
           };
-          if (ordinal && (forms[m[0]] ?? const <String>[]).any(value.contains))
+          if (ordinal &&
+              (forms[m[0]] ?? const <String>[]).any(value.contains)) {
             continue;
+          }
           expect(value, contains(m.group(0)!), reason: key);
         }
         for (final m in RegExp(r'[a-z0-9.-]+\.gov\.in').allMatches(key)) {
-          expect(value, contains(m.group(0)!), reason: key);
+          expect(
+            value.toLowerCase(),
+            contains(m.group(0)!.toLowerCase()),
+            reason: key,
+          );
         }
       }
     });

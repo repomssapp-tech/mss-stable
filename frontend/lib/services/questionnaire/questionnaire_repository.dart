@@ -25,11 +25,12 @@ class QuestionnaireRepository {
       final copy = display[field['id']] as Map<String, dynamic>?;
       if (copy == null) continue;
       (field['question'] as Map<String, dynamic>).addAll(
-        copy['question'] as Map<String, dynamic>,
+        copy['question'] as Map<String, dynamic>? ?? const {},
       );
-      final optionLabels = copy['options'] as Map<String, dynamic>;
+      final optionLabels = copy['options'] as Map<String, dynamic>? ?? const {};
       for (final option
-          in (field['options'] as List).cast<Map<String, dynamic>>()) {
+          in (field['options'] as List? ?? const [])
+              .cast<Map<String, dynamic>>()) {
         final labels = optionLabels[option['value']] as Map<String, dynamic>?;
         if (labels != null) option.addAll(labels);
       }
