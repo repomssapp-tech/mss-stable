@@ -184,7 +184,6 @@ class _StatePickerSheetState extends State<_StatePickerSheet> {
                         final selected = name == widget.selected;
                         return ListTile(
                           title: Text(local),
-                          subtitle: local == name ? null : Text(name),
                           selected: selected,
                           trailing: selected
                               ? const Icon(Icons.check_rounded)
