@@ -1,3 +1,5 @@
+import 'profile_option_grid.dart';
+import '../../../utils/app_size.dart';
 import 'package:flutter/material.dart';
 import '../../../utils/app_radius.dart';
 import '../../../utils/app_colors.dart';
@@ -134,26 +136,16 @@ class Step4EligibilityForm extends StatelessWidget {
       required bool Function(Map<String, dynamic> opt) isSelected,
       required void Function(Map<String, dynamic> opt) onSelect,
     }) {
-      return GridView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: options.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          crossAxisSpacing: AppSpacing.sm,
-          mainAxisSpacing: AppSpacing.sm,
-          mainAxisExtent: 52,
-        ),
-        itemBuilder: (context, index) {
-          final opt = options[index];
-          final text = optionLabel(l10n, opt['key'] as String);
-          return _buildSelectCard(
-            context,
-            label: text,
-            isSelected: isSelected(opt),
-            onTap: () => onSelect(opt),
-          );
-        },
+      return ProfileOptionGrid(
+        options: [
+          for (final opt in options)
+            _buildSelectCard(
+              context,
+              label: optionLabel(l10n, opt['key'] as String),
+              isSelected: isSelected(opt),
+              onTap: () => onSelect(opt),
+            ),
+        ],
       );
     }
 
@@ -354,6 +346,7 @@ class Step4EligibilityForm extends StatelessWidget {
       borderRadius: AppRadius.mdAll,
       onTap: onTap,
       child: AnimatedContainer(
+        constraints: const BoxConstraints(minHeight: AppSize.controlHeight),
         duration: const Duration(milliseconds: 150),
         padding: const EdgeInsets.symmetric(
           horizontal: AppSpacing.md,
@@ -387,8 +380,6 @@ class Step4EligibilityForm extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
                 style: context.text.bodySmall.copyWith(
                   fontWeight: isSelected ? FontWeight.bold : FontWeight.w500,
                   color: isSelected ? kPrimaryBlue : kSlate800,

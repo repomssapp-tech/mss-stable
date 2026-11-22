@@ -9,6 +9,8 @@ void showFAQBottomSheet(BuildContext context, String question, String answer) {
   final l10n = context.l10n;
   showModalBottomSheet(
     context: context,
+    isScrollControlled: true,
+    useSafeArea: true,
     backgroundColor: Colors.white,
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.only(
@@ -17,7 +19,7 @@ void showFAQBottomSheet(BuildContext context, String question, String answer) {
       ),
     ),
     builder: (context) {
-      return Padding(
+      return SingleChildScrollView(
         padding: const EdgeInsets.all(AppSpacing.xxl),
         child: Column(
           mainAxisSize: MainAxisSize.min,

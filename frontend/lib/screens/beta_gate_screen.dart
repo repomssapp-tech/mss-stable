@@ -380,9 +380,12 @@ class _BetaGateCard extends StatelessWidget {
                   : Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          context.l10n.betaGateVerifyAndEnter,
-                          style: context.text.button,
+                        Flexible(
+                          child: Text(
+                            context.l10n.betaGateVerifyAndEnter,
+                            textAlign: TextAlign.center,
+                            style: context.text.button,
+                          ),
                         ),
                         const SizedBox(width: AppSpacing.xs),
                         const Icon(Icons.arrow_forward_rounded, size: 16),

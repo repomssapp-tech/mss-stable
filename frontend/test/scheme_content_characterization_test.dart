@@ -89,18 +89,23 @@ void main() {
       for (final e in bundle.schemes) {
         final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'hi');
         final shown = LocalizedScheme.fromScheme(s, 'hi');
-        expect(shown.name, stored(e, 'hi', 'name') ?? s.name, reason: e.id);
+        expect(
+          shown.name,
+          stored(e, 'hi', 'name') ?? translator.localizeFor('hi', s.name),
+          reason: e.id,
+        );
         expect(shown.fullSchemeName, shown.name, reason: e.id);
         expect(
           shown.overview,
           stored(e, 'hi', 'summary') ??
               stored(e, 'hi', 'description') ??
-              s.overview,
+              translator.localizeFor('hi', s.overview),
           reason: e.id,
         );
         expect(
           shown.benefits,
-          stored(e, 'hi', 'benefitsText') ?? s.benefits,
+          stored(e, 'hi', 'benefitsText') ??
+              translator.localizeFor('hi', s.benefits),
           reason: e.id,
         );
         expect(shown.rawBenefitsDisplayText, shown.benefits, reason: e.id);
@@ -134,7 +139,7 @@ void main() {
       expect(loan, isNot('Loan'));
       expect(shown.name, handBuilt.name);
       expect(shown.fullSchemeName, handBuilt.name);
-      expect(shown.shortName, handBuilt.shortName);
+      expect(shown.shortName, loan);
       expect(shown.ministry, handBuilt.ministry);
       expect(shown.overview, handBuilt.overview);
       expect(shown.objectives, handBuilt.objectives);
@@ -143,9 +148,8 @@ void main() {
       expect(shown.targetBeneficiary, handBuilt.targetBeneficiary);
       expect(shown.category, loan);
       expect(shown.verificationStatus, loan);
-      // Lists with no stored translation are not run through the dictionary.
-      expect(shown.eligibilityCriteria, ['Loan']);
-      expect(shown.applicationProcess, ['Loan']);
+      expect(shown.eligibilityCriteria, [loan]);
+      expect(shown.applicationProcess, [loan]);
       // Document names are.
       expect(shown.requiredDocuments, [translator.localizeFor('hi', 'Loan')]);
       expect(
@@ -160,7 +164,7 @@ void main() {
       expect(shown.requiredServices.single.category, loan);
     });
 
-    test('stored document names and record text are used', () {
+    test('stored document names and approved native spellings are used', () {
       var names = 0;
       for (final e in bundle.schemes) {
         final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'hi');
@@ -172,7 +176,11 @@ void main() {
         final shown = LocalizedScheme.fromScheme(s, 'hi').requiredDocuments;
         for (var i = 0; i < shown.length; i++) {
           if (storedNames[i].isNotEmpty) {
-            expect(shown[i], storedNames[i], reason: e.id);
+            expect(
+              shown[i],
+              translator.localizeFor('hi', storedNames[i]),
+              reason: e.id,
+            );
             names++;
           }
         }

@@ -1,4 +1,5 @@
 import '../services/catalog/language_pack_manager.dart';
+import '../services/catalog/centralized_translator.dart';
 import 'scheme_extras.dart';
 
 class SchemeDocument {
@@ -325,6 +326,13 @@ class Scheme {
     this.faqs = const [],
   });
 
+  String _display(String lang, String text) {
+    final translator = CentralizedTranslator.instance;
+    return translator.rewritesEnglish(lang)
+        ? text
+        : translator.localizeFor(lang, text);
+  }
+
   /// Get scheme name localized according to language selection with clean fallback.
   String getName([String langCode = 'en']) {
     if (langCode != 'en') {
@@ -334,11 +342,13 @@ class Scheme {
         entityId: id,
         fieldName: 'name',
       );
-      if (packVal != null && packVal.isNotEmpty) return packVal;
+      if (packVal != null && packVal.isNotEmpty) {
+        return _display(langCode, packVal);
+      }
     }
     final kept = nativeName('name', langCode)?.trim() ?? '';
-    if (kept.isNotEmpty) return kept;
-    return name.isNotEmpty ? name : schemeCode;
+    if (kept.isNotEmpty) return _display(langCode, kept);
+    return _display(langCode, name.isNotEmpty ? name : schemeCode);
   }
 
   /// Get localized overview description
@@ -357,10 +367,12 @@ class Scheme {
             entityId: id,
             fieldName: 'description',
           );
-      if (packVal != null && packVal.isNotEmpty) return packVal;
+      if (packVal != null && packVal.isNotEmpty) {
+        return _display(langCode, packVal);
+      }
     }
     final kept = nativeName('overview', langCode)?.trim() ?? '';
-    return kept.isNotEmpty ? kept : overview;
+    return _display(langCode, kept.isNotEmpty ? kept : overview);
   }
 
   /// Get localized benefits description
@@ -372,10 +384,12 @@ class Scheme {
         entityId: id,
         fieldName: 'benefits_text',
       );
-      if (packVal != null && packVal.isNotEmpty) return packVal;
+      if (packVal != null && packVal.isNotEmpty) {
+        return _display(langCode, packVal);
+      }
     }
     final kept = nativeName('benefits', langCode)?.trim() ?? '';
-    return kept.isNotEmpty ? kept : benefits;
+    return _display(langCode, kept.isNotEmpty ? kept : benefits);
   }
 
   /// Returns a copy with specified fields updated.

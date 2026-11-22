@@ -29,4 +29,5 @@ class PendingEndpoints {
   /// profile write.
   static const String guestUpgrade = '/me/guest-upgrade';
 
+  static const String analyticsEvents = '/analytics/events';
 }

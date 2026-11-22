@@ -11,6 +11,24 @@ Unreleased items under a new heading, commit, and tag the commit.
 
 ## [Unreleased]
 
+## [2.6.5+36] - 2026-11-22
+
+### Added
+- Adaptive Smart Assessment uses category-specific questions, saved answers, profile prefill and the shared recommendation engine. Results open in Search with fit chips.
+- Buffered mobile analytics is enabled by default; builds can disable it with MSS_ANALYTICS_ENABLED=false. Backend deployment remains separate.
+
+### Changed
+- Imported the assessment, guest, login, profile, responsive option controls and multiple-employment-role improvements from the original app repository.
+- Removed the separate first-run profile questionnaire and its cloud synchronization. Kept edition rules, location lock, tour gating, the documented sign-in callback and stable update routing.
+
+### Fixed
+- Hindi and Marathi scheme details, search suggestions, institutions, module panels, onboarding, legal notices and district pickers now use native text immediately, including cached public catalog content.
+- Verified official institution names take priority over generated translations. Translation checks preserve money amounts, dates, links and document identifiers; unverified fallback names retain their provenance.
+- Removed invented mandatory verification services and an invented minimum age of 18 for child schemes with only an upper age limit.
+- Fixed beta access button overflow and navigation-mode tour key conflicts. State editions omit Discover's state section.
+- Translated notification and onboarding text and fixed Discover and Help/Support layouts for translated content.
+- Made questionnaire source hashing consistent across Windows and LF checkouts.
+
 ## [2.6.4+35] - 2026-11-21 (dev test build)
 
 ### Fixed

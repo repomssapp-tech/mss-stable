@@ -92,6 +92,12 @@ Each scheme gets a score from the answers:
 
 ## 6. Tests and success measures
 
+### Local QA report
+
+Run a debug build with `--dart-define=SMART_ASSESSMENT_QA=true` and exercise the assessment with synthetic answers. Capture the session with `adb logcat -d -s flutter:I > smart-assessment.log`, then run `python tools/report_smart_assessment.py smart-assessment.log` from the repository root. Use a fresh log capture for each QA session so earlier runs are not counted again.
+
+The report shows completed and abandoned runs, fields shown, answered and skipped, drop-off by field, median viable results, the share of result screens with no Good fit, and scheme opens by fit group. It does not log answer values, scheme IDs or account identifiers. The flag has no effect on release builds, and the report reads a local file. Forced process exits may leave a run uncounted. Production reporting still depends on the analytics ingest and consent flow, and eligibility events depend on the 1.2 engine.
+
 - **Golden tests:** 12 personas (the 5 in the guest UX plan × Maharashtra or Tamil Nadu, plus 2 edge cases). Each must get 5 or more "Good fit" or "Might fit" schemes, with the expected scheme in the top 5.
   - Example: an aspiring woman manufacturer in rural Maharashtra must get CMEGP and PMEGP in the top 5.
 - **Unit tests:**

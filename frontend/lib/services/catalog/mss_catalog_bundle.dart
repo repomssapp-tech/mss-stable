@@ -55,6 +55,7 @@ class MssCatalogBundle {
        _searchTokenMap = searchTokenMap;
 
   static MssCatalogBundle? _instance;
+  static String? get loadedReleaseTag => _instance?.releaseTag;
   static Future<MssCatalogBundle>? _loadFuture;
 
   /// Highest `manifest.bundleFormat` this build understands. A bundle with a

@@ -96,6 +96,32 @@ void main() {
       },
     );
 
+    test('applicant type preserves multiple roles through the profile API', () {
+      const roles = 'Farmer, MSME Owner';
+      final baseline = ProfileAggregate.fromJson({
+        'id': 'u1',
+        'version': 1,
+        'applicant_type': 'Farmer',
+      });
+      final current = baseline.toUserProfile().copyWith(
+        employmentStatus: roles,
+      );
+      final patch = ProfileAggregate.buildPatchPayload(
+        current: current,
+        baseline: baseline,
+      );
+
+      expect(patch['applicant_type'], roles);
+      expect(
+        ProfileAggregate.fromJson({
+          'id': 'u1',
+          'version': 2,
+          ...patch,
+        }).toUserProfile().employmentStatus,
+        roles,
+      );
+    });
+
     test('buildPatchPayload sends only languages the server can store', () {
       final baseline = ProfileAggregate(
         id: 'u1',
@@ -551,20 +577,44 @@ void main() {
     );
 
     test(
+      'required onboarding fails when only the draft can be saved',
+      () async {
+        await signIn();
+
+        await expectLater(
+          syncProfileToServer(
+            _fullProfile(),
+            isLoggedIn: true,
+            requireOnboardingCompletion: true,
+          ),
+          throwsStateError,
+        );
+        expect(seen.any((call) => call.contains('/v1/me/onboarding')), isFalse);
+        expect(
+          seen.any((call) => call.startsWith('PATCH /v1/me/profile')),
+          isTrue,
+        );
+      },
+    );
+
+    test(
       'with recorded consent onboarding carries exactly those acceptances',
       () async {
         await signIn();
         await LegalConsentStore.record(const [
           LegalDocumentItem(documentType: 'terms', documentVersion: 'v7'),
-          LegalDocumentItem(documentType: 'privacy_policy', documentVersion: 'v3'),
-          LegalDocumentItem(documentType: 'privacy_notice', documentVersion: 'v2'),
+          LegalDocumentItem(
+            documentType: 'privacy_policy',
+            documentVersion: 'v3',
+          ),
+          LegalDocumentItem(
+            documentType: 'privacy_notice',
+            documentVersion: 'v2',
+          ),
           LegalDocumentItem(documentType: 'consent', documentVersion: 'v2'),
         ]);
 
-        await syncProfileToServer(
-          _fullProfile(),
-          isLoggedIn: true,
-        );
+        await syncProfileToServer(_fullProfile(), isLoggedIn: true);
 
         final body = seen.firstWhere((c) => c.startsWith('BODY '));
         final sent = jsonDecode(body.substring(5)) as Map<String, dynamic>;
@@ -593,8 +643,10 @@ void main() {
         isLoggedIn: true,
       );
 
-      expect(seen.any((c) => c.startsWith('BODY ') && c.contains('legal_')),
-          isFalse);
+      expect(
+        seen.any((c) => c.startsWith('BODY ') && c.contains('legal_')),
+        isFalse,
+      );
     });
 
     test('phone and pincode are sanitised, student venture is dropped', () {
@@ -609,8 +661,10 @@ void main() {
       expect(missingOnboardingFields(map), isEmpty);
       expect(buildOnboardingBusiness(p, 'Student'), isNull);
       expect(buildOnboardingBusiness(p, 'Individual'), isNotNull);
-      expect(missingOnboardingFields(buildOnboardingProfile(UserProfile())),
-          contains('house'));
+      expect(
+        missingOnboardingFields(buildOnboardingProfile(UserProfile())),
+        contains('house'),
+      );
     });
 
     test('consent is per account: clearing forgets it', () async {

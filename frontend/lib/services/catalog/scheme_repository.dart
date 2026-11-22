@@ -6,6 +6,7 @@ import '../search/hybrid_scheme_search.dart';
 import '../search/intelligent_scheme_search.dart' show SchemeSearchMatch;
 import 'mss_catalog_bundle.dart';
 import 'mss_scheme_adapter.dart';
+import 'language_pack_manager.dart';
 import '../recommendation/recommendation_engine.dart';
 import '../location_lock/location_lock.dart';
 
@@ -233,14 +234,20 @@ class SchemeRepository {
   // ── 4. getDynamicSearchHint() ─────────────────────────────────────────
   /// Returns dynamic search hint prompt from loaded catalog entries.
   /// Intentionally local for instantaneous UI search bar rendering.
-  Future<String> getDynamicSearchHint([String langCode = 'en']) async {
+  Future<String?> getDynamicSearchHint([String langCode = 'en']) async {
+    if (langCode != 'en') {
+      await LanguagePackManager.instance.loadPack(langCode);
+    }
     final all = await getAllSchemes(langCode: langCode);
-    if (all.isEmpty) return 'PMEGP, Startup India, MSME loans...';
-    final sample = (List<Scheme>.from(all)..shuffle()).first;
-    final name = sample.getName(langCode);
-    return name.isNotEmpty
-        ? name
-        : (sample.shortName.isNotEmpty ? sample.shortName : sample.name);
+    final names = [
+      for (final scheme in all)
+        if (scheme.getName(langCode).isNotEmpty &&
+            (langCode == 'en' ||
+                scheme.getName(langCode) != scheme.getName('en')))
+          scheme.getName(langCode),
+    ];
+    if (names.isEmpty) return null;
+    return (names..shuffle()).first;
   }
 
   // ── 5. getAllSchemes() ────────────────────────────────────────────────

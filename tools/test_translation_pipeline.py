@@ -474,6 +474,39 @@ def test_an_official_name_with_a_source_is_accepted_and_traced():
         assert event["official_source"] == "https://example.gov.in/gu"
 
 
+def test_name_fallback_requires_explicit_authorization():
+    with Env() as env:
+        unit = _official_batch(env, "કકક કકક કકક", name_fallback={
+            "status": "not_found", "queries": ["official Gujarati name"],
+            "search_record": "research/names.json", "reason": "No verified official name found",
+        })
+        result = stages.ingest(env.bundle, env.config, "gu", env.ledger, env.dir / "n.out.jsonl", "indictrans2", "r1")
+        assert result == {"government_name_refused": 1}
+        assert env.ledger.latest[unit.key]["state"] == "failed"
+
+
+def test_authorized_fallback_keeps_search_evidence_without_claiming_an_official_source():
+    with Env() as env:
+        evidence = {"status": "not_found", "queries": ["official Gujarati name"],
+                    "search_record": "research/names.json", "reason": "No verified official name found"}
+        unit = _official_batch(env, "કકક કકક કકક", name_fallback=evidence)
+        stages.ingest(env.bundle, env.config, "gu", env.ledger, env.dir / "n.out.jsonl", "indictrans2", "r1",
+                      allow_name_fallback=True)
+        event = env.ledger.latest[unit.key]
+        assert event["state"] in ("checked", "needs_review")
+        assert event["name_fallback"] == evidence
+        assert "official_source" not in event
+        assert not event.get("verified")
+
+
+def test_fallback_cannot_skip_recording_the_official_name_search():
+    with Env() as env:
+        _official_batch(env, "કકક કકક કકક", name_fallback={"status": "not_found", "reason": "Not found"})
+        result = stages.ingest(env.bundle, env.config, "gu", env.ledger, env.dir / "n.out.jsonl", "indictrans2", "r1",
+                               allow_name_fallback=True)
+        assert result == {"government_name_refused": 1}
+
+
 def test_a_reviewer_cannot_approve_a_government_name_without_a_source():
     with Env() as env:
         unit = _official_batch(env, "ક ક ક", official_source="https://example.gov.in")
@@ -493,6 +526,56 @@ def test_a_state_name_must_survive_inside_translated_text():
     assert checks.verdict(bad) == "failed"
     good = checks.check(en, "फक्त तमिळनाडू मधील उद्योगांसाठी उपलब्ध", language, config)
     assert "government_name_changed" not in {f.code for f in good}
+
+
+def test_marathi_million_and_attention_words_are_not_lakh_amounts():
+    config = config_module.load()
+    language = config.language("mr")
+    for source, target in [("Rs 10 million", "रु. 10 दशलक्ष"),
+                           ("Support 10 enterprises", "10 उद्योगांवर लक्ष केंद्रित करा")]:
+        findings = checks.check(source, target, language, config)
+        assert not any(f.code.endswith("_mismatch") for f in findings)
+    bad = checks.check("Rs 10 million", "रु. 10 कोटी", language, config)
+    assert "crore_mismatch" in {f.code for f in bad}
+
+
+def test_native_money_inflections_and_compound_units_keep_their_scale():
+    config = config_module.load()
+    language = config.language("mr")
+    good = checks.check("Rs 25 lakh and Rs 2 lakh crore", "रु. 25 लाखांपर्यंत आणि रु. 2 लाख कोटी", language, config)
+    assert not any(f.code.endswith("_mismatch") for f in good)
+    bad = checks.check("Rs 25 lakh", "रु. 25 कोटी", language, config)
+    assert {"lakh_mismatch", "crore_mismatch"} <= {f.code for f in bad}
+
+
+def test_url_letters_do_not_make_a_native_translation_the_wrong_script():
+    config = config_module.load()
+    findings = checks.check("Apply Online: https://pmfme.mofpi.gov.in/pmfme/#/Home-Page",
+                            "ऑनलाईन अर्ज करा: https://pmfme.mofpi.gov.in/pmfme/#/Home-Page",
+                            config.language("mr"), config)
+    assert not any(f.code in {"wrong_script", "low_script_ratio", "link_changed"} for f in findings)
+
+
+def test_bare_web_addresses_survive_without_confusing_degree_names():
+    config = config_module.load()
+    bad = checks.check("Apply at trade.gov.in", "ट्रेड.gov.in पर आवेदन करें", config.language("hi"), config)
+    assert "link_changed" in {f.code for f in bad}
+    assert checks.links("A B.Com degree is required") == {}
+    assert checks.links("Apply at trade.gov.in") == {"trade.gov.in": 1}
+
+
+def test_automated_editor_does_not_claim_human_origin():
+    with Env() as env:
+        env.translate_batch(limit=1)
+        event = next(iter(env.ledger.latest.values()))
+        decisions = env.dir / "decisions.jsonl"
+        decisions.write_text(json.dumps({"unit": event["unit"], "decision": "approve", "text": event["text"],
+                                         "editor_engine": "codex", "verified": False}) + "\n", encoding="utf-8")
+        result = stages.decide(env.ledger, env.bundle, env.config, "gu", decisions, "automated review")
+        assert result == {"approved": 1}
+        saved = env.ledger.latest[event["unit"]]
+        assert saved["engine"] == "codex" and saved["origin"] == "machine"
+        assert saved["verified"] is False
 
 
 if __name__ == "__main__":

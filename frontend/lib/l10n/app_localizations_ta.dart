@@ -71,6 +71,60 @@ class AppLocalizationsTa extends AppLocalizations {
   String get schemes => 'திட்டங்கள்';
 
   @override
+  String get assessmentResultsTitle => 'உங்களுக்குப் பொருந்தும் திட்டங்கள்';
+
+  @override
+  String get assessmentResultsIntro =>
+      'உங்கள் பதில்களின் அடிப்படையில் திட்டங்கள் வரிசைப்படுத்தப்பட்டுள்ளன. மேலும் அறிய ஒன்றைத் திறக்கவும்.';
+
+  @override
+  String get assessmentFallbackNote =>
+      'இந்தப் பிரிவில் சில திட்டங்களே பொருந்தின. கூடுதல் தேர்வுகளுக்காக மற்ற திட்டங்களையும் சேர்த்துள்ளோம்.';
+
+  @override
+  String get profileSaveFailed =>
+      'இந்தப் பதில்களை உங்கள் சுயவிவரத்தில் சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get assessmentGoodFit => 'நல்ல பொருத்தம்';
+
+  @override
+  String get assessmentPossibleFit => 'பொருந்தக்கூடும்';
+
+  @override
+  String get assessmentNotNow => 'இப்போது பொருந்தாது';
+
+  @override
+  String get assessmentReasonState =>
+      'நீங்கள் தேர்ந்தெடுத்த மாநிலத்தில் கிடைக்கும்';
+
+  @override
+  String get assessmentReasonStateExcluded =>
+      'இந்தத் திட்டம் வேறு மாநிலத்திற்கு மட்டுமே';
+
+  @override
+  String get assessmentReasonAgeExcluded =>
+      'இந்தத் திட்டத்தின் வயது வரம்புக்கு உங்கள் வயது பொருந்தவில்லை';
+
+  @override
+  String get assessmentReasonStageExcluded =>
+      'இந்தத் திட்டம் வேறு வணிக நிலையிலுள்ளவர்களுக்கானது';
+
+  @override
+  String get assessmentReasonCategory =>
+      'நீங்கள் தேர்ந்தெடுத்த குழுவுக்கான ஆதரவு இதில் உள்ளது';
+
+  @override
+  String get assessmentReasonNature => 'உங்கள் வணிக வகைக்குத் தொடர்புடையது';
+
+  @override
+  String get assessmentReasonGoal => 'நீங்கள் விரும்பும் ஆதரவுடன் தொடர்புடையது';
+
+  @override
+  String get assessmentReasonGeneral =>
+      'இது உங்களுக்குப் பொருந்துமா என்பதைத் தகுதி விவரங்களில் பாருங்கள்';
+
+  @override
   String get finance => 'நிதி';
 
   @override
@@ -842,10 +896,10 @@ class AppLocalizationsTa extends AppLocalizations {
   String get commGeneral => 'பொது';
 
   @override
-  String get commObc => 'OBC';
+  String get commObc => 'இதர பிற்படுத்தப்பட்டோர் (OBC)';
 
   @override
-  String get commEws => 'EWS';
+  String get commEws => 'பொருளாதாரத்தில் நலிவடைந்தோர் (EWS)';
 
   @override
   String get commSc => 'SC';
@@ -2009,7 +2063,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get aboutYouSubtitle =>
-      'உங்களை சிறப்பாக விவரிக்கும் விருப்பத்தை தேர்ந்தெடுங்கள்.';
+      'பொருந்தும் அனைத்து விருப்பங்களையும் தேர்ந்தெடுக்கவும்.';
 
   @override
   String get studentSubtitle =>
@@ -2129,7 +2183,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get eligibilitySubtitle =>
-      'உங்களுக்கான 100% துல்லியமான அரசு திட்டங்களை பரிந்துரைக்க உதவும்.';
+      'உங்கள் சுயவிவரத்திற்குப் பொருந்தக்கூடிய திட்டங்களையும் மானியங்களையும் கண்டறிய உங்கள் பதில்கள் உதவும்.';
 
   @override
   String get firstGenGraduate => 'முதல் தலைமுறை பட்டதாரி';
@@ -4146,7 +4200,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get docEntityOpc => 'ஒரு நபர் நிறுவனம் (OPC)';
 
   @override
-  String get docEntityLlp => 'LLP';
+  String get docEntityLlp => 'வரையறுக்கப்பட்ட பொறுப்பு கூட்டாண்மை (LLP)';
 
   @override
   String get docItemDsc => 'மின்னணு கையொப்பச் சான்றிதழ் (DSC)';
@@ -4800,7 +4854,7 @@ class AppLocalizationsTa extends AppLocalizations {
       'உயர்கல்விக்காக மாணவர்களுக்கு பிணையமற்ற கல்விக் கடன் வழங்கும் புதிய திட்டம்.';
 
   @override
-  String get notifSeed3Title => 'PM Vishwakarma Yojana';
+  String get notifSeed3Title => 'பிரதமரின் விஸ்வகர்மா திட்டம்';
 
   @override
   String get notifSeed3Body =>
@@ -4813,7 +4867,7 @@ class AppLocalizationsTa extends AppLocalizations {
   String get notifSeed4Body => 'விண்ணப்பிக்க கடைசி தேதி நெருங்குகிறது';
 
   @override
-  String get notifSeed5Title => 'PM Internship Scheme';
+  String get notifSeed5Title => 'பிரதமரின் தொழிற்பயிற்சித் திட்டம்';
 
   @override
   String get notifSeed5Body => 'விண்ணப்ப காலம் விரைவில் முடிவடையும்';
@@ -5960,7 +6014,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String onbStep(String step, String total) {
-    return '$step / $total';
+    return 'படி $step / $total';
   }
 
   @override
@@ -6353,7 +6407,7 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get guestProfilePendingNote =>
-      'நீங்கள் விருந்தினராக ஆப்பைப் பயன்படுத்துகிறீர்கள். உள்நுழைந்ததும் உங்கள் சுயவிவரம் சேமிக்கப்படும்.';
+      'நீங்கள் விருந்தினராகப் பயன்படுத்துகிறீர்கள். சுயவிவரத்தை உருவாக்கிச் சேமிக்க உள்நுழையுங்கள்.';
 
   @override
   String get homeTopSchemes => 'முன்னணித் திட்டங்கள்';
@@ -6432,117 +6486,6 @@ class AppLocalizationsTa extends AppLocalizations {
 
   @override
   String get locationDevBuildBadge => 'சோதனைப் பதிப்பு';
-
-  @override
-  String get eligCheckEntry => 'என் பதில்கள்';
-
-  @override
-  String get eligCheckEntrySub =>
-      'உங்கள் மற்றும் உங்கள் தொழில் பற்றிய கேள்விகள்';
-
-  @override
-  String get eligCheckTitle => 'உங்கள் பதில்கள்';
-
-  @override
-  String get eligCheckIntro => 'தெரியாத கேள்வியை தவிர்க்கலாம்.';
-
-  @override
-  String eligCheckStepLabel(int n, int total) {
-    return 'படி $n / $total';
-  }
-
-  @override
-  String get eligCheckStep0 => 'உங்களைப் பற்றி';
-
-  @override
-  String get eligCheckStep1 => 'நீங்கள் வசிக்கும் மற்றும் வேலை செய்யும் இடம்';
-
-  @override
-  String get eligCheckStep2 => 'உங்கள் தொழில்';
-
-  @override
-  String get eligCheckStep3 => 'உங்களுக்கு என்ன தேவை';
-
-  @override
-  String get eligCheckStep4 => 'உங்கள் திறன்கள்';
-
-  @override
-  String get eligCheckStep5 => 'இன்னும் சில (விருப்பம்)';
-
-  @override
-  String eligCheckNeeded(String question) {
-    return 'தொடர இதற்கு பதிலளிக்கவும்: $question';
-  }
-
-  @override
-  String get eligCheckWomenMore =>
-      'பெண் ஊழியர்கள் மொத்த ஊழியர்களை விட அதிகமாக இருக்க முடியாது.';
-
-  @override
-  String get eligCheckQuestionLanguage => 'கேள்வி மொழி';
-
-  @override
-  String get eligCheckSave => 'என் பதில்களைச் சேமி';
-
-  @override
-  String get eligCheckSaveGo => 'சேமித்து உள்ளே செல்';
-
-  @override
-  String get eligCheckSavedTitle => 'உங்கள் பதில்கள் சேமிக்கப்பட்டன';
-
-  @override
-  String get eligCheckSavedBody =>
-      'நன்றி. உங்கள் பதில்களை எப்போது வேண்டுமானாலும் மாற்றலாம்.';
-
-  @override
-  String get eligCheckEdit => 'பதில்களை மாற்று';
-
-  @override
-  String get eligCheckSelect => 'தேர்ந்தெடுக்கவும்';
-
-  @override
-  String get eligCheckOther => 'மற்றவை (நீங்களே உள்ளிடவும்)';
-
-  @override
-  String get eligCheckTypeHere => 'பெயரை உள்ளிடவும்';
-
-  @override
-  String get eligCheckSkipRest => 'மீதியைத் தவிர்';
-
-  @override
-  String get eligCheckAnswerMore => 'மேலும் கேள்விகளுக்கு பதிலளிக்கவும்';
-
-  @override
-  String get eligCheckQuickIntro =>
-      'தொடங்க சில கேள்விகள் மட்டும். மீதியை பிறகு நிரப்பலாம்.';
-
-  @override
-  String get eligCheckAllRequired => 'தொடர அனைத்து கேள்விகளும் அவசியம்.';
-
-  @override
-  String get eligCheckLocate => 'என் தற்போதைய இடத்தைப் பயன்படுத்து';
-
-  @override
-  String get eligCheckLocating => 'உங்கள் இடத்தைக் கண்டறிகிறோம்…';
-
-  @override
-  String get eligCheckLocationFail =>
-      'இடத்தைப் பெற முடியவில்லை. இடத்தை நீங்களே தேர்ந்தெடுக்கலாம்.';
-
-  @override
-  String get eligCheckLocationNote =>
-      'உங்கள் மாநிலம் மற்றும் மாவட்டத்தை தானாக நிரப்பும்.';
-
-  @override
-  String get eligCheckLocationDone =>
-      'இடம் சேமிக்கப்பட்டது. கீழே உள்ள இடத்தைச் சரிபார்க்கவும்.';
-
-  @override
-  String get eligCheckFirstTitle => 'உங்களைப் பற்றி சொல்லுங்கள்';
-
-  @override
-  String get eligCheckFirstIntro =>
-      'சில கேள்விகள், பிறகு உள்ளே செல்லலாம். * குறியிட்ட கேள்விகள் அவசியம்.';
 
   @override
   String get guestName => 'விருந்தினர்';
@@ -6629,4 +6572,27 @@ class AppLocalizationsTa extends AppLocalizations {
   @override
   String get loginSubtitleShort =>
       'நீங்கள் பெறக்கூடிய அரசுத் திட்டங்களைக் கண்டறியுங்கள்';
+
+  @override
+  String get questionnaireFromProfile =>
+      'உங்கள் சுயவிவரத்திலிருந்து. எந்தப் பதிலையும் மாற்றலாம்.';
+
+  @override
+  String get questionnaireLoadFailed =>
+      'கேள்விகளை ஏற்ற முடியவில்லை. இந்த மதிப்பீட்டை மூடி மீண்டும் திறக்கவும்.';
+
+  @override
+  String get questionnaireSaveFailed =>
+      'உங்கள் பதிலைச் சேமிக்க முடியவில்லை. மீண்டும் முயற்சிக்கவும்.';
+
+  @override
+  String get questionnaireTaluka => 'வட்டம்';
+
+  @override
+  String get copyrightOwnership =>
+      '© 2026 சுதேசி சோத் சன்ஸ்தான், தமிழ்நாடு கிளை மற்றும் ராஜலட்சுமி தொழில்நுட்ப நிறுவனம், சென்னை. அனைத்து உரிமைகளும் பாதுகாக்கப்பட்டவை.';
+
+  @override
+  String get aboutInstitutionCredits =>
+      '• ராஜலட்சுமி தொழில்நுட்ப நிறுவனம் (ஆர்ஐடி)\n• சுதேசி சோத் சன்ஸ்தான் (எஸ்எஸ்எஸ் தமிழ்நாடு கிளை)';
 }

@@ -14,13 +14,14 @@ void main() {
       );
 
       final womenScheme = Scheme(
-        id: 'CEN2026-STANDUP',
-        name: 'Stand-Up India',
+        id: 'WOMEN-ONLY',
+        name: 'Women-only Scheme',
         category: 'Women Entrepreneurs',
-        overview: 'Loans for women and SC/ST entrepreneurs',
+        overview: 'Loans exclusively for women entrepreneurs',
         sponsoringBody: 'Ministry of Finance',
         state: 'All India',
-        targetBeneficiary: 'Women, SC, ST',
+        targetBeneficiary: 'Women entrepreneurs',
+        eligibilityGenderValues: const ['female'],
       );
 
       final result = RecommendationEngine.evaluate(maleProfile, womenScheme);
@@ -37,13 +38,14 @@ void main() {
       );
 
       final womenScheme = Scheme(
-        id: 'CEN2026-STANDUP',
-        name: 'Stand-Up India',
+        id: 'WOMEN-ONLY',
+        name: 'Women-only Scheme',
         category: 'Women Entrepreneurs',
-        overview: 'Loans for women and SC/ST entrepreneurs',
+        overview: 'Loans exclusively for women entrepreneurs',
         sponsoringBody: 'Ministry of Finance',
         state: 'All India',
-        targetBeneficiary: 'Women, SC, ST',
+        targetBeneficiary: 'Women entrepreneurs',
+        eligibilityGenderValues: const ['female'],
       );
 
       final result = RecommendationEngine.evaluate(femaleProfile, womenScheme);

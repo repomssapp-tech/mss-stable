@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+import '../../services/analytics/app_analytics.dart';
 import '../../providers/app_state_provider.dart';
 import '../../l10n/l10n.dart';
 import '../../services/recommendation/indian_states.dart';
+import '../../services/recommendation/profile_canonicalizer.dart';
 import '../profile/profile_value_formatters.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_spacing.dart';
@@ -30,20 +32,37 @@ export 'basic_profile/step2_location_form.dart';
 export 'basic_profile/step3_about_you_form.dart';
 export 'basic_profile/step4_eligibility_form.dart';
 
-// ---------------------------------------------------------------------------
-// Consolidated Profile Completion Flow
-// All 4 forms in one file with a static outer container and sticky CTA button.
-// ---------------------------------------------------------------------------
-
 class BasicProfileScreen extends StatefulWidget {
   final int initialStep;
-  const BasicProfileScreen({super.key, this.initialStep = 1});
+  final bool resume;
+
+  const BasicProfileScreen({
+    super.key,
+    this.initialStep = 1,
+    this.resume = false,
+  });
 
   @override
   State<BasicProfileScreen> createState() => _BasicProfileScreenState();
 }
 
 class _BasicProfileScreenState extends State<BasicProfileScreen> {
+  final _analyticsInteractionId = AppAnalytics.instance.interactionId();
+  static const _analyticsSections = [
+    'basic_details',
+    'location',
+    'about_you',
+    'eligibility',
+  ];
+
+  void _trackProfileStep(int step, String action) {
+    AppAnalytics.instance.track(
+      AnalyticsEvent.profileProgress,
+      interactionId: _analyticsInteractionId,
+      properties: {'section': _analyticsSections[step - 1], 'action': action},
+    );
+  }
+
   late int _currentStep;
 
   // Theme Constants
@@ -68,7 +87,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   bool _hasSubmittedStep2 = false;
 
   // --- Step 3: About You State ---
-  String? _selectedRole;
+  Set<String> _selectedRoles = {};
   bool _hasSubmittedStep3 = false;
   bool _hasSubmittedStep4 = false;
 
@@ -93,6 +112,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   void initState() {
     super.initState();
     _currentStep = widget.initialStep;
+    _trackProfileStep(_currentStep, 'shown');
     final provider = Provider.of<AppProvider>(context, listen: false);
     final profile = provider.profile;
 
@@ -138,9 +158,11 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     // 3. Initialize Step 3 role. Saved answers prefill steps 3-4 even while
     // the server has not marked the profile complete; otherwise a re-run of
     // onboarding showed them blank and required (issue #123).
-    if (profile.employmentStatus.isNotEmpty) {
-      _selectedRole = _roleIdFromEmploymentStatus(profile.employmentStatus);
-    }
+    _selectedRoles =
+        ProfileCanonicalizer.employmentRoles(profile.employmentStatus)
+            .map(Step3AboutYouForm.roleIdFromEmploymentStatus)
+            .whereType<String>()
+            .toSet();
 
     // 4. Initialize Step 4 eligibility
     final hasSavedEligibility =
@@ -149,16 +171,12 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         profile.community.isNotEmpty ||
         profile.annualIncome > 0;
     if (profile.profileCompleted || hasSavedEligibility) {
-      _selectedEducation = ProfileValueFormatters.inLanguageOf(
+      _selectedEducation = ProfileCanonicalizer.education(
         profile.educationLevel.isNotEmpty
             ? profile.educationLevel
             : profile.qualification,
-        labels,
       );
-      _selectedCommunity = ProfileValueFormatters.inLanguageOf(
-        profile.community,
-        labels,
-      );
+      _selectedCommunity = ProfileCanonicalizer.community(profile.community);
       _selectedIncome = profile.annualIncome;
       _isDifferentlyAbled =
           profile.disability.isNotEmpty &&
@@ -173,6 +191,15 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       _isDifferentlyAbled = false;
       _isVeteran = false;
       _isFirstGenGraduate = false;
+    }
+    if (widget.resume) {
+      _currentStep = !_isStep1Valid
+          ? 1
+          : !_isStep2Valid
+          ? 2
+          : _selectedRoles.isEmpty
+          ? 3
+          : 4;
     }
   }
 
@@ -231,6 +258,13 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   static bool _looksLikePlaceName(String value, {int min = 2}) =>
       Step2LocationForm.looksLikePlaceName(value, min: min);
 
+  bool get _isStep1Valid =>
+      _nameController.text.trim().isNotEmpty &&
+      _emailController.text.contains('@') &&
+      _phoneController.text.trim().length == 10 &&
+      _selectedGender.isNotEmpty &&
+      _selectedDob != null;
+
   bool get _isStep2Valid =>
       _addressController.text.trim().isNotEmpty &&
       _looksLikePlaceName(_cityController.text, min: 2) &&
@@ -245,12 +279,6 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       _selectedEducation.isNotEmpty &&
       _selectedCommunity.isNotEmpty &&
       _selectedIncome != null;
-
-  static String _canonicalRoleTitle(String roleId) =>
-      Step3AboutYouForm.canonicalRoleTitle(roleId);
-
-  static String? _roleIdFromEmploymentStatus(String status) =>
-      Step3AboutYouForm.roleIdFromEmploymentStatus(status);
 
   /// Location lock: the GPS address fills any empty address field, and the
   /// state is always the GPS state. Filled fields keep what the user typed.
@@ -285,6 +313,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
   void _handleBack() {
     if (_currentStep > 1) {
       setState(() => _currentStep--);
+      _trackProfileStep(_currentStep, 'shown');
     } else {
       if (Navigator.of(context).canPop()) {
         Navigator.of(context).pop();
@@ -303,12 +332,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       final email = _emailController.text.trim();
       final phone = _phoneController.text.trim();
 
-      if (name.isEmpty ||
-          email.isEmpty ||
-          !email.contains('@') ||
-          phone.length != 10 ||
-          _selectedGender.isEmpty ||
-          _selectedDob == null) {
+      if (!_isStep1Valid) {
         AppToast.showError(
           context,
           context.l10n.profileErrCompleteFieldsCorrectly,
@@ -317,18 +341,21 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       }
 
       final provider = Provider.of<AppProvider>(context, listen: false);
-      provider.updateProfile(
-        provider.profile.copyWith(
-          name: name,
-          email: email,
-          mobile: phone,
-          gender: _selectedGender,
-          dob: _selectedDob,
-        ),
-        requireCloudSync: false,
-      );
+      provider
+          .updateProfile(
+            provider.profile.copyWith(
+              name: name,
+              email: email,
+              mobile: phone,
+              gender: _selectedGender,
+              dob: _selectedDob,
+            ),
+            requireCloudSync: false,
+          )
+          .then((_) => _trackProfileStep(1, 'draft_saved'));
 
       setState(() => _currentStep = 2);
+      _trackProfileStep(2, 'shown');
     } else if (_currentStep == 2) {
       setState(() => _hasSubmittedStep2 = true);
       if (!_isStep2Valid) {
@@ -345,35 +372,42 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       final state = IndianStates.canonical(_stateController.text);
 
       final provider = Provider.of<AppProvider>(context, listen: false);
-      provider.updateProfile(
-        provider.profile.copyWith(
-          house: address,
-          area: address,
-          city: city,
-          district: district,
-          state: state,
-          pinCode: _pincodeController.text.trim(),
-        ),
-        requireCloudSync: false,
-      );
+      provider
+          .updateProfile(
+            provider.profile.copyWith(
+              house: address,
+              area: address,
+              city: city,
+              district: district,
+              state: state,
+              pinCode: _pincodeController.text.trim(),
+            ),
+            requireCloudSync: false,
+          )
+          .then((_) => _trackProfileStep(2, 'draft_saved'));
 
       setState(() => _currentStep = 3);
+      _trackProfileStep(3, 'shown');
     } else if (_currentStep == 3) {
-      if (_selectedRole == null) {
+      if (_selectedRoles.isEmpty) {
         setState(() => _hasSubmittedStep3 = true);
         return;
       }
 
-      final selectedRole = _selectedRole!;
       final provider = Provider.of<AppProvider>(context, listen: false);
-      provider.updateProfile(
-        provider.profile.copyWith(
-          employmentStatus: _canonicalRoleTitle(selectedRole),
-        ),
-        requireCloudSync: false,
-      );
+      provider
+          .updateProfile(
+            provider.profile.copyWith(
+              employmentStatus: _selectedRoles
+                  .map(Step3AboutYouForm.canonicalRoleTitle)
+                  .join(', '),
+            ),
+            requireCloudSync: false,
+          )
+          .then((_) => _trackProfileStep(3, 'draft_saved'));
 
       setState(() => _currentStep = 4);
+      _trackProfileStep(4, 'shown');
     } else if (_currentStep == 4) {
       setState(() => _hasSubmittedStep4 = true);
       if (!_isStep4Valid) {
@@ -404,7 +438,9 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
     );
 
     try {
+      final localOnly = provider.isGuest;
       await provider.updateProfile(updatedProfile, requireCloudSync: true);
+      _trackProfileStep(4, localOnly ? 'draft_saved' : 'cloud_saved');
 
       if (!mounted) return;
       Navigator.of(context).pushAndRemoveUntil(
@@ -412,6 +448,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         (route) => false,
       );
     } catch (error, stackTrace) {
+      if (!provider.isGuest) _trackProfileStep(4, 'sync_failed');
       debugPrint(
         '[BasicProfileScreen] Error submitting profile: $error\n$stackTrace',
       );
@@ -433,113 +470,57 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: true,
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.surface,
         body: Stack(
           children: [
-            // 1. Background Layer (Anchored to screen height so typing keyboard does not scale/zoom it)
-            Positioned(
-              top: 0,
-              left: 0,
-              right: 0,
-              height: MediaQuery.sizeOf(context).height,
-              child: Image.asset(
-                'assets/images/Background/Login_bg.webp',
-                fit: BoxFit.cover,
-                alignment: Alignment.topCenter,
-              ),
-            ),
-
-            // 2. Foreground Layout
-            Positioned.fill(
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.only(bottom: AppSpacing.sm),
+            SafeArea(
+              child: Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 600),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
-                      // Same geometry as StandardPageHeader (56px bar, 56px
-                      // leading slot, title flush after it).
-                      ConstrainedBox(
-                        constraints: const BoxConstraints.tightFor(
-                          height: kToolbarHeight,
-                        ),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: kToolbarHeight,
-                              child: Center(
-                                child: AppIconButton(
-                                  icon: Icons.arrow_back_rounded,
-                                  semanticLabel: l10n.back,
-                                  onPressed: _handleBack,
-                                ),
-                              ),
+                      Row(
+                        children: [
+                          AppIconButton(
+                            icon: Icons.arrow_back_rounded,
+                            semanticLabel: l10n.back,
+                            onPressed: _handleBack,
+                          ),
+                          const SizedBox(width: AppSpacing.sm),
+                          Expanded(
+                            child: Text(
+                              l10n.completeYourProfile,
+                              style: context.text.titleMedium,
                             ),
-                            Expanded(
-                              child: Text(
-                                l10n.completeYourProfile,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: context.text.titleMedium.copyWith(
-                                  color: AppColors.textPrimary,
-                                ),
+                          ),
+                        ],
+                      ),
+                      Expanded(
+                        child: SingleChildScrollView(
+                          key: ValueKey(_currentStep),
+                          padding: const EdgeInsets.all(AppSpacing.lg),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              ProfileProgressIndicator(
+                                currentStep: _currentStep,
                               ),
-                            ),
-                          ],
+                              const SizedBox(height: AppSpacing.lg),
+                              _buildStepForm(_currentStep),
+                            ],
+                          ),
                         ),
                       ),
-                      const SizedBox(height: AppSpacing.tight),
-
-                      // Static White Card Container
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: AppSpacing.lg,
-                          ),
-                          child: Container(
-                            padding: const EdgeInsets.all(AppSpacing.xl),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(24),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withValues(alpha: 0.05),
-                                  blurRadius: 20,
-                                  offset: const Offset(0, 8),
-                                ),
-                              ],
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.stretch,
-                              children: [
-                                // 1. Static Stepper + Progress Fraction
-                                ProfileProgressIndicator(
-                                  currentStep: _currentStep,
-                                ),
-                                const SizedBox(height: AppSpacing.sm),
-
-                                // 2. Scrollable Form Content (Only forms scroll and change!)
-                                Expanded(
-                                  child: SingleChildScrollView(
-                                    physics: const ClampingScrollPhysics(),
-                                    child: _buildStepForm(_currentStep),
-                                  ),
-                                ),
-
-                                const SizedBox(height: AppSpacing.md),
-
-                                // 3. Static Continue Button
-                                ProfileContinueButton(
-                                  currentStep: _currentStep,
-                                  isSubmitting: _isSubmitting,
-                                  isStep2Valid: _isStep2Valid,
-                                  selectedRole: _selectedRole,
-                                  isStep4Valid: _isStep4Valid,
-                                  onPressed: _handleContinue,
-                                ),
-                              ],
-                            ),
-                          ),
+                      Padding(
+                        padding: const EdgeInsets.all(AppSpacing.lg),
+                        child: ProfileContinueButton(
+                          currentStep: _currentStep,
+                          isSubmitting: _isSubmitting,
+                          isStep2Valid: _isStep2Valid,
+                          hasSelectedRole: _selectedRoles.isNotEmpty,
+                          isStep4Valid: _isStep4Valid,
+                          onPressed: _handleContinue,
                         ),
                       ),
                     ],
@@ -548,7 +529,7 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
               ),
             ),
 
-            // 3. Final-submit overlay: the cloud sync can take a few seconds,
+            // Final-submit overlay: the cloud sync can take a few seconds,
             // so show progress instead of an idle-looking form.
             if (_isSubmitting)
               Positioned.fill(
@@ -622,10 +603,10 @@ class _BasicProfileScreenState extends State<BasicProfileScreen> {
         );
       case 3:
         return Step3AboutYouForm(
-          selectedRoleId: _selectedRole,
-          onRoleSelected: (roleId) {
+          selectedRoleIds: _selectedRoles,
+          onRoleToggled: (roleId) {
             setState(() {
-              _selectedRole = roleId;
+              if (!_selectedRoles.add(roleId)) _selectedRoles.remove(roleId);
               _hasSubmittedStep3 = false;
             });
           },

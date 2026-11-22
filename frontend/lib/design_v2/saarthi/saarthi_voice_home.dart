@@ -8,7 +8,6 @@ import '../../utils/constants.dart';
 import '../highlight_text.dart';
 import '../mss_design.dart';
 import 'saarthi_kit.dart';
-import '../../widgets/onboarding/saarthi_tour.dart';
 
 enum SaarthiNavTab { home, sessions }
 
@@ -20,8 +19,12 @@ class SaarthiVoiceHome extends StatelessWidget {
     required this.onType,
     required this.onProfile,
     required this.nav,
+    this.micTourKey,
+    this.typeTourKey,
   });
 
+  final GlobalKey? micTourKey;
+  final GlobalKey? typeTourKey;
   final String userName;
   final VoidCallback onStart;
   final VoidCallback onType;
@@ -119,8 +122,8 @@ class SaarthiVoiceHome extends StatelessWidget {
                   SaarthiTalkControls(
                     micKey: const Key('saarthi-start-speaking'),
                     typeKey: const Key('saarthi-start-typing'),
-                    micTourKey: SaarthiTourTargets.mic,
-                    typeTourKey: SaarthiTourTargets.type,
+                    micTourKey: micTourKey,
+                    typeTourKey: typeTourKey,
                     micSize: 84,
                     onSpeak: onStart,
                     onType: onType,

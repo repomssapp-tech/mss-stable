@@ -32,19 +32,9 @@ class HomeProfileCompletionCard extends StatelessWidget {
       borderRadius: AppRadius.lgAll,
       clipBehavior: Clip.antiAlias,
       child: Ink(
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           borderRadius: AppRadius.lgAll,
-          image: DecorationImage(
-            image: ResizeImage(
-              AssetImage(
-                'assets/images/Background/profile process banner.webp',
-              ),
-              width: 1080,
-            ),
-            fit: BoxFit.cover,
-            // The art sits on the right; keep it in view on tall cards.
-            alignment: Alignment.centerRight,
-          ),
+          border: Border.all(color: AppColors.border),
         ),
         child: InkWell(
           onTap:
@@ -55,7 +45,9 @@ class HomeProfileCompletionCard extends StatelessWidget {
                   return;
                 }
                 Navigator.of(context).push(
-                  MaterialPageRoute(builder: (_) => const BasicProfileScreen()),
+                  MaterialPageRoute(
+                    builder: (_) => const BasicProfileScreen(resume: true),
+                  ),
                 );
               },
           child: Padding(
@@ -108,7 +100,9 @@ class HomeProfileCompletionCard extends StatelessWidget {
                       Text(
                         guest
                             ? context.l10n.guestProfileSignInPrompt
-                            : context.l10n.unlockPersonalizedSchemeRecommendations,
+                            : context
+                                  .l10n
+                                  .unlockPersonalizedSchemeRecommendations,
                         style: context.text.bodySmall.copyWith(
                           color: AppColors.textBody,
                         ),
@@ -116,8 +110,8 @@ class HomeProfileCompletionCard extends StatelessWidget {
                     ],
                   ),
                 ),
-                // Keeps the text clear of the banner's own art on the right.
-                const SizedBox(width: 84), // spacing-ok: banner art width
+                const SizedBox(width: AppSpacing.sm),
+                const Icon(Icons.chevron_right, color: AppColors.textSecondary),
               ],
             ),
           ),

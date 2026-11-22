@@ -162,6 +162,29 @@ void main() {
   });
 
   group('Voice screen', () {
+    testWidgets('Saarthi routes coexist during a navigation mode transition', (
+      tester,
+    ) async {
+      await tester.pumpWidget(_app(const SaarthiVoiceScreen()));
+      await tester.pump();
+      final navigator = tester.state<NavigatorState>(find.byType(Navigator));
+      unawaited(
+        navigator.push<void>(
+          MaterialPageRoute(builder: (_) => const SaarthiVoiceScreen()),
+        ),
+      );
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 150));
+      expect(tester.takeException(), isNull);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('saarthi-start-speaking')), findsOneWidget);
+      navigator.pop();
+      await tester.pumpAndSettle();
+      expect(find.byKey(const Key('saarthi-start-speaking')), findsOneWidget);
+      expect(tester.takeException(), isNull);
+      await tester.pumpWidget(const SizedBox.shrink());
+    });
+
     testWidgets('home -> listening -> confirm -> send -> room -> end', (
       tester,
     ) async {

@@ -50,10 +50,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get growBusiness => 'व्यवसाय वाढवा';
 
   @override
-  String get registerUdyam => 'Udyam नोंदणी करा';
+  String get registerUdyam => 'उद्यम नोंदणी करा';
 
   @override
-  String get udyamModuleDescription => 'Udyam वर नोंदणी कशी करावी';
+  String get udyamModuleDescription => 'उद्यम वर नोंदणी कशी करावी';
 
   @override
   String get findFunding => 'निधी शोधा';
@@ -62,25 +62,78 @@ class AppLocalizationsMr extends AppLocalizations {
   String get startABusiness => 'व्यवसाय सुरू करा';
 
   @override
-  String get exploreMsmeSupport => 'MSME सहाय्य पाहा';
+  String get exploreMsmeSupport => 'एमएसएमई सहाय्य पाहा';
 
   @override
   String get schemes => 'योजना';
 
   @override
+  String get assessmentResultsTitle => 'तुमच्यासाठी योग्य योजना';
+
+  @override
+  String get assessmentResultsIntro =>
+      'तुमच्या उत्तरांनुसार योजनांचा क्रम लावला आहे. अधिक माहितीसाठी योजना उघडा.';
+
+  @override
+  String get assessmentFallbackNote =>
+      'या विभागात कमी योजना जुळल्या, म्हणून अधिक पर्याय देण्यासाठी इतर योजनाही जोडल्या आहेत.';
+
+  @override
+  String get profileSaveFailed =>
+      'ही उत्तरे तुमच्या प्रोफाइलमध्ये जतन करता आली नाहीत. पुन्हा प्रयत्न करा.';
+
+  @override
+  String get assessmentGoodFit => 'चांगली जुळवणी';
+
+  @override
+  String get assessmentPossibleFit => 'कदाचित योग्य';
+
+  @override
+  String get assessmentNotNow => 'सध्या तुमच्यासाठी नाही';
+
+  @override
+  String get assessmentReasonState => 'तुम्ही निवडलेल्या राज्यात उपलब्ध';
+
+  @override
+  String get assessmentReasonStateExcluded =>
+      'ही योजना फक्त दुसऱ्या राज्यासाठी आहे';
+
+  @override
+  String get assessmentReasonAgeExcluded =>
+      'तुमचे वय या योजनेच्या दिलेल्या मर्यादेबाहेर आहे';
+
+  @override
+  String get assessmentReasonStageExcluded =>
+      'ही योजना व्यवसायाच्या वेगळ्या टप्प्यासाठी आहे';
+
+  @override
+  String get assessmentReasonCategory =>
+      'तुम्ही निवडलेल्या गटासाठी सहाय्य समाविष्ट आहे';
+
+  @override
+  String get assessmentReasonNature => 'तुमच्या व्यवसायाच्या प्रकाराशी संबंधित';
+
+  @override
+  String get assessmentReasonGoal => 'तुम्हाला हवे असलेल्या सहाय्याशी संबंधित';
+
+  @override
+  String get assessmentReasonGeneral =>
+      'हे तुमच्यासाठी योग्य आहे का हे पात्रता तपशीलात पाहा';
+
+  @override
   String get finance => 'वित्त';
 
   @override
-  String get taxGst => 'कर आणि GST';
+  String get taxGst => 'कर आणि जीएसटी';
 
   @override
   String get export => 'निर्यात';
 
   @override
-  String get treds => 'TReDS';
+  String get treds => 'ट्रेड्स';
 
   @override
-  String get csrSupport => 'CSR सहाय्य';
+  String get csrSupport => 'सीएसआर सहाय्य';
 
   @override
   String get govtAuthorities => 'शासकीय प्राधिकरणे';
@@ -105,7 +158,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get tipOfTheDay => 'आजची टीप';
 
   @override
-  String get askAi => 'AI ला विचारा';
+  String get askAi => 'कृत्रिम बुद्धिमत्ता ला विचारा';
 
   @override
   String get searchPlaceholder => 'योजना, लाभ शोधा किंवा काहीही विचारा...';
@@ -135,28 +188,28 @@ class AppLocalizationsMr extends AppLocalizations {
   String get navProfile => 'प्रोफाइल';
 
   @override
-  String get quickPillPmegp => 'PMEGP शोधा';
+  String get quickPillPmegp => 'पीएमईजीपी शोधा';
 
   @override
   String get quickPillStartup => 'स्टार्टअप इंडिया शोधा';
 
   @override
-  String get quickPillLoans => 'MSME कर्जे शोधा';
+  String get quickPillLoans => 'एमएसएमई कर्जे शोधा';
 
   @override
   String get quickPillWomen => 'महिला उद्योजक योजना शोधा';
 
   @override
-  String get quickPillAscend => 'ASCEND कार्यशाळा शोधा';
+  String get quickPillAscend => 'एसेंड कार्यशाळा शोधा';
 
   @override
   String get carouselTitleApplicationsClosingSoon => 'अर्ज लवकरच बंद होत आहेत';
 
   @override
-  String get carouselSubPmegpDaysLeft => 'PMEGP · 2 दिवस बाकी';
+  String get carouselSubPmegpDaysLeft => 'पीएमईजीपी · 2 दिवस बाकी';
 
   @override
-  String get carouselTitlePmegpClosing => 'PMEGP (5 दिवसांत बंद)';
+  String get carouselTitlePmegpClosing => 'पीएमईजीपी (5 दिवसांत बंद)';
 
   @override
   String get carouselBadgeAlert => 'इशारा';
@@ -165,7 +218,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get carouselTitleNewScheme => 'नवीन योजना';
 
   @override
-  String get carouselSubTnExport => 'TN निर्यात प्रोत्साहन योजना';
+  String get carouselSubTnExport => 'टीएन निर्यात प्रोत्साहन योजना';
 
   @override
   String get carouselBadgeNewScheme => 'नवीन योजना';
@@ -174,7 +227,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get carouselTitleImportantUpdate => 'महत्त्वाची माहिती';
 
   @override
-  String get carouselSubUdyamProcess => 'UDYAM नोंदणी प्रक्रिया अद्ययावत झाली';
+  String get carouselSubUdyamProcess => 'उद्यम नोंदणी प्रक्रिया अद्ययावत झाली';
 
   @override
   String get carouselBadgeNotify => 'कळवा';
@@ -188,7 +241,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get taxBenefitsGstSupportCompliance =>
-      'कर लाभ, GST सहाय्य आणि अनुपालन';
+      'कर लाभ, जीएसटी सहाय्य आणि अनुपालन';
 
   @override
   String get exportIncentivesFinanceMarketSupport =>
@@ -200,7 +253,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get csrProgramsIncubatorsClusterSupport =>
-      'CSR कार्यक्रम, इन्क्युबेटर आणि क्लस्टर सहाय्य';
+      'सीएसआर कार्यक्रम, इन्क्युबेटर आणि क्लस्टर सहाय्य';
 
   @override
   String get centralStateDistrictGovtStructure =>
@@ -208,11 +261,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get sidbiNsicDicKvicMoreOrganizations =>
-      'SIDBI, NSIC, DIC, KVIC आणि इतर संस्था';
+      'सिडबी, एनएसआयसी, डीआयसी, केवीआयसी आणि इतर संस्था';
 
   @override
   String get tipOfTheDayContent =>
-      'महिला उद्योजकांना PMEGP अंतर्गत अतिरिक्त अनुदान मिळू शकते.';
+      'महिला उद्योजकांना पीएमईजीपी अंतर्गत अतिरिक्त अनुदान मिळू शकते.';
 
   @override
   String get tagNewScheme => 'नवीन योजना';
@@ -249,10 +302,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sortMatchPercent => 'जुळणी %';
 
   @override
-  String get sortNameAsc => 'योजनेचे नाव (A-Z)';
+  String get sortNameAsc => 'योजनेचे नाव (ए-ज़ेड)';
 
   @override
-  String get sortNameDesc => 'योजनेचे नाव (Z-A)';
+  String get sortNameDesc => 'योजनेचे नाव (ज़ेड-ए)';
 
   @override
   String get browseCategories => 'श्रेणी पाहा';
@@ -391,7 +444,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get loginChecklistAgree => 'पुढे जाण्यासाठी सहमती द्या';
 
   @override
-  String get loginOpeningGoogle => 'Google उघडत आहे…';
+  String get loginOpeningGoogle => 'गूगल उघडत आहे…';
 
   @override
   String get loginCompletingSignIn => 'साइन इन करत आहे…';
@@ -506,7 +559,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get aboutDescription =>
-      'MSS हा एक बुद्धिमान डिजिटल मंच आहे. भारतीय उद्योजक, महिला, शेतकरी आणि विद्यार्थ्यांसाठी केंद्र व राज्य शासनाच्या योजना शोधणे, पात्रता तपासणे आणि अर्ज प्रक्रिया सोपी करणे हा त्याचा उद्देश आहे.';
+      'एमएसएस हा एक बुद्धिमान डिजिटल मंच आहे. भारतीय उद्योजक, महिला, शेतकरी आणि विद्यार्थ्यांसाठी केंद्र व राज्य शासनाच्या योजना शोधणे, पात्रता तपासणे आणि अर्ज प्रक्रिया सोपी करणे हा त्याचा उद्देश आहे.';
 
   @override
   String get aboutCreatedBy => 'यांच्या सहकार्याने विकसित:';
@@ -618,7 +671,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get termsConditionsContent =>
-      'MSS वापरून तुम्ही आमच्या सेवा अटींना सहमती देता. योजनांची सर्व माहिती अधिकृत शासकीय पोर्टलवरून एकत्रित केली जाते.';
+      'एमएसएस वापरून तुम्ही आमच्या सेवा अटींना सहमती देता. योजनांची सर्व माहिती अधिकृत शासकीय पोर्टलवरून एकत्रित केली जाते.';
 
   @override
   String get deleteAccountSetting => 'खाते हटवा';
@@ -670,7 +723,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get supportGroupHeader => 'सहाय्य';
 
   @override
-  String get helpFaqSetting => 'मदत आणि FAQ';
+  String get helpFaqSetting => 'मदत आणि वारंवार विचारले जाणारे प्रश्न';
 
   @override
   String get contactUsSetting => 'संपर्क करा';
@@ -683,7 +736,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get confirmLogoutMsg =>
-      'तुम्हाला खात्री आहे की MSS मधून लॉग आउट करायचे आहे?';
+      'तुम्हाला खात्री आहे की एमएसएस मधून लॉग आउट करायचे आहे?';
 
   @override
   String get dialogDone => 'पूर्ण';
@@ -776,14 +829,14 @@ class AppLocalizationsMr extends AppLocalizations {
   String get aboutTitle => 'अॅपविषयी';
 
   @override
-  String get subAbout => 'MSS अॅपविषयी';
+  String get subAbout => 'एमएसएस अॅपविषयी';
 
   @override
   String get subLogout => 'तुमच्या खात्यातून लॉग आउट करा';
 
   @override
   String get aboutAppDescription =>
-      'MSS हा संपूर्ण भारतातील केंद्र व राज्य शासनाच्या योजना शोधण्यासाठी, पात्रता तपासण्यासाठी आणि त्यांचा लाभ घेण्यासाठीचा बुद्धिमान डिजिटल मंच आहे.';
+      'एमएसएस हा संपूर्ण भारतातील केंद्र व राज्य शासनाच्या योजना शोधण्यासाठी, पात्रता तपासण्यासाठी आणि त्यांचा लाभ घेण्यासाठीचा बुद्धिमान डिजिटल मंच आहे.';
 
   @override
   String get profilePhotoTitle => 'प्रोफाइल फोटो';
@@ -831,13 +884,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get commObc => 'इतर मागास वर्ग';
 
   @override
-  String get commEws => 'EWS';
+  String get commEws => 'आर्थिकदृष्ट्या दुर्बल घटक (आर्थिकदृष्ट्या दुर्बल घटक)';
 
   @override
-  String get commSc => 'SC';
+  String get commSc => 'अनुसूचित जाती';
 
   @override
-  String get commSt => 'ST';
+  String get commSt => 'अनुसूचित जमाती';
 
   @override
   String get commOthers => 'इतर';
@@ -1080,11 +1133,11 @@ class AppLocalizationsMr extends AppLocalizations {
   String get navModeRegularSubtitle => 'अॅप स्वतः पाहा आणि वापरा.';
 
   @override
-  String get navAiCompanionTitle => 'AI सहचर';
+  String get navAiCompanionTitle => 'कृत्रिम बुद्धिमत्ता सहचर';
 
   @override
   String get navModeCompanionSubtitle =>
-      'तुमचा AI तुम्हाला टप्प्याटप्प्याने मार्गदर्शन करेल.';
+      'तुमचा कृत्रिम बुद्धिमत्ता तुम्हाला टप्प्याटप्प्याने मार्गदर्शन करेल.';
 
   @override
   String get navSwitchAnytimeTitle => 'कधीही बदला';
@@ -1173,10 +1226,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get filterBenWomen => 'महिला';
 
   @override
-  String get filterBenSc => 'SC';
+  String get filterBenSc => 'अनुसूचित जाती';
 
   @override
-  String get filterBenSt => 'ST';
+  String get filterBenSt => 'अनुसूचित जमाती';
 
   @override
   String get filterBenDifferentlyAbled => 'दिव्यांग';
@@ -1197,16 +1250,17 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sortBestMatch => 'माझ्यासाठी सर्वोत्तम जुळणी';
 
   @override
-  String get sortSchemeNameAz => 'योजनेचे नाव (A-Z)';
+  String get sortSchemeNameAz => 'योजनेचे नाव (ए-ज़ेड)';
 
   @override
   String get settingsRegularSubtitle => 'पारंपरिक सूची आणि टॅब स्वरूप';
 
   @override
-  String get settingsCompanionTitle => 'AI सहचर (सारथी)';
+  String get settingsCompanionTitle => 'कृत्रिम बुद्धिमत्ता सहचर (सारथी)';
 
   @override
-  String get settingsCompanionSubtitle => 'आवाजावर आधारित AI मार्गदर्शित संवाद';
+  String get settingsCompanionSubtitle =>
+      'आवाजावर आधारित कृत्रिम बुद्धिमत्ता मार्गदर्शित संवाद';
 
   @override
   String get navSwitchAnytimeDesc =>
@@ -1279,7 +1333,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get companionIntroPrefix => 'मी';
 
   @override
-  String get companionIntroSuffix => ', MSME यशासाठी\nतुमचा AI सहचर आहे.';
+  String get companionIntroSuffix =>
+      ', एमएसएमई यशासाठी\nतुमचा कृत्रिम बुद्धिमत्ता सहचर आहे.';
 
   @override
   String get companionEmptyStateHint =>
@@ -1319,7 +1374,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String companionAiTimestampLabel(Object time) {
-    return 'MSS सारथी  $time';
+    return 'एमएसएस सारथी  $time';
   }
 
   @override
@@ -1487,7 +1542,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get voiceCloudDisclosure =>
-      'विनंती रेकॉर्ड करा, तिचे लिप्यंतर तपासा आणि मग सहाय्यकाकडे पाठवा. लिप्यंतरासाठी ऑडिओ Sarvam कडे अपलोड केला जातो.';
+      'विनंती रेकॉर्ड करा, तिचे लिप्यंतर तपासा आणि मग सहाय्यकाकडे पाठवा. लिप्यंतरासाठी ऑडिओ सर्वम कडे अपलोड केला जातो.';
 
   @override
   String get voiceNoConfidentMatch =>
@@ -1639,7 +1694,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get calcUdyamClassifierTitle => 'Udyam MSME वर्गीकरण';
+  String get calcUdyamClassifierTitle => 'उद्यम एमएसएमई वर्गीकरण';
 
   @override
   String get calcUdyamClassifierSub =>
@@ -1666,26 +1721,27 @@ class AppLocalizationsMr extends AppLocalizations {
   String get calcBtnCalculate => 'वर्गीकरण काढा';
 
   @override
-  String get calcGstTitle => 'GST / कर कॅल्क्युलेटर';
+  String get calcGstTitle => 'जीएसटी / कर कॅल्क्युलेटर';
 
   @override
-  String get calcGstSub => 'CGST + SGST किंवा IGST आणि एकूण बीजक रक्कम काढा.';
+  String get calcGstSub =>
+      'सीजीएसटी + एसजीएसटी किंवा आयजीएसटी आणि एकूण बीजक रक्कम काढा.';
 
   @override
-  String get calcGstWithinState => 'राज्यांतर्गत (CGST + SGST)';
+  String get calcGstWithinState => 'राज्यांतर्गत (सीजीएसटी + एसजीएसटी)';
 
   @override
-  String get calcGstInterState => 'आंतरराज्य (IGST)';
+  String get calcGstInterState => 'आंतरराज्य (आयजीएसटी)';
 
   @override
   String get calcBaseAmountLabel => 'मूळ रक्कम';
 
   @override
   String get calcBaseAmountHelper =>
-      'GST आधीची वस्तू किंवा सेवांची निव्वळ किंमत लिहा';
+      'जीएसटी आधीची वस्तू किंवा सेवांची निव्वळ किंमत लिहा';
 
   @override
-  String get calcGstRateLabel => 'GST दर (%)';
+  String get calcGstRateLabel => 'जीएसटी दर (%)';
 
   @override
   String get calcBasePrice => 'मूळ किंमत';
@@ -1700,7 +1756,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get calcErrValidBaseAmount => 'कृपया योग्य मूळ रक्कम लिहा';
 
   @override
-  String get calcEmiTitle => 'व्यवसाय कर्ज EMI कॅल्क्युलेटर';
+  String get calcEmiTitle => 'व्यवसाय कर्ज ईएमआय कॅल्क्युलेटर';
 
   @override
   String get calcEmiSub => 'तुमच्या व्यवसाय कर्जाचा मासिक हप्ता काढा.';
@@ -1718,21 +1774,21 @@ class AppLocalizationsMr extends AppLocalizations {
   String get calcTenureLabel => 'कालावधी (महिने)';
 
   @override
-  String get calcBtnCalculateEmi => 'EMI काढा';
+  String get calcBtnCalculateEmi => 'ईएमआय काढा';
 
   @override
-  String get calcDpiitTitle => 'DPIIT मान्यता तपासणी सूची';
+  String get calcDpiitTitle => 'डीपीआयआयटी मान्यता तपासणी सूची';
 
   @override
   String get calcDpiitSub =>
-      'DPIIT नियमांनुसार तुमचा व्यवसाय स्टार्टअप म्हणून पात्र आहे का ते तपासा.';
+      'डीपीआयआयटी नियमांनुसार तुमचा व्यवसाय स्टार्टअप म्हणून पात्र आहे का ते तपासा.';
 
   @override
   String get calcValuationTitle => 'सीड मूल्यांकन अंदाज';
 
   @override
   String get calcValuationSub =>
-      'MRR आणि वाढीनुसार सीड टप्प्यातील अंदाजित मूल्यांकन काढा.';
+      'एमआरआर आणि वाढीनुसार सीड टप्प्यातील अंदाजित मूल्यांकन काढा.';
 
   @override
   String get calcDocChecklistTitle => 'व्यवसाय उभारणी कागदपत्र सूची';
@@ -1745,10 +1801,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get discoverUtilitiesTitle => 'व्यवसाय उपयोगी साधने';
 
   @override
-  String get utilUdyamTitle => 'Udyam वर्गीकरण';
+  String get utilUdyamTitle => 'उद्यम वर्गीकरण';
 
   @override
-  String get utilUdyamDesc => 'MSME श्रेणी तपासा';
+  String get utilUdyamDesc => 'एमएसएमई श्रेणी तपासा';
 
   @override
   String get utilSubsidyTitle => 'अनुदान अंदाज';
@@ -1757,19 +1813,19 @@ class AppLocalizationsMr extends AppLocalizations {
   String get utilSubsidyDesc => 'यंत्रसामग्री अनुदाने';
 
   @override
-  String get utilGstTitle => 'GST कॅल्क्युलेटर';
+  String get utilGstTitle => 'जीएसटी कॅल्क्युलेटर';
 
   @override
-  String get utilGstDesc => 'GST बीजक काढा';
+  String get utilGstDesc => 'जीएसटी बीजक काढा';
 
   @override
-  String get utilEmiTitle => 'EMI कॅल्क्युलेटर';
+  String get utilEmiTitle => 'ईएमआय कॅल्क्युलेटर';
 
   @override
-  String get utilEmiDesc => 'कर्जाचा EMI काढा';
+  String get utilEmiDesc => 'कर्जाचा ईएमआय काढा';
 
   @override
-  String get utilDpiitTitle => 'DPIIT पात्रता';
+  String get utilDpiitTitle => 'डीपीआयआयटी पात्रता';
 
   @override
   String get utilDpiitDesc => 'स्टार्टअप निकष तपासा';
@@ -1834,10 +1890,10 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get googleAccountContinue =>
-      'साइन इन करण्यासाठी किंवा MSS खाते तयार करण्यासाठी तुमचे Google खाते वापरा.';
+      'साइन इन करण्यासाठी किंवा एमएसएस खाते तयार करण्यासाठी तुमचे गूगल खाते वापरा.';
 
   @override
-  String get continueWithGoogle => 'Google सह पुढे जा';
+  String get continueWithGoogle => 'गूगल सह पुढे जा';
 
   @override
   String get secureBrowserAuth =>
@@ -1881,7 +1937,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get profileInfoNote =>
-      'तुमचा MSS अनुभव तुमच्यासाठी अनुरूप करण्यासाठी आणि तुम्हाला माहिती देण्यासाठी आम्ही ही माहिती वापरू.';
+      'तुमचा एमएसएस अनुभव तुमच्यासाठी अनुरूप करण्यासाठी आणि तुम्हाला माहिती देण्यासाठी आम्ही ही माहिती वापरू.';
 
   @override
   String get step1Of4 => '1/4 पूर्ण';
@@ -1955,7 +2011,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get dataProcessingConsent =>
-      'माझी प्रोफाइल तयार करण्यासाठी आणि शासकीय योजनांच्या वैयक्तिक शिफारसी देण्यासाठी MSS ने माझी माहिती गोळा करून वापरण्यास मी संमती देतो/देते.';
+      'माझी प्रोफाइल तयार करण्यासाठी आणि शासकीय योजनांच्या वैयक्तिक शिफारसी देण्यासाठी एमएसएस ने माझी माहिती गोळा करून वापरण्यास मी संमती देतो/देते.';
 
   @override
   String get privacyAndData => 'गोपनीयता आणि माहिती';
@@ -1970,8 +2026,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get tellUsAboutYou => 'तुमच्याबद्दल सांगा';
 
   @override
-  String get aboutYouSubtitle =>
-      'तुमचे सर्वात योग्य वर्णन करणारा पर्याय निवडा.';
+  String get aboutYouSubtitle => 'लागू होणारे सर्व पर्याय निवडा.';
 
   @override
   String get studentSubtitle =>
@@ -1992,7 +2047,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'माझा नोंदणीकृत किंवा अनोंदणीकृत व्यवसाय आधीच सुरू आहे.';
 
   @override
-  String get msmeOwner => 'MSME मालक';
+  String get msmeOwner => 'एमएसएमई मालक';
 
   @override
   String get msmeOwnerSubtitle => 'माझा सूक्ष्म, लघु किंवा मध्यम उद्योग आहे.';
@@ -2024,7 +2079,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get usingDefaultLocation =>
-      'GPS/परवानगीच्या मर्यादेमुळे पूर्वनिर्धारित ठिकाण (चेन्नई) वापरत आहे.';
+      'जीपीएस/परवानगीच्या मर्यादेमुळे पूर्वनिर्धारित ठिकाण (चेन्नई) वापरत आहे.';
 
   @override
   String get locationFetched => 'ठिकाण मिळाले आणि भरले!';
@@ -2078,7 +2133,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get fundingRequired => 'आवश्यक निधी';
 
   @override
-  String get registrationNumbers => 'नोंदणी क्रमांक (Udyam, GST इ.)';
+  String get registrationNumbers => 'नोंदणी क्रमांक (उद्यम, जीएसटी इ.)';
 
   @override
   String get checkEligibility => 'पात्रता तपासा';
@@ -2088,7 +2143,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get eligibilitySubtitle =>
-      'तुमच्यासाठी 100% अचूक योजना आणि अनुदाने सुचवण्यास मदत होते.';
+      'तुमच्या प्रोफाइलशी जुळू शकणाऱ्या योजना आणि अनुदाने शोधण्यास तुमची उत्तरे मदत करतात.';
 
   @override
   String get firstGenGraduate => 'पहिल्या पिढीतील पदवीधर';
@@ -2235,13 +2290,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get howCanIHelp => 'मी कशी मदत करू?';
 
   @override
-  String get poweredBySarvamAi => 'Sarvam AI वर चालणारे';
+  String get poweredBySarvamAi => 'सर्वम कृत्रिम बुद्धिमत्ता वर चालणारे';
 
   @override
   String get sarvamPromptFindSchemes => 'माझ्यासाठी योजना शोधा';
 
   @override
-  String get sarvamPromptExplainMsmeLoans => 'MSME कर्जे समजावून सांगा';
+  String get sarvamPromptExplainMsmeLoans => 'एमएसएमई कर्जे समजावून सांगा';
 
   @override
   String get sarvamAskAboutSchemes =>
@@ -2249,7 +2304,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get aiDisclaimerNotice =>
-      'AI कडून चुका होऊ शकतात. तपशील योजनेच्या अधिकृत संकेतस्थळावर तपासा.';
+      'कृत्रिम बुद्धिमत्ता कडून चुका होऊ शकतात. तपशील योजनेच्या अधिकृत संकेतस्थळावर तपासा.';
 
   @override
   String get sarvamInputHint => 'सारथीला विचारा…';
@@ -2339,7 +2394,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get searchCategoriesHint => 'श्रेणी शोधा...';
 
   @override
-  String get catBusinessMsme => 'व्यवसाय आणि MSME';
+  String get catBusinessMsme => 'व्यवसाय आणि एमएसएमई';
 
   @override
   String get catStartupIncubation => 'स्टार्टअप आणि इन्क्युबेशन';
@@ -2384,7 +2439,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get catKhadiVillageIndustries => 'खादी आणि ग्रामोद्योग';
 
   @override
-  String get catScStMinority => 'SC / ST आणि अल्पसंख्याक';
+  String get catScStMinority =>
+      'अनुसूचित जाती / अनुसूचित जमाती आणि अल्पसंख्याक';
 
   @override
   String get catGreenEnergyEnvironment => 'हरित ऊर्जा आणि पर्यावरण';
@@ -2416,31 +2472,31 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get privacyPolicyIntroduction =>
-      'MSS अॅप (“MSS”, “आम्ही”, “आम्हाला”) तुमच्या गोपनीयतेचा आदर करते आणि डिजिटल वैयक्तिक माहिती संरक्षण अधिनियम, 2023 व लागू नियमांनुसार तुमच्या वैयक्तिक माहितीचे संरक्षण करण्यास बांधील आहे.';
+      'एमएसएस अॅप (“एमएसएस”, “आम्ही”, “आम्हाला”) तुमच्या गोपनीयतेचा आदर करते आणि डिजिटल वैयक्तिक माहिती संरक्षण अधिनियम, 2023 व लागू नियमांनुसार तुमच्या वैयक्तिक माहितीचे संरक्षण करण्यास बांधील आहे.';
 
   @override
   String get privacyPolicyEffectiveDate =>
-      'लागू दिनांक: 1 सप्टेंबर 2026 • DPDPA 2023';
+      'लागू दिनांक: 1 सप्टेंबर 2026 • डीपीडीपीए 2023';
 
   @override
-  String get privacyCommitmentHeading => 'MSS अॅपची गोपनीयता बांधिलकी';
+  String get privacyCommitmentHeading => 'एमएसएस अॅपची गोपनीयता बांधिलकी';
 
   @override
   String get termsAgreementBody =>
-      'MSS अॅपचा सतत वापर म्हणजे तुम्ही या वापराच्या अटी स्वीकारल्या आहेत असे मानले जाईल.';
+      'एमएसएस अॅपचा सतत वापर म्हणजे तुम्ही या वापराच्या अटी स्वीकारल्या आहेत असे मानले जाईल.';
 
   @override
   String get termsAgreementHeading => 'अटींना संमती';
 
   @override
   String get termsIntroduction =>
-      'MSS मध्ये तुमचे स्वागत आहे. MSS हे एक डिजिटल व्यासपीठ आहे, जे वापरकर्त्यांना त्यांच्यासाठी संबंधित असू शकतील अशा शासकीय योजना शोधण्यास, समजून घेण्यास आणि जाणून घेण्यास मदत करते. MSS अॅप उघडून किंवा वापरून, तुम्ही या वापराच्या अटी वाचल्या, समजून घेतल्या आणि त्यांचे पालन करण्यास सहमत आहात, हे तुम्ही मान्य करता.';
+      'एमएसएस मध्ये तुमचे स्वागत आहे. एमएसएस हे एक डिजिटल व्यासपीठ आहे, जे वापरकर्त्यांना त्यांच्यासाठी संबंधित असू शकतील अशा शासकीय योजना शोधण्यास, समजून घेण्यास आणि जाणून घेण्यास मदत करते. एमएसएस अॅप उघडून किंवा वापरून, तुम्ही या वापराच्या अटी वाचल्या, समजून घेतल्या आणि त्यांचे पालन करण्यास सहमत आहात, हे तुम्ही मान्य करता.';
 
   @override
   String get termsEffectiveDate => 'लागू दिनांक: 1 सप्टेंबर 2026';
 
   @override
-  String get termsOfUseHeading => 'MSS अॅपच्या वापराच्या अटी';
+  String get termsOfUseHeading => 'एमएसएस अॅपच्या वापराच्या अटी';
 
   @override
   String get msmeSearchClusters => 'क्लस्टर / तंत्रज्ञान योजना शोधा';
@@ -2450,14 +2506,14 @@ class AppLocalizationsMr extends AppLocalizations {
       'क्लस्टर विकास, तंत्रज्ञान उन्नयन आणि इन्क्युबेटर अनुदान देणाऱ्या योजना शोधा.';
 
   @override
-  String get msmeClustersHeading => 'CSR आणि तंत्रज्ञान क्लस्टर पाहा';
+  String get msmeClustersHeading => 'सीएसआर आणि तंत्रज्ञान क्लस्टर पाहा';
 
   @override
-  String get msmeSearchFunding => 'MSME कर्जे आणि निधी शोधा';
+  String get msmeSearchFunding => 'एमएसएमई कर्जे आणि निधी शोधा';
 
   @override
   String get msmeFundingDescription =>
-      'कर्जे, कर्ज हमी आणि SIDBI कार्यक्रम शोधा';
+      'कर्जे, कर्ज हमी आणि सिडबी कार्यक्रम शोधा';
 
   @override
   String get msmeFundingHeading => 'निधीचे पर्याय शोधा';
@@ -2473,7 +2529,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get msmeAuthoritiesTreeHeading => 'शासकीय प्राधिकरणांची रचना';
 
   @override
-  String get msmeTredsFlowHeading => 'TReDS बीजक डिस्काउंटिंग प्रक्रिया';
+  String get msmeTredsFlowHeading => 'ट्रेड्स बीजक डिस्काउंटिंग प्रक्रिया';
 
   @override
   String get benefitsOfficialSourceFallback =>
@@ -2491,11 +2547,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get dataProcessingConsentIntroduction =>
-      'तुमची प्रोफाइल पूर्ण करून, तुम्ही MSS ला तुमच्या Google साइन-इनमधील माहिती आणि तुम्ही दिलेली वैयक्तिक माहिती गोळा करण्यास व तिच्यावर प्रक्रिया करण्यास स्वेच्छेने संमती देता, ज्यात पुढील माहितीचा समावेश आहे:';
+      'तुमची प्रोफाइल पूर्ण करून, तुम्ही एमएसएस ला तुमच्या गूगल साइन-इनमधील माहिती आणि तुम्ही दिलेली वैयक्तिक माहिती गोळा करण्यास व तिच्यावर प्रक्रिया करण्यास स्वेच्छेने संमती देता, ज्यात पुढील माहितीचा समावेश आहे:';
 
   @override
   String get dataProcessingConsentSummary =>
-      'तुमची संमती MSS ला तुमचा अनुभव तुमच्यानुसार करण्यास मदत करते.';
+      'तुमची संमती एमएसएस ला तुमचा अनुभव तुमच्यानुसार करण्यास मदत करते.';
 
   @override
   String get dataProcessingConsentHeading =>
@@ -2507,11 +2563,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeValueFinance =>
-      'तुमच्या उद्योगाला वित्तपुरवठा करण्यासाठी आणि त्याचा विस्तार करण्यासाठी कर्जाचे पर्याय, कर्ज हमी, उपकरण कर्जे आणि SIDBI योजना पाहा.';
+      'तुमच्या उद्योगाला वित्तपुरवठा करण्यासाठी आणि त्याचा विस्तार करण्यासाठी कर्जाचे पर्याय, कर्ज हमी, उपकरण कर्जे आणि सिडबी योजना पाहा.';
 
   @override
   String get msmeValueTaxGst =>
-      'कॉर्पोरेट करातील कपात, GST मर्यादेतील सवलत, कंपोझिशन योजना आणि देयकाला विलंब झाल्यास कायदेशीर व्याजाचे दावे याबद्दल जाणून घ्या.';
+      'कॉर्पोरेट करातील कपात, जीएसटी मर्यादेतील सवलत, कंपोझिशन योजना आणि देयकाला विलंब झाल्यास कायदेशीर व्याजाचे दावे याबद्दल जाणून घ्या.';
 
   @override
   String get msmeValueExport =>
@@ -2523,7 +2579,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeValueCsr =>
-      'कॉर्पोरेट सामाजिक दायित्व (CSR) कार्यक्रम, तंत्रज्ञान इन्क्युबेशन अनुदान आणि विशेष कौशल्य विकास क्लस्टरशी जोडले जा.';
+      'कॉर्पोरेट सामाजिक दायित्व (सीएसआर) कार्यक्रम, तंत्रज्ञान इन्क्युबेशन अनुदान आणि विशेष कौशल्य विकास क्लस्टरशी जोडले जा.';
 
   @override
   String get msmeValueGovt =>
@@ -2531,11 +2587,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeValueInstitutions =>
-      'योग्य संस्था (SIDBI, NSIC, DIC, KVIC इ.) ओळखा आणि त्यांच्या सेवा, संपर्काचे मार्ग आणि कार्यक्रम पाहा.';
+      'योग्य संस्था (सिडबी, एनएसआयसी, डीआयसी, केवीआयसी इ.) ओळखा आणि त्यांच्या सेवा, संपर्काचे मार्ग आणि कार्यक्रम पाहा.';
 
   @override
   String get msmeValueUdyam =>
-      'Udyam नोंदणी मोफत आहे. बहुतेक MSME योजना, प्राधान्य क्षेत्रातील बँक कर्जे आणि तारणमुक्त कर्ज (CGTMSE) यांसाठी तुमचा Udyam क्रमांक लागतो.';
+      'उद्यम नोंदणी मोफत आहे. बहुतेक एमएसएमई योजना, प्राधान्य क्षेत्रातील बँक कर्जे आणि तारणमुक्त कर्ज (सीजीटीएमएसई) यांसाठी तुमचा उद्यम क्रमांक लागतो.';
 
   @override
   String get msmeWhatTheUserGets => 'वापरकर्त्याला काय मिळते';
@@ -2555,7 +2611,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeDelayedPaymentCalcDesc =>
-      'MSMED अधिनियम कलम 15/16 नुसार 45 दिवसांपेक्षा जास्त विलंब झाल्यास खरेदीदाराने RBI बँक दराच्या तिप्पट चक्रवाढ व्याज मासिक आधारावर द्यावे लागते.';
+      'एमएसएमईडी अधिनियम कलम 15/16 नुसार 45 दिवसांपेक्षा जास्त विलंब झाल्यास खरेदीदाराने आरबीआय बँक दराच्या तिप्पट चक्रवाढ व्याज मासिक आधारावर द्यावे लागते.';
 
   @override
   String get msmeInvoiceAmountRupees => 'बीजक रक्कम (₹)';
@@ -2581,7 +2637,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get msmeSearchSupportInstitutions => 'सहाय्यक संस्था शोधा';
 
   @override
-  String get msmeSearchInstitutionsHint => 'SIDBI, NSIC, DIC शोधा...';
+  String get msmeSearchInstitutionsHint => 'सिडबी, एनएसआयसी, डीआयसी शोधा...';
 
   @override
   String get msmeRoleLabel => 'भूमिका';
@@ -2628,11 +2684,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureFinance2 =>
-      'यंत्रसामग्री व साधनांसाठी SIDBI च्या विशेष कर्ज योजना';
+      'यंत्रसामग्री व साधनांसाठी सिडबी च्या विशेष कर्ज योजना';
 
   @override
   String get msmeFeatureFinance3 =>
-      'तारणमुक्त बँक पर्यायांसाठी कर्ज हमी (CGTMSE)';
+      'तारणमुक्त बँक पर्यायांसाठी कर्ज हमी (सीजीटीएमएसई)';
 
   @override
   String get msmeFeatureFinance4 => 'उपकरणे आणि यंत्रसामग्री वित्तपुरवठा';
@@ -2642,40 +2698,41 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureFinance6 =>
-      'SIDBI आणि भागीदार व्यावसायिक बँकांशी थेट संपर्क मार्ग';
+      'सिडबी आणि भागीदार व्यावसायिक बँकांशी थेट संपर्क मार्ग';
 
   @override
   String get msmeFeatureFinance7 =>
-      'SME IPO सूचीकरणाच्या अटी (BSE SME आणि NSE Emerge)';
+      'एसएमई आयपीओ सूचीकरणाच्या अटी (बीएसई एसएमई आणि एनएसई इमर्ज)';
 
   @override
-  String get msmeFeatureTaxGst1 => 'MSME कॉर्पोरेट आयकर लाभ';
+  String get msmeFeatureTaxGst1 => 'एमएसएमई कॉर्पोरेट आयकर लाभ';
 
   @override
-  String get msmeFeatureTaxGst2 => 'GST नोंदणीची मर्यादा (₹40/₹20 लाख सूट)';
+  String get msmeFeatureTaxGst2 => 'जीएसटी नोंदणीची मर्यादा (₹40/₹20 लाख सूट)';
 
   @override
   String get msmeFeatureTaxGst3 =>
-      'GST कंपोझिशन योजनेचे निकष (1% कर, सोपी विवरणपत्रे)';
+      'जीएसटी कंपोझिशन योजनेचे निकष (1% कर, सोपी विवरणपत्रे)';
 
   @override
   String get msmeFeatureTaxGst4 =>
-      'आयकर कलम 43B(h) संरक्षण (45 दिवसांचा देयक नियम)';
+      'आयकर कलम 43बी(एच) संरक्षण (45 दिवसांचा देयक नियम)';
 
   @override
   String get msmeFeatureTaxGst5 =>
       'विलंबित देयक व्याज दावा कॅल्क्युलेटर (बँक दराच्या 3 पट)';
 
   @override
-  String get msmeFeatureTaxGst6 => 'निर्यात कर परतावा आणि LUT (हमीपत्र) नियम';
+  String get msmeFeatureTaxGst6 =>
+      'निर्यात कर परतावा आणि एलयूटी (हमीपत्र) नियम';
 
   @override
   String get msmeFeatureTaxGst7 =>
-      'MSME समाधान पोर्टल वसुली मार्गदर्शक तत्त्वे';
+      'एमएसएमई समाधान पोर्टल वसुली मार्गदर्शक तत्त्वे';
 
   @override
   String get msmeFeatureExport1 =>
-      'शुल्क परतावा योजना (RoDTEP, RoSCTL) आणि ड्रॉबॅक';
+      'शुल्क परतावा योजना (आरओडीटीईपी, आरओएससीटीएल) आणि ड्रॉबॅक';
 
   @override
   String get msmeFeatureExport2 =>
@@ -2685,30 +2742,30 @@ class AppLocalizationsMr extends AppLocalizations {
   String get msmeFeatureExport3 => 'परकीय चलन कर्जावर व्याज सवलत';
 
   @override
-  String get msmeFeatureExport4 => 'ECGC कर्ज जोखीम विमा संरक्षण पॉलिसी';
+  String get msmeFeatureExport4 => 'ईसीजीसी कर्ज जोखीम विमा संरक्षण पॉलिसी';
 
   @override
   String get msmeFeatureExport5 =>
-      'परदेशी प्रदर्शनांतील सहभागासाठी MDA आणि MAI योजना';
+      'परदेशी प्रदर्शनांतील सहभागासाठी एमडीए आणि एमएआय योजना';
 
   @override
   String get msmeFeatureExport6 =>
-      'निर्यात परिषदा आणि DGFT क्षेत्रीय कार्यालयांची सूची';
+      'निर्यात परिषदा आणि डीजीएफटी क्षेत्रीय कार्यालयांची सूची';
 
   @override
   String get msmeFeatureExport7 =>
-      'HS कोड वर्गीकरण आणि AD कोड नोंदणी मार्गदर्शक';
+      'एचएस कोड वर्गीकरण आणि एडी कोड नोंदणी मार्गदर्शक';
 
   @override
   String get msmeFeatureTreds1 => 'इनव्हॉइस डिस्काउंटिंग मंचांची माहिती';
 
   @override
   String get msmeFeatureTreds2 =>
-      'MSME विक्रेत्यांसाठी नोंदणी मार्गदर्शक तत्त्वे';
+      'एमएसएमई विक्रेत्यांसाठी नोंदणी मार्गदर्शक तत्त्वे';
 
   @override
   String get msmeFeatureTreds3 =>
-      'RXIL, M1xchange आणि Invoicemart नोंदणीच्या पायऱ्या';
+      'आरएक्सआयएल, एम1एक्सचेंज आणि इनवॉइसमार्ट नोंदणीच्या पायऱ्या';
 
   @override
   String get msmeFeatureTreds4 =>
@@ -2719,14 +2776,14 @@ class AppLocalizationsMr extends AppLocalizations {
       'वित्तपुरवठादारांची बोली प्रक्रिया (सर्वोत्तम दरासाठी निनावी लिलाव)';
 
   @override
-  String get msmeFeatureTreds6 => 'देयक निपटारा मार्ग (T+1 जमा चक्र)';
+  String get msmeFeatureTreds6 => 'देयक निपटारा मार्ग (टी+1 जमा चक्र)';
 
   @override
   String get msmeFeatureTreds7 =>
       'रिकोर्स आणि नॉन-रिकोर्स फॅक्टरिंगच्या व्याख्या';
 
   @override
-  String get msmeFeatureCsr1 => 'कॉर्पोरेट CSR आधारित क्लस्टर विकास निधी';
+  String get msmeFeatureCsr1 => 'कॉर्पोरेट सीएसआर आधारित क्लस्टर विकास निधी';
 
   @override
   String get msmeFeatureCsr2 =>
@@ -2740,13 +2797,14 @@ class AppLocalizationsMr extends AppLocalizations {
   String get msmeFeatureCsr4 => 'कौशल्य विकास आणि तंत्रज्ञान उन्नती कार्यक्रम';
 
   @override
-  String get msmeFeatureCsr5 => 'CSR अंमलबजावणी संस्था आणि NGO ची यादी';
+  String get msmeFeatureCsr5 => 'सीएसआर अंमलबजावणी संस्था आणि एनजीओ ची यादी';
 
   @override
   String get msmeFeatureCsr6 => 'पात्रता सूची आणि अर्जाचे मार्ग';
 
   @override
-  String get msmeFeatureGovt1 => 'MSME मंत्रालय (केंद्र शासन) धोरणे आणि उपक्रम';
+  String get msmeFeatureGovt1 =>
+      'एमएसएमई मंत्रालय (केंद्र शासन) धोरणे आणि उपक्रम';
 
   @override
   String get msmeFeatureGovt2 =>
@@ -2754,7 +2812,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get msmeFeatureGovt3 =>
-      'जिल्हा उद्योग केंद्र (DIC) स्थानिक सहाय्य कार्यालये';
+      'जिल्हा उद्योग केंद्र (डीआयसी) स्थानिक सहाय्य कार्यालये';
 
   @override
   String get msmeFeatureGovt4 => 'स्पष्ट रचना: केंद्र -> राज्य -> जिल्हा';
@@ -2764,27 +2822,28 @@ class AppLocalizationsMr extends AppLocalizations {
       'प्रमुख संपर्क सूची आणि नोडल अधिकाऱ्यांच्या याद्या';
 
   @override
-  String get msmeFeatureGovt6 => 'प्राधिकरणनिहाय योजना (PMEGP व राज्य अनुदाने)';
+  String get msmeFeatureGovt6 =>
+      'प्राधिकरणनिहाय योजना (पीएमईजीपी व राज्य अनुदाने)';
 
   @override
   String get msmeFeatureInstitutions1 =>
-      'SIDBI (भारतीय लघु उद्योग विकास बँक) कर्ज पोर्टल';
+      'सिडबी (भारतीय लघु उद्योग विकास बँक) कर्ज पोर्टल';
 
   @override
   String get msmeFeatureInstitutions2 =>
-      'NSIC (राष्ट्रीय लघु उद्योग महामंडळ) कच्चा माल सहाय्य';
+      'एनएसआयसी (राष्ट्रीय लघु उद्योग महामंडळ) कच्चा माल सहाय्य';
 
   @override
   String get msmeFeatureInstitutions3 =>
-      'DIC (जिल्हा उद्योग केंद्र) एक खिडकी नोंदणी';
+      'डीआयसी (जिल्हा उद्योग केंद्र) एक खिडकी नोंदणी';
 
   @override
   String get msmeFeatureInstitutions4 =>
-      'KVIC (खादी आणि ग्रामोद्योग आयोग) ग्रामीण प्रकल्प';
+      'केवीआयसी (खादी आणि ग्रामोद्योग आयोग) ग्रामीण प्रकल्प';
 
   @override
   String get msmeFeatureInstitutions5 =>
-      'TIIC, StartupTN, FaMeTN, SIPCOT प्रादेशिक सेवांची माहिती';
+      'टीआयआयसी, स्टार्टअप टीएन, फेम टीएन, एसआयपीसीओटी प्रादेशिक सेवांची माहिती';
 
   @override
   String get msmeFeatureInstitutions6 =>
@@ -2795,18 +2854,19 @@ class AppLocalizationsMr extends AppLocalizations {
       '100% मोफत आणि कागदविरहित त्वरित पोर्टल नोंदणी';
 
   @override
-  String get msmeFeatureUdyam2 => 'QR कोडसह आजीवन वैध ई-प्रमाणपत्र';
+  String get msmeFeatureUdyam2 => 'क्यूआर कोडसह आजीवन वैध ई-प्रमाणपत्र';
 
   @override
   String get msmeFeatureUdyam3 =>
-      'CGTMSE तारणमुक्त कर्ज आणि TReDS साठी आपोआप पात्रता';
+      'सीजीटीएमएसई तारणमुक्त कर्ज आणि ट्रेड्स साठी आपोआप पात्रता';
 
   @override
-  String get msmeFeatureUdyam4 => 'शासकीय निविदांमध्ये बयाणा रकमेतून (EMD) सूट';
+  String get msmeFeatureUdyam4 =>
+      'शासकीय निविदांमध्ये बयाणा रकमेतून (ईएमडी) सूट';
 
   @override
   String get msmeFeatureUdyam5 =>
-      '15% CLCSS तंत्रज्ञान आणि भांडवली अनुदानांसाठी पात्र';
+      '15% सीएलसीएसएस तंत्रज्ञान आणि भांडवली अनुदानांसाठी पात्र';
 
   @override
   String get msmeFeatureUdyam6 => 'सवलतीत वीज आणि पेटंट नोंदणी शुल्कात सूट';
@@ -2827,7 +2887,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessEduQ1Opt3 => 'पदव्युत्तर';
 
   @override
-  String get assessEduQ1Opt4 => 'Ph.D. आणि संशोधन';
+  String get assessEduQ1Opt4 => 'पीएचडी. आणि संशोधन';
 
   @override
   String get assessEduQ2School => 'तुम्ही सध्या कोणत्या इयत्तेत आहात?';
@@ -2845,7 +2905,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessEduQ2College => 'तुमची मुख्य अभ्यास शाखा कोणती?';
 
   @override
-  String get assessEduQ2CollegeOpt1 => 'STEM (विज्ञान/अभियांत्रिकी/IT)';
+  String get assessEduQ2CollegeOpt1 =>
+      'एसटीईएम (विज्ञान/अभियांत्रिकी/माहिती तंत्रज्ञान)';
 
   @override
   String get assessEduQ2CollegeOpt2 => 'कला, वाणिज्य आणि मानव्यशास्त्र';
@@ -2860,7 +2921,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessEduQ2Research => 'तुमचे संशोधनाचे विशेष क्षेत्र कोणते?';
 
   @override
-  String get assessEduQ2ResearchOpt1 => 'STEM संशोधन आणि पेटंट';
+  String get assessEduQ2ResearchOpt1 => 'एसटीईएम संशोधन आणि पेटंट';
 
   @override
   String get assessEduQ2ResearchOpt2 => 'मानव्यशास्त्र आणि सामाजिक शास्त्रे';
@@ -2914,10 +2975,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessEduQ4CasteOpt2 => 'इतर मागास वर्ग';
 
   @override
-  String get assessEduQ4CasteOpt3 => 'SC / ST';
+  String get assessEduQ4CasteOpt3 => 'अनुसूचित जाती / अनुसूचित जमाती';
 
   @override
-  String get assessEduQ4CasteOpt4 => 'EWS / अल्पसंख्याक';
+  String get assessEduQ4CasteOpt4 => 'आर्थिकदृष्ट्या दुर्बल घटक / अल्पसंख्याक';
 
   @override
   String get assessEduQ5Income => 'तुमच्या कुटुंबाचे वार्षिक उत्पन्न किती आहे?';
@@ -2981,13 +3042,13 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get assessWomenQ2Welfare =>
-      'तुमच्याकडे BPL (दारिद्र्य रेषेखालील) शिधापत्रिका आहे का?';
+      'तुमच्याकडे दारिद्र्यरेषेखालील (दारिद्र्य रेषेखालील) शिधापत्रिका आहे का?';
 
   @override
-  String get assessWomenQ2WelfareOpt1 => 'होय, BPL कार्डधारक';
+  String get assessWomenQ2WelfareOpt1 => 'होय, दारिद्र्यरेषेखालील कार्डधारक';
 
   @override
-  String get assessWomenQ2WelfareOpt2 => 'नाही, APL / सर्वसाधारण';
+  String get assessWomenQ2WelfareOpt2 => 'नाही, दारिद्र्यरेषेवरील / सर्वसाधारण';
 
   @override
   String get assessWomenQ3MaternReg =>
@@ -3001,7 +3062,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get assessWomenQ3GirlSave =>
-      'तुम्हाला दीर्घकालीन बचत खाते (Sukanya Samriddhi) उघडायचे आहे का?';
+      'तुम्हाला दीर्घकालीन बचत खाते (सुकन्या समृद्धी) उघडायचे आहे का?';
 
   @override
   String get assessWomenQ3GirlSaveOpt1 => 'होय, बचत खाते उघडायचे आहे';
@@ -3027,7 +3088,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessWomenQ3BizCreditOpt1 => 'सूक्ष्म कर्ज (₹1 लाखापेक्षा कमी)';
 
   @override
-  String get assessWomenQ3BizCreditOpt2 => 'SME कर्ज (₹1 लाख - ₹10 लाख)';
+  String get assessWomenQ3BizCreditOpt2 => 'एसएमई कर्ज (₹1 लाख - ₹10 लाख)';
 
   @override
   String get assessWomenQ3BizCreditOpt3 =>
@@ -3050,13 +3111,15 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessWomenQ4CasteOpt1 => 'सर्वसाधारण';
 
   @override
-  String get assessWomenQ4CasteOpt2 => 'OBC';
+  String get assessWomenQ4CasteOpt2 =>
+      'आर्थिकदृष्ट्या दुर्बल घटक (आर्थिकदृष्ट्या दुर्बल घटक)';
 
   @override
-  String get assessWomenQ4CasteOpt3 => 'SC / ST';
+  String get assessWomenQ4CasteOpt3 => 'अनुसूचित जाती / अनुसूचित जमाती';
 
   @override
-  String get assessWomenQ4CasteOpt4 => 'अल्पसंख्याक / EWS';
+  String get assessWomenQ4CasteOpt4 =>
+      'अल्पसंख्याक / आर्थिकदृष्ट्या दुर्बल घटक';
 
   @override
   String get assessWomenQ5Income =>
@@ -3075,10 +3138,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessBizQ1 => 'तुमच्या व्यवसायाची कायदेशीर नोंदणी झाली आहे का?';
 
   @override
-  String get assessBizQ1Opt1 => 'होय, MSME Udyam अंतर्गत';
+  String get assessBizQ1Opt1 => 'होय, एमएसएमई उद्यम अंतर्गत';
 
   @override
-  String get assessBizQ1Opt2 => 'होय, DPIIT स्टार्टअप म्हणून';
+  String get assessBizQ1Opt2 => 'होय, डीपीआयआयटी स्टार्टअप म्हणून';
 
   @override
   String get assessBizQ1Opt3 => 'नाही, वैयक्तिक व्यापारी/कारागीर म्हणून काम';
@@ -3104,7 +3167,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'तुमचा स्टार्टअप सध्या कोणत्या टप्प्यात आहे?';
 
   @override
-  String get assessBizQ2StartupOpt1 => 'प्रोटोटाइप / MVP विकास';
+  String get assessBizQ2StartupOpt1 => 'प्रोटोटाइप / एमवीपी विकास';
 
   @override
   String get assessBizQ2StartupOpt2 => 'सुरुवातीचे उत्पन्न / पडताळणी';
@@ -3114,7 +3177,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get assessBizQ2Artisan =>
-      'तुमच्याकडे वैध PM विश्वकर्मा कार्ड किंवा कारागीर ओळखपत्र आहे का?';
+      'तुमच्याकडे वैध प्रधानमंत्री विश्वकर्मा कार्ड किंवा कारागीर ओळखपत्र आहे का?';
 
   @override
   String get assessBizQ2ArtisanOpt1 => 'होय, सक्रिय कार्ड';
@@ -3139,7 +3202,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessBizQ3MsmeNeedOpt1 => 'तारणमुक्त मुद्रा कर्ज';
 
   @override
-  String get assessBizQ3MsmeNeedOpt2 => 'खेळते भांडवल हमी (CGTMSE)';
+  String get assessBizQ3MsmeNeedOpt2 => 'खेळते भांडवल हमी (सीजीटीएमएसई)';
 
   @override
   String get assessBizQ3MsmeNeedOpt3 => 'उपकरण खरेदीसाठी भांडवली अनुदान';
@@ -3152,7 +3215,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessBizQ3StartupNeedOpt1 => 'शासकीय सीड निधी';
 
   @override
-  String get assessBizQ3StartupNeedOpt2 => 'कलम 80-IAC कर सवलत';
+  String get assessBizQ3StartupNeedOpt2 => 'कलम 80-आयएसी कर सवलत';
 
   @override
   String get assessBizQ3StartupNeedOpt3 => 'इन्क्युबेटर मार्गदर्शन अनुदान';
@@ -3172,16 +3235,18 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get assessBizQ4Demographics =>
-      'मुख्य मालक महिला किंवा SC/ST उद्योजक आहेत का?';
+      'मुख्य मालक महिला किंवा अनुसूचित जाती/अनुसूचित जमाती उद्योजक आहेत का?';
 
   @override
   String get assessBizQ4DemographicsOpt1 => 'होय, महिला उद्योजक';
 
   @override
-  String get assessBizQ4DemographicsOpt2 => 'होय, SC/ST उद्योजक';
+  String get assessBizQ4DemographicsOpt2 =>
+      'होय, अनुसूचित जाती/अनुसूचित जमाती उद्योजक';
 
   @override
-  String get assessBizQ4DemographicsOpt3 => 'होय, SC/ST आणि महिला दोन्ही';
+  String get assessBizQ4DemographicsOpt3 =>
+      'होय, अनुसूचित जाती/अनुसूचित जमाती आणि महिला दोन्ही';
 
   @override
   String get assessBizQ4DemographicsOpt4 => 'सर्वसाधारण प्रवर्ग पुरुष';
@@ -3221,7 +3286,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessAgriQ2 => 'तुम्हाला तातडीने कोणते कृषी सहाय्य हवे आहे?';
 
   @override
-  String get assessAgriQ2Opt1 => 'PM-KISAN रोख हस्तांतरण';
+  String get assessAgriQ2Opt1 => 'प्रधानमंत्री-केआयएसएएन रोख हस्तांतरण';
 
   @override
   String get assessAgriQ2Opt2 => 'ठिबक सिंचन / उपकरण अनुदान';
@@ -3230,7 +3295,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessAgriQ2Opt3 => 'पीक विमा आणि आपत्ती मदत';
 
   @override
-  String get assessAgriQ2Opt4 => 'किसान क्रेडिट कार्ड (KCC) कर्ज';
+  String get assessAgriQ2Opt4 => 'किसान क्रेडिट कार्ड (केसीसी) कर्ज';
 
   @override
   String get assessAgriQ3Caste => 'तुमचा सामाजिक प्रवर्ग कोणता?';
@@ -3239,10 +3304,11 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessAgriQ3CasteOpt1 => 'सर्वसाधारण';
 
   @override
-  String get assessAgriQ3CasteOpt2 => 'OBC';
+  String get assessAgriQ3CasteOpt2 =>
+      'आर्थिकदृष्ट्या दुर्बल घटक (आर्थिकदृष्ट्या दुर्बल घटक)';
 
   @override
-  String get assessAgriQ3CasteOpt3 => 'SC / ST';
+  String get assessAgriQ3CasteOpt3 => 'अनुसूचित जाती / अनुसूचित जमाती';
 
   @override
   String get assessAgriQ3CasteOpt4 => 'लहान शेतकरी विशेष';
@@ -3279,7 +3345,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessSkillQ2 => 'तुम्हाला कोणत्या कौशल्य प्रशिक्षणात रस आहे?';
 
   @override
-  String get assessSkillQ2Opt1 => 'IT, डिजिटल आणि इलेक्ट्रॉनिक्स';
+  String get assessSkillQ2Opt1 =>
+      'माहिती तंत्रज्ञान, डिजिटल आणि इलेक्ट्रॉनिक्स';
 
   @override
   String get assessSkillQ2Opt2 => 'वस्त्र, कापड आणि हस्तकला';
@@ -3292,7 +3359,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get assessSkillQ3 =>
-      'तुम्हाला शासन प्रमाणित PMKVY प्रशिक्षण हवे आहे का?';
+      'तुम्हाला शासन प्रमाणित पीएमकेवीवाई प्रशिक्षण हवे आहे का?';
 
   @override
   String get assessSkillQ3Opt1 => 'होय, प्रमाणित प्रशिक्षण हवे';
@@ -3405,10 +3472,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessCatQ4Opt2 => 'इतर मागास वर्ग';
 
   @override
-  String get assessCatQ4Opt3 => 'SC / ST';
+  String get assessCatQ4Opt3 => 'अनुसूचित जाती / अनुसूचित जमाती';
 
   @override
-  String get assessCatQ4Opt4 => 'EWS / अल्पसंख्याक';
+  String get assessCatQ4Opt4 => 'आर्थिकदृष्ट्या दुर्बल घटक / अल्पसंख्याक';
 
   @override
   String get assessCatQ5 => 'तुमच्या कुटुंबाचे वार्षिक उत्पन्न किती आहे?';
@@ -3439,13 +3506,14 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get assessStateQ2Opt1 => 'BC / SEBC / OBC';
+  String get assessStateQ2Opt1 =>
+      'आर्थिकदृष्ट्या दुर्बल घटक (आर्थिकदृष्ट्या दुर्बल घटक)';
 
   @override
-  String get assessStateQ2Opt2 => 'SC / ST';
+  String get assessStateQ2Opt2 => 'अनुसूचित जाती / अनुसूचित जमाती';
 
   @override
-  String get assessStateQ2Opt3 => 'EWS / अल्पसंख्याक';
+  String get assessStateQ2Opt3 => 'आर्थिकदृष्ट्या दुर्बल घटक / अल्पसंख्याक';
 
   @override
   String get assessStateQ2Opt4 => 'सर्वसाधारण / खुला';
@@ -3459,7 +3527,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessStateQ3Opt1 => 'कृषी / शेतकरी';
 
   @override
-  String get assessStateQ3Opt2 => 'MSME / स्टार्टअप मालक';
+  String get assessStateQ3Opt2 => 'एमएसएमई / स्टार्टअप मालक';
 
   @override
   String get assessStateQ3Opt3 => 'विणकाम / पारंपरिक हस्तकला';
@@ -3525,10 +3593,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get assessMinQ3 =>
-      'तुमच्याकडे या मंत्रालयाशी जोडलेला नोंदणीकृत ID आहे का?';
+      'तुमच्याकडे या मंत्रालयाशी जोडलेला नोंदणीकृत आयडी आहे का?';
 
   @override
-  String get assessMinQ3Opt1 => 'होय, उद्यम / PM-किसान / स्कॉलर ओळखपत्र';
+  String get assessMinQ3Opt1 =>
+      'होय, उद्यम / प्रधानमंत्री-किसान / स्कॉलर ओळखपत्र';
 
   @override
   String get assessMinQ3Opt2 => 'नाही, अजून नोंदणी झालेली नाही';
@@ -3543,7 +3612,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get assessMinQ4Opt2 => 'इतर मागास वर्ग';
 
   @override
-  String get assessMinQ4Opt3 => 'SC / ST';
+  String get assessMinQ4Opt3 => 'अनुसूचित जाती / अनुसूचित जमाती';
 
   @override
   String get assessMinQ4Opt4 => 'अल्पसंख्याक / दिव्यांग';
@@ -3585,7 +3654,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'साइन इन करण्यासाठी किंवा हे अॅप पुन्हा सुरू करण्यासाठी इंटरनेटशी जोडा.';
 
   @override
-  String get openSaarthiAiChat => 'सारथी AI चॅट उघडा';
+  String get openSaarthiAiChat => 'सारथी कृत्रिम बुद्धिमत्ता चॅट उघडा';
 
   @override
   String get sortLabel => 'क्रमवारी';
@@ -3680,11 +3749,11 @@ class AppLocalizationsMr extends AppLocalizations {
       'अर्ज थेट अधिकृत शासकीय पोर्टलवर प्रक्रिया होत असल्याने, अर्ज करताना मिळालेला अर्ज क्रमांक वापरून संबंधित पोर्टलवर लॉग इन करून तुम्ही स्थिती पाहू शकता.';
 
   @override
-  String get faqFreeQ => 'MSS अॅप मोफत आहे का?';
+  String get faqFreeQ => 'एमएसएस अॅप मोफत आहे का?';
 
   @override
   String get faqFreeA =>
-      'होय, MSS पूर्णपणे मोफत आहे. कोणतेही छुपे शुल्क न घेता नागरिकांचे लाभ आणि शासकीय योजना भारतातील प्रत्येकापर्यंत पोहोचवणे हे आमचे ध्येय आहे.';
+      'होय, एमएसएस पूर्णपणे मोफत आहे. कोणतेही छुपे शुल्क न घेता नागरिकांचे लाभ आणि शासकीय योजना भारतातील प्रत्येकापर्यंत पोहोचवणे हे आमचे ध्येय आहे.';
 
   @override
   String get faqDataFreshnessQ => 'नवीन माहिती किती वेळा अद्ययावत होते?';
@@ -3705,23 +3774,23 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get faqDataSharingA =>
-      'नाही. MSS हे शिफारस साधन पूर्णपणे तुमच्या डिव्हाइसवर चालते. आम्ही तुमचा प्रोफाइल तपशील बाहेरील विभागांना देत नाही. तुम्ही थेट अधिकृत पोर्टलवर अर्ज करता.';
+      'नाही. एमएसएस हे शिफारस साधन पूर्णपणे तुमच्या डिव्हाइसवर चालते. आम्ही तुमचा प्रोफाइल तपशील बाहेरील विभागांना देत नाही. तुम्ही थेट अधिकृत पोर्टलवर अर्ज करता.';
 
   @override
   String get faqMissingDocsQ => 'नसलेली कागदपत्रे कशी मिळवू?';
 
   @override
   String get faqMissingDocsA =>
-      'योजनेच्या तपशिलात उपलब्ध नसलेल्या कागदपत्रासोबत \"कागदपत्र ऑनलाइन मिळवा\" लिंक असते, जी तुम्हाला थेट अधिकृत पोर्टलवर नेते (उदा. आधारसाठी UIDAI, PAN साठी NSDL).';
+      'योजनेच्या तपशिलात उपलब्ध नसलेल्या कागदपत्रासोबत \"कागदपत्र ऑनलाइन मिळवा\" लिंक असते, जी तुम्हाला थेट अधिकृत पोर्टलवर नेते (उदा. आधारसाठी यूआयडीएआय, पीएएन साठी एनएसडीएल).';
 
   @override
   String get helpCatGeneralInquiry => 'सामान्य चौकशी';
 
   @override
-  String get helpFaqAnswerTitle => 'FAQ उत्तर';
+  String get helpFaqAnswerTitle => 'वारंवार विचारले जाणारे प्रश्न उत्तर';
 
   @override
-  String get helpAllFaqsTitle => 'सर्व FAQ';
+  String get helpAllFaqsTitle => 'सर्व वारंवार विचारले जाणारे प्रश्न';
 
   @override
   String get helpReportIssueTitle => 'समस्या कळवा';
@@ -3816,13 +3885,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get helpHeaderSubtitle => 'आम्ही तुमच्या मदतीसाठी आहोत';
 
   @override
-  String get helpFaqsGroupTitle => 'FAQ';
+  String get helpFaqsGroupTitle => 'वारंवार विचारले जाणारे प्रश्न';
 
   @override
   String get helpFaqsGroupSubtitle => 'नेहमीच्या प्रश्नांची उत्तरे शोधा';
 
   @override
-  String get helpViewAllFaqs => 'सर्व FAQ पाहा';
+  String get helpViewAllFaqs => 'सर्व वारंवार विचारले जाणारे प्रश्न पाहा';
 
   @override
   String get helpContactGroupTitle => 'सहाय्याशी संपर्क करा';
@@ -3856,7 +3925,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'आमची सहाय्य टीम तुमच्या मदतीसाठी नेहमी तयार आहे.';
 
   @override
-  String get emiCalcTitle => 'व्यवसाय कर्ज EMI कॅल्क्युलेटर';
+  String get emiCalcTitle => 'व्यवसाय कर्ज ईएमआय कॅल्क्युलेटर';
 
   @override
   String get emiCalcSubtitle => 'तुमच्या व्यवसाय कर्जाचा मासिक हप्ता काढा.';
@@ -3883,7 +3952,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get emiTenureHelper => 'कालावधी महिन्यांत लिहा';
 
   @override
-  String get emiMonthlyEmi => 'मासिक EMI';
+  String get emiMonthlyEmi => 'मासिक ईएमआय';
 
   @override
   String get emiPrincipal => 'मुद्दल रक्कम';
@@ -3898,18 +3967,18 @@ class AppLocalizationsMr extends AppLocalizations {
   String get emiInvalidInputs => 'कृपया योग्य माहिती लिहा';
 
   @override
-  String get emiCalculate => 'EMI काढा';
+  String get emiCalculate => 'ईएमआय काढा';
 
   @override
-  String get dpiitTitle => 'DPIIT मान्यता तपासणी सूची';
+  String get dpiitTitle => 'डीपीआयआयटी मान्यता तपासणी सूची';
 
   @override
   String get dpiitSubtitle =>
-      'DPIIT नियमांनुसार तुमचा व्यवसाय स्टार्टअप म्हणून पात्र आहे का ते तपासा.';
+      'डीपीआयआयटी नियमांनुसार तुमचा व्यवसाय स्टार्टअप म्हणून पात्र आहे का ते तपासा.';
 
   @override
   String get dpiitCriteriaRegistered =>
-      'प्रायव्हेट लिमिटेड / LLP / भागीदारी म्हणून नोंदणीकृत';
+      'प्रायव्हेट लिमिटेड / एलएलपी / भागीदारी म्हणून नोंदणीकृत';
 
   @override
   String get dpiitCriteriaRegisteredSub =>
@@ -3945,7 +4014,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get dpiitResultEligible =>
-      'तुम्ही DPIIT चे सर्व निकष पूर्ण करता असे दिसते. Startup India पोर्टलवर मान्यतेसाठी अर्ज करा.';
+      'तुम्ही डीपीआयआयटी चे सर्व निकष पूर्ण करता असे दिसते. स्टार्टअप इंडिया पोर्टलवर मान्यतेसाठी अर्ज करा.';
 
   @override
   String get dpiitResultNotEligible =>
@@ -3964,10 +4033,10 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get valuationSubtitle =>
-      'MRR नुसार प्री-सीड/सीड मूल्यांकनाची अंदाजित श्रेणी मिळवा.';
+      'एमआरआर नुसार प्री-सीड/सीड मूल्यांकनाची अंदाजित श्रेणी मिळवा.';
 
   @override
-  String get valuationMrrLabel => 'मासिक आवर्ती महसूल (MRR)';
+  String get valuationMrrLabel => 'मासिक आवर्ती महसूल (एमआरआर)';
 
   @override
   String get valuationMrrHelper => 'मासिक महसूल रुपयांत लिहा';
@@ -3982,7 +4051,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get valuationSector => 'व्यवसाय क्षेत्र';
 
   @override
-  String get valuationSectorSaasTech => 'SaaS / तंत्रज्ञान';
+  String get valuationSectorSaasTech => 'सास / तंत्रज्ञान';
 
   @override
   String get valuationSectorEcommerce => 'ई-कॉमर्स';
@@ -3997,13 +4066,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get valuationRange => 'मूल्यांकन श्रेणी';
 
   @override
-  String get valuationCalculatedArr => 'काढलेला ARR';
+  String get valuationCalculatedArr => 'काढलेला एआरआर';
 
   @override
-  String get valuationAppliedMultiple => 'वापरलेला ARR गुणक';
+  String get valuationAppliedMultiple => 'वापरलेला एआरआर गुणक';
 
   @override
-  String get valuationInvalidMrr => 'कृपया योग्य MRR लिहा';
+  String get valuationInvalidMrr => 'कृपया योग्य एमआरआर लिहा';
 
   @override
   String get valuationEstimate => 'मूल्यांकन काढा';
@@ -4041,11 +4110,11 @@ class AppLocalizationsMr extends AppLocalizations {
   String get docEntitySoleProprietorship => 'एकल मालकी';
 
   @override
-  String get docItemProprietorPanAadhaar => 'मालकाचे PAN कार्ड आणि आधार';
+  String get docItemProprietorPanAadhaar => 'मालकाचे पीएएन कार्ड आणि आधार';
 
   @override
   String get docItemUdyamRegistration =>
-      'Udyam नोंदणी प्रमाणपत्र (मोफत, udyamregistration.gov.in)';
+      'उद्यम नोंदणी प्रमाणपत्र (मोफत, udyamregistration.gov.in)';
 
   @override
   String get docItemShopEstablishmentLicence =>
@@ -4059,25 +4128,25 @@ class AppLocalizationsMr extends AppLocalizations {
   String get docEntityPartnership => 'भागीदारी';
 
   @override
-  String get docEntityOpc => 'एक व्यक्ती कंपनी (OPC)';
+  String get docEntityOpc => 'एक व्यक्ती कंपनी (ओपीसी)';
 
   @override
-  String get docEntityLlp => 'LLP';
+  String get docEntityLlp => 'मर्यादित दायित्व भागीदारी (एलएलपी)';
 
   @override
-  String get docItemDsc => 'डिजिटल स्वाक्षरी प्रमाणपत्र (DSC)';
+  String get docItemDsc => 'डिजिटल स्वाक्षरी प्रमाणपत्र (डीएससी)';
 
   @override
-  String get docItemDin => 'संचालक ओळख क्रमांक (DIN)';
+  String get docItemDin => 'संचालक ओळख क्रमांक (डीआयएन)';
 
   @override
-  String get docItemMoaAoa => 'MOA आणि AOA मसुदा';
+  String get docItemMoaAoa => 'एमओए आणि एओए मसुदा';
 
   @override
-  String get docItemCoi => 'स्थापना प्रमाणपत्र (COI)';
+  String get docItemCoi => 'स्थापना प्रमाणपत्र (सीओआय)';
 
   @override
-  String get docItemCompanyPanTan => 'कंपनीचे PAN आणि TAN कार्ड';
+  String get docItemCompanyPanTan => 'कंपनीचे पीएएन आणि टीएएन कार्ड';
 
   @override
   String get docItemCorporateBankAccount => 'कॉर्पोरेट बँक खाते';
@@ -4089,28 +4158,28 @@ class AppLocalizationsMr extends AppLocalizations {
   String get docItemDeedRegistration => 'निबंधकाकडे करारपत्राची नोंदणी';
 
   @override
-  String get docItemFirmPanTan => 'फर्मचे PAN आणि TAN कार्ड';
+  String get docItemFirmPanTan => 'फर्मचे पीएएन आणि टीएएन कार्ड';
 
   @override
   String get docItemFirmBankAccount => 'फर्मचे बँक खाते';
 
   @override
-  String get docItemGstRegistrationOptional => 'GST नोंदणी (ऐच्छिक)';
+  String get docItemGstRegistrationOptional => 'जीएसटी नोंदणी (ऐच्छिक)';
 
   @override
-  String get docItemLlpNameApproval => 'LLP नावाची मंजुरी (RUN-LLP)';
+  String get docItemLlpNameApproval => 'एलएलपी नावाची मंजुरी (रन-एलएलपी)';
 
   @override
-  String get docItemFillipForm => 'FiLLiP फॉर्म (LLP स्थापना)';
+  String get docItemFillipForm => 'फिलिप फॉर्म (एलएलपी स्थापना)';
 
   @override
-  String get docItemLlpAgreement => 'LLP कराराचा मसुदा';
+  String get docItemLlpAgreement => 'एलएलपी कराराचा मसुदा';
 
   @override
-  String get docItemLlpPanTan => 'LLP चे PAN आणि TAN कार्ड';
+  String get docItemLlpPanTan => 'एलएलपी चे पीएएन आणि टीएएन कार्ड';
 
   @override
-  String get docItemLlpBankAccount => 'LLP बँक खाते';
+  String get docItemLlpBankAccount => 'एलएलपी बँक खाते';
 
   @override
   String get subsidyTitle => 'व्यवसाय अनुदान अंदाज';
@@ -4164,53 +4233,54 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get msmeUdyamFlowTitle => 'Udyam नोंदणी प्रक्रिया';
+  String get msmeUdyamFlowTitle => 'उद्यम नोंदणी प्रक्रिया';
 
   @override
-  String get msmeUdyamGoToPortal => 'अधिकृत Udyam पोर्टलवर जा';
+  String get msmeUdyamGoToPortal => 'अधिकृत उद्यम पोर्टलवर जा';
 
   @override
-  String get msmeUdyamStep1Title => '1. आधार आणि PAN पडताळणी';
+  String get msmeUdyamStep1Title => '1. आधार आणि पीएएन पडताळणी';
 
   @override
   String get msmeUdyamStep1Desc =>
-      'उद्योजकाचा आधार क्रमांक आणि आधारवरील नाव लिहा. OTP ने पडताळणी करा. नंतर GSTIN च्या स्वयंचलित पडताळणीसाठी संस्थेचा प्रकार आणि PAN तपशील लिहा.';
+      'उद्योजकाचा आधार क्रमांक आणि आधारवरील नाव लिहा. ओटीपी ने पडताळणी करा. नंतर जीएसटीआयएन च्या स्वयंचलित पडताळणीसाठी संस्थेचा प्रकार आणि पीएएन तपशील लिहा.';
 
   @override
-  String get msmeUdyamStep1Action => 'आधार OTP प्रमाणीकरण आणि PAN तपशील भरा.';
+  String get msmeUdyamStep1Action =>
+      'आधार ओटीपी प्रमाणीकरण आणि पीएएन तपशील भरा.';
 
   @override
   String get msmeUdyamStep2Title => '2. उद्योग आणि ठिकाणाचा तपशील';
 
   @override
   String get msmeUdyamStep2Desc =>
-      'उद्योगाचे नाव, प्लांट/युनिटचे पत्ते, अधिकृत ईमेल, मोबाइल क्रमांक, बँक खाते क्रमांक आणि IFSC कोड द्या.';
+      'उद्योगाचे नाव, प्लांट/युनिटचे पत्ते, अधिकृत ईमेल, मोबाइल क्रमांक, बँक खाते क्रमांक आणि आयएफएससी कोड द्या.';
 
   @override
   String get msmeUdyamStep2Action =>
       'युनिटचे पत्ते, मोबाइल, ईमेल आणि बँक तपशील भरा.';
 
   @override
-  String get msmeUdyamStep3Title => '3. NIC कोड आणि गुंतवणुकीचा तपशील';
+  String get msmeUdyamStep3Title => '3. एनआयसी कोड आणि गुंतवणुकीचा तपशील';
 
   @override
   String get msmeUdyamStep3Desc =>
-      'मुख्य व्यवसाय (उत्पादन / सेवा) निवडा, 2/4/5 अंकी NIC कोड शोधून निवडा, कर्मचाऱ्यांची संख्या आणि प्लांट व यंत्रसामग्रीतील गुंतवणूक लिहा.';
+      'मुख्य व्यवसाय (उत्पादन / सेवा) निवडा, 2/4/5 अंकी एनआयसी कोड शोधून निवडा, कर्मचाऱ्यांची संख्या आणि प्लांट व यंत्रसामग्रीतील गुंतवणूक लिहा.';
 
   @override
   String get msmeUdyamStep3Action =>
-      'NIC वर्गीकरण कोड निवडा आणि गुंतवणूक/उलाढाल लिहा.';
+      'एनआयसी वर्गीकरण कोड निवडा आणि गुंतवणूक/उलाढाल लिहा.';
 
   @override
   String get msmeUdyamStep4Title => '4. अंतिम सबमिट आणि ई-प्रमाणपत्र';
 
   @override
   String get msmeUdyamStep4Desc =>
-      'सारांश तपासा आणि अंतिम OTP सबमिट करा. तुम्हाला 16 अंकी Udyam नोंदणी क्रमांक (URN) आणि QR कोडसह ई-प्रमाणपत्र मिळते. नोंदणी शुल्क नाही.';
+      'सारांश तपासा आणि अंतिम ओटीपी सबमिट करा. तुम्हाला 16 अंकी उद्यम नोंदणी क्रमांक (यूआरएन) आणि क्यूआर कोडसह ई-प्रमाणपत्र मिळते. नोंदणी शुल्क नाही.';
 
   @override
   String get msmeUdyamStep4Action =>
-      'अंतिम OTP सबमिट करा आणि ई-प्रमाणपत्र डाउनलोड करा';
+      'अंतिम ओटीपी सबमिट करा आणि ई-प्रमाणपत्र डाउनलोड करा';
 
   @override
   String voiceRelevanceMatch(Object confidence) {
@@ -4232,7 +4302,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get voiceAiReady => 'AI आवाज तयार';
+  String get voiceAiReady => 'कृत्रिम बुद्धिमत्ता आवाज तयार';
 
   @override
   String get voiceConversationTranscript => 'संवादाची लिखित नोंद';
@@ -4267,7 +4337,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get voiceSemMicHint => 'मायक्रोफोन नियंत्रित करण्यासाठी दोनदा टॅप करा';
 
   @override
-  String get voiceAiAssistant => 'AI सहाय्यक';
+  String get voiceAiAssistant => 'कृत्रिम बुद्धिमत्ता सहाय्यक';
 
   @override
   String get voiceSemNoiseControlOn =>
@@ -4420,7 +4490,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get profileErrSelectDob => 'कृपया तुमची जन्मतारीख निवडा';
 
   @override
-  String get profileHintDdmmyyyy => 'DD/MM/YYYY';
+  String get profileHintDdmmyyyy => 'दिवस/महिना/वर्ष';
 
   @override
   String get profileHintDoorStreetExample => 'उदा. फ्लॅट 402, रॉयल एन्क्लेव्ह';
@@ -4491,7 +4561,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get settingsSwitchedToCompanion =>
-      'AI सहचर (सारथी) नेव्हिगेशनवर बदलले';
+      'कृत्रिम बुद्धिमत्ता सहचर (सारथी) नेव्हिगेशनवर बदलले';
 
   @override
   String get settingsSwitchedToRegular => 'नियमित नेव्हिगेशनवर बदलले';
@@ -4530,7 +4600,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get loginGoogleSignInFailed =>
-      'Google साइन इन पूर्ण करता आले नाही. कृपया पुन्हा प्रयत्न करा.';
+      'गूगल साइन इन पूर्ण करता आले नाही. कृपया पुन्हा प्रयत्न करा.';
 
   @override
   String get dialogConfirm => 'खात्री करा';
@@ -4689,7 +4759,8 @@ class AppLocalizationsMr extends AppLocalizations {
       'सवलतीच्या दरात वित्तपुरवठा देण्यासाठी शासनाने मत्स्यव्यवसाय आणि मत्स्यशेती पायाभूत सुविधा विकास निधी सुरू केला आहे.';
 
   @override
-  String get notifSeed2Title => 'PM Vidyalaxmi शैक्षणिक कर्ज योजना';
+  String get notifSeed2Title =>
+      'प्रधानमंत्री विद्यालक्ष्मी शैक्षणिक कर्ज योजना';
 
   @override
   String get notifSeed2Body =>
@@ -4709,13 +4780,13 @@ class AppLocalizationsMr extends AppLocalizations {
   String get notifSeed4Body => 'अर्ज करण्याची शेवटची तारीख जवळ येत आहे';
 
   @override
-  String get notifSeed5Title => 'PM इंटर्नशिप योजना';
+  String get notifSeed5Title => 'प्रधानमंत्री इंटर्नशिप योजना';
 
   @override
   String get notifSeed5Body => 'अर्जाची मुदत लवकरच संपेल';
 
   @override
-  String get notifSeed6Title => 'Ayushman Bharat Yojana बाबत नवीन माहिती';
+  String get notifSeed6Title => 'आयुष्मान भारत योजना बाबत नवीन माहिती';
 
   @override
   String get notifSeed6Body =>
@@ -4736,7 +4807,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get commonUserFallback => 'वापरकर्ता';
 
   @override
-  String get searchHintFallback => 'PMEGP, Startup India, MSME कर्जे शोधा...';
+  String get searchHintFallback =>
+      'पीएमईजीपी, स्टार्टअप इंडिया, एमएसएमई कर्जे शोधा...';
 
   @override
   String searchBestMatchesForQuery(Object query) {
@@ -4749,7 +4821,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String searchResultsShareHeader(Object title) {
-    return 'MSME Scheme Sahayak वर $title पाहा:';
+    return 'एमएसएमई योजना सहाय्यक वर $title पाहा:';
   }
 
   @override
@@ -4768,7 +4840,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get eduSchool => 'शाळा (10वी / 12वी)';
 
   @override
-  String get eduDiploma => 'पदविका / ITI';
+  String get eduDiploma => 'पदविका / आयटीआय';
 
   @override
   String get eduUndergraduate => 'पदवी';
@@ -4777,22 +4849,23 @@ class AppLocalizationsMr extends AppLocalizations {
   String get eduPostgraduate => 'पदव्युत्तर';
 
   @override
-  String get eduPhd => 'Ph.D. / डॉक्टरेट';
+  String get eduPhd => 'पीएचडी. / डॉक्टरेट';
 
   @override
-  String get commGeneralOc => 'सर्वसाधारण (OC)';
+  String get commGeneralOc => 'सर्वसाधारण (ओसी)';
 
   @override
-  String get commObcBcMbc => 'OBC / BC / MBC';
+  String get commObcBcMbc => 'इतर मागासवर्ग / मागासवर्ग / अत्यंत मागासवर्ग';
 
   @override
-  String get commScCategory => 'SC';
+  String get commScCategory => 'अनुसूचित जाती';
 
   @override
-  String get commStCategory => 'ST';
+  String get commStCategory => 'अनुसूचित जमाती';
 
   @override
-  String get commEwsCategory => 'EWS';
+  String get commEwsCategory =>
+      'आर्थिकदृष्ट्या दुर्बल घटक (आर्थिकदृष्ट्या दुर्बल घटक)';
 
   @override
   String get commMinority => 'अल्पसंख्याक';
@@ -4817,14 +4890,14 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get profilePrivacyNoteDpdpa =>
-      'DPDPA 2023: फक्त तुम्हाला कल्याणकारी योजनांशी जुळवण्यासाठी वापरले जाते. कधीही शेअर केले जात नाही.';
+      'डीपीडीपीए 2023: फक्त तुम्हाला कल्याणकारी योजनांशी जुळवण्यासाठी वापरले जाते. कधीही शेअर केले जात नाही.';
 
   @override
   String get profileConsentSectionTitle => 'गोपनीयता आणि माहिती';
 
   @override
   String get profileConsentCheckboxLabel =>
-      'प्रोफाइल पूर्ण करून तुम्ही सहमती देता की तुमची प्रोफाइल तयार करण्यासाठी आणि शासकीय योजनांच्या वैयक्तिक शिफारसी देण्यासाठी MSS तुमची माहिती गोळा करून वापरेल.';
+      'प्रोफाइल पूर्ण करून तुम्ही सहमती देता की तुमची प्रोफाइल तयार करण्यासाठी आणि शासकीय योजनांच्या वैयक्तिक शिफारसी देण्यासाठी एमएसएस तुमची माहिती गोळा करून वापरेल.';
 
   @override
   String get profileConsentReadMore => 'तुमची माहिती कशी वापरली जाते ते वाचा →';
@@ -5029,10 +5102,10 @@ class AppLocalizationsMr extends AppLocalizations {
   String get eduDescDiploma => 'तंत्रनिकेतन किंवा व्यावसायिक प्रमाणपत्र';
 
   @override
-  String get eduDescUndergraduate => 'पदवी (BA, BSc, BCom, BE इ.)';
+  String get eduDescUndergraduate => 'पदवी (बीए, बीएससी, बीकॉम, बीई इ.)';
 
   @override
-  String get eduDescPostgraduate => 'पदव्युत्तर पदवी, MPhil किंवा Ph.D.';
+  String get eduDescPostgraduate => 'पदव्युत्तर पदवी, एमफिल किंवा पीएचडी.';
 
   @override
   String get hintAgeExample => 'उदा. 25';
@@ -5105,7 +5178,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get aboutAppDescriptionLong =>
-      'MSS हा एक बुद्धिमान डिजिटल मंच आहे. भारतीय उद्योजक, महिला, शेतकरी आणि विद्यार्थ्यांसाठी केंद्र व राज्य शासनाच्या योजना शोधणे, पात्रता तपासणे आणि अर्ज प्रक्रिया सोपी करणे हा त्याचा उद्देश आहे.';
+      'एमएसएस हा एक बुद्धिमान डिजिटल मंच आहे. भारतीय उद्योजक, महिला, शेतकरी आणि विद्यार्थ्यांसाठी केंद्र व राज्य शासनाच्या योजना शोधणे, पात्रता तपासणे आणि अर्ज प्रक्रिया सोपी करणे हा त्याचा उद्देश आहे.';
 
   @override
   String get schemeSectionContacts => 'संपर्काचा तपशील';
@@ -5408,7 +5481,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get udyamMedium => 'मध्यम उद्योग';
 
   @override
-  String get udyamLarge => 'मोठा उद्योग (MSME मर्यादेपलीकडे)';
+  String get udyamLarge => 'मोठा उद्योग (एमएसएमई मर्यादेपलीकडे)';
 
   @override
   String get udyamInvalid => 'अवैध माहिती';
@@ -5446,7 +5519,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get voiceRecordDisclosure =>
-      'तुम्ही बोलणार ती भाषा निवडा. 60 सेकंदांपर्यंत रेकॉर्ड करा, मग पाठवण्यापूर्वी मजकूर तपासा. लिप्यंतरासाठी तुमचे रेकॉर्डिंग Sarvam कडे अपलोड केले जाते. तुम्ही ही स्क्रीन बंद करेपर्यंतच ते येथे ठेवले जाते.';
+      'तुम्ही बोलणार ती भाषा निवडा. 60 सेकंदांपर्यंत रेकॉर्ड करा, मग पाठवण्यापूर्वी मजकूर तपासा. लिप्यंतरासाठी तुमचे रेकॉर्डिंग सर्वम कडे अपलोड केले जाते. तुम्ही ही स्क्रीन बंद करेपर्यंतच ते येथे ठेवले जाते.';
 
   @override
   String get voiceSpokenLanguage => 'बोलण्याची भाषा';
@@ -5630,19 +5703,19 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get homeTip2 =>
-      'Udyam नोंदणी मोफत आहे. बहुतेक MSME योजना तुमचा Udyam क्रमांक मागतात.';
+      'उद्यम नोंदणी मोफत आहे. बहुतेक एमएसएमई योजना तुमचा उद्यम क्रमांक मागतात.';
 
   @override
   String get homeTip3 =>
-      'अर्ज सुरू करण्यापूर्वी तुमचा आधार, PAN आणि बँक तपशील तयार ठेवा.';
+      'अर्ज सुरू करण्यापूर्वी तुमचा आधार, पीएएन आणि बँक तपशील तयार ठेवा.';
 
   @override
   String get homeTip4 =>
-      'CGTMSE अंतर्गत सूक्ष्म व लघु उद्योगांना तारणमुक्त कर्ज मिळू शकते.';
+      'सीजीटीएमएसई अंतर्गत सूक्ष्म व लघु उद्योगांना तारणमुक्त कर्ज मिळू शकते.';
 
   @override
   String get homeTip5 =>
-      'MSS मध्ये अधिक चांगल्या जुळणीसाठी तुमची प्रोफाइल पूर्ण करा.';
+      'एमएसएस मध्ये अधिक चांगल्या जुळणीसाठी तुमची प्रोफाइल पूर्ण करा.';
 
   @override
   String get homeTip6 =>
@@ -5654,11 +5727,11 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get homeTip8 =>
-      'खरेदीदार उशिरा पैसे देत आहेत? MSME समाधान वर सूक्ष्म व लघु उद्योग विलंबित देयकाचा दावा ऑनलाइन दाखल करू शकतात.';
+      'खरेदीदार उशिरा पैसे देत आहेत? एमएसएमई समाधान वर सूक्ष्म व लघु उद्योग विलंबित देयकाचा दावा ऑनलाइन दाखल करू शकतात.';
 
   @override
   String get homeTip9 =>
-      'DPIIT मान्यताप्राप्त स्टार्टअप Startup India Seed Fund Scheme साठी अर्ज करू शकतात.';
+      'डीपीआयआयटी मान्यताप्राप्त स्टार्टअप स्टार्टअप इंडिया बीज निधी एससीएचईएमई साठी अर्ज करू शकतात.';
 
   @override
   String get homeTip10 =>
@@ -5768,7 +5841,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String updateAvailableMessage(Object version) {
-    return 'MSS आवृत्ती $version तयार आहे. ताज्या दुरुस्त्या आणि योजनांसाठी डाउनलोड करा.';
+    return 'एमएसएस आवृत्ती $version तयार आहे. ताज्या दुरुस्त्या आणि योजनांसाठी डाउनलोड करा.';
   }
 
   @override
@@ -5793,41 +5866,41 @@ class AppLocalizationsMr extends AppLocalizations {
   String get updateWhatsNew => 'या आवृत्तीत नवीन काय';
 
   @override
-  String get integrityTitle => 'MSS सध्या या फोनवर चालू शकत नाही';
+  String get integrityTitle => 'एमएसएस सध्या या फोनवर चालू शकत नाही';
 
   @override
   String get integritySubtitle =>
-      'तुमचा योजनांचा तपशील आणि खाते सुरक्षित ठेवण्यासाठी खालील समस्या दूर करा. ती दूर झाल्यावर MSS आपोआप उघडेल.';
+      'तुमचा योजनांचा तपशील आणि खाते सुरक्षित ठेवण्यासाठी खालील समस्या दूर करा. ती दूर झाल्यावर एमएसएस आपोआप उघडेल.';
 
   @override
   String get integrityDevTitle => 'डेव्हलपर पर्याय सुरू आहेत';
 
   @override
   String get integrityDevBody =>
-      'फोनच्या सेटिंग्जमध्ये डेव्हलपर पर्याय (आणि USB डीबगिंग) बंद करा.';
+      'फोनच्या सेटिंग्जमध्ये डेव्हलपर पर्याय (आणि यूएसबी डीबगिंग) बंद करा.';
 
   @override
-  String get integrityVpnTitle => 'VPN जोडलेला आहे';
+  String get integrityVpnTitle => 'वीपीएन जोडलेला आहे';
 
   @override
   String get integrityVpnBody =>
-      'MSS वापरण्यासाठी VPN बंद करा. फक्त Tailscale आणि AdGuard ला परवानगी आहे.';
+      'एमएसएस वापरण्यासाठी वीपीएन बंद करा. फक्त टेलस्केल आणि ऐडगार्ड ला परवानगी आहे.';
 
   @override
-  String get integrityWifiTitle => 'तुम्ही सार्वजनिक Wi-Fi वर आहात';
+  String get integrityWifiTitle => 'तुम्ही सार्वजनिक वाई-फाई वर आहात';
 
   @override
   String get integrityWifiBody =>
-      'या Wi-Fi ला पासवर्ड नाही किंवा साइन-इन पान लागते. मोबाइल डेटा किंवा पासवर्ड असलेले Wi-Fi वापरा.';
+      'या वाई-फाई ला पासवर्ड नाही किंवा साइन-इन पान लागते. मोबाइल डेटा किंवा पासवर्ड असलेले वाई-फाई वापरा.';
 
   @override
   String get integrityOpenDeveloper => 'डेव्हलपर सेटिंग्ज उघडा';
 
   @override
-  String get integrityOpenVpn => 'VPN सेटिंग्ज उघडा';
+  String get integrityOpenVpn => 'वीपीएन सेटिंग्ज उघडा';
 
   @override
-  String get integrityOpenWifi => 'Wi-Fi सेटिंग्ज उघडा';
+  String get integrityOpenWifi => 'वाई-फाई सेटिंग्ज उघडा';
 
   @override
   String get integrityCheckAgain => 'पुन्हा तपासा';
@@ -5837,7 +5910,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String onbStep(String step, String total) {
-    return '$step / $total';
+    return 'टप्पा $step / $total';
   }
 
   @override
@@ -5851,7 +5924,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get onbP1Body =>
-      'उद्योजक, MSME, महिला आणि विद्यार्थ्यांसाठीच्या शासकीय योजना एकाच ठिकाणी शोधा.';
+      'उद्योजक, एमएसएमई, महिला आणि विद्यार्थ्यांसाठीच्या शासकीय योजना एकाच ठिकाणी शोधा.';
 
   @override
   String onbP1Badge(int count) {
@@ -5859,7 +5932,7 @@ class AppLocalizationsMr extends AppLocalizations {
   }
 
   @override
-  String get onbChipMsme => 'MSME';
+  String get onbChipMsme => 'एमएसएमई';
 
   @override
   String get onbChipStartup => 'स्टार्टअप';
@@ -5875,7 +5948,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get onbP2Body =>
-      'शासकीय योजना शोधणे, समजून घेणे आणि तुलना करणे अवघड असू शकते. MSS त्या एकाच सोप्या अनुभवात आणते.';
+      'शासकीय योजना शोधणे, समजून घेणे आणि तुलना करणे अवघड असू शकते. एमएसएस त्या एकाच सोप्या अनुभवात आणते.';
 
   @override
   String get onbP2Badge => 'शोधा. समजून घ्या. जाणून घ्या.';
@@ -5897,7 +5970,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get onbP3Body =>
-      'MSS ला तुमच्याबद्दल सांगा आणि तुमच्या पात्रतेशी जुळणाऱ्या योजना स्पष्ट कारणांसह पाहा.';
+      'एमएसएस ला तुमच्याबद्दल सांगा आणि तुमच्या पात्रतेशी जुळणाऱ्या योजना स्पष्ट कारणांसह पाहा.';
 
   @override
   String get onbP3Matches => 'तुमच्या जुळण्या';
@@ -5933,11 +6006,11 @@ class AppLocalizationsMr extends AppLocalizations {
   String get onbP4Footer => 'तुमची भाषा. तुमचा आवाज. तुमच्या योजना.';
 
   @override
-  String get permTitle => 'MSS ला तुम्हाला पूर्ण मदत करू द्या';
+  String get permTitle => 'एमएसएस ला तुम्हाला पूर्ण मदत करू द्या';
 
   @override
   String get permSubtitle =>
-      'यांच्याशिवायही MSS चालते, पण काही सुविधांना यांची गरज आहे. तुम्ही नंतर फोनच्या सेटिंग्जमध्ये बदलू शकता.';
+      'यांच्याशिवायही एमएसएस चालते, पण काही सुविधांना यांची गरज आहे. तुम्ही नंतर फोनच्या सेटिंग्जमध्ये बदलू शकता.';
 
   @override
   String get permNotificationsTitle => 'सूचना';
@@ -5957,7 +6030,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get permInstallBody =>
-      'तुम्ही अपडेट करा वर टॅप केल्यावर MSS ला नवीन आवृत्ती इंस्टॉल करू द्या.';
+      'तुम्ही अपडेट करा वर टॅप केल्यावर एमएसएस ला नवीन आवृत्ती इंस्टॉल करू द्या.';
 
   @override
   String get permFilesTitle => 'फोटो आणि कागदपत्रे';
@@ -5985,7 +6058,7 @@ class AppLocalizationsMr extends AppLocalizations {
   String get sv2Name => 'सारथी';
 
   @override
-  String get sv2PoweredBy => 'Sarvam AI वर चालणारे';
+  String get sv2PoweredBy => 'सर्वम कृत्रिम बुद्धिमत्ता वर चालणारे';
 
   @override
   String get sv2ModeType => 'लिहा';
@@ -6003,7 +6076,7 @@ class AppLocalizationsMr extends AppLocalizations {
       'कोणत्याही योजना, कर्ज किंवा अनुदानाबद्दल विचारा — किंवा यापैकी एकाने सुरुवात करा.';
 
   @override
-  String get sv2ChipPmegp => 'PMEGP शोधा';
+  String get sv2ChipPmegp => 'पीएमईजीपी शोधा';
 
   @override
   String get sv2ChipWomen => 'महिलांसाठी योजना';
@@ -6181,7 +6254,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get appLockedBody =>
-      'MSS सध्या वापरता येणार नाही. कृपया प्रशासकाशी संपर्क साधा. अनलॉक होताच ॲप आपोआप उघडेल.';
+      'एमएसएस सध्या वापरता येणार नाही. कृपया प्रशासकाशी संपर्क साधा. अनलॉक होताच ॲप आपोआप उघडेल.';
 
   @override
   String get appLockedMessageLabel => 'प्रशासकाचा संदेश';
@@ -6197,7 +6270,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get copyrightNoticeBody =>
-      'MSS ॲप वरील संस्थांनी संयुक्तपणे डिझाइन आणि विकसित केले आहे. ॲपची मूळ सामग्री, डिझाइन, सॉफ्टवेअर आणि संबंधित बौद्धिक संपदा लागू कॉपीराइट कायद्यांनुसार संरक्षित आहेत. कायद्याने परवानगी दिलेल्या बाबी वगळता, संबंधित हक्कधारकांच्या पूर्व लेखी परवानगीशिवाय अनधिकृत पुनरुत्पादन, बदल, वितरण किंवा व्यावसायिक वापर करण्यास मनाई आहे.';
+      'एमएसएस ॲप वरील संस्थांनी संयुक्तपणे डिझाइन आणि विकसित केले आहे. ॲपची मूळ सामग्री, डिझाइन, सॉफ्टवेअर आणि संबंधित बौद्धिक संपदा लागू कॉपीराइट कायद्यांनुसार संरक्षित आहेत. कायद्याने परवानगी दिलेल्या बाबी वगळता, संबंधित हक्कधारकांच्या पूर्व लेखी परवानगीशिवाय अनधिकृत पुनरुत्पादन, बदल, वितरण किंवा व्यावसायिक वापर करण्यास मनाई आहे.';
 
   @override
   String get loginContinueAsGuest => 'अतिथी म्हणून पुढे जा';
@@ -6227,7 +6300,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get guestProfilePendingNote =>
-      'तुम्ही अतिथी म्हणून ॲप वापरत आहात. साइन इन केल्यावर तुमची प्रोफाइल जतन होईल.';
+      'तुम्ही अतिथी म्हणून ब्राउझ करत आहात. प्रोफाइल तयार करून जतन करण्यासाठी साइन इन करा.';
 
   @override
   String get homeTopSchemes => 'प्रमुख योजना';
@@ -6246,7 +6319,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get locationGateBody =>
-      'MSS केंद्रीय योजना आणि तुम्ही ज्या राज्यात आहात त्या राज्याच्या योजना दाखवते. तुमचे राज्य तुमच्या फोनच्या GPS वरून कळते.';
+      'एमएसएस केंद्रीय योजना आणि तुम्ही ज्या राज्यात आहात त्या राज्याच्या योजना दाखवते. तुमचे राज्य तुमच्या फोनच्या जीपीएस वरून कळते.';
 
   @override
   String get locationGateAllow => 'अचूक ठिकाणाची परवानगी द्या';
@@ -6262,19 +6335,19 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get locationErrServiceOff =>
-      'ठिकाण (GPS) बंद आहे. ते सुरू करा आणि पुन्हा प्रयत्न करा.';
+      'ठिकाण (जीपीएस) बंद आहे. ते सुरू करा आणि पुन्हा प्रयत्न करा.';
 
   @override
   String get locationErrPermission =>
-      'तुमच्या राज्याच्या योजना दाखवण्यासाठी MSS ला तुमचे ठिकाण हवे आहे.';
+      'तुमच्या राज्याच्या योजना दाखवण्यासाठी एमएसएस ला तुमचे ठिकाण हवे आहे.';
 
   @override
   String get locationErrPermissionForever =>
-      'MSS साठी ठिकाण बंद आहे. सेटिंग्जमध्ये परवानग्या > ठिकाण उघडा आणि \"अचूक ठिकाण\" सुरू ठेवून परवानगी द्या.';
+      'एमएसएस साठी ठिकाण बंद आहे. सेटिंग्जमध्ये परवानग्या > ठिकाण उघडा आणि \"अचूक ठिकाण\" सुरू ठेवून परवानगी द्या.';
 
   @override
   String get locationErrApproximate =>
-      'फक्त अंदाजे ठिकाणाची परवानगी आहे. तुमचे राज्य कळण्यासाठी MSS साठी \"अचूक ठिकाण\" सुरू करा.';
+      'फक्त अंदाजे ठिकाणाची परवानगी आहे. तुमचे राज्य कळण्यासाठी एमएसएस साठी \"अचूक ठिकाण\" सुरू करा.';
 
   @override
   String get locationErrMock =>
@@ -6282,7 +6355,7 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get locationErrVpn =>
-      'VPN सुरू आहे. VPN बंद करा आणि पुन्हा प्रयत्न करा.';
+      'वीपीएन सुरू आहे. वीपीएन बंद करा आणि पुन्हा प्रयत्न करा.';
 
   @override
   String get locationErrJump =>
@@ -6290,10 +6363,10 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get locationErrWeakSignal =>
-      'GPS सिग्नल खूप कमकुवत आहे. खिडकीजवळ किंवा बाहेर जा आणि पुन्हा प्रयत्न करा.';
+      'जीपीएस सिग्नल खूप कमकुवत आहे. खिडकीजवळ किंवा बाहेर जा आणि पुन्हा प्रयत्न करा.';
 
   @override
-  String get locationErrOutsideIndia => 'MSS फक्त भारतातच चालते.';
+  String get locationErrOutsideIndia => 'एमएसएस फक्त भारतातच चालते.';
 
   @override
   String get locationErrLookup =>
@@ -6301,134 +6374,24 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get locationStateLocked =>
-      'तुमच्या GPS ठिकाणावरून ठरवले. ते बदलता येत नाही.';
+      'तुमच्या जीपीएस ठिकाणावरून ठरवले. ते बदलता येत नाही.';
 
   @override
   String get locationDevBuildBadge => 'चाचणी आवृत्ती';
-
-  @override
-  String get eligCheckEntry => 'माझी उत्तरे';
-
-  @override
-  String get eligCheckEntrySub =>
-      'तुमच्याबद्दल आणि तुमच्या व्यवसायाबद्दल प्रश्न';
-
-  @override
-  String get eligCheckTitle => 'तुमची उत्तरे';
-
-  @override
-  String get eligCheckIntro => 'ज्याचे उत्तर माहीत नसेल ते सोडून द्या.';
-
-  @override
-  String eligCheckStepLabel(int n, int total) {
-    return 'टप्पा $n / $total';
-  }
-
-  @override
-  String get eligCheckStep0 => 'तुमच्याबद्दल';
-
-  @override
-  String get eligCheckStep1 => 'तुम्ही कुठे राहता आणि काम करता';
-
-  @override
-  String get eligCheckStep2 => 'तुमचा व्यवसाय';
-
-  @override
-  String get eligCheckStep3 => 'तुम्हाला काय हवे';
-
-  @override
-  String get eligCheckStep4 => 'तुमची कौशल्ये';
-
-  @override
-  String get eligCheckStep5 => 'आणखी थोडी माहिती (ऐच्छिक)';
-
-  @override
-  String eligCheckNeeded(String question) {
-    return 'पुढे जाण्यासाठी याचे उत्तर द्या: $question';
-  }
-
-  @override
-  String get eligCheckWomenMore =>
-      'महिला कामगार एकूण कामगारांपेक्षा जास्त असू शकत नाहीत.';
-
-  @override
-  String get eligCheckQuestionLanguage => 'प्रश्नांची भाषा';
-
-  @override
-  String get eligCheckSave => 'माझी उत्तरे जतन करा';
-
-  @override
-  String get eligCheckSaveGo => 'जतन करा आणि आत जा';
-
-  @override
-  String get eligCheckSavedTitle => 'तुमची उत्तरे जतन झाली';
-
-  @override
-  String get eligCheckSavedBody =>
-      'धन्यवाद. तुम्ही तुमची उत्तरे कधीही बदलू शकता.';
-
-  @override
-  String get eligCheckEdit => 'उत्तरे बदला';
-
-  @override
-  String get eligCheckSelect => 'निवडा';
-
-  @override
-  String get eligCheckOther => 'इतर (स्वतः लिहा)';
-
-  @override
-  String get eligCheckTypeHere => 'नाव लिहा';
-
-  @override
-  String get eligCheckSkipRest => 'बाकी सोडा';
-
-  @override
-  String get eligCheckAnswerMore => 'आणखी प्रश्नांची उत्तरे द्या';
-
-  @override
-  String get eligCheckQuickIntro =>
-      'सुरुवातीला फक्त काही प्रश्न. बाकी तुम्ही नंतर भरू शकता.';
-
-  @override
-  String get eligCheckAllRequired => 'पुढे जाण्यासाठी सर्व प्रश्न आवश्यक आहेत.';
-
-  @override
-  String get eligCheckLocate => 'माझे सध्याचे लोकेशन वापरा';
-
-  @override
-  String get eligCheckLocating => 'तुमचे लोकेशन शोधत आहोत…';
-
-  @override
-  String get eligCheckLocationFail =>
-      'लोकेशन मिळाले नाही. तुम्ही ठिकाण स्वतः निवडू शकता.';
-
-  @override
-  String get eligCheckLocationNote => 'तुमचे राज्य आणि जिल्हा आपोआप भरतो.';
-
-  @override
-  String get eligCheckLocationDone =>
-      'लोकेशन जतन झाले. कृपया खालील ठिकाण तपासा.';
-
-  @override
-  String get eligCheckFirstTitle => 'तुमच्याबद्दल सांगा';
-
-  @override
-  String get eligCheckFirstIntro =>
-      'काही प्रश्न, मग तुम्ही आत आहात. * असलेल्या प्रश्नांची उत्तरे आवश्यक आहेत.';
 
   @override
   String get guestName => 'पाहुणा';
 
   @override
   String get guestReminderText =>
-      'तुमची प्रोफाइल पूर्ण करा: प्रगती जतन करण्यासाठी Google ने साइन-इन करा.';
+      'तुमची प्रोफाइल पूर्ण करा: प्रगती जतन करण्यासाठी गूगल ने साइन-इन करा.';
 
   @override
   String get guestLocalTitle => 'तुमची माहिती याच फोनमध्ये राहते';
 
   @override
   String get guestLocalBody =>
-      'पाहुणा म्हणून तुमची माहिती फक्त याच फोनमध्ये जतन होते. दुसऱ्या फोनवर किंवा डिव्हाइसवर MSS वापरल्यास, किंवा अ‍ॅपचा डेटा पुसल्यास, तुमची पाहुणा प्रोफाइल तिथे मिळणार नाही. प्रोफाइल जपण्यासाठी Google ने साइन-इन करा.';
+      'पाहुणा म्हणून तुमची माहिती फक्त याच फोनमध्ये जतन होते. दुसऱ्या फोनवर किंवा डिव्हाइसवर एमएसएस वापरल्यास, किंवा अ‍ॅपचा डेटा पुसल्यास, तुमची पाहुणा प्रोफाइल तिथे मिळणार नाही. प्रोफाइल जपण्यासाठी गूगल ने साइन-इन करा.';
 
   @override
   String get guestSignInSaveTitle => 'योजना जतन करण्यासाठी साइन इन करा';
@@ -6498,4 +6461,27 @@ class AppLocalizationsMr extends AppLocalizations {
 
   @override
   String get loginSubtitleShort => 'तुम्ही लाभ घेऊ शकता अशा सरकारी योजना शोधा';
+
+  @override
+  String get questionnaireFromProfile =>
+      'तुमच्या प्रोफाइलमधून. कोणतेही उत्तर बदला.';
+
+  @override
+  String get questionnaireLoadFailed =>
+      'प्रश्न लोड झाले नाहीत. हे मूल्यांकन बंद करून पुन्हा उघडा.';
+
+  @override
+  String get questionnaireSaveFailed =>
+      'तुमचे उत्तर जतन करता आले नाही. पुन्हा प्रयत्न करा.';
+
+  @override
+  String get questionnaireTaluka => 'तालुका';
+
+  @override
+  String get copyrightOwnership =>
+      '© 2026 स्वदेशी शोध संस्थान, तमिळनाडू शाखा आणि राजलक्ष्मी तंत्रज्ञान संस्था, चेन्नई. सर्व हक्क राखीव.';
+
+  @override
+  String get aboutInstitutionCredits =>
+      '• राजलक्ष्मी तंत्रज्ञान संस्था (आरआयटी)\n• स्वदेशी शोध संस्थान (एसएसएस तमिळनाडू शाखा)';
 }

@@ -273,26 +273,6 @@ class SchemeResourcesResolver {
       }
     }
 
-    if (serviceList.isEmpty) {
-      serviceList.add(
-        SchemeService(
-          name: '$issuingBody Application & Verification Service',
-          category: 'Implementing Agency Service',
-          mandatory: true,
-          description:
-              'Single-window application submission, document verification, and subsidy processing.',
-          department: issuingBody,
-          website:
-              (SchemeAdapterTextUtils.textOrNull(appProc['onlineUrl'])) ??
-              (SchemeAdapterTextUtils.textOrNull(
-                resources['officialWebsiteUrl'],
-              )) ??
-              '',
-          status: 'ACTIVE',
-        ),
-      );
-    }
-
     final applicationFee =
         (SchemeAdapterTextUtils.textOrNull(appProc['applicationFeeText'])) ??
         (appProc['applicationFeeInr'] != null

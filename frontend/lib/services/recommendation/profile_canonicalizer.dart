@@ -28,7 +28,7 @@ class ProfileCanonicalizer {
     community: community(p.community),
     educationLevel: education(p.educationLevel),
     qualification: education(p.qualification),
-    employmentStatus: employment(p.employmentStatus),
+    employmentStatus: employmentRoles(p.employmentStatus).join(', '),
     disability: disability(p.disability),
     religion: religion(p.religion),
   );
@@ -39,6 +39,10 @@ class ProfileCanonicalizer {
   static String community(String raw) => _community.resolve(raw);
   static String education(String raw) => _education.resolve(raw);
   static String employment(String raw) => _employment.resolve(raw);
+  static Set<String> employmentRoles(String raw) => {
+    for (final entry in raw.split(','))
+      if (entry.trim().isNotEmpty) employment(entry),
+  };
   static String disability(String raw) => _yesNo.resolve(raw);
   static String religion(String raw) => _religion.resolve(raw);
 
@@ -109,6 +113,10 @@ class ProfileCanonicalizer {
     labels: {
       'Student': [(l) => l.empStudent],
       'Farmer': [(l) => l.empFarmer],
+      'Entrepreneur': [(l) => l.aspiringEntrepreneur],
+      'Business': [(l) => l.existingBusiness],
+      'MSME Owner': [(l) => l.msmeOwner],
+      'Artisan / SHG Member': [(l) => l.artisanShg],
       'Salaried': [(l) => l.empSalaried],
       'Self-employed': [(l) => l.empSelfEmployed],
       'Unemployed': [(l) => l.empUnemployed],
@@ -116,6 +124,10 @@ class ProfileCanonicalizer {
     },
     extra: {
       'Self-employed': ['self employed', 'self-employed'],
+      'Entrepreneur': ['aspiring entrepreneur'],
+      'Business': ['existing business', 'business owner'],
+      'MSME Owner': ['msme'],
+      'Artisan / SHG Member': ['artisan', 'artisan_shg'],
     },
   );
 

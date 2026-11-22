@@ -279,29 +279,31 @@ class LocalizedScheme {
         entityId: scheme.id,
         fieldName: fieldName,
       );
-      return value == null || value.isEmpty ? null : value;
+      if (value == null || value.isEmpty) return null;
+      return rewrites ? value : translator.localizeFor(lang, value);
     }
 
     String? kept(String field) {
       final value = scheme.nativeName(field, lang)?.trim();
-      return value == null || value.isEmpty ? null : value;
+      if (value == null || value.isEmpty) return null;
+      return rewrites ? value : translator.localizeFor(lang, value);
     }
 
     // Generic metadata (level, state, category...): exact tag or tag rewrite.
     String tag(String v) => translator.localizeTagFor(lang, v);
     // Short free text: exact phrase or full rewrite.
     String text(String v) => translator.localizeFor(lang, v);
-    // Long prose is not looked up: only a rewriting engine touches it.
-    String prose(String v) => rewrites ? translator.translate(v) : v;
     // Names of organisations: stored name, then translated.
-    String body(String field, String v) =>
-        scheme.nativeName(field, lang) ??
-        (rewrites ? translator.translate(v) : tag(v));
+    String body(String field, String v) {
+      final stored = scheme.nativeName(field, lang);
+      if (stored != null) return rewrites ? stored : text(stored);
+      return rewrites ? translator.translate(v) : tag(v);
+    }
 
     final storedName = kept('name') ?? packed('name');
-    final name = storedName ?? prose(scheme.name);
+    final name = storedName ?? text(scheme.name);
     final benefits =
-        kept('benefits') ?? packed('benefits_text') ?? prose(scheme.benefits);
+        kept('benefits') ?? packed('benefits_text') ?? text(scheme.benefits);
 
     // The language's names of the required documents, stored alongside the
     // English list and keyed by the English name.
@@ -310,16 +312,23 @@ class LocalizedScheme {
       if (storedDocNames.length == scheme.requiredDocuments.length)
         for (var i = 0; i < storedDocNames.length; i++)
           if (storedDocNames[i].isNotEmpty)
-            scheme.requiredDocuments[i]: storedDocNames[i],
+            scheme.requiredDocuments[i]: rewrites
+                ? storedDocNames[i]
+                : text(storedDocNames[i]),
     };
     // A name the document record itself stores counts too: records with no
     // list-level names keep them per document.
     for (final d in scheme.documents) {
       final own = d.translated('name', lang);
-      if (own.isNotEmpty) docNames.putIfAbsent(d.name, () => own);
+      if (own.isNotEmpty) {
+        docNames.putIfAbsent(d.name, () => rewrites ? own : text(own));
+      }
     }
-    String orStored(String stored, String translated) =>
-        stored.isNotEmpty ? stored : translated;
+    String orStored(String stored, String translated) {
+      if (stored.isEmpty) return translated;
+      return rewrites ? stored : text(stored);
+    }
+
     // Document text with nothing stored: never a word-by-word mix (BUG-07).
     String docText(String v) =>
         rewrites ? _wholeOrOriginal(translator.translate(v), v) : text(v);
@@ -329,9 +338,7 @@ class LocalizedScheme {
       languageCode: lang,
       name: name,
       shortName:
-          packed('short_name') ??
-          scheme.nativeName('shortName', lang) ??
-          (rewrites ? tag(scheme.shortName) : scheme.shortName),
+          packed('short_name') ?? kept('shortName') ?? tag(scheme.shortName),
       fullSchemeName:
           storedName ??
           (rewrites ? translator.translate(scheme.fullSchemeName) : name),
@@ -355,8 +362,8 @@ class LocalizedScheme {
           kept('overview') ??
           packed('summary') ??
           packed('description') ??
-          prose(scheme.overview),
-      objectives: packed('objective') ?? prose(scheme.objectives),
+          text(scheme.overview),
+      objectives: packed('objective') ?? text(scheme.objectives),
       benefits: benefits,
       subsidyAmount: text(scheme.subsidyAmount),
       verificationStatus: rewrites
@@ -388,19 +395,25 @@ class LocalizedScheme {
       applicableTaxesList: scheme.applicableTaxesList.map(tag).toList(),
       knowledgeGuidanceList: scheme.knowledgeGuidanceList.map(text).toList(),
       helplineContactsMap: scheme.helplineContactsMap,
-      eligibilityCriteria: _storedEligibility(
-        scheme,
-        lang,
-        fallback: (l) => l.map(prose).toList(),
-      ),
+      eligibilityCriteria: [
+        for (final value in _storedEligibility(
+          scheme,
+          lang,
+          fallback: (l) => l.map(text).toList(),
+        ))
+          rewrites ? value : text(value),
+      ],
       requiredDocuments: [
         for (final d in scheme.requiredDocuments) docNames[d] ?? docText(d),
       ],
-      applicationProcess: _storedSteps(
-        scheme,
-        lang,
-        fallback: (l) => l.map(prose).toList(),
-      ),
+      applicationProcess: [
+        for (final value in _storedSteps(
+          scheme,
+          lang,
+          fallback: (l) => l.map(text).toList(),
+        ))
+          rewrites ? value : text(value),
+      ],
       documents: scheme.documents
           .map(
             // Text stored in the catalogue record first, then the dictionary,

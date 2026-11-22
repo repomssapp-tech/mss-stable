@@ -19,14 +19,14 @@ void main() {
     );
   });
 
-  for (final lang in ['en', 'ta', 'hi']) {
+  for (final lang in ['en', 'ta', 'hi', 'mr']) {
     testWidgets('the full notice shows the line and the notice in $lang', (
       tester,
     ) async {
       final l10n = await AppLocalizations.delegate.load(Locale(lang));
       await tester.pumpWidget(_host(const CopyrightNotice.full(), lang));
       await tester.pumpAndSettle();
-      expect(find.text(mssCopyrightLine), findsOneWidget);
+      expect(find.text(l10n.copyrightOwnership), findsOneWidget);
       expect(find.text(l10n.copyrightNoticeTitle), findsOneWidget);
       expect(find.text(l10n.copyrightNoticeBody), findsOneWidget);
     });

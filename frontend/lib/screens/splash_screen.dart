@@ -14,7 +14,6 @@ import '../services/account/session_cache_service.dart';
 import '../main.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_radius.dart';
-import '../utils/app_size.dart';
 import '../utils/app_spacing.dart';
 import '../utils/app_system_ui_style.dart';
 import '../services/beta_gate/beta_config.dart';
@@ -213,19 +212,12 @@ class _SplashScreenState extends State<SplashScreen>
           await _replaceAfterOnboarding(const LanguageSelectionScreen());
           return;
         case StartupDestination.login:
-          // Without a saved session/profile, sign-in is the only next step.
-          // Keep the user out of an unusable sign-in screen while offline.
-          if (!await AuthService.canReachAuthenticationService()) {
-            if (mounted) _showNoNetworkDialog();
-            return;
-          }
-
           // Only tear down auth state when a real (stale/invalid) session is
           // lingering. When we're already signed out, prefs.clear() + signOut()
           // is redundant -- and it can wipe the OAuth code verifier for a
           // redirect that is still being processed.
           if (AppSession.instance.isSignedIn) {
-            await cache.clearSession();
+            await cache.clearSession(preserveQuestionnaireAnswers: true);
             await AuthService.signOut();
           }
 
@@ -266,64 +258,6 @@ class _SplashScreenState extends State<SplashScreen>
               onboardingContext,
             ).pushReplacement(MaterialPageRoute(builder: (_) => next));
           },
-        ),
-      ),
-    );
-  }
-
-  void _showNoNetworkDialog() {
-    showDialog<void>(
-      context: context,
-      barrierDismissible: false,
-      builder: (dialogContext) => Dialog(
-        backgroundColor: AppColors.surface,
-        shape: const RoundedRectangleBorder(borderRadius: AppRadius.xlAll),
-        child: Padding(
-          padding: const EdgeInsets.all(AppSpacing.xl),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(AppSpacing.md),
-                decoration: const BoxDecoration(
-                  color: AppColors.warningSoft,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.wifi_off_rounded,
-                  color: AppColors.warningOnSoft,
-                  size: AppSize.iconLg,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.lg),
-              Text(
-                context.l10n.splashNoInternetTitle,
-                textAlign: TextAlign.center,
-                style: context.text.titleMedium.copyWith(
-                  color: AppColors.textPrimary,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.sm),
-              Text(
-                context.l10n.splashNoInternetBody,
-                textAlign: TextAlign.center,
-                style: context.text.body.copyWith(
-                  color: AppColors.textSecondary,
-                ),
-              ),
-              const SizedBox(height: AppSpacing.xl),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(dialogContext).pop();
-                    _continueStartup();
-                  },
-                  child: Text(context.l10n.retry),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );

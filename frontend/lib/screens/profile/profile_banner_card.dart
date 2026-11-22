@@ -60,7 +60,8 @@ class ProfileBannerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = provider.profile;
-    final isComplete = provider.profileCompletionPercentage == 100;
+    final completion = provider.profileCompletionPercentage;
+    final isComplete = completion == 100;
     void pickPhoto() => changeProfilePicture(context, provider);
     final onBlue = context.text.bodySmall.copyWith(
       color: AppColors.textOnPrimary,
@@ -186,6 +187,23 @@ class ProfileBannerCard extends StatelessWidget {
                     ],
                   ),
                 ),
+                if (!isComplete) ...[
+                  const SizedBox(height: AppSpacing.sm),
+                  LinearProgressIndicator(
+                    value: completion / 100,
+                    semanticsLabel: context.l10n.profileCompletionFormat(
+                      completion,
+                    ),
+                    backgroundColor: AppColors.primaryDeep,
+                    color: AppColors.textOnPrimary,
+                    borderRadius: AppRadius.xsAll,
+                  ),
+                  const SizedBox(height: AppSpacing.xs),
+                  Text(
+                    context.l10n.profileCompletionFormat(completion),
+                    style: onBlue,
+                  ),
+                ],
                 const SizedBox(height: AppSpacing.sm),
                 Text(
                   profile.mobile.isNotEmpty ? '+91 ${profile.mobile}' : '-',
