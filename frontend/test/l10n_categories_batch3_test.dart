@@ -15,6 +15,7 @@ import 'package:frontend/l10n/app_localizations.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/screens/regular_mode/categories_screen.dart';
 import 'package:frontend/screens/regular_mode/msme_module_details_screen.dart';
+import 'package:frontend/services/catalog/centralized_translator.dart';
 
 // Exact values that used to be hardcoded in the two in-scope files.
 const _businessMsmeEn = 'Business & MSME';
@@ -51,9 +52,53 @@ MSMEModuleDetailsScreen _taxGstModule() => const MSMEModuleDetailsScreen(
 void main() {
   setUpAll(() async {
     SharedPreferences.setMockInitialValues({});
+    await CentralizedTranslator.instance.ensureLoaded();
   });
 
   group('CategoriesScreen renders migrated strings for the active locale', () {
+    for (final entry in {
+      'hi': [
+        'सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय',
+        'वित्त मंत्रालय',
+        'ग्रामीण विकास मंत्रालय',
+      ],
+      'mr': [
+        'सूक्ष्म, लघु आणि मध्यम उद्योग मंत्रालय',
+        'अर्थ मंत्रालय',
+        'ग्रामीण विकास मंत्रालय',
+      ],
+    }.entries) {
+      testWidgets('${entry.key} ministry cards keep canonical filter names', (
+        tester,
+      ) async {
+        SharedPreferences.setMockInitialValues({'language': entry.key});
+        String? selected;
+        await tester.pumpWidget(
+          _host(
+            Locale(entry.key),
+            Builder(
+              builder: (context) => MinistryHorizontalList(
+                provider: context.watch<AppProvider>(),
+                dynamicCategoryCounts: const {
+                  'Ministry of MSME': 1,
+                  'Ministry of Finance': 1,
+                  'Ministry of Rural Development': 1,
+                },
+                onMinistrySelected: (value) => selected = value,
+              ),
+            ),
+          ),
+        );
+        await tester.pumpAndSettle();
+        for (final name in entry.value) {
+          expect(find.text(name), findsOneWidget);
+        }
+        await tester.tap(find.text(entry.value.first));
+        expect(selected, 'Ministry of MSME');
+        expect(tester.takeException(), isNull);
+      });
+    }
+
     testWidgets('Tamil locale: category label + View All from ARB', (
       tester,
     ) async {

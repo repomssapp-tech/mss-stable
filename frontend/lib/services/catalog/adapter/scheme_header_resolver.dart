@@ -103,6 +103,7 @@ class SchemeHeaderResolver {
     const rewriting = CentralizedTranslator.rewritingLanguages;
     final nameEn = entity.getLocalizedName('en');
     final storedNames = {
+      ..._storedNames(entity),
       for (final lang in rewriting) lang: entity.getLocalizedName(lang),
     };
     final name = SchemeAdapterTextUtils.firstText([

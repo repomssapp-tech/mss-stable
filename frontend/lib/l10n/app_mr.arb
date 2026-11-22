@@ -1457,7 +1457,7 @@
   "notifSeed7Body": "अनेक योजनांसाठी सुधारित उत्पन्न निकष 1 एप्रिल 2024 पासून लागू.",
   "notifSeed8Body": "तुम्ही पात्र असलेल्या योजना शोधण्यासाठी तुमचा उत्पन्नाचा तपशील भरा.",
   "commonUserFallback": "वापरकर्ता",
-  "searchHintFallback": "PMEGP, Startup India, MSME कर्जे शोधा...",
+  "searchHintFallback": "PMEGP, स्टार्टअप इंडिया, MSME कर्जे शोधा...",
   "searchBestMatchesForQuery": "\"{query}\" साठी सर्वोत्तम जुळण्या",
   "searchBestMatchesForCriteria": "तुमच्या शोधासाठी सर्वोत्तम जुळण्या",
   "searchResultsShareHeader": "MSME Scheme Sahayak वर {title} पाहा:",

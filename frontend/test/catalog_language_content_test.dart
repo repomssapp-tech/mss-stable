@@ -16,6 +16,7 @@ import 'package:frontend/services/catalog/catalog_packs.dart';
 import 'package:frontend/services/catalog/centralized_translator.dart';
 import 'package:frontend/services/catalog/language_pack_manager.dart';
 import 'package:frontend/services/catalog/mss_catalog_bundle.dart';
+import 'package:frontend/services/catalog/scheme_repository.dart';
 import 'package:frontend/services/catalog/mss_scheme_adapter.dart';
 import 'package:frontend/services/catalog/scheme_catalog_sync_service.dart';
 import 'package:frontend/services/recommendation/recommendation_engine.dart';
@@ -87,6 +88,27 @@ void main() {
   tearDown(pack.resetForTesting);
 
   group('Marathi scheme content', () {
+    test('search suggestions use a stored Marathi scheme name', () async {
+      final hint = await SchemeRepository.instance.getDynamicSearchHint('mr');
+      final names = {
+        for (final entity in bundle.schemes)
+          if (stored(entity, 'mr', 'name') != null)
+            stored(entity, 'mr', 'name'),
+      };
+      expect(hint, isNotNull);
+      expect(names, contains(hint));
+    });
+
+    test(
+      'missing translated suggestions leave the localized UI fallback',
+      () async {
+        expect(
+          await SchemeRepository.instance.getDynamicSearchHint('xx'),
+          isNull,
+        );
+      },
+    );
+
     test('all 79 Maharashtra schemes show their stored Marathi', () {
       final schemes = bundle.schemes.where(inMaharashtra).toList();
       expect(schemes, hasLength(79));
@@ -143,13 +165,16 @@ void main() {
       expect(shown.applicationProcess, s.applicationProcess);
     });
 
-    test('metadata comes from the Marathi dictionary, never Tamil or Hindi', () {
-      final e = bundle.schemes.firstWhere(inMaharashtra);
-      final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'mr');
-      final shown = LocalizedScheme.fromScheme(s, 'mr');
-      expect(shown.governmentLevel, 'राज्य');
-      expect(shown.category, stored(e, 'mr', 'category'));
-    });
+    test(
+      'metadata comes from the Marathi dictionary, never Tamil or Hindi',
+      () {
+        final e = bundle.schemes.firstWhere(inMaharashtra);
+        final s = MssSchemeAdapter.toScheme(e, bundle, langCode: 'mr');
+        final shown = LocalizedScheme.fromScheme(s, 'mr');
+        expect(shown.governmentLevel, 'राज्य');
+        expect(shown.category, stored(e, 'mr', 'category'));
+      },
+    );
   });
 
   group('a language no code has heard of', () {
@@ -272,6 +297,37 @@ void main() {
   });
 
   group('switching language', () {
+    test(
+      'Marathi names are ready when listeners see the new language',
+      () async {
+        final sync = _NoSync();
+        final provider = AppProvider(catalogSyncService: sync);
+        while (sync.calls == 0) {
+          await Future<void>.delayed(const Duration(milliseconds: 25));
+        }
+        addTearDown(provider.dispose);
+        await provider.changeLanguage('en');
+        pack.resetForTesting();
+        var observed = false;
+        var checked = 0;
+        provider.addListener(() {
+          if (provider.selectedLanguage != 'mr') return;
+          observed = true;
+          for (final scheme in provider.allSchemes) {
+            final entity = bundle.byId[scheme.id];
+            if (entity == null) continue;
+            final name = stored(entity, 'mr', 'name');
+            if (name == null) continue;
+            expect(scheme.toLocalized('mr').name, name, reason: scheme.id);
+            checked++;
+          }
+        });
+        await provider.changeLanguage('mr');
+        expect(observed, isTrue);
+        expect(checked, greaterThan(0));
+      },
+    );
+
     test('Marathi can be selected', () async {
       final sync = _NoSync();
       final provider = AppProvider(catalogSyncService: sync);

@@ -92,6 +92,7 @@ class SearchScreenState extends State<SearchScreen> {
   // Null until the catalog-derived hint loads; render sites fall back to the
   // localized `searchHintFallback` string so the placeholder is correct in ta too.
   String? _dynamicSearchHintText;
+  String? _dynamicSearchHintLanguage;
   // Bumped on every _triggerSearch call; a stale request that resolves after
   // a newer one must not overwrite it (out-of-order async race -- the search
   // screen's state survives Home<->Search tab switches via IndexedStack, so
@@ -287,6 +288,7 @@ class SearchScreenState extends State<SearchScreen> {
     if (_categoryCountsInFlight) return;
     _categoryCountsInFlight = true;
     final provider = Provider.of<AppProvider>(context, listen: false);
+    final language = provider.selectedLanguage;
     try {
       final allSchemes = provider.allSchemes.isNotEmpty
           ? provider.allSchemes
@@ -300,17 +302,18 @@ class SearchScreenState extends State<SearchScreen> {
       final eligibleSchemes = _computeEligibleSchemes(provider, allSchemes);
 
       final hint = await SchemeRepository.instance.getDynamicSearchHint(
-        provider.selectedLanguage,
+        language,
       );
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
+        if (!mounted || provider.selectedLanguage != language) return;
         setState(() {
           _categoryCounts = counts;
           _matchingProfileCount = eligibleSchemes.schemes.length;
           _matchingProfileIsPartial =
               eligibleSchemes.emptyState == ForMeEmptyState.partialMatches;
           _dynamicSearchHintText = hint;
+          _dynamicSearchHintLanguage = language;
           _isLoadingCounts = false;
         });
       });
@@ -324,6 +327,9 @@ class SearchScreenState extends State<SearchScreen> {
       });
     } finally {
       _categoryCountsInFlight = false;
+      if (mounted && provider.selectedLanguage != language) {
+        _loadCategoryCounts();
+      }
     }
   }
 
@@ -781,6 +787,9 @@ class SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     final categories = _getCategories(context);
+    final searchHint = _dynamicSearchHintLanguage == provider.selectedLanguage
+        ? _dynamicSearchHintText ?? context.l10n.searchHintFallback
+        : context.l10n.searchHintFallback;
     final pageTitle = CentralizedTranslator.instance.localize(
       widget.scope?.title ?? widget.initialQuery ?? '',
     );
@@ -921,16 +930,11 @@ class SearchScreenState extends State<SearchScreen> {
                       ),
                     ] else ...[
                       SearchTryBanner(
-                        hintText:
-                            _dynamicSearchHintText ??
-                            context.l10n.searchHintFallback,
+                        hintText: searchHint,
                         onTap: () {
-                          final hint =
-                              _dynamicSearchHintText ??
-                              context.l10n.searchHintFallback;
-                          _searchController.text = hint;
+                          _searchController.text = searchHint;
                           _searchFocusNode.unfocus();
-                          _triggerSearch(hint);
+                          _triggerSearch(searchHint);
                         },
                       ),
                       const SizedBox(height: AppSpacing.sm),

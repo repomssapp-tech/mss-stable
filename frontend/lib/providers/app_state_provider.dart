@@ -684,6 +684,8 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
   }
 
   // Setters & Actions
+  int _languageChangeGeneration = 0;
+
   Future<void> changeLanguage(String requested) async {
     // A language needs ARB resources or an offer from the catalogue release. One
     // that only the catalogue offers shows its scheme content with an English
@@ -702,18 +704,17 @@ class AppProvider with ChangeNotifier, WidgetsBindingObserver {
       debugPrint('[AppProvider] ignoring unsupported language "$requested"');
       return;
     }
+    final generation = ++_languageChangeGeneration;
     _selectedLanguage = lang;
     _languageReconciler.markPending(lang);
     _profile = _profile.copyWith(language: lang, updatedAt: DateTime.now());
-    // Switch the interface and persist the choice first, so the root locale
-    // changes immediately and the choice survives the app being killed while
-    // the (slower) scheme content reloads below.
     notifyListeners();
     await SessionCacheService.instance.saveLanguage(lang);
     if (lang != 'en') {
       await LanguagePackManager.instance.loadPack(lang);
     }
-    await loadSchemes(forceRefresh: true);
+    if (generation != _languageChangeGeneration) return;
+    await loadSchemes();
     notifyListeners();
     await _saveProfile();
 

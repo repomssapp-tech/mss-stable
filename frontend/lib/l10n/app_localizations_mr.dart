@@ -4788,7 +4788,8 @@ class AppLocalizationsMr extends AppLocalizations {
   String get commonUserFallback => 'वापरकर्ता';
 
   @override
-  String get searchHintFallback => 'PMEGP, Startup India, MSME कर्जे शोधा...';
+  String get searchHintFallback =>
+      'PMEGP, स्टार्टअप इंडिया, MSME कर्जे शोधा...';
 
   @override
   String searchBestMatchesForQuery(Object query) {
