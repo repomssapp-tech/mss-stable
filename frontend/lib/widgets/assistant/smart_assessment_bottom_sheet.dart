@@ -1,45 +1,68 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../l10n/app_localizations.dart';
+
 import '../../l10n/l10n.dart';
+import '../../services/analytics/app_analytics.dart';
+import '../../models/questionnaire.dart';
 import '../../providers/app_state_provider.dart';
 import '../../services/catalog/centralized_translator.dart';
+import '../../services/questionnaire/assessment_fields.dart';
+import '../../services/questionnaire/questionnaire_answers_store.dart';
+import '../../services/questionnaire/questionnaire_profile_prefill.dart';
+import '../../services/questionnaire/questionnaire_qa_metrics.dart';
+import '../../services/questionnaire/questionnaire_repository.dart';
+import '../../services/recommendation/profile_canonicalizer.dart';
+import '../../utils/app_colors.dart';
+import '../../utils/app_radius.dart';
 import '../../utils/app_spacing.dart';
-import 'question_node.dart';
-import 'smart_assessment/assessment_profile_matcher.dart';
-import 'smart_assessment/assessment_question_card.dart';
-import 'smart_assessment/assessment_question_flows.dart';
-import 'smart_assessment/assessment_sheet_footer.dart';
 import 'smart_assessment/assessment_sheet_header.dart';
+import 'smart_assessment/questionnaire_field_control.dart';
 
 export 'question_node.dart';
 
 class SmartAssessmentBottomSheet extends StatefulWidget {
   final String cardTitle;
-  final String cardType; // 'category', 'ministry', 'state'
-  final VoidCallback onCompleted;
+  final String cardType;
+  final VoidCallback? onCompleted;
+  final String? interactionId;
+  final ValueChanged<Map<String, Object?>>? onAnswersCompleted;
 
   const SmartAssessmentBottomSheet({
     super.key,
     required this.cardTitle,
     required this.cardType,
-    required this.onCompleted,
+    this.onCompleted,
+    this.interactionId,
+    this.onAnswersCompleted,
   });
 
   static void show(
     BuildContext context,
     String title,
     String type,
-    VoidCallback onCompleted,
-  ) {
+    void Function(Map<String, Object?> answers, String? interactionId)
+    onCompleted, {
+    String? source,
+  }) {
+    final analytics = AppAnalytics.instance;
+    final interactionId = analytics.interactionId();
+    analytics.track(
+      AnalyticsEvent.questionnaireStarted,
+      interactionId: interactionId,
+      properties: {'source': source ?? type},
+    );
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
+      useSafeArea: true,
       backgroundColor: Colors.transparent,
       builder: (context) => SmartAssessmentBottomSheet(
         cardTitle: title,
         cardType: type,
-        onCompleted: onCompleted,
+        interactionId: interactionId,
+        onAnswersCompleted: (answers) => onCompleted(answers, interactionId),
       ),
     );
   }
@@ -51,204 +74,334 @@ class SmartAssessmentBottomSheet extends StatefulWidget {
 
 class _SmartAssessmentBottomSheetState
     extends State<SmartAssessmentBottomSheet> {
-  late String _currentQuestionId;
-  final Map<String, String> _answers = {};
-  final List<String> _questionHistory = [];
-
-  // Question flow for this category, state, or ministry
-  late Map<String, QuestionNode> _questionFlow;
+  final _repository = QuestionnaireRepository();
+  final _store = QuestionnaireAnswersStore();
+  final _qa = QuestionnaireQaMetrics.enabled ? QuestionnaireQaMetrics() : null;
+  final Map<String, Object?> _answers = {};
+  final Set<String> _profilePrefilled = {};
+  late final Future<void> _ready;
+  late final List<QuestionnaireField> _categoryFields;
+  String _language = 'en';
+  int _currentIndex = 0;
+  bool _completed = false;
+  final _shownFields = <String>{};
+  String? _saveError;
+  Future<void> _saveQueue = Future<void>.value();
 
   @override
   void initState() {
     super.initState();
-    _initializeFlow();
+    _ready = _loadQuestionnaire();
   }
 
-  void _initializeFlow() {
-    final l10nEn = lookupAppLocalizations(const Locale('en'));
-    // The flow's translated fields follow the active language (Tamil or Hindi).
-    final language = Provider.of<AppProvider>(
-      context,
-      listen: false,
-    ).selectedLanguage;
-    final l10nTa = lookupAppLocalizations(
-      Locale(language == 'en' ? 'ta' : language),
-    );
-
-    final result = resolveQuestionFlow(
-      cardTitle: widget.cardTitle,
-      cardType: widget.cardType,
-      l10nEn: l10nEn,
-      l10nTa: l10nTa,
-    );
-
-    _questionFlow = result.flow;
-    _currentQuestionId = result.initialQuestionId;
-
-    _seedCurrentAnswerFromProfile();
-  }
-
-  /// Pre-select the answer for the current question when the onboarding
-  /// profile already contains it (caste, income, gender, age, education,
-  /// home-state domicile). The user still taps to confirm or change it --
-  /// nothing is auto-submitted -- but they no longer re-enter data the app
-  /// already has.
-  void _seedCurrentAnswerFromProfile() {
-    if (_answers.containsKey(_currentQuestionId)) return;
-    final node = _questionFlow[_currentQuestionId];
-    if (node == null) return;
-
-    final profile = Provider.of<AppProvider>(context, listen: false).profile;
-    final preset = AssessmentProfileMatcher.profileDefaultFor(
-      node,
-      profile,
-      widget.cardTitle,
-    );
-    if (preset != null) _answers[_currentQuestionId] = preset;
-  }
-
-  Color _getThemeColor() {
-    return const Color(0xFF2563EB); // Unified Royal Blue theme
-  }
-
-  void _onOptionSelected(
-    String selectedLocalizedOption,
-    LocalizedQuestionNode localizedNode,
-  ) {
-    setState(() {
-      // Find raw option string for downstream answer logic
-      final index = localizedNode.options.indexOf(selectedLocalizedOption);
-      final rawOption =
-          (index >= 0 && index < localizedNode.rawNode.options.length)
-          ? localizedNode.rawNode.options[index]
-          : selectedLocalizedOption;
-
-      _answers[_currentQuestionId] = rawOption;
-      _questionHistory.add(_currentQuestionId);
-
-      final nextId = localizedNode.nextId(selectedLocalizedOption);
-
-      if (nextId != null && _questionFlow.containsKey(nextId)) {
-        _currentQuestionId = nextId;
-        _seedCurrentAnswerFromProfile();
-      } else {
-        _submitAnswers();
-      }
-    });
-  }
-
-  void _goBack() {
-    if (_questionHistory.isNotEmpty) {
-      setState(() {
-        _currentQuestionId = _questionHistory.removeLast();
-        _answers.remove(_currentQuestionId);
-        _seedCurrentAnswerFromProfile();
-      });
-    }
-  }
-
-  void _submitAnswers() {
+  Future<void> _loadQuestionnaire() async {
     final provider = Provider.of<AppProvider>(context, listen: false);
-    final result = AssessmentProfileMatcher.computeSubmissionResults(
-      currentProfile: provider.profile,
-      answers: _answers,
-      questionFlow: _questionFlow,
-      cardTitle: widget.cardTitle,
+    final definition = await _repository.load();
+    final saved = await _store.loadAnswers();
+    final profile = ProfileCanonicalizer.canonicalize(provider.profile);
+    _language = provider.selectedLanguage;
+    _categoryFields = assessmentFields(
+      definition,
+      title: widget.cardTitle,
       cardType: widget.cardType,
     );
+    _answers.addAll(saved);
 
-    result.applyToProvider(provider);
-    Navigator.pop(context);
-    widget.onCompleted();
+    for (final field in definition.allFields) {
+      final answer = QuestionnaireProfilePrefill.valueFor(field, profile);
+      if (answer != null && _store.isValidAnswer(field, answer)) {
+        _answers[field.id] = answer;
+        _profilePrefilled.add(field.id);
+      }
+    }
+    final area = QuestionnaireProfilePrefill.businessArea(profile);
+    if (area != null) _answers['business_location'] = {'area': area};
   }
 
-  String _getLocalizedCardTitle(String rawTitle, String language) {
-    return CentralizedTranslator.instance.localizeTagFor(language, rawTitle);
+  List<QuestionnaireField> _relevantFields() {
+    final businessAge = _answers['business_age'];
+    return _categoryFields.where((field) {
+      return field.requiredFor == 'both' ||
+          businessAge == null ||
+          field.requiredFor ==
+              (businessAge == 'not_started_yet_aspiring'
+                  ? 'aspiring_msme'
+                  : 'existing_msme');
+    }).toList();
+  }
+
+  List<QuestionnaireField> _visibleFields() => _relevantFields()
+      .where((field) => !_profilePrefilled.contains(field.id))
+      .toList();
+
+  void _changeAnswer(QuestionnaireField field, Object? answer) {
+    final saveFailedMessage = context.l10n.questionnaireSaveFailed;
+    setState(() {
+      if (answer == null) {
+        _answers.remove(field.id);
+      } else {
+        _answers[field.id] = answer;
+      }
+      _saveError = null;
+    });
+    _saveQueue = _saveQueue
+        .then((_) async {
+          if (answer != null && _store.isValidAnswer(field, answer)) {
+            await _store.saveAnswer(field.id, answer);
+          } else {
+            await _store.clearAnswer(field.id);
+          }
+        })
+        .catchError((Object error) {
+          if (mounted) {
+            setState(() => _saveError = saveFailedMessage);
+          }
+        });
+  }
+
+  Future<void> _advance({bool skipCurrent = false}) async {
+    final fields = _visibleFields();
+    if (_currentIndex >= fields.length) return;
+    final field = fields[_currentIndex];
+    if (skipCurrent) _changeAnswer(field, null);
+    await _saveQueue;
+    if (!mounted || _saveError != null) return;
+    final answer = _answers[field.id];
+    AppAnalytics.instance.track(
+      AnalyticsEvent.questionnaireProgress,
+      interactionId: widget.interactionId,
+      properties: {
+        'field_id': field.id,
+        'action': answer != null && _store.isValidAnswer(field, answer)
+            ? 'answered'
+            : 'skipped',
+      },
+    );
+    _qa?.advance(
+      field.id,
+      answered: answer != null && _store.isValidAnswer(field, answer),
+    );
+
+    if (_currentIndex + 1 >= _visibleFields().length) {
+      await _finish();
+      return;
+    }
+    setState(() => _currentIndex++);
+  }
+
+  Future<void> _finish() async {
+    final navigator = Navigator.of(context);
+    await _saveQueue;
+    if (!mounted || _saveError != null) return;
+    final relevantIds = {
+      'general_state',
+      'business_location',
+      'is_maharashtra_domicile',
+      'owner_age',
+      if (_profilePrefilled.contains('general_gender')) 'general_gender',
+      if (_profilePrefilled.contains('social_category')) 'social_category',
+      for (final field in _relevantFields()) field.id,
+    };
+    final validAnswers = {
+      for (final entry in _answers.entries)
+        if (relevantIds.contains(entry.key)) entry.key: entry.value,
+    };
+    _completed = true;
+    _qa?.completed = true;
+    navigator.pop();
+    widget.onAnswersCompleted?.call(validAnswers);
+    widget.onCompleted?.call();
+  }
+
+  @override
+  void dispose() {
+    _qa?.reportRun();
+    AppAnalytics.instance.track(
+      AnalyticsEvent.questionnaireClosed,
+      interactionId: widget.interactionId,
+      properties: {'outcome': _completed ? 'completed' : 'abandoned'},
+    );
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<AppProvider>(context);
-    final language = provider.selectedLanguage;
-    final isTamil = language == 'ta';
-    final l10n = context.l10n;
-
-    final rawNode = _questionFlow[_currentQuestionId];
-    if (rawNode == null) return const SizedBox.shrink();
-
-    final localizedNode = rawNode.toLocalized(language);
-    final cardTitleLocalized = _getLocalizedCardTitle(
-      widget.cardTitle,
-      language,
+    return FutureBuilder<void>(
+      future: _ready,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return _message(context, context.l10n.questionnaireLoadFailed);
+        }
+        if (snapshot.connectionState != ConnectionState.done) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        return _questionnaire(context);
+      },
     );
+  }
 
-    final themeColor = _getThemeColor();
-    const totalSteps = 5;
-    final currentStep = _questionHistory.length + 1;
-    final progress = (currentStep / totalSteps).clamp(0.0, 1.0);
-
-    final stepLabel = l10n.assessStepLabel(currentStep, totalSteps);
-    final backLabel = l10n.back;
-    final skipLabel = l10n.assessSkipToResults;
-
-    return Container(
-      padding: EdgeInsets.only(
-        left: AppSpacing.xl,
-        right: AppSpacing.xl,
-        top: AppSpacing.lg,
-        bottom: MediaQuery.of(context).viewInsets.bottom + AppSpacing.xxl,
-      ),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(28),
-          topRight: Radius.circular(28),
+  Widget _message(BuildContext context, String message) => Container(
+    padding: const EdgeInsets.all(AppSpacing.xl),
+    decoration: const BoxDecoration(
+      color: AppColors.surface,
+      borderRadius: BorderRadius.vertical(top: Radius.circular(AppRadius.xl)),
+    ),
+    child: Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(message),
+        Align(
+          alignment: Alignment.centerRight,
+          child: TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text(context.l10n.close),
+          ),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black12,
-            blurRadius: 20,
-            offset: Offset(0, -5),
+      ],
+    ),
+  );
+
+  Widget _questionnaire(BuildContext context) {
+    final fields = _visibleFields();
+    if (fields.isEmpty) {
+      return SafeArea(
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: FilledButton(
+            onPressed: _finish,
+            child: Text(context.l10n.assessSkipToResults),
           ),
-        ],
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          AssessmentSheetHeader(
-            cardTitleLocalized: cardTitleLocalized,
-            rawCardTitle: widget.cardTitle,
-            cardType: widget.cardType,
-            themeColor: themeColor,
-            progress: progress,
-            stepLabel: stepLabel,
-            closeTooltip: l10n.close,
-            isTamil: isTamil,
-            onClose: () => Navigator.pop(context),
+        ),
+      );
+    }
+    final field = fields[_currentIndex];
+    _qa?.showField(field.id);
+    if (widget.interactionId != null && _shownFields.add(field.id)) {
+      AppAnalytics.instance.track(
+        AnalyticsEvent.questionnaireProgress,
+        interactionId: widget.interactionId,
+        properties: {'field_id': field.id, 'action': 'shown'},
+      );
+    }
+
+    final l10n = context.l10n;
+    final progress = (_currentIndex + 1) / fields.length;
+    final cardTitle = CentralizedTranslator.instance.localizeTagFor(
+      _language,
+      widget.cardTitle,
+    );
+    final sheetHeight = MediaQuery.sizeOf(context).height * 0.9;
+
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: sheetHeight,
+          maxHeight: sheetHeight,
+          maxWidth: 680,
+        ),
+        child: Container(
+          width: double.infinity,
+          padding: EdgeInsets.only(
+            left: AppSpacing.xl,
+            right: AppSpacing.xl,
+            top: AppSpacing.lg,
+            bottom: MediaQuery.viewInsetsOf(context).bottom + AppSpacing.lg,
           ),
-          const SizedBox(height: AppSpacing.xxl),
-          AssessmentQuestionCard(
-            currentQuestionId: _currentQuestionId,
-            rawNode: rawNode,
-            localizedNode: localizedNode,
-            selectedAnswer: _answers[_currentQuestionId],
-            themeColor: themeColor,
-            isTamil: isTamil,
-            onOptionSelected: _onOptionSelected,
+          decoration: BoxDecoration(
+            color: AppColors.surface,
+            borderRadius: BorderRadius.vertical(
+              top: Radius.circular(AppRadius.xl),
+            ),
+            boxShadow: [
+              BoxShadow(
+                color: Theme.of(context).shadowColor.withValues(alpha: 0.12),
+                blurRadius: 20,
+                offset: Offset(0, -5),
+              ),
+            ],
           ),
-          const SizedBox(height: AppSpacing.lg),
-          AssessmentSheetFooter(
-            showBackButton: _questionHistory.isNotEmpty,
-            onBack: _goBack,
-            onSubmit: _submitAnswers,
-            themeColor: themeColor,
-            isTamil: isTamil,
-            backLabel: backLabel,
-            skipLabel: skipLabel,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Expanded(
+                child: SingleChildScrollView(
+                  key: ValueKey(field.id),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      AssessmentSheetHeader(
+                        cardTitleLocalized: cardTitle,
+                        rawCardTitle: widget.cardTitle,
+                        cardType: widget.cardType,
+                        themeColor: Theme.of(context).colorScheme.primary,
+                        progress: progress,
+                        stepLabel: l10n.assessStepLabel(
+                          _currentIndex + 1,
+                          fields.length,
+                        ),
+                        closeTooltip: l10n.close,
+                        isTamil: _language == 'ta',
+                        onClose: () => Navigator.pop(context),
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      Text(
+                        field.questionFor(_language),
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: AppSpacing.lg),
+                      QuestionnaireFieldControl(
+                        field: field,
+                        language: _language,
+                        answer: _answers[field.id],
+                        onChanged: (answer) => _changeAnswer(field, answer),
+                      ),
+                      if (_saveError != null) ...[
+                        const SizedBox(height: AppSpacing.sm),
+                        Text(
+                          _saveError!,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              Row(
+                children: [
+                  if (_currentIndex > 0)
+                    TextButton(onPressed: _goBack, child: Text(l10n.back)),
+                  TextButton(
+                    onPressed: () => _advance(skipCurrent: true),
+                    child: Text(l10n.skip),
+                  ),
+                  const Spacer(),
+                  FilledButton(
+                    onPressed: () => _advance(),
+                    child: Text(l10n.next),
+                  ),
+                ],
+              ),
+              Center(
+                child: TextButton(
+                  onPressed: _finish,
+                  child: Text(l10n.assessSkipToResults),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
+  }
+
+  void _goBack() {
+    if (_currentIndex > 0) setState(() => _currentIndex--);
   }
 }

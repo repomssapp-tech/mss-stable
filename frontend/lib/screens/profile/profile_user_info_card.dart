@@ -1,4 +1,5 @@
 import '../../services/catalog/centralized_translator.dart';
+import '../../services/recommendation/indian_districts.dart';
 import 'package:flutter/material.dart';
 import '../../utils/app_colors.dart';
 import '../../utils/app_radius.dart';
@@ -132,7 +133,7 @@ class ProfileUserInfoCard extends StatelessWidget {
               ProfileInfoCol(
                 label: context.l10n.labelLocation,
                 value: profile.district.isNotEmpty
-                    ? '${_displayDistrict(profile.district)}, ${CentralizedTranslator.instance.localizeTag(profile.state)}'
+                    ? '${IndianDistricts.displayName(_displayDistrict(profile.district), Localizations.localeOf(context).languageCode)}, ${CentralizedTranslator.instance.localizeTag(profile.state)}'
                     : '-',
                 flex: 5,
               ),

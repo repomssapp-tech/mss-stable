@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.0.0",
+  "schema_version": "1.1.0",
   "region": "maharashtra",
   "languages": [
     "en",
@@ -1086,5 +1086,127 @@
       ],
       "purpose_en": "Guides aspiring founders to EDP training or DPR preparation before loan submission."
     }
-  ]
+  ],
+  "scopes": {
+    "general": {
+      "schema_version": "1.0.0",
+      "languages": [
+        "en",
+        "mr",
+        "hi",
+        "ta"
+      ],
+      "fields": [
+        {
+          "id": "general_state",
+          "category": "general",
+          "required_for": "both",
+          "type": "state",
+          "question": {
+            "en": "Where do you live or run your business?",
+            "mr": "तुम्ही कुठे राहता किंवा व्यवसाय करता?",
+            "hi": "आप कहाँ रहते हैं या व्यवसाय करते हैं?",
+            "ta": "நீங்கள் எங்கு வசிக்கிறீர்கள் அல்லது தொழில் செய்கிறீர்கள்?"
+          },
+          "answer": {
+            "kind": "state_name"
+          }
+        },
+        {
+          "id": "general_gender",
+          "category": "general",
+          "required_for": "both",
+          "type": "single_select",
+          "question": {
+            "en": "What is your gender?",
+            "mr": "तुमचे लिंग काय आहे?",
+            "hi": "आपका लिंग क्या है?",
+            "ta": "உங்கள் பாலினம் என்ன?"
+          },
+          "answer": {
+            "kind": "option_value"
+          },
+          "options": [
+            {
+              "value": "woman",
+              "en": "Woman",
+              "mr": "महिला",
+              "hi": "महिला",
+              "ta": "பெண்"
+            },
+            {
+              "value": "man",
+              "en": "Man",
+              "mr": "पुरुष",
+              "hi": "पुरुष",
+              "ta": "ஆண்"
+            },
+            {
+              "value": "other",
+              "en": "Another identity",
+              "mr": "इतर",
+              "hi": "अन्य",
+              "ta": "மற்றொரு அடையாளம்"
+            }
+          ]
+        },
+        {
+          "id": "general_need",
+          "category": "general",
+          "required_for": "both",
+          "type": "multi_select",
+          "question": {
+            "en": "What kind of help do you need?",
+            "mr": "तुम्हाला कोणत्या प्रकारची मदत हवी आहे?",
+            "hi": "आपको किस तरह की मदद चाहिए?",
+            "ta": "உங்களுக்கு எந்த வகையான உதவி தேவை?"
+          },
+          "answer": {
+            "kind": "option_values"
+          },
+          "options": [
+            {
+              "value": "start_business",
+              "en": "Start a new business",
+              "mr": "नवीन व्यवसाय सुरू करणे",
+              "hi": "नया व्यवसाय शुरू करना",
+              "ta": "புதிய தொழில் தொடங்குதல்"
+            },
+            {
+              "value": "expand_business",
+              "en": "Expand my business",
+              "mr": "माझा व्यवसाय वाढवणे",
+              "hi": "अपने व्यवसाय का विस्तार करना",
+              "ta": "என் தொழிலை விரிவுபடுத்துதல்"
+            },
+            {
+              "value": "equipment_technology",
+              "en": "Buy equipment or improve technology",
+              "mr": "उपकरणे खरेदी किंवा तंत्रज्ञान सुधारणे",
+              "hi": "उपकरण खरीदना या तकनीक सुधारना",
+              "ta": "உபகரணங்கள் வாங்குதல் அல்லது தொழில்நுட்பத்தை மேம்படுத்துதல்"
+            },
+            {
+              "value": "working_capital",
+              "en": "Manage day-to-day costs",
+              "mr": "दैनंदिन खर्चासाठी मदत",
+              "hi": "रोज़मर्रा के खर्च संभालना",
+              "ta": "அன்றாடச் செலவுகளைச் சமாளித்தல்"
+            },
+            {
+              "value": "marketing_training",
+              "en": "Find customers or get training",
+              "mr": "ग्राहक शोधणे किंवा प्रशिक्षण घेणे",
+              "hi": "ग्राहक ढूँढना या प्रशिक्षण लेना",
+              "ta": "வாடிக்கையாளர்களைக் கண்டறிதல் அல்லது பயிற்சி பெறுதல்"
+            }
+          ]
+        }
+      ],
+      "source": {
+        "file": "questionnaire_general.json",
+        "sha256": "303cdf83635860434ca60b5eb1feb73fb58847fe9819576ad39409d186cb748f"
+      }
+    }
+  }
 }

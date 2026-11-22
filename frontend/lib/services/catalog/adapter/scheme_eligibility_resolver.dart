@@ -128,7 +128,9 @@ class SchemeEligibilityResolver {
         eligibilityMinAge = aMin is int ? aMin : int.tryParse('$aMin');
         eligibilityMaxAge = aMax is int ? aMax : int.tryParse('$aMax');
         if (aMin != null || aMax != null) {
-          ageRange = '${aMin ?? 18} - ${aMax ?? "No upper limit"} years';
+          ageRange = aMin == null
+              ? 'Up to $aMax years'
+              : '$aMin - ${aMax ?? "No upper limit"} years';
           elCriteriaList.add('Applicant Age: $ageRange');
         }
       }

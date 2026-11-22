@@ -1,0 +1,37 @@
+{
+  "date": "2026-11-22",
+  "version": "2.6.5+36",
+  "languages": [
+    "hi",
+    "mr"
+  ],
+  "sourcePolicy": "English catalog facts, scheme identifiers, saved answer keys and the official questionnaire dataset remain unchanged.",
+  "review": "Automated source checks and sampled semantic review. Machine translations and fallback names are not human linguistic certification.",
+  "protectedDisplayValues": [
+    "URLs and email addresses",
+    "catalog and document identifiers",
+    "Roman legal references",
+    "user-entered text",
+    "official MSS brand"
+  ],
+  "languagesReviewed": {
+    "hi": {
+      "units": 3806,
+      "states": {
+        "written": 1824,
+        "baseline": 1982
+      },
+      "officialSourceUnits": 13,
+      "fallbackEvidenceUnits": 715
+    },
+    "mr": {
+      "units": 7335,
+      "states": {
+        "baseline": 409,
+        "written": 6926
+      },
+      "officialSourceUnits": 21,
+      "fallbackEvidenceUnits": 1302
+    }
+  }
+}

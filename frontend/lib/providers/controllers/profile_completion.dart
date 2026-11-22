@@ -34,13 +34,12 @@ int calculateProfileCompletionPercentage(UserProfile profile) {
   // Role / Employment (1)
   checks.add(profile.employmentStatus.trim().isNotEmpty);
 
-  // Eligibility & Social (Step 4) (4)
+  // Eligibility & Social (Step 4) (3)
   checks.add(
     profile.qualification.trim().isNotEmpty ||
         profile.educationLevel.trim().isNotEmpty,
   );
   checks.add(profile.community.trim().isNotEmpty);
-  checks.add(profile.disability == 'Yes' || profile.disability == 'No');
 
   // Eligibility Booleans (Income, Veteran, First Gen)
   // Counted as filled if they completed Step 4
@@ -91,8 +90,7 @@ List<String> calculateMissingProfileSections(UserProfile profile) {
   // Eligibility
   if ((profile.qualification.trim().isEmpty &&
           profile.educationLevel.trim().isEmpty) ||
-      profile.community.trim().isEmpty ||
-      (profile.disability != 'Yes' && profile.disability != 'No')) {
+      profile.community.trim().isEmpty) {
     missing.add('Eligibility');
   }
 

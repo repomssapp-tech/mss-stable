@@ -51,7 +51,10 @@ class ProfileScreen extends StatelessWidget {
           IconButton(
             tooltip: context.l10n.notificationsTooltip,
             onPressed: () async {
-              if (!await requireAccount(context, feature: SignInFeature.alerts)) {
+              if (!await requireAccount(
+                context,
+                feature: SignInFeature.alerts,
+              )) {
                 return;
               }
               if (!context.mounted) return;
@@ -75,24 +78,33 @@ class ProfileScreen extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
-        child: Column(
-          children: [
-            // A guest has no account profile: Pending status, 0% and sign-in.
-            if (provider.isGuest)
-              GuestProfileView(provider: provider)
-            else ...[
-              ProfileBannerCard(provider: provider),
-              ProfileUserInfoCard(provider: provider),
-              ProfileEligibilityDetailsCard(provider: provider),
-              ProfileNavigationCard1(provider: provider),
-              const ProfileNavigationCard2(),
-              ProfileLogoutCard(provider: provider),
-            ],
-            // Room to scroll the last card clear of the floating nav bar.
-            SizedBox(
-              height: AppSpacing.xxxl + MediaQuery.paddingOf(context).bottom,
+        child: SafeArea(
+          top: false,
+          bottom: false,
+          child: Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 680),
+              child: Column(
+                children: [
+                  if (provider.isGuest)
+                    const GuestProfileView()
+                  else ...[
+                    ProfileBannerCard(provider: provider),
+                    ProfileUserInfoCard(provider: provider),
+                    ProfileEligibilityDetailsCard(provider: provider),
+                    ProfileNavigationCard1(provider: provider),
+                    const ProfileNavigationCard2(),
+                    ProfileLogoutCard(provider: provider),
+                  ],
+                  // Room to scroll the last card clear of the floating nav bar.
+                  SizedBox(
+                    height:
+                        AppSpacing.xxxl + MediaQuery.paddingOf(context).bottom,
+                  ),
+                ],
+              ),
             ),
-          ],
+          ),
         ),
       ),
     );

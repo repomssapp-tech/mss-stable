@@ -1,65 +1,37 @@
 import 'package:flutter/material.dart';
-import '../../../utils/app_colors.dart';
 
 import '../../../l10n/l10n.dart';
+import '../../../utils/app_colors.dart';
 import '../../../utils/app_spacing.dart';
 import '../../../utils/app_text.dart';
 
-/// Static 4-segment stepper + "Step X of 4" fraction text shown at the top
-/// of the [BasicProfileScreen] card, above the scrollable step form.
 class ProfileProgressIndicator extends StatelessWidget {
+  const ProfileProgressIndicator({super.key, required this.currentStep});
+
   final int currentStep;
 
-  static const Color kPrimaryBlue = AppColors.primary;
-  static const Color kBorderGrey = AppColors.border;
-
-  const ProfileProgressIndicator({super.key, required this.currentStep});
+  static const _totalSteps = 4;
 
   @override
   Widget build(BuildContext context) {
+    final label = context.l10n.assessStepLabel(currentStep, _totalSteps);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        _buildStepper(currentStep),
+        Text(
+          label,
+          style: context.text.label.copyWith(color: AppColors.textSecondary),
+        ),
         const SizedBox(height: AppSpacing.sm),
-        Center(child: _buildProgressFraction(context, currentStep)),
+        ExcludeSemantics(
+          child: LinearProgressIndicator(
+            value: currentStep / _totalSteps,
+            borderRadius: const BorderRadius.all(
+              Radius.circular(AppSpacing.xs),
+            ),
+          ),
+        ),
       ],
     );
-  }
-
-  Widget _buildStepper(int step) {
-    return Row(
-      children: [
-        Expanded(child: _buildProgressSegment(step >= 1)),
-        const SizedBox(width: AppSpacing.xs),
-        Expanded(child: _buildProgressSegment(step >= 2)),
-        const SizedBox(width: AppSpacing.xs),
-        Expanded(child: _buildProgressSegment(step >= 3)),
-        const SizedBox(width: AppSpacing.xs),
-        Expanded(child: _buildProgressSegment(step >= 4)),
-      ],
-    );
-  }
-
-  Widget _buildProgressSegment(bool isCompleted) {
-    return Container(
-      height: 6,
-      decoration: BoxDecoration(
-        color: isCompleted ? kPrimaryBlue : kBorderGrey,
-        borderRadius: BorderRadius.circular(3),
-      ),
-    );
-  }
-
-  Widget _buildProgressFraction(BuildContext context, int step) {
-    final l10n = context.l10n;
-    final text = switch (step) {
-      1 => l10n.step1Of4,
-      2 => l10n.step2Of4,
-      3 => l10n.step3Of4,
-      4 => l10n.step4Of4,
-      _ => l10n.step1Of4,
-    };
-    return Text(text, style: context.text.button.copyWith(color: kPrimaryBlue));
   }
 }

@@ -1,0 +1,1027 @@
+[
+  {
+    "terms": [
+      "MSInS",
+      "MAITRI",
+      "SC/ST"
+    ],
+    "q": "\"MSInS\" OR \"MAITRI\" OR \"SC/ST\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-000.json"
+  },
+  {
+    "terms": [
+      "TANSIDCO",
+      "EOIP",
+      "MIISP"
+    ],
+    "q": "\"TANSIDCO\" OR \"EOIP\" OR \"MIISP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-000.json"
+  },
+  {
+    "terms": [
+      "IEC",
+      "IPR",
+      "MTNL"
+    ],
+    "q": "\"IEC\" OR \"IPR\" OR \"MTNL\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-000.json"
+  },
+  {
+    "terms": [
+      "FCI",
+      "EPF",
+      "EDII-TN"
+    ],
+    "q": "\"FCI\" OR \"EPF\" OR \"EDII-TN\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-000.json"
+  },
+  {
+    "terms": [
+      "DPR",
+      "SHG",
+      "BIRAC"
+    ],
+    "q": "\"DPR\" OR \"SHG\" OR \"BIRAC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-004.json"
+  },
+  {
+    "terms": [
+      "KYC",
+      "MSE",
+      "ZED"
+    ],
+    "q": "\"KYC\" OR \"MSE\" OR \"ZED\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-004.json"
+  },
+  {
+    "terms": [
+      "PSI",
+      "SPV",
+      "EPC"
+    ],
+    "q": "\"PSI\" OR \"SPV\" OR \"EPC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-004.json"
+  },
+  {
+    "terms": [
+      "FaMe",
+      "PMU",
+      "LOI"
+    ],
+    "q": "\"FaMe\" OR \"PMU\" OR \"LOI\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-004.json"
+  },
+  {
+    "terms": [
+      "MPCB",
+      "SEBI",
+      "TRN"
+    ],
+    "q": "\"MPCB\" OR \"SEBI\" OR \"TRN\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-008.json"
+  },
+  {
+    "terms": [
+      "BIS",
+      "EOSP",
+      "DST"
+    ],
+    "q": "\"BIS\" OR \"EOSP\" OR \"DST\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-008.json"
+  },
+  {
+    "terms": [
+      "ITR",
+      "MSME-DFO",
+      "TAHDCO"
+    ],
+    "q": "\"ITR\" OR \"MSME-DFO\" OR \"TAHDCO\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-008.json"
+  },
+  {
+    "terms": [
+      "EDII",
+      "KVIB",
+      "NABL"
+    ],
+    "q": "\"EDII\" OR \"KVIB\" OR \"NABL\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-008.json"
+  },
+  {
+    "terms": [
+      "ONDC",
+      "MITDF",
+      "TNEB"
+    ],
+    "q": "\"ONDC\" OR \"MITDF\" OR \"TNEB\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-012.json"
+  },
+  {
+    "terms": [
+      "SC-ST",
+      "MEDA",
+      "FIEO"
+    ],
+    "q": "\"SC-ST\" OR \"MEDA\" OR \"FIEO\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-012.json"
+  },
+  {
+    "terms": [
+      "SEPC",
+      "NER",
+      "MSEFC"
+    ],
+    "q": "\"SEPC\" OR \"NER\" OR \"MSEFC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-012.json"
+  },
+  {
+    "terms": [
+      "DGR",
+      "MSEDCL",
+      "SICOM"
+    ],
+    "q": "\"DGR\" OR \"MSEDCL\" OR \"SICOM\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-012.json"
+  },
+  {
+    "terms": [
+      "TNWWHCL",
+      "FPO/FPC",
+      "ICAI"
+    ],
+    "q": "\"TNWWHCL\" OR \"FPO/FPC\" OR \"ICAI\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-016.json"
+  },
+  {
+    "terms": [
+      "EOU",
+      "ETP",
+      "ZLD"
+    ],
+    "q": "\"EOU\" OR \"ETP\" OR \"ZLD\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-016.json"
+  },
+  {
+    "terms": [
+      "NBFC",
+      "IDBI",
+      "MIS"
+    ],
+    "q": "\"NBFC\" OR \"IDBI\" OR \"MIS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-016.json"
+  },
+  {
+    "terms": [
+      "SIDCO",
+      "ATL",
+      "TNCDW"
+    ],
+    "q": "\"SIDCO\" OR \"ATL\" OR \"TNCDW\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-016.json"
+  },
+  {
+    "terms": [
+      "ESM",
+      "MahaIT",
+      "IEM"
+    ],
+    "q": "\"ESM\" OR \"MahaIT\" OR \"IEM\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-020.json"
+  },
+  {
+    "terms": [
+      "MeitY",
+      "TEAM",
+      "Intent-to-Claim"
+    ],
+    "q": "\"MeitY\" OR \"TEAM\" OR \"Intent-to-Claim\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-020.json"
+  },
+  {
+    "terms": [
+      "IVP",
+      "EDP",
+      "CIBIL"
+    ],
+    "q": "\"IVP\" OR \"EDP\" OR \"CIBIL\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-020.json"
+  },
+  {
+    "terms": [
+      "TNSkill",
+      "GMP",
+      "EXIM"
+    ],
+    "q": "\"TNSkill\" OR \"GMP\" OR \"EXIM\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-020.json"
+  },
+  {
+    "terms": [
+      "ATI",
+      "LEAP",
+      "NCGTC"
+    ],
+    "q": "\"ATI\" OR \"LEAP\" OR \"NCGTC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-024.json"
+  },
+  {
+    "terms": [
+      "MentorTN",
+      "MoFPI",
+      "PLI"
+    ],
+    "q": "\"MentorTN\" OR \"MoFPI\" OR \"PLI\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-024.json"
+  },
+  {
+    "terms": [
+      "ANF",
+      "RMA",
+      "NSKFDC"
+    ],
+    "q": "\"ANF\" OR \"RMA\" OR \"NSKFDC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-024.json"
+  },
+  {
+    "terms": [
+      "SEZ",
+      "IFMR/MSInS",
+      "CIDCO"
+    ],
+    "q": "\"SEZ\" OR \"IFMR/MSInS\" OR \"CIDCO\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-024.json"
+  },
+  {
+    "terms": [
+      "MMRDA",
+      "ACS",
+      "LTPT"
+    ],
+    "q": "\"MMRDA\" OR \"ACS\" OR \"LTPT\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-028.json"
+  },
+  {
+    "terms": [
+      "ISO",
+      "EDI",
+      "PMS"
+    ],
+    "q": "\"ISO\" OR \"EDI\" OR \"PMS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-028.json"
+  },
+  {
+    "terms": [
+      "WISE",
+      "MCA",
+      "KGVY"
+    ],
+    "q": "\"WISE\" OR \"MCA\" OR \"KGVY\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-028.json"
+  },
+  {
+    "terms": [
+      "TAICO",
+      "BRC",
+      "VKP"
+    ],
+    "q": "\"TAICO\" OR \"BRC\" OR \"VKP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-028.json"
+  },
+  {
+    "terms": [
+      "SEED",
+      "HACCP",
+      "DISCOM"
+    ],
+    "q": "\"SEED\" OR \"HACCP\" OR \"DISCOM\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-032.json"
+  },
+  {
+    "terms": [
+      "EMDA",
+      "DBT",
+      "MSME-DI"
+    ],
+    "q": "\"EMDA\" OR \"DBT\" OR \"MSME-DI\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-032.json"
+  },
+  {
+    "terms": [
+      "C.R",
+      "NOC",
+      "ECS"
+    ],
+    "q": "\"C.R\" OR \"NOC\" OR \"ECS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-032.json"
+  },
+  {
+    "terms": [
+      "GeM",
+      "AIC",
+      "SCHEME"
+    ],
+    "q": "\"GeM\" OR \"AIC\" OR \"SCHEME\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-032.json"
+  },
+  {
+    "terms": [
+      "DATA",
+      "CONFLICT",
+      "REPORT.md"
+    ],
+    "q": "\"DATA\" OR \"CONFLICT\" OR \"REPORT.md\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-036.json"
+  },
+  {
+    "terms": [
+      "CSC",
+      "R&D",
+      "FOB"
+    ],
+    "q": "\"CSC\" OR \"R&D\" OR \"FOB\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-036.json"
+  },
+  {
+    "terms": [
+      "SDP",
+      "NFDP",
+      "e-NAM"
+    ],
+    "q": "\"SDP\" OR \"NFDP\" OR \"e-NAM\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-036.json"
+  },
+  {
+    "terms": [
+      "NHB",
+      "MIG",
+      "GPU"
+    ],
+    "q": "\"NHB\" OR \"MIG\" OR \"GPU\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-036.json"
+  },
+  {
+    "terms": [
+      "LSI",
+      "CUF",
+      "ETP/CETP"
+    ],
+    "q": "\"LSI\" OR \"CUF\" OR \"ETP/CETP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-040.json"
+  },
+  {
+    "terms": [
+      "CMEGP",
+      "PMRY",
+      "REGP"
+    ],
+    "q": "\"CMEGP\" OR \"PMRY\" OR \"REGP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-040.json"
+  },
+  {
+    "terms": [
+      "EDP/REDP",
+      "MAVIM",
+      "UMED"
+    ],
+    "q": "\"EDP/REDP\" OR \"MAVIM\" OR \"UMED\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-040.json"
+  },
+  {
+    "terms": [
+      "JDI",
+      "MMR",
+      "IPS"
+    ],
+    "q": "\"JDI\" OR \"MMR\" OR \"IPS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-040.json"
+  },
+  {
+    "terms": [
+      "SDEC",
+      "WTC",
+      "DGCA"
+    ],
+    "q": "\"SDEC\" OR \"WTC\" OR \"DGCA\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-044.json"
+  },
+  {
+    "terms": [
+      "TNSDC",
+      "MBC",
+      "ANRF"
+    ],
+    "q": "\"TNSDC\" OR \"MBC\" OR \"ANRF\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-044.json"
+  },
+  {
+    "terms": [
+      "WInER",
+      "SION",
+      "NSTFDC"
+    ],
+    "q": "\"WInER\" OR \"SION\" OR \"NSTFDC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-044.json"
+  },
+  {
+    "terms": [
+      "LPG",
+      "FPO",
+      "NCR"
+    ],
+    "q": "\"LPG\" OR \"FPO\" OR \"NCR\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-044.json"
+  },
+  {
+    "terms": [
+      "ULB",
+      "MoHUA",
+      "IES"
+    ],
+    "q": "\"ULB\" OR \"MoHUA\" OR \"IES\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-048.json"
+  },
+  {
+    "terms": [
+      "NBCFDC",
+      "WISE-IPR",
+      "RuPay"
+    ],
+    "q": "\"NBCFDC\" OR \"WISE-IPR\" OR \"RuPay\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-048.json"
+  },
+  {
+    "terms": [
+      "URL",
+      "EPFO",
+      "NAFED/NCCF"
+    ],
+    "q": "\"URL\" OR \"EPFO\" OR \"NAFED/NCCF\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-048.json"
+  },
+  {
+    "terms": [
+      "MNRE",
+      "NIDHI",
+      "HPC"
+    ],
+    "q": "\"MNRE\" OR \"NIDHI\" OR \"HPC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-048.json"
+  },
+  {
+    "terms": [
+      "SC/ST/PwD",
+      "Maha-TUFS",
+      "EVR"
+    ],
+    "q": "\"SC/ST/PwD\" OR \"Maha-TUFS\" OR \"EVR\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-052.json"
+  },
+  {
+    "terms": [
+      "Q-Cert",
+      "CoE",
+      "BEE"
+    ],
+    "q": "\"Q-Cert\" OR \"CoE\" OR \"BEE\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-052.json"
+  },
+  {
+    "terms": [
+      "TNPCB",
+      "JPEG",
+      "SERB"
+    ],
+    "q": "\"TNPCB\" OR \"JPEG\" OR \"SERB\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-052.json"
+  },
+  {
+    "terms": [
+      "NETS",
+      "SSW",
+      "ITeS"
+    ],
+    "q": "\"NETS\" OR \"SSW\" OR \"ITeS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-052.json"
+  },
+  {
+    "terms": [
+      "NPA",
+      "SRLM",
+      "PFMS"
+    ],
+    "q": "\"NPA\" OR \"SRLM\" OR \"PFMS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-056.json"
+  },
+  {
+    "terms": [
+      "CRES-RCMC",
+      "WOSA",
+      "DigniTEA"
+    ],
+    "q": "\"CRES-RCMC\" OR \"WOSA\" OR \"DigniTEA\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-056.json"
+  },
+  {
+    "terms": [
+      "FoF",
+      "SIDBI/RBI",
+      "BioNEST"
+    ],
+    "q": "\"FoF\" OR \"SIDBI/RBI\" OR \"BioNEST\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-056.json"
+  },
+  {
+    "terms": [
+      "MFI",
+      "NSFDC",
+      "UAM"
+    ],
+    "q": "\"MFI\" OR \"NSFDC\" OR \"UAM\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-056.json"
+  },
+  {
+    "terms": [
+      "IPFC",
+      "TANGEDCO",
+      "SPEED"
+    ],
+    "q": "\"IPFC\" OR \"TANGEDCO\" OR \"SPEED\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-060.json"
+  },
+  {
+    "terms": [
+      "PRATHAM",
+      "IKP",
+      "CCAMP"
+    ],
+    "q": "\"PRATHAM\" OR \"IKP\" OR \"CCAMP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-060.json"
+  },
+  {
+    "terms": [
+      "TN/TANSIM/EDII",
+      "LEAN",
+      "SMS"
+    ],
+    "q": "\"TN/TANSIM/EDII\" OR \"LEAN\" OR \"SMS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-060.json"
+  },
+  {
+    "terms": [
+      "MyMSME",
+      "Engineering-KIRAN",
+      "S&T"
+    ],
+    "q": "\"MyMSME\" OR \"Engineering-KIRAN\" OR \"S&T\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-060.json"
+  },
+  {
+    "terms": [
+      "ERSS",
+      "GENESIS",
+      "UMANG"
+    ],
+    "q": "\"ERSS\" OR \"GENESIS\" OR \"UMANG\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-064.json"
+  },
+  {
+    "terms": [
+      "UAN",
+      "ECR",
+      "NAFED"
+    ],
+    "q": "\"UAN\" OR \"ECR\" OR \"NAFED\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-064.json"
+  },
+  {
+    "terms": [
+      "NCCF",
+      "OBC/EBC/DNT",
+      "NTA"
+    ],
+    "q": "\"NCCF\" OR \"OBC/EBC/DNT\" OR \"NTA\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-064.json"
+  },
+  {
+    "terms": [
+      "PM-JAY",
+      "NLM",
+      "NATS"
+    ],
+    "q": "\"PM-JAY\" OR \"NLM\" OR \"NATS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-064.json"
+  },
+  {
+    "terms": [
+      "AAY",
+      "CNG",
+      "NCDC"
+    ],
+    "q": "\"AAY\" OR \"CNG\" OR \"NCDC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-068.json"
+  },
+  {
+    "terms": [
+      "EHTP",
+      "ISEA",
+      "STF.pdf"
+    ],
+    "q": "\"EHTP\" OR \"ISEA\" OR \"STF.pdf\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-068.json"
+  },
+  {
+    "terms": [
+      "IAY",
+      "WEC",
+      "PCT"
+    ],
+    "q": "\"IAY\" OR \"WEC\" OR \"PCT\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-068.json"
+  },
+  {
+    "terms": [
+      "IT/ITeS",
+      "QualityTesting",
+      "IndiaFilings"
+    ],
+    "q": "\"IT/ITeS\" OR \"QualityTesting\" OR \"IndiaFilings\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-068.json"
+  },
+  {
+    "terms": [
+      "Annexure-A",
+      "PPP",
+      "Udyam/GST"
+    ],
+    "q": "\"Annexure-A\" OR \"PPP\" OR \"Udyam/GST\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-072.json"
+  },
+  {
+    "terms": [
+      "TFC",
+      "KVA",
+      "KMUT"
+    ],
+    "q": "\"TFC\" OR \"KVA\" OR \"KMUT\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-072.json"
+  },
+  {
+    "terms": [
+      "SBI",
+      "MyScheme",
+      "Clearances/Approvals"
+    ],
+    "q": "\"SBI\" OR \"MyScheme\" OR \"Clearances/Approvals\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-072.json"
+  },
+  {
+    "terms": [
+      "DC-MSME",
+      "AngelsTN",
+      "TANFUND"
+    ],
+    "q": "\"DC-MSME\" OR \"AngelsTN\" OR \"TANFUND\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-072.json"
+  },
+  {
+    "terms": [
+      "PIP",
+      "RISE",
+      "UMIS"
+    ],
+    "q": "\"PIP\" OR \"RISE\" OR \"UMIS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-076.json"
+  },
+  {
+    "terms": [
+      "Udyam/EM",
+      "TBI",
+      "ECP"
+    ],
+    "q": "\"Udyam/EM\" OR \"TBI\" OR \"ECP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-076.json"
+  },
+  {
+    "terms": [
+      "PLF",
+      "TNSTC",
+      "SAFE/ARISE"
+    ],
+    "q": "\"PLF\" OR \"TNSTC\" OR \"SAFE/ARISE\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-076.json"
+  },
+  {
+    "terms": [
+      "NSA",
+      "SRI",
+      "M.Tech"
+    ],
+    "q": "\"NSA\" OR \"SRI\" OR \"M.Tech\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-076.json"
+  },
+  {
+    "terms": [
+      "TDB",
+      "PMSBY",
+      "FTP/HBP"
+    ],
+    "q": "\"TDB\" OR \"PMSBY\" OR \"FTP/HBP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-080.json"
+  },
+  {
+    "terms": [
+      "AcE",
+      "DAY-NRLM/SRLM",
+      "MWCD"
+    ],
+    "q": "\"AcE\" OR \"DAY-NRLM/SRLM\" OR \"MWCD\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-080.json"
+  },
+  {
+    "terms": [
+      "MSDE",
+      "OEM",
+      "Ltd/LLP"
+    ],
+    "q": "\"MSDE\" OR \"OEM\" OR \"Ltd/LLP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-080.json"
+  },
+  {
+    "terms": [
+      "OCI/PIO",
+      "JCO",
+      "VKP/TNRT"
+    ],
+    "q": "\"OCI/PIO\" OR \"JCO\" OR \"VKP/TNRT\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-080.json"
+  },
+  {
+    "terms": [
+      "NSE/BSE",
+      "StartupTN/TANSIM",
+      "MAH"
+    ],
+    "q": "\"NSE/BSE\" OR \"StartupTN/TANSIM\" OR \"MAH\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-084.json"
+  },
+  {
+    "terms": [
+      "FSSAI",
+      "FITT",
+      "KIIT-TBI"
+    ],
+    "q": "\"FSSAI\" OR \"FITT\" OR \"KIIT-TBI\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-084.json"
+  },
+  {
+    "terms": [
+      "SINE",
+      "SINE-IIT",
+      "MSEs"
+    ],
+    "q": "\"SINE\" OR \"SINE-IIT\" OR \"MSEs\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-084.json"
+  },
+  {
+    "terms": [
+      "SCA/RRB/PSB",
+      "UdyamiMitra",
+      "A+/A/B/C"
+    ],
+    "q": "\"SCA/RRB/PSB\" OR \"UdyamiMitra\" OR \"A+/A/B/C\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-084.json"
+  },
+  {
+    "terms": [
+      "NSIC/MSME",
+      "OSC",
+      "DFS"
+    ],
+    "q": "\"NSIC/MSME\" OR \"OSC\" OR \"DFS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-088.json"
+  },
+  {
+    "terms": [
+      "NBFC/MFI",
+      "PMUY/OMC",
+      "PRI"
+    ],
+    "q": "\"NBFC/MFI\" OR \"PMUY/OMC\" OR \"PRI\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-088.json"
+  },
+  {
+    "terms": [
+      "NVCFL",
+      "CIPIE",
+      "BIRAC-New"
+    ],
+    "q": "\"NVCFL\" OR \"CIPIE\" OR \"BIRAC-New\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-088.json"
+  },
+  {
+    "terms": [
+      "USD",
+      "FOB/FOR",
+      "COVID"
+    ],
+    "q": "\"USD\" OR \"FOB/FOR\" OR \"COVID\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-088.json"
+  },
+  {
+    "terms": [
+      "WIDUSHI/WISE-SCOPE",
+      "BIRAC-Home",
+      "WHL"
+    ],
+    "q": "\"WIDUSHI/WISE-SCOPE\" OR \"BIRAC-Home\" OR \"WHL\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-092.json"
+  },
+  {
+    "terms": [
+      "TIRFS",
+      "PRODIP",
+      "TRACE"
+    ],
+    "q": "\"TIRFS\" OR \"PRODIP\" OR \"TRACE\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-092.json"
+  },
+  {
+    "terms": [
+      "FDA",
+      "SABER/SASO",
+      "LIFT"
+    ],
+    "q": "\"FDA\" OR \"SABER/SASO\" OR \"LIFT\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-092.json"
+  },
+  {
+    "terms": [
+      "INSIGHT",
+      "FLOW",
+      "CPSE"
+    ],
+    "q": "\"INSIGHT\" OR \"FLOW\" OR \"CPSE\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-092.json"
+  },
+  {
+    "terms": [
+      "GeM-TReDS",
+      "PIB/MCA",
+      "NEW"
+    ],
+    "q": "\"GeM-TReDS\" OR \"PIB/MCA\" OR \"NEW\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-096.json"
+  },
+  {
+    "terms": [
+      "KPI",
+      "FRA",
+      "PIB"
+    ],
+    "q": "\"KPI\" OR \"FRA\" OR \"PIB\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-096.json"
+  },
+  {
+    "terms": [
+      "PRID",
+      "MoSJE",
+      "WING"
+    ],
+    "q": "\"PRID\" OR \"MoSJE\" OR \"WING\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-096.json"
+  },
+  {
+    "terms": [
+      "ESI/EPF",
+      "WebFetch",
+      "ITI/NSTI"
+    ],
+    "q": "\"ESI/EPF\" OR \"WebFetch\" OR \"ITI/NSTI\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-096.json"
+  },
+  {
+    "terms": [
+      "NSTI",
+      "MHI",
+      "RE-RTD"
+    ],
+    "q": "\"NSTI\" OR \"MHI\" OR \"RE-RTD\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-100.json"
+  },
+  {
+    "terms": [
+      "RDD&D",
+      "DMEO",
+      "NFSA"
+    ],
+    "q": "\"RDD&D\" OR \"DMEO\" OR \"NFSA\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-100.json"
+  },
+  {
+    "terms": [
+      "PMGKAY",
+      "IGL",
+      "NBS"
+    ],
+    "q": "\"PMGKAY\" OR \"IGL\" OR \"NBS\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-100.json"
+  },
+  {
+    "terms": [
+      "TIDE",
+      "DeitY/NeGP",
+      "STP"
+    ],
+    "q": "\"TIDE\" OR \"DeitY/NeGP\" OR \"STP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-100.json"
+  },
+  {
+    "terms": [
+      "NFE",
+      "SECC",
+      "PMAY-G"
+    ],
+    "q": "\"NFE\" OR \"SECC\" OR \"PMAY-G\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-104.json"
+  },
+  {
+    "terms": [
+      "SSTP",
+      "CRS",
+      "CBSP"
+    ],
+    "q": "\"SSTP\" OR \"CRS\" OR \"CBSP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-104.json"
+  },
+  {
+    "terms": [
+      "DPPH",
+      "IIT",
+      "kVA"
+    ],
+    "q": "\"DPPH\" OR \"IIT\" OR \"kVA\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-104.json"
+  },
+  {
+    "terms": [
+      "NSDC",
+      "StartupTN/SIPCOT",
+      "SC/ST/MBC/BC"
+    ],
+    "q": "\"NSDC\" OR \"StartupTN/SIPCOT\" OR \"SC/ST/MBC/BC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-104.json"
+  },
+  {
+    "terms": [
+      "RCMC",
+      "B.Com",
+      "B.Pharma"
+    ],
+    "q": "\"RCMC\" OR \"B.Com\" OR \"B.Pharma\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-108.json"
+  },
+  {
+    "terms": [
+      "KVY",
+      "MPDA/KVIC",
+      "LBI"
+    ],
+    "q": "\"KVY\" OR \"MPDA/KVIC\" OR \"LBI\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-108.json"
+  },
+  {
+    "terms": [
+      "TiE",
+      "PMEGP/REGP",
+      "PSU"
+    ],
+    "q": "\"TiE\" OR \"PMEGP/REGP\" OR \"PSU\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-108.json"
+  },
+  {
+    "terms": [
+      "PMMSY",
+      "CBSE",
+      "FTP"
+    ],
+    "q": "\"PMMSY\" OR \"CBSE\" OR \"FTP\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-108.json"
+  },
+  {
+    "terms": [
+      "BC/MBC/SC/ST",
+      "BioCARe",
+      "BC/MBC"
+    ],
+    "q": "\"BC/MBC/SC/ST\" OR \"BioCARe\" OR \"BC/MBC\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-112.json"
+  },
+  {
+    "terms": [
+      "WIDUSI/WISE-SCOPE",
+      "MoPNG/PMUY"
+    ],
+    "q": "\"WIDUSI/WISE-SCOPE\" OR \"MoPNG/PMUY\" हिंदी मराठी official name site:gov.in",
+    "record": "extra-112.json"
+  }
+]

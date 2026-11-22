@@ -173,7 +173,21 @@ def _sibling_text(entity, unit, language) -> dict:
     return {k: v for k, v in found.items() if v is not None}
 
 
-def ingest(bundle, config, lang, ledger, candidates: Path, engine: str, revision: str) -> dict:
+def _name_fallback(unit: Unit, evidence) -> bool:
+    if not isinstance(evidence, dict) or not evidence.get("reason"):
+        return False
+    if evidence.get("status") == "not_found":
+        return bool(evidence.get("queries") and evidence.get("search_record"))
+    if evidence.get("status") != "general_scheme_label" or unit.section != SCHEME_SECTION:
+        return False
+    if unit.field not in {"name", "short_name", "alt_names"}:
+        return False
+    texts = unit.en if isinstance(unit.en, list) else [unit.en]
+    return all(isinstance(text, str) and re.search(r"[a-z]{2,}", text) for text in texts)
+
+
+def ingest(bundle, config, lang, ledger, candidates: Path, engine: str, revision: str,
+           *, allow_name_fallback: bool = False) -> dict:
     """Check engine output and record it. Never writes to the catalogue."""
     if engine not in config.engines:
         raise ValueError(f"engine '{engine}' is not registered in languages.json; record the engine actually used")
@@ -203,9 +217,12 @@ def ingest(bundle, config, lang, ledger, candidates: Path, engine: str, revision
                 continue
             text = row.get("translation")
             official_source = row.get("official_source")
+            fallback = row.get("name_fallback")
+            fallback_allowed = allow_name_fallback and _name_fallback(unit, fallback)
             if (
                 is_government_name(unit, config)
                 and (engine != "official" or not official_source)
+                and not fallback_allowed
                 and not keeps_english(unit.en, read_target(entity, unit, lang), text)
             ):
                 counts["government_name_refused"] += 1
@@ -220,6 +237,7 @@ def ingest(bundle, config, lang, ledger, candidates: Path, engine: str, revision
                 "text": text, "engine": engine, "revision": revision, "origin": "human" if engine == "human" else "machine",
                 "checks": [f.as_dict() for f in findings],
                 **({"official_source": official_source} if official_source else {}),
+                **({"name_fallback": fallback} if fallback_allowed else {}),
             })
     ledger.append(events)
     return dict(counts)
@@ -298,6 +316,7 @@ def decide(ledger: Ledger, bundle, config, lang, decisions: Path, reviewer: str)
             if (
                 is_government_name(unit, config)
                 and not official_source
+                and not _name_fallback(unit, current.get("name_fallback"))
                 and not keeps_english(unit.en, read_target(entity, unit, lang), row.get("text", current.get("text")))
             ):
                 counts["refused_government_name"] += 1
@@ -317,7 +336,11 @@ def decide(ledger: Ledger, bundle, config, lang, decisions: Path, reviewer: str)
             if row.get("override_reason"):
                 base["override_reason"] = row["override_reason"]
             if edited:
-                base.update(origin="human", engine="human", revision=reviewer)
+                editor_engine = row.get("editor_engine", "human")
+                if editor_engine not in config.engines:
+                    raise ValueError(f"unknown editor engine: {editor_engine}")
+                base.update(origin="human" if editor_engine == "human" else "machine",
+                            engine=editor_engine, revision=reviewer)
             existing = read_target(entity, unit, lang)
             if row.get("supersede") and existing is not None:
                 base["replaces"] = checksum(existing)

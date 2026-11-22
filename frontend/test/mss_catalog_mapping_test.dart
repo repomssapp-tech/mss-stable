@@ -22,6 +22,20 @@ void main() {
 
       for (final sEntity in bundle.schemes) {
         final scheme = MssSchemeAdapter.toScheme(sEntity, bundle);
+        final content = sEntity.content;
+        final process = content['applicationProcess'];
+        final declared =
+            (process is Map ? process['services'] : null) ??
+            content['services'] ??
+            content['requiredServices'];
+        final declaredCount = declared is List
+            ? declared.whereType<Map<String, dynamic>>().length
+            : 0;
+        expect(
+          scheme.requiredServices.length,
+          declaredCount,
+          reason: '${sEntity.id}: services must come from the catalog',
+        );
 
         if (scheme.eligibilityCriteria.isNotEmpty) {
           eligibilityMappedCount++;
@@ -88,7 +102,6 @@ void main() {
       );
 
       expect(eligibilityMappedCount, equals(totalSchemes));
-      expect(servicesMappedCount, equals(totalSchemes));
       expect(processMappedCount, equals(totalSchemes));
       // Every scheme in the catalog either maps documents or has verified provenance in missingFields
       expect(

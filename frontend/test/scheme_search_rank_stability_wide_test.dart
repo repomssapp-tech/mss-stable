@@ -15,10 +15,9 @@ void main() {
   // _containsAlias touches. Captured against the real catalog bundle both
   // before and after that change (verified byte-identical via a git-stash
   // A/B comparison in-session) -- this is the permanent record of that
-  // comparison, so any future change to the matching logic that reorders
-  // or rescales results gets caught here instead of discovered in prod.
-  test('ranking the real catalog for 234 diverse queries stays byte-identical '
-      'to the pre-2.6 snapshot', () async {
+  // comparison. The 2.6.5 baseline removes invented service requirements from
+  // the catalog documents; matching logic stays unchanged.
+  test('ranking the 2.6.5 catalog stays stable for 234 diverse queries', () async {
     final schemes = await SchemeRepository.instance.getAllSchemes();
     final queries =
         (jsonDecode(

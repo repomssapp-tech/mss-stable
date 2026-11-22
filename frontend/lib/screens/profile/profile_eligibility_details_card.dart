@@ -5,6 +5,7 @@ import '../../utils/app_size.dart';
 import '../../utils/money_format.dart';
 import '../../l10n/l10n.dart';
 import '../../models/user_profile.dart';
+import '../../services/recommendation/profile_canonicalizer.dart';
 import '../../providers/app_state_provider.dart';
 import '../../utils/app_spacing.dart';
 import 'profile_value_formatters.dart';
@@ -23,6 +24,9 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final profile = provider.profile;
+    final roles = ProfileCanonicalizer.employmentRoles(
+      profile.employmentStatus,
+    );
 
     return Container(
       margin: const EdgeInsets.symmetric(
@@ -50,8 +54,6 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   context.l10n.eligibilityProfessionalDetails,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
                   style: context.text.cardTitle.copyWith(
                     color: AppColors.textPrimary,
                   ),
@@ -61,15 +63,10 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.lg),
 
-          // Details Row 1: Qualification & Employment
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ProfileInfoCol(
                 label: context.l10n.labelEducationLevel,
-                // educationLevel is the field the server stores and returns;
-                // qualification is only a local mirror, so it can be stale
-                // after a sync (issue 148: education never updated).
                 value: _education(profile).isNotEmpty
                     ? ProfileValueFormatters.getLocalizedProfileValue(
                         _education(profile),
@@ -78,19 +75,46 @@ class ProfileEligibilityDetailsCard extends StatelessWidget {
                     : '-',
                 flex: 1,
               ),
-              const ProfileDividerCol(),
-              ProfileInfoCol(
-                label: context.l10n.labelEmployment,
-                value: profile.employmentStatus.isNotEmpty
-                    ? ProfileValueFormatters.getLocalizedProfileValue(
-                        profile.employmentStatus,
-                        context,
-                      )
-                    : '-',
-                flex: 1,
-              ),
             ],
           ),
+          if (roles.isNotEmpty) ...[
+            const SizedBox(height: AppSpacing.md),
+            Text(
+              context.l10n.labelEmployment,
+              style: context.text.bodySmall.copyWith(
+                color: AppColors.textMuted,
+              ),
+            ),
+            const SizedBox(height: AppSpacing.xs),
+            Wrap(
+              spacing: AppSpacing.sm,
+              runSpacing: AppSpacing.xs,
+              children: [
+                for (final role in roles)
+                  DecoratedBox(
+                    decoration: const BoxDecoration(
+                      color: AppColors.primarySoft,
+                      borderRadius: AppRadius.smAll,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: AppSpacing.sm,
+                        vertical: AppSpacing.xs,
+                      ),
+                      child: Text(
+                        ProfileValueFormatters.getLocalizedProfileValue(
+                          role,
+                          context,
+                        ),
+                        style: context.text.label.copyWith(
+                          color: AppColors.primaryDeep,
+                        ),
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
           const Padding(
             padding: EdgeInsets.symmetric(vertical: AppSpacing.sm),
             child: Divider(color: AppColors.border, height: 1),

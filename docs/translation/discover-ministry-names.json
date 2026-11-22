@@ -1,0 +1,31 @@
+{
+  "checkedOn": "2026-11-22",
+  "hindi": {
+    "source": "https://www.myscheme.gov.in/hi/search/ministry/all-ministries",
+    "names": {
+      "Ministry of MSME": "सूक्ष्म, लघु और मध्यम उद्यम मंत्रालय",
+      "Ministry of Finance": "वित्त मंत्रालय",
+      "Ministry of Education": "शिक्षा मंत्रालय",
+      "Ministry of Agriculture": "कृषि एवं किसान कल्याण मंत्रालय",
+      "Ministry of Rural Development": "ग्रामीण विकास मंत्रालय",
+      "Ministry of Skill Development": "कौशल विकास एवं उद्यमिता मंत्रालय",
+      "Ministry of Social Justice": "सामाजिक न्याय और अधिकारिता मंत्रालय",
+      "Ministry of Housing": "आवासन और शहरी कार्य मंत्रालय"
+    }
+  },
+  "marathi": {
+    "directory": "https://innovateindia.mygov.in/mr/",
+    "msmeSource": "https://www.pib.gov.in/PressReleasePage.aspx?PRID=2157178&lang=2&reg=48",
+    "names": {
+      "Ministry of MSME": "सूक्ष्म, लघु आणि मध्यम उद्योग मंत्रालय",
+      "Ministry of Finance": "अर्थ मंत्रालय",
+      "Ministry of Education": "शिक्षण मंत्रालय",
+      "Ministry of Agriculture": "कृषी आणि शेतकरी कल्याण मंत्रालय",
+      "Ministry of Rural Development": "ग्रामीण विकास मंत्रालय",
+      "Ministry of Skill Development": "कौशल्य विकास आणि उद्योजकता मंत्रालय",
+      "Ministry of Social Justice": "सामाजिक न्याय आणि अधिकारिता मंत्रालय",
+      "Ministry of Housing": "गृहनिर्माण आणि शहरी व्यवहार मंत्रालय"
+    }
+  },
+  "note": "Discover taxonomy keys stay in English for filtering; these official names are display labels."
+}

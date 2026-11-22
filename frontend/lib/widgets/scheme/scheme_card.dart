@@ -24,6 +24,7 @@ class SchemeCard extends StatefulWidget {
   final VoidCallback onTap;
   final bool showActions;
   final bool showMatchPercentage;
+  final String? matchLabel;
 
   /// The scheme was searched for by name but does not apply to this user (or
   /// is hidden by the active filters); shown with a distinct outlined pill.
@@ -42,6 +43,7 @@ class SchemeCard extends StatefulWidget {
     required this.onTap,
     this.showActions = true,
     this.showMatchPercentage = true,
+    this.matchLabel,
     this.notApplicable = false,
     this.filterMismatch = false,
   });
@@ -327,7 +329,8 @@ class _SchemeCardState extends State<SchemeCard> {
                           maxLines: 3,
                           overflow: TextOverflow.ellipsis,
                         ),
-                        if (widget.showMatchPercentage) ...[
+                        if (widget.showMatchPercentage ||
+                            widget.matchLabel != null) ...[
                           const SizedBox(height: AppSpacing.xs),
                           Container(
                             padding: const EdgeInsets.symmetric(
@@ -339,9 +342,10 @@ class _SchemeCardState extends State<SchemeCard> {
                               borderRadius: AppRadius.smAll,
                             ),
                             child: Text(
-                              context.l10n.matchPercentageFormat(
-                                widget.result.percentage,
-                              ),
+                              widget.matchLabel ??
+                                  context.l10n.matchPercentageFormat(
+                                    widget.result.percentage,
+                                  ),
                               style: context.text.label.copyWith(
                                 color: AppTagStyle.level.text,
                               ),

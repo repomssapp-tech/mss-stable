@@ -56,6 +56,7 @@ class MSMEModuleDetailsScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: AppColors.background,
         appBar: StandardPageHeader(
+          MediaQuery.textScalerOf(context),
           title: localizedTitle,
           titleIcon: Container(
             width: AppSize.avatarSm,
@@ -67,7 +68,7 @@ class MSMEModuleDetailsScreen extends StatelessWidget {
             ),
             child: Icon(icon, color: iconColor, size: AppSize.iconLg),
           ),
-          elevation: 1,
+          showDivider: true,
         ),
         body: SingleChildScrollView(
           physics: const ClampingScrollPhysics(),

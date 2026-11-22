@@ -589,8 +589,6 @@ class _EligibilityPage extends StatelessWidget {
                       Expanded(
                         child: Text(
                           l10n.onbP3Found(12),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                           style: pop(11.5, FontWeight.w700, MssColors.green, s),
                         ),
                       ),
@@ -605,9 +603,9 @@ class _EligibilityPage extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  'PMEGP',
+                  l10n.sv2ChipPmegp,
                   style: pop(16, FontWeight.w800, MssColors.ashokaBlue, s),
-                ), // i18n-ok: scheme acronym
+                ),
                 SizedBox(height: 2 * s),
                 Text(
                   l10n.onbP3MayBeEligible,

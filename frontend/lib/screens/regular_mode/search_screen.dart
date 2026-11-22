@@ -15,6 +15,7 @@ import '../../utils/share_text.dart';
 import '../../widgets/common/app_bottom_nav_bar.dart';
 import '../../widgets/common/app_toast.dart';
 import '../../widgets/common/quick_pills.dart';
+import '../../services/analytics/app_analytics.dart';
 import '../../widgets/common/standard_page_header.dart';
 import '../../widgets/scheme/filter_panel.dart';
 import 'search/browse_scope.dart';
@@ -91,11 +92,14 @@ class SearchScreenState extends State<SearchScreen> {
   // Null until the catalog-derived hint loads; render sites fall back to the
   // localized `searchHintFallback` string so the placeholder is correct in ta too.
   String? _dynamicSearchHintText;
+  String? _dynamicSearchHintLanguage;
   // Bumped on every _triggerSearch call; a stale request that resolves after
   // a newer one must not overwrite it (out-of-order async race -- the search
   // screen's state survives Home<->Search tab switches via IndexedStack, so
   // an in-flight request from a previous query can still land here).
   int _searchGeneration = 0;
+  String? _searchInteractionId;
+  String? _lastTrackedQuery;
   // A corrected spelling of the last query ("laon" -> "loan"), offered as a
   // tappable "Did you mean ...?"; null when the query needed no correction.
   String? _didYouMean;
@@ -266,7 +270,7 @@ class SearchScreenState extends State<SearchScreen> {
         if (_scope != null) {
           _loadScope();
         } else if (query.isNotEmpty) {
-          submitVoiceQuery(query);
+          submitVoiceQuery(query, source: 'typed');
         }
       });
     }
@@ -284,6 +288,7 @@ class SearchScreenState extends State<SearchScreen> {
     if (_categoryCountsInFlight) return;
     _categoryCountsInFlight = true;
     final provider = Provider.of<AppProvider>(context, listen: false);
+    final language = provider.selectedLanguage;
     try {
       final allSchemes = provider.allSchemes.isNotEmpty
           ? provider.allSchemes
@@ -297,17 +302,18 @@ class SearchScreenState extends State<SearchScreen> {
       final eligibleSchemes = _computeEligibleSchemes(provider, allSchemes);
 
       final hint = await SchemeRepository.instance.getDynamicSearchHint(
-        provider.selectedLanguage,
+        language,
       );
 
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
+        if (!mounted || provider.selectedLanguage != language) return;
         setState(() {
           _categoryCounts = counts;
           _matchingProfileCount = eligibleSchemes.schemes.length;
           _matchingProfileIsPartial =
               eligibleSchemes.emptyState == ForMeEmptyState.partialMatches;
           _dynamicSearchHintText = hint;
+          _dynamicSearchHintLanguage = language;
           _isLoadingCounts = false;
         });
       });
@@ -321,6 +327,9 @@ class SearchScreenState extends State<SearchScreen> {
       });
     } finally {
       _categoryCountsInFlight = false;
+      if (mounted && provider.selectedLanguage != language) {
+        _loadCategoryCounts();
+      }
     }
   }
 
@@ -343,7 +352,7 @@ class SearchScreenState extends State<SearchScreen> {
         if (result.isFinal) {
           setState(() => _isDictating = false);
           if (result.transcript.trim().isNotEmpty) {
-            _triggerSearch(result.transcript.trim());
+            _triggerSearch(result.transcript.trim(), source: 'voice');
           }
         }
       },
@@ -487,7 +496,7 @@ class SearchScreenState extends State<SearchScreen> {
     );
   }
 
-  void submitVoiceQuery(String query) {
+  void submitVoiceQuery(String query, {String source = 'voice'}) {
     final normalizedQuery = query.trim();
     if (normalizedQuery.isEmpty) return;
 
@@ -496,11 +505,12 @@ class SearchScreenState extends State<SearchScreen> {
       selection: TextSelection.collapsed(offset: normalizedQuery.length),
     );
     _searchFocusNode.unfocus();
-    _triggerSearch(normalizedQuery);
+    _triggerSearch(normalizedQuery, source: source);
   }
 
   void _onSearchTextChanged() {
     _searchGeneration++;
+    if (_searchController.text.trim().isEmpty) _lastTrackedQuery = null;
     setState(() {});
 
     _searchDebounce?.cancel();
@@ -531,7 +541,7 @@ class SearchScreenState extends State<SearchScreen> {
     });
   }
 
-  void _triggerSearch(String query) async {
+  void _triggerSearch(String query, {String source = 'typed'}) async {
     _searchDebounce?.cancel();
     if (_scope != null) {
       if (query.trim().isEmpty) {
@@ -592,7 +602,26 @@ class SearchScreenState extends State<SearchScreen> {
 
       _masterSearchResults = results;
       _didYouMean = suggestion;
-      _applyFiltersAndSort();
+      await _applyFiltersAndSort();
+      if (!mounted ||
+          requestGeneration != _searchGeneration ||
+          normalQuery.isEmpty ||
+          normalQuery == _lastTrackedQuery) {
+        return;
+      }
+      _lastTrackedQuery = normalQuery;
+      final analytics = AppAnalytics.instance;
+      _searchInteractionId = analytics.interactionId();
+      analytics.track(
+        AnalyticsEvent.searchSubmitted,
+        interactionId: _searchInteractionId,
+        properties: {
+          'source': source,
+          'result_count': _searchResults
+              .where((scheme) => !_notApplicableIds.contains(scheme.id))
+              .length,
+        },
+      );
     } catch (e, st) {
       debugPrint('[SearchScreen] search failed for "$query": $e\n$st');
       if (!mounted || requestGeneration != _searchGeneration) return;
@@ -719,6 +748,9 @@ class SearchScreenState extends State<SearchScreen> {
             isForMe: _activeFilter == 'For Me',
             forMeEmptyState: _forMeEmptyState,
             provider: provider,
+            assessmentFits: _scope?.assessmentFits ?? const {},
+            interactionId: _scope?.interactionId ?? _searchInteractionId,
+            entryPoint: _scope == null ? 'search' : 'discovery',
             didYouMean: _didYouMean,
             onDidYouMeanTap: _applyDidYouMean,
             notApplicableIds: _notApplicableIds,
@@ -755,6 +787,9 @@ class SearchScreenState extends State<SearchScreen> {
   Widget build(BuildContext context) {
     final provider = Provider.of<AppProvider>(context);
     final categories = _getCategories(context);
+    final searchHint = _dynamicSearchHintLanguage == provider.selectedLanguage
+        ? _dynamicSearchHintText ?? context.l10n.searchHintFallback
+        : context.l10n.searchHintFallback;
     final pageTitle = CentralizedTranslator.instance.localize(
       widget.scope?.title ?? widget.initialQuery ?? '',
     );
@@ -782,6 +817,7 @@ class SearchScreenState extends State<SearchScreen> {
           : null,
       appBar: widget.showBack
           ? StandardPageHeader(
+              MediaQuery.textScalerOf(context),
               title: pageTitle,
               subtitle: _currentState == SearchState.results
                   ? context.l10n.schemesAvailableCount(_searchResults.length)
@@ -871,29 +907,41 @@ class SearchScreenState extends State<SearchScreen> {
                                 ? 'All'
                                 : 'For Me';
                           });
+                          AppAnalytics.instance.track(
+                            AnalyticsEvent.filterChanged,
+                            properties: {
+                              'filter_key': 'for_me',
+                              'enabled': _activeFilter == 'For Me',
+                            },
+                          );
                           _applyFiltersAndSort();
                         },
                         onSortChanged: (v) {
                           setState(() => _sortBy = v);
+                          AppAnalytics.instance.track(
+                            AnalyticsEvent.filterChanged,
+                            properties: {
+                              'filter_key': 'sort',
+                              'enabled': v != 'Relevance',
+                            },
+                          );
                           _applyFiltersAndSort();
                         },
                       ),
                     ] else ...[
                       SearchTryBanner(
-                        hintText:
-                            _dynamicSearchHintText ??
-                            context.l10n.searchHintFallback,
+                        hintText: searchHint,
                         onTap: () {
-                          final hint =
-                              _dynamicSearchHintText ??
-                              context.l10n.searchHintFallback;
-                          _searchController.text = hint;
+                          _searchController.text = searchHint;
                           _searchFocusNode.unfocus();
-                          _triggerSearch(hint);
+                          _triggerSearch(searchHint);
                         },
                       ),
                       const SizedBox(height: AppSpacing.sm),
-                      QuickPills(onSelected: submitVoiceQuery),
+                      QuickPills(
+                        onSelected: (query) =>
+                            submitVoiceQuery(query, source: 'quick_pill'),
+                      ),
                     ],
                   ],
                 ),

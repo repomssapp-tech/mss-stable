@@ -68,6 +68,59 @@ class AppLocalizationsEn extends AppLocalizations {
   String get schemes => 'Schemes';
 
   @override
+  String get assessmentResultsTitle => 'Your scheme matches';
+
+  @override
+  String get assessmentResultsIntro =>
+      'These schemes are ranked from your answers. Open one to learn more.';
+
+  @override
+  String get assessmentFallbackNote =>
+      'Few schemes matched this section, so we added other schemes to give you more options.';
+
+  @override
+  String get profileSaveFailed =>
+      'We couldn\'t save these answers to your profile. Try again.';
+
+  @override
+  String get assessmentGoodFit => 'Good fit';
+
+  @override
+  String get assessmentPossibleFit => 'Might fit';
+
+  @override
+  String get assessmentNotNow => 'Not for you now';
+
+  @override
+  String get assessmentReasonState => 'Available in your selected state';
+
+  @override
+  String get assessmentReasonStateExcluded =>
+      'This scheme is limited to another state';
+
+  @override
+  String get assessmentReasonAgeExcluded =>
+      'Your age is outside this scheme\'s stated age range';
+
+  @override
+  String get assessmentReasonStageExcluded =>
+      'This scheme is for a different business stage';
+
+  @override
+  String get assessmentReasonCategory =>
+      'Includes support for a group you selected';
+
+  @override
+  String get assessmentReasonNature => 'Relevant to your type of business';
+
+  @override
+  String get assessmentReasonGoal => 'Related to the support you want';
+
+  @override
+  String get assessmentReasonGeneral =>
+      'Review the eligibility details to see if this fits';
+
+  @override
   String get finance => 'Finance';
 
   @override
@@ -1977,7 +2030,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tellUsAboutYou => 'Tell us about you';
 
   @override
-  String get aboutYouSubtitle => 'Choose the option that best describes you.';
+  String get aboutYouSubtitle => 'Select all that apply.';
 
   @override
   String get studentSubtitle =>
@@ -2095,7 +2148,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get eligibilitySubtitle =>
-      'Helps us recommend 100% accurate schemes & subsidies for you.';
+      'Your answers help us find schemes and subsidies that may fit your profile.';
 
   @override
   String get firstGenGraduate => 'First-generation graduate';
@@ -6248,7 +6301,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get guestProfilePendingNote =>
-      'You\'re using the app as a guest. Your profile is saved once you sign in.';
+      'You\'re browsing as a guest. Sign in to create and save a profile.';
 
   @override
   String get homeTopSchemes => 'Top schemes';
@@ -6325,116 +6378,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get locationDevBuildBadge => 'Test build';
-
-  @override
-  String get eligCheckEntry => 'My answers';
-
-  @override
-  String get eligCheckEntrySub => 'Questions about you and your business';
-
-  @override
-  String get eligCheckTitle => 'Your answers';
-
-  @override
-  String get eligCheckIntro => 'Skip any question you are unsure about.';
-
-  @override
-  String eligCheckStepLabel(int n, int total) {
-    return 'Step $n of $total';
-  }
-
-  @override
-  String get eligCheckStep0 => 'About you';
-
-  @override
-  String get eligCheckStep1 => 'Where you live and work';
-
-  @override
-  String get eligCheckStep2 => 'Your business';
-
-  @override
-  String get eligCheckStep3 => 'What you need';
-
-  @override
-  String get eligCheckStep4 => 'Your skills';
-
-  @override
-  String get eligCheckStep5 => 'A little more (optional)';
-
-  @override
-  String eligCheckNeeded(String question) {
-    return 'Please answer this to continue: $question';
-  }
-
-  @override
-  String get eligCheckWomenMore =>
-      'Women staff cannot be more than total staff.';
-
-  @override
-  String get eligCheckQuestionLanguage => 'Question language';
-
-  @override
-  String get eligCheckSave => 'Save my answers';
-
-  @override
-  String get eligCheckSaveGo => 'Save and go in';
-
-  @override
-  String get eligCheckSavedTitle => 'Your answers are saved';
-
-  @override
-  String get eligCheckSavedBody =>
-      'Thank you. You can change your answers any time.';
-
-  @override
-  String get eligCheckEdit => 'Change my answers';
-
-  @override
-  String get eligCheckSelect => 'Select';
-
-  @override
-  String get eligCheckOther => 'Other (type it)';
-
-  @override
-  String get eligCheckTypeHere => 'Type the name';
-
-  @override
-  String get eligCheckSkipRest => 'Skip the rest';
-
-  @override
-  String get eligCheckAnswerMore => 'Answer more questions';
-
-  @override
-  String get eligCheckQuickIntro =>
-      'Just a few questions to start. You can answer more later.';
-
-  @override
-  String get eligCheckAllRequired => 'All questions are needed to continue.';
-
-  @override
-  String get eligCheckLocate => 'Use my current location';
-
-  @override
-  String get eligCheckLocating => 'Finding your location…';
-
-  @override
-  String get eligCheckLocationFail =>
-      'Could not get your location. You can choose the place instead.';
-
-  @override
-  String get eligCheckLocationNote =>
-      'Fills in your state and district for you.';
-
-  @override
-  String get eligCheckLocationDone =>
-      'Location saved. Please check the place below.';
-
-  @override
-  String get eligCheckFirstTitle => 'Tell us about you';
-
-  @override
-  String get eligCheckFirstIntro =>
-      'A few questions, then you are in. Questions marked * are needed.';
 
   @override
   String get guestName => 'Guest';
@@ -6517,4 +6460,27 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loginSubtitleShort => 'Find government schemes you can claim';
+
+  @override
+  String get questionnaireFromProfile =>
+      'From your profile. Change any answer.';
+
+  @override
+  String get questionnaireLoadFailed =>
+      'Questions could not load. Close and reopen this assessment.';
+
+  @override
+  String get questionnaireSaveFailed =>
+      'Could not save your answer. Try again.';
+
+  @override
+  String get questionnaireTaluka => 'Taluka';
+
+  @override
+  String get copyrightOwnership =>
+      '© 2026 Swadeshi Shodh Sansthan, Tamil Nadu Chapter & Rajalakshmi Institute of Technology, Chennai. All Rights Reserved.';
+
+  @override
+  String get aboutInstitutionCredits =>
+      '• Rajalakshmi Institute of Technology (RIT)\n• Swadeshi Shodh Sansthan (SSS TN Chapter)';
 }

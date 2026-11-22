@@ -6,6 +6,7 @@ import 'package:frontend/models/localized_scheme.dart';
 import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/providers/controllers/library_controller.dart';
 import 'package:frontend/screens/regular_mode/categories/categories_section_lists.dart';
+import 'package:frontend/screens/regular_mode/categories/categories_data.dart';
 import 'package:frontend/providers/app_state_provider.dart';
 import 'package:frontend/services/catalog/centralized_translator.dart';
 import 'package:frontend/services/catalog/language_pack_manager.dart';
@@ -144,30 +145,46 @@ void main() {
     expect(library.recentlyViewedIds, ['TN2026-001']);
   });
 
-  testWidgets('Discover rows grow with the text scale (UI-143-01)', (
-    tester,
-  ) async {
-    late double normal, large;
-    final provider = AppProvider()..setLoggedInForTesting(true);
-    for (final scale in [1.0, 1.6]) {
-      await tester.pumpWidget(
-        MediaQuery(
-          data: MediaQueryData(textScaler: TextScaler.linear(scale)),
-          child: Builder(
-            builder: (context) {
-              final h = discoverRowHeight(context, provider);
-              if (scale == 1.0) {
-                normal = h;
-              } else {
-                large = h;
-              }
-              return const SizedBox();
-            },
-          ),
-        ),
-      );
-    }
-    expect(normal, 126);
-    expect(large, greaterThan(normal + 40));
-  });
+  for (final language in ['en', 'ta', 'hi', 'mr']) {
+    testWidgets(
+      'Discover cards fit translated text at larger scales ($language)',
+      (tester) async {
+        final provider = AppProvider()..setLoggedInForTesting(true);
+        addTearDown(provider.dispose);
+        final heights = <double>[];
+        for (final scale in [1.0, 1.6]) {
+          await tester.pumpWidget(
+            MaterialApp(
+              locale: Locale(language),
+              localizationsDelegates: AppLocalizations.localizationsDelegates,
+              supportedLocales: AppLocalizations.supportedLocales,
+              home: Builder(
+                builder: (context) => MediaQuery(
+                  data: MediaQuery.of(
+                    context,
+                  ).copyWith(textScaler: TextScaler.linear(scale)),
+                  child: Scaffold(
+                    body: CategoryHorizontalList(
+                      provider: provider,
+                      dynamicCategoryCounts: {
+                        for (final category in displayCategories)
+                          category['title'] as String: 0,
+                      },
+                      onCategorySelected: (_) {},
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          );
+          await tester.pump();
+          expect(tester.takeException(), isNull);
+          heights.add(
+            tester.getSize(find.byType(IntrinsicHeight).first).height,
+          );
+        }
+        expect(heights.last, greaterThan(heights.first));
+      },
+    );
+  }
 }

@@ -5,51 +5,42 @@ import '../../utils/app_spacing.dart';
 import '../../utils/app_text.dart';
 import 'app_icon_button.dart';
 
-/// StandardPageHeader
-/// ──────────────────
-/// Unified header widget ensuring consistent top padding, SafeArea compliance,
-/// vertically centered back button, aligned titles & subtitles, and action icons.
-///
-/// `PreferredSizeWidget.preferredSize` can't see a `BuildContext`, so this is
-/// a thin wrapper around `AppBar` instead of building its own bar: the real,
-/// text-scale-aware height comes from [_height], and [preferredSize] only
-/// reports an upper bound for the `Scaffold` (spec_phase3.md group 4, G6).
 class StandardPageHeader extends StatelessWidget
     implements PreferredSizeWidget {
   final String title;
   final Widget? titleIcon;
   final String? subtitle;
-  final bool showBackButton;
-  final VoidCallback? onBackPressed;
 
   /// Replaces the back button (e.g. a close button in a selection mode).
   final Widget? leading;
   final List<Widget>? actions;
   final Color backgroundColor;
-  final double elevation;
+  final bool showDivider;
+  final TextScaler textScaler;
 
-  const StandardPageHeader({
+  const StandardPageHeader(
+    this.textScaler, {
     super.key,
     required this.title,
     this.titleIcon,
     this.subtitle,
-    this.showBackButton = true,
-    this.onBackPressed,
     this.leading,
     this.actions,
     this.backgroundColor = AppColors.surface,
-    this.elevation = 0,
+    this.showDivider = false,
   });
 
   bool get _hasSubtitle => subtitle != null && subtitle!.isNotEmpty;
 
   @override
-  Size get preferredSize => const Size.fromHeight(96);
+  Size get preferredSize =>
+      Size.fromHeight(_toolbarHeight + (showDivider ? 1 : 0));
 
-  double _height(BuildContext context) {
-    final scale = MediaQuery.textScalerOf(context).scale(1.0);
-    final height = 56.0 * scale + (_hasSubtitle ? 18.0 * scale : 0.0);
-    return height.clamp(56.0, 96.0);
+  double get _toolbarHeight {
+    final height =
+        textScaler.scale(kToolbarHeight) +
+        (_hasSubtitle ? textScaler.scale(18) : 0);
+    return height.clamp(kToolbarHeight, 96.0);
   }
 
   @override
@@ -66,21 +57,18 @@ class StandardPageHeader extends StatelessWidget
       overflow: TextOverflow.ellipsis,
     );
     return AppBar(
-      toolbarHeight: _height(context),
+      toolbarHeight: _toolbarHeight,
       titleSpacing: 0,
       backgroundColor: backgroundColor,
       elevation: 0,
       scrolledUnderElevation: 0,
-      leading: leading != null
-          ? leading!
-          : showBackButton
-          ? AppIconButton(
-              icon: Icons.arrow_back_rounded,
-              semanticLabel: l10n.back,
-              onPressed:
-                  onBackPressed ?? () => Navigator.of(context).maybePop(),
-            )
-          : null,
+      leading:
+          leading ??
+          AppIconButton(
+            icon: Icons.arrow_back_rounded,
+            semanticLabel: l10n.back,
+            onPressed: () => Navigator.of(context).maybePop(),
+          ),
       title: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -108,9 +96,9 @@ class StandardPageHeader extends StatelessWidget
         ],
       ),
       actions: actions,
-      bottom: elevation > 0
-          ? PreferredSize(
-              preferredSize: const Size.fromHeight(1),
+      bottom: showDivider
+          ? const PreferredSize(
+              preferredSize: Size.fromHeight(1),
               child: Divider(height: 1, color: AppColors.border),
             )
           : null,

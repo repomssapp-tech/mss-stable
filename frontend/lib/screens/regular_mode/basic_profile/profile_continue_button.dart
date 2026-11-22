@@ -12,7 +12,7 @@ class ProfileContinueButton extends StatelessWidget {
   final int currentStep;
   final bool isSubmitting;
   final bool isStep2Valid;
-  final String? selectedRole;
+  final bool hasSelectedRole;
   final bool isStep4Valid;
   final VoidCallback? onPressed;
 
@@ -23,14 +23,14 @@ class ProfileContinueButton extends StatelessWidget {
     required this.currentStep,
     required this.isSubmitting,
     required this.isStep2Valid,
-    required this.selectedRole,
+    required this.hasSelectedRole,
     required this.isStep4Valid,
     required this.onPressed,
   });
 
   bool get _isEnabled {
     if (currentStep == 2 && !isStep2Valid) return false;
-    if (currentStep == 3 && selectedRole == null) return false;
+    if (currentStep == 3 && !hasSelectedRole) return false;
     if (currentStep == 4 && !isStep4Valid) return false;
     return true;
   }

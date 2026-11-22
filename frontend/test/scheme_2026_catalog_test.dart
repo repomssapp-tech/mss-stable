@@ -46,8 +46,8 @@ void main() {
             .putIfAbsent(jurisdictionOf(s), () => {})
             .addAll((s.raw['localization'] as Map).keys.cast<String>());
       }
-      expect(langs['central'], {'en', 'hi', 'ta'});
-      expect(langs['tamil_nadu'], {'en', 'hi', 'ta'});
+      expect(langs['central'], {'en', 'hi', 'mr', 'ta'});
+      expect(langs['tamil_nadu'], {'en', 'hi', 'mr', 'ta'});
       // Marathi is preserved in the data but not offered in the UI.
       expect(langs['maharashtra'], {'en', 'hi', 'mr'});
     });

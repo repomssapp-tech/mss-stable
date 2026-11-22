@@ -5,12 +5,15 @@ import '../../../utils/app_colors.dart';
 import '../../../l10n/l10n.dart';
 import '../../../utils/app_spacing.dart';
 import 'role_model.dart';
+import 'profile_option_grid.dart';
+import '../../../utils/app_size.dart';
+import '../../../widgets/common/app_tappable.dart';
 import '../../../utils/app_text.dart';
 
 class Step3AboutYouForm extends StatelessWidget {
   final List<RoleModel>? roles;
-  final String? selectedRoleId;
-  final ValueChanged<String?> onRoleSelected;
+  final Set<String> selectedRoleIds;
+  final ValueChanged<String> onRoleToggled;
   final bool hasSubmitted;
 
   static const Color kPrimaryBlue = AppColors.primary;
@@ -21,8 +24,8 @@ class Step3AboutYouForm extends StatelessWidget {
   const Step3AboutYouForm({
     super.key,
     this.roles,
-    required this.selectedRoleId,
-    required this.onRoleSelected,
+    required this.selectedRoleIds,
+    required this.onRoleToggled,
     required this.hasSubmitted,
   });
 
@@ -123,26 +126,13 @@ class Step3AboutYouForm extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.sm),
 
-        // Grid of role cards
-        GridView.builder(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          itemCount: resolvedRoles.length,
-          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: AppSpacing.sm,
-            mainAxisSpacing: AppSpacing.sm,
-            childAspectRatio: MediaQuery.sizeOf(context).width < 360
-                ? 1.05
-                : 1.22,
-          ),
-          itemBuilder: (context, index) {
-            final role = resolvedRoles[index];
-            final isSelected = selectedRoleId == role.id;
-            return _buildRoleCard(context, role, isSelected);
-          },
+        ProfileOptionGrid(
+          options: [
+            for (final role in resolvedRoles)
+              _buildRoleCard(context, role, selectedRoleIds.contains(role.id)),
+          ],
         ),
-        if (hasSubmitted && selectedRoleId == null) ...[
+        if (hasSubmitted && selectedRoleIds.isEmpty) ...[
           const SizedBox(height: AppSpacing.sm),
           Container(
             padding: const EdgeInsets.symmetric(
@@ -151,7 +141,7 @@ class Step3AboutYouForm extends StatelessWidget {
             ),
             decoration: BoxDecoration(
               color: AppColors.dangerSoft,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: AppRadius.mdAll,
               border: Border.all(color: AppColors.dangerBorder),
             ),
             child: Row(
@@ -180,99 +170,41 @@ class Step3AboutYouForm extends StatelessWidget {
   }
 
   Widget _buildRoleCard(BuildContext context, RoleModel role, bool isSelected) {
-    return InkWell(
-      borderRadius: AppRadius.mdAll,
-      onTap: () {
-        onRoleSelected(isSelected ? null : role.id);
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 150),
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpacing.sm,
-          vertical: AppSpacing.sm,
+    return AppTappable(
+      selected: isSelected,
+      onTap: () => onRoleToggled(role.id),
+      padding: const EdgeInsets.all(AppSpacing.md),
+      decoration: BoxDecoration(
+        color: isSelected ? AppColors.primarySoft : AppColors.surface,
+        borderRadius: AppRadius.mdAll,
+        border: Border.all(
+          color: isSelected ? kPrimaryBlue : kBorderGrey,
+          width: isSelected ? AppSize.borderWidthSelected : AppSize.borderWidth,
         ),
-        decoration: BoxDecoration(
-          color: isSelected ? AppColors.primarySoft : Colors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(
-            color: isSelected ? kPrimaryBlue : kBorderGrey,
-            width: isSelected ? 1.8 : 1.2,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Icon(role.icon, color: role.color),
+              Icon(
+                isSelected
+                    ? Icons.check_box_rounded
+                    : Icons.check_box_outline_blank_rounded,
+                size: AppSize.icon,
+                color: isSelected ? kPrimaryBlue : AppColors.iconMuted,
+              ),
+            ],
           ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: kPrimaryBlue.withValues(alpha: 0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 3),
-                  ),
-                ]
-              : [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
-                    blurRadius: 4,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-        ),
-        child: Stack(
-          children: [
-            // Micro Radio Button indicator
-            Positioned(
-              top: 0,
-              right: 0,
-              child: Container(
-                width: 16,
-                height: 16,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: isSelected ? kPrimaryBlue : Colors.white,
-                  border: Border.all(
-                    color: isSelected ? kPrimaryBlue : kBorderGrey,
-                    width: 1.5,
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: isSelected
-                    ? const Icon(Icons.check, color: Colors.white, size: 10)
-                    : null,
-              ),
-            ),
-
-            // Perfectly centered content with equal spacing and padding
-            Center(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 38,
-                    height: 38,
-                    decoration: BoxDecoration(
-                      color: role.color.withValues(alpha: 0.12),
-                      shape: BoxShape.circle,
-                    ),
-                    alignment: Alignment.center,
-                    child: Icon(role.icon, color: role.color, size: 19),
-                  ),
-                  const SizedBox(height: AppSpacing.tight),
-                  SizedBox(
-                    height: 32,
-                    child: Align(
-                      alignment: Alignment.topCenter,
-                      child: Text(
-                        role.title,
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: context.text.label.copyWith(color: kSlate900),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          const SizedBox(height: AppSpacing.sm),
+          Text(
+            role.title,
+            style: context.text.label.copyWith(color: kSlate900),
+          ),
+        ],
       ),
     );
   }

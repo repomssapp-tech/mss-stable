@@ -28,13 +28,10 @@ import 'utils/app_theme.dart';
 import 'utils/app_spacing.dart';
 import 'utils/app_system_ui_style.dart';
 import 'widgets/common/app_bottom_nav_bar.dart';
-import 'models/eligibility_questionnaire.dart';
-import 'screens/regular_mode/basic_profile_screen.dart';
-import 'screens/regular_mode/eligibility_check/eligibility_check_screen.dart';
-import 'services/account/eligibility_answers_store.dart';
-import 'services/account/questionnaire_sync_service.dart';
 import 'widgets/common/app_update_prompt.dart';
 import 'widgets/onboarding/home_tour.dart';
+import 'services/analytics/app_analytics.dart';
+import 'services/catalog/mss_catalog_bundle.dart';
 import 'widgets/onboarding/home_tour_targets.dart';
 import 'widgets/common/device_integrity_gate.dart';
 import 'widgets/common/app_lock_gate.dart';
@@ -123,7 +120,19 @@ void main() async {
 
   runApp(
     ChangeNotifierProvider(
-      create: (_) => AppProvider(pushGateway: pushGateway),
+      create: (_) {
+        final provider = AppProvider(pushGateway: pushGateway);
+        AppAnalytics.instance.start(() {
+          if (!provider.isLoggedIn && !provider.isGuest) return null;
+          return {
+            'user_kind': provider.isLoggedIn ? 'signed_in' : 'guest',
+            'language': provider.selectedLanguage,
+            'mode': provider.navigationMode,
+            'catalog_release': ?MssCatalogBundle.loadedReleaseTag,
+          };
+        });
+        return provider;
+      },
       child: const MSSApp(),
     ),
   );
@@ -306,6 +315,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   /// IndexedStack then keeps them alive, so a cold start builds one tab, not
   /// five.
   final Set<int> _visitedTabs = {0};
+  Timer? _tabWarmUp;
 
   @override
   void initState() {
@@ -313,69 +323,43 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     // The other tabs are built one at a time once the first screen is up, so
     // the first switch to a tab does not build it in the same frames as the
     // nav bar's droplet animation (it showed as a stutter or a jump).
-    unawaited(_warmUpTabs());
+    _tabWarmUp = Timer(const Duration(milliseconds: 1200), () => _warmUpTab(1));
     unawaited(_showHomeTourWhenReady());
-    WidgetsBinding.instance.addPostFrameCallback((_) => _askQuestionnaire());
     // Tab switches are not broadcast to every AppProvider listener (that
     // rebuilt all five tab screens per tap); only this shell follows them.
     _tabChanges = Provider.of<AppProvider>(context, listen: false).tabChanges
       ..addListener(_onTabChanged);
+    _trackTab();
   }
 
   late final Listenable _tabChanges;
 
-  bool _asked = false;
-
-  /// First time in the app: a guest answers the short list (the personal details came first),
-  /// a Google user answers every question. Nobody sees this again once it is done.
-  Future<void> _askQuestionnaire() async {
-    if (_asked || !mounted) return;
-    _asked = true;
-    final provider = Provider.of<AppProvider>(context, listen: false);
-    final guest = provider.isGuest;
-    if (!guest && !provider.isLoggedIn) return;
-    // A signed-in user's profile comes first; nothing to ask before it is complete.
-    if (!guest && !provider.profile.profileCompleted) return;
-    // A guest gives the personal details first (name, date of birth, location
-    // and the rest of the profile form; kept on this phone only), as on the
-    // website. Finishing the form reopens the home screen, which then asks
-    // the short survey. A guest who backs out is asked again next start.
-    if (guest && !provider.profile.profileCompleted) {
-      await Navigator.of(context).push(
-        MaterialPageRoute<void>(builder: (_) => const BasicProfileScreen()),
-      );
-      return;
-    }
-    try {
-      final q = await EligibilityQuestionnaire.load();
-      if (!guest) await QuestionnaireSyncService.instance.pullIfEmpty();
-      final saved = await const EligibilityAnswersStore().load();
-      final derived = q.derive(provider.profile);
-      if (q.isDone(saved, derived, all: !guest)) return;
-      if (!mounted) return;
-      await Navigator.of(context).push(
-        MaterialPageRoute<void>(
-          builder: (_) => EligibilityCheckScreen(
-            questionnaire: q,
-            profile: provider.profile,
-            quick: guest,
-            mandatory: !guest,
-            firstRun: true,
-            onFinished: (ctx) => Navigator.of(ctx).pop(),
-          ),
-        ),
-      );
-    } catch (e) {
-      debugPrint('[MainTabs] questionnaire gate failed: $e');
-    }
+  void _onTabChanged() {
+    if (!mounted) return;
+    _trackTab();
+    setState(() {});
   }
 
-  void _onTabChanged() {
-    if (mounted) setState(() {});
+  void _trackTab() {
+    final provider = context.read<AppProvider>();
+    final tabs = [
+      provider.navigationMode == 'companion' ? 'saarthi' : 'home',
+      'search',
+      'discover',
+      'saved',
+      'profile',
+    ];
+    final index = provider.currentTabIndex;
+    if (index < 0 || index >= tabs.length) return;
+    AppAnalytics.instance.track(
+      AnalyticsEvent.featureOpened,
+      properties: {'feature': tabs[index]},
+    );
   }
 
   @override
   void dispose() {
+    _tabWarmUp?.cancel();
     _tabChanges.removeListener(_onTabChanged);
     HomeTour.dismiss();
     super.dispose();
@@ -388,8 +372,7 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
   /// navigation-mode screen and the splash ([HomeTour.prefetch]), so a tour
   /// already done costs nothing here.
   ///
-  /// While another screen is open on top of home (the first-run profile form
-  /// or the short survey), the tour waits: it would otherwise point at home's
+  /// While another screen is open on top of home (a profile form), the tour waits: it would otherwise point at home's
   /// search bar and bottom bar through that screen. It starts once the user is
   /// back on home.
   Future<void> _showHomeTourWhenReady() async {
@@ -410,12 +393,13 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
     }
   }
 
-  Future<void> _warmUpTabs() async {
-    await Future<void>.delayed(const Duration(milliseconds: 1200));
-    for (var i = 1; i < 5; i++) {
-      if (!mounted) return;
-      setState(() => _visitedTabs.add(i));
-      await Future<void>.delayed(const Duration(milliseconds: 400));
+  void _warmUpTab(int index) {
+    if (!_visitedTabs.contains(index)) setState(() => _visitedTabs.add(index));
+    if (index < 4) {
+      _tabWarmUp = Timer(
+        const Duration(milliseconds: 400),
+        () => _warmUpTab(index + 1),
+      );
     }
   }
 
@@ -453,7 +437,10 @@ class _MainTabsContainerState extends State<MainTabsContainer> {
       onCategorySelected: (category) {
         provider.updateTabIndex(1);
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          searchTabKey.currentState?.submitVoiceQuery(category);
+          searchTabKey.currentState?.submitVoiceQuery(
+            category,
+            source: 'category',
+          );
         });
       },
     ),

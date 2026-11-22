@@ -2,23 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:frontend/l10n/app_localizations.dart';
+import 'package:frontend/models/scheme_model.dart';
 import 'package:frontend/providers/app_state_provider.dart';
-import 'package:frontend/models/user_profile.dart';
+import 'package:frontend/screens/regular_mode/categories/categories_data.dart';
+import 'package:frontend/screens/regular_mode/search_results_screen.dart';
+import 'package:frontend/screens/regular_mode/search_screen.dart';
+import 'package:frontend/services/questionnaire/assessment_fields.dart';
+import 'package:frontend/services/questionnaire/questionnaire_answers_store.dart';
+import 'package:frontend/services/questionnaire/questionnaire_repository.dart';
 import 'package:frontend/widgets/assistant/smart_assessment_bottom_sheet.dart';
+
+import 'questionnaire_widget_test_assets.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
-  setUpAll(() async {
-    SharedPreferences.setMockInitialValues({});
-  });
+  setUp(() => SharedPreferences.setMockInitialValues({}));
 
   Widget hostSheet({
     required AppProvider provider,
     required String cardTitle,
     required String cardType,
     required VoidCallback onCompleted,
+    ValueChanged<Map<String, Object?>>? onAnswersCompleted,
     Locale locale = const Locale('en'),
   }) {
     return ChangeNotifierProvider<AppProvider>.value(
@@ -32,243 +40,321 @@ void main() {
             cardTitle: cardTitle,
             cardType: cardType,
             onCompleted: onCompleted,
+            onAnswersCompleted: onAnswersCompleted,
           ),
         ),
       ),
     );
   }
 
-  Future<void> tapOption(WidgetTester tester, String text) async {
-    await tester.ensureVisible(find.text(text));
-    await tester.tap(find.text(text));
-    await tester.pumpAndSettle();
-  }
+  test(
+    'every Discover card has localized questions and no location entry',
+    () async {
+      final definition = await QuestionnaireRepository().load();
+      final cards = [
+        for (final category in allCategoriesList) ('category', category.title),
+        for (final ministry in allMinistriesList) ('ministry', ministry),
+        for (final state in allStatesList) ('state', state),
+      ];
+      final covered = <String>{};
+      for (final (type, title) in cards) {
+        final fields = assessmentFields(
+          definition,
+          title: title,
+          cardType: type,
+        );
+        expect(fields.length, inInclusiveRange(3, 5), reason: title);
+        for (final field in fields) {
+          covered.add(field.id);
+          expect(
+            field.type,
+            isNot(isIn(['location', 'state', 'boolean_with_district'])),
+          );
+          expect(field.question['ta'], isNotEmpty, reason: field.id);
+          expect(
+            field.options.every(
+              (option) => option.labels['ta']?.isNotEmpty ?? false,
+            ),
+            isTrue,
+          );
+        }
+      }
+      expect(
+        covered,
+        containsAll([
+          'general_gender',
+          'social_category',
+          'business_nature',
+          'scheme_goal',
+          'business_age',
+          'org_structure',
+          'special_focus_zone',
+          'assistance_needed',
+          'digital_literacy_level',
+          'has_gi_tag',
+          'cluster_membership',
+          'export_status',
+          'tax_compliance_comfort',
+        ]),
+      );
+    },
+  );
 
-  group('SmartAssessmentBottomSheet Tests', () {
-    testWidgets('renders category flow correctly (Education)', (tester) async {
+  group('SmartAssessmentBottomSheet', () {
+    useQuestionnaireWidgetAssets();
+
+    testWidgets('uses saved profile values without asking for them', (
+      tester,
+    ) async {
       final provider = AppProvider();
-      var completed = false;
-
+      provider.setProfileForTesting(
+        provider.profile.copyWith(
+          state: 'Tamil Nadu',
+          gender: 'Female',
+          area: 'Rural',
+          businessIndustry: 'Manufacturing',
+        ),
+      );
+      Map<String, Object?>? submitted;
       await tester.pumpWidget(
         hostSheet(
           provider: provider,
-          cardTitle: 'Education',
+          cardTitle: 'Business & MSME',
+          cardType: 'category',
+          onCompleted: () {},
+          onAnswersCompleted: (answers) => submitted = answers,
+        ),
+      );
+      await tester.pumpAndSettle();
+      expect(
+        find.text('Where do you live or run your business?'),
+        findsNothing,
+      );
+      expect(find.text('What is your gender?'), findsNothing);
+      expect(find.text('What does your business do?'), findsNothing);
+      expect(find.text('What would you like to do?'), findsOneWidget);
+      await tester.tap(find.text('Skip to Results'));
+      await tester.pumpAndSettle();
+      expect(submitted?['general_state'], 'Tamil Nadu');
+      expect(submitted?['general_gender'], 'woman');
+      expect(submitted?['business_location'], {'area': 'village_rural'});
+    });
+
+    testWidgets(
+      'inline answer rows and the sheet stay in place on a narrow phone',
+      (tester) async {
+        tester.view.devicePixelRatio = 1;
+        tester.view.physicalSize = const Size(320, 640);
+        addTearDown(tester.view.resetPhysicalSize);
+        addTearDown(tester.view.resetDevicePixelRatio);
+        final provider = AppProvider();
+        Map<String, Object?>? answers;
+        await tester.pumpWidget(
+          hostSheet(
+            provider: provider,
+            cardTitle: 'Business & MSME',
+            cardType: 'category',
+            onCompleted: () {},
+            onAnswersCompleted: (value) => answers = value,
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        final manufacturing = find.widgetWithText(
+          RadioListTile<String>,
+          'Manufacturing',
+        );
+        final services = find.widgetWithText(RadioListTile<String>, 'Services');
+        final close = find.byTooltip('Close');
+        final closePosition = tester.getTopLeft(close);
+        final first = tester.getRect(manufacturing);
+        final second = tester.getRect(services);
+        expect(first.width, greaterThan(250));
+        expect(second.left, first.left);
+        expect(second.width, first.width);
+        expect(second.top, greaterThan(first.bottom));
+
+        await tester.tap(manufacturing);
+        await tester.pumpAndSettle();
+        expect(tester.getRect(manufacturing), first);
+        expect(tester.getRect(services), second);
+        await tester.tap(find.text('Next'));
+        await tester.pumpAndSettle();
+        expect(find.text('What is your gender?'), findsOneWidget);
+        expect(tester.getTopLeft(close), closePosition);
+        await tester.tap(find.text('Back'));
+        await tester.pumpAndSettle();
+        await tester.tap(services);
+        await tester.pumpAndSettle();
+        final skip = find.text('Skip to Results');
+        await tester.ensureVisible(skip);
+        await tester.tap(skip);
+        await tester.pumpAndSettle();
+        expect(answers?['business_nature'], 'services');
+      },
+    );
+
+    testWidgets('reopened assessment shows saved selections through results', (
+      tester,
+    ) async {
+      SharedPreferences.setMockInitialValues({
+        QuestionnaireAnswersStore.preferencesKey:
+            '{"schema_version":"1.0.0","answers":{"general_state":"Andhra Pradesh",'
+            '"general_gender":"woman","scheme_goal":["start_a_new_business"]}}',
+      });
+      final provider = AppProvider();
+      var completed = false;
+      await tester.pumpWidget(
+        hostSheet(
+          provider: provider,
+          cardTitle: 'Business & MSME',
           cardType: 'category',
           onCompleted: () => completed = true,
         ),
       );
       await tester.pumpAndSettle();
+      for (final question in [
+        'What does your business do?',
+        'What is your gender?',
+      ]) {
+        expect(find.text(question), findsOneWidget);
+        await tester.tap(find.text('Next'));
+        await tester.pumpAndSettle();
+      }
 
-      expect(find.text('Education'), findsOneWidget);
-      expect(
-        find.text('What is your current level of education?'),
-        findsOneWidget,
+      final startingBusiness = find.widgetWithText(
+        CheckboxListTile,
+        'Start a new business',
       );
-      expect(find.text('Schooling (Up to 12th)'), findsOneWidget);
-      expect(find.text('Undergraduate'), findsOneWidget);
-      expect(find.text('Skip to Results'), findsOneWidget);
-      // On first question, back button should not be visible
-      expect(find.text('Back'), findsNothing);
-
-      // Advance by tapping Schooling
-      await tapOption(tester, 'Schooling (Up to 12th)');
-      expect(
-        find.text('What class/grade are you currently enrolled in?'),
-        findsOneWidget,
-      );
-      // Now back button should be visible
-      expect(find.text('Back'), findsOneWidget);
-
-      // Go back
-      await tapOption(tester, 'Back');
-      expect(
-        find.text('What is your current level of education?'),
-        findsOneWidget,
-      );
-
-      // Skip to results completes the questionnaire
-      await tapOption(tester, 'Skip to Results');
+      expect(tester.widget<CheckboxListTile>(startingBusiness).value, isTrue);
+      await tester.tap(find.text('Skip to Results'));
+      await tester.pumpAndSettle();
       expect(completed, isTrue);
     });
 
-    testWidgets('renders state flow correctly (Tamil Nadu)', (tester) async {
-      final provider = AppProvider();
-      var completed = false;
+    testWidgets(
+      'guest assessment skips location and leaves profile unchanged',
+      (tester) async {
+        final provider = AppProvider();
+        var completed = false;
+        await tester.pumpWidget(
+          hostSheet(
+            provider: provider,
+            cardTitle: 'Education & Fellowship',
+            cardType: 'category',
+            onCompleted: () => completed = true,
+          ),
+        );
+        await tester.pumpAndSettle();
 
+        expect(
+          find.text('Where do you live or run your business?'),
+          findsNothing,
+        );
+        expect(
+          find.text('What is your highest level of education?'),
+          findsOneWidget,
+        );
+        expect(find.text('Skip to Results'), findsOneWidget);
+        await tester.tap(find.text('Skip to Results'));
+        await tester.pumpAndSettle();
+
+        expect(completed, isTrue);
+        expect(provider.profile.gender, isEmpty);
+        expect(provider.profile.community, isEmpty);
+      },
+    );
+
+    testWidgets('browsing a state does not assert residency', (tester) async {
+      final provider = AppProvider();
+      Map<String, Object?>? submitted;
       await tester.pumpWidget(
         hostSheet(
           provider: provider,
           cardTitle: 'Tamil Nadu',
           cardType: 'state',
-          onCompleted: () => completed = true,
+          onCompleted: () {},
+          onAnswersCompleted: (answers) => submitted = answers,
         ),
       );
       await tester.pumpAndSettle();
-
-      expect(find.text('Tamil Nadu'), findsOneWidget);
-      expect(
-        find.text('Are you a permanent resident/domicile of Tamil Nadu?'),
-        findsOneWidget,
-      );
-      expect(find.text('Yes, I hold a domicile certificate'), findsOneWidget);
-
-      await tapOption(tester, 'Yes, I hold a domicile certificate');
-      expect(
-        find.text(
-          'What is your category in the Tamil Nadu state reservation list?',
-        ),
-        findsOneWidget,
-      );
-
-      // Skip to results
-      await tapOption(tester, 'Skip to Results');
-      expect(completed, isTrue);
-      expect(
-        provider.filters['state'],
-        isNull,
-        reason: 'the card is the browse page base set, not a second facet',
-      );
-    });
-
-    testWidgets('renders ministry flow correctly', (tester) async {
-      final provider = AppProvider();
-      var completed = false;
-
-      await tester.pumpWidget(
-        hostSheet(
-          provider: provider,
-          cardTitle: 'Ministry of Agriculture',
-          cardType: 'ministry',
-          onCompleted: () => completed = true,
-        ),
-      );
+      await tester.tap(find.text('Skip to Results'));
       await tester.pumpAndSettle();
 
-      expect(find.text('Ministry of Agriculture'), findsOneWidget);
-      expect(
-        find.text(
-          "What is your primary objective within this ministry's portal?",
-        ),
-        findsOneWidget,
-      );
-      expect(
-        find.text('Applying for business subsidy / credit'),
-        findsOneWidget,
-      );
-
-      await tapOption(tester, 'Skip to Results');
-      expect(completed, isTrue);
-      expect(
-        provider.filters['ministry'],
-        isNull,
-        reason: 'the card is the browse page base set, not a second facet',
-      );
+      expect(submitted, isNotNull);
+      expect(submitted, isNot(contains('general_state')));
     });
 
-    testWidgets('seeds answer from user profile and sets filters', (
-      tester,
-    ) async {
+    testWidgets(
+      'export asks trade questions and skips GI for aspiring businesses',
+      (tester) async {
+        final provider = AppProvider();
+        await tester.pumpWidget(
+          hostSheet(
+            provider: provider,
+            cardTitle: 'Export & Trade Promotion',
+            cardType: 'category',
+            onCompleted: () {},
+          ),
+        );
+        await tester.pumpAndSettle();
+        expect(
+          find.text('Do you sell or plan to sell outside India?'),
+          findsOneWidget,
+        );
+        await tester.tap(find.text('Next'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Not started yet (Aspiring)'));
+        await tester.pumpAndSettle();
+        await tester.tap(find.text('Next'));
+        await tester.pumpAndSettle();
+        expect(find.text('What kind of support do you need?'), findsOneWidget);
+        expect(find.textContaining('Geographical Indication'), findsNothing);
+      },
+    );
+  });
+
+  testWidgets(
+    'results keep the selected card when all its schemes have a known conflict',
+    (tester) async {
       final provider = AppProvider();
-      provider.updateProfile(
-        UserProfile(
-          gender: 'Female',
-          community: 'OBC',
-          state: 'Tamil Nadu',
-          annualIncome: 150000,
-          profileCompleted: true,
-        ),
-      );
-
-      var completed = false;
       await tester.pumpWidget(
-        hostSheet(
-          provider: provider,
-          cardTitle: 'Tamil Nadu',
-          cardType: 'state',
-          onCompleted: () => completed = true,
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      // State is Tamil Nadu and profile state is Tamil Nadu -> pre-fills yes
-      // Skip directly to results
-      await tapOption(tester, 'Skip to Results');
-      expect(completed, isTrue);
-      expect(
-        provider.filters['state'],
-        isNull,
-        reason: 'the card is the browse page base set, not a second facet',
-      );
-    });
-
-    testWidgets('close icon button dismisses sheet without completion', (
-      tester,
-    ) async {
-      final provider = AppProvider();
-      var completed = false;
-
-      // In this test, use showModalBottomSheet so Navigator.pop closes the modal
-      await tester.pumpWidget(
-        ChangeNotifierProvider<AppProvider>.value(
+        ChangeNotifierProvider.value(
           value: provider,
           child: MaterialApp(
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: Scaffold(
-              body: Builder(
-                builder: (ctx) => ElevatedButton(
-                  onPressed: () => showModalBottomSheet<void>(
-                    context: ctx,
-                    isScrollControlled: true,
-                    builder: (_) => ChangeNotifierProvider<AppProvider>.value(
-                      value: provider,
-                      child: SmartAssessmentBottomSheet(
-                        cardTitle: 'Education',
-                        cardType: 'category',
-                        onCompleted: () => completed = true,
-                      ),
-                    ),
+            home: Builder(
+              builder: (context) => Scaffold(
+                body: TextButton(
+                  onPressed: () => SearchResultsScreen.openAssessment(
+                    context,
+                    title: 'Test card',
+                    schemes: [
+                      for (var i = 0; i < 5; i++)
+                        Scheme(
+                          id: 'card-$i',
+                          name: 'Card scheme $i',
+                          eligibilityMaxAge: 45,
+                        ),
+                    ],
+                    answers: const {'owner_age': 46},
                   ),
-                  child: const Text('open_sheet'),
+                  child: const Text('Open assessment results'),
                 ),
               ),
             ),
           ),
         ),
       );
-
-      await tester.tap(find.text('open_sheet'));
+      await tester.tap(find.text('Open assessment results'));
       await tester.pumpAndSettle();
 
-      expect(find.byIcon(Icons.close), findsOneWidget);
-      await tester.tap(find.byIcon(Icons.close));
-      await tester.pumpAndSettle();
-
-      expect(
-        find.text('What is your current level of education?'),
-        findsNothing,
-      );
-      expect(completed, isFalse);
-    });
-
-    testWidgets('renders properly in Tamil locale', (tester) async {
-      SharedPreferences.setMockInitialValues({'language': 'ta'});
-      final provider = AppProvider()..changeLanguage('ta');
-
-      await tester.pumpWidget(
-        hostSheet(
-          provider: provider,
-          cardTitle: 'Education',
-          cardType: 'category',
-          onCompleted: () {},
-          locale: const Locale('ta'),
-        ),
-      );
-      await tester.pumpAndSettle();
-
-      // Tamil strings
-      expect(find.text('உங்கள் தற்போதைய கல்வித் தகுதி என்ன?'), findsOneWidget);
-      expect(find.text('முடிவுகளுக்குச் செல்'), findsOneWidget);
-    });
-  });
+      expect(find.byType(SearchScreen), findsOneWidget);
+      expect(find.text('Filter'), findsOneWidget);
+      expect(find.text('Card scheme 0'), findsOneWidget);
+      expect(find.text('Not for you now'), findsWidgets);
+      expect(find.text('Good fit'), findsNothing);
+    },
+  );
 }

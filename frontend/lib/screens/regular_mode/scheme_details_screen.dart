@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../services/analytics/app_analytics.dart';
 import '../../l10n/l10n.dart';
 import '../../models/localized_scheme.dart';
 import '../../models/scheme_model.dart';
@@ -42,6 +43,10 @@ export 'scheme_details/scheme_services_section.dart';
 export 'scheme_details/sticky_tab_bar_delegate.dart';
 
 class SchemeDetailsScreen extends StatefulWidget {
+  final String analyticsEntryPoint;
+  final String? analyticsInteractionId;
+  final int? analyticsRank;
+  final String? analyticsFit;
   final Scheme scheme;
 
   /// Real match % from the results list (null = don't show a score).
@@ -54,6 +59,10 @@ class SchemeDetailsScreen extends StatefulWidget {
     super.key,
     required this.scheme,
     this.matchPercentage,
+    this.analyticsEntryPoint = 'other',
+    this.analyticsInteractionId,
+    this.analyticsRank,
+    this.analyticsFit,
     this.notApplicable = false,
   });
 
@@ -106,25 +115,20 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   Scheme? _detailedScheme;
   bool _detailsLoading = true;
 
-  LocalizedScheme? _localizedCache;
-  Scheme? _localizedCacheSource;
-  String? _localizedCacheLang;
-
-  LocalizedScheme _localized(Scheme raw, String lang) {
-    if (identical(_localizedCacheSource, raw) && _localizedCacheLang == lang) {
-      return _localizedCache!;
-    }
-    final localized = raw.toLocalized(lang);
-    _localizedCache = localized;
-    _localizedCacheSource = raw;
-    _localizedCacheLang = lang;
-    return localized;
-  }
-
   @override
   void initState() {
     super.initState();
     _loadDetails();
+    AppAnalytics.instance.track(
+      AnalyticsEvent.schemeOpened,
+      interactionId: widget.analyticsInteractionId,
+      properties: {
+        'scheme_id': widget.scheme.id,
+        'entry_point': widget.analyticsEntryPoint,
+        'rank': ?widget.analyticsRank,
+        'fit': ?widget.analyticsFit,
+      },
+    );
     // Record every opened scheme, whichever screen it was opened from
     // (Recently viewed used to stay empty outside the eligibility results).
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -241,7 +245,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
         applicationStatus: scheme.rawScheme.extras.applicationStatus,
       );
 
-  Future<void> _openOfficialUrl(String value) async {
+  Future<void> _openOfficialUrl(String value, {bool isApply = false}) async {
     if (!isSafeWebUrl(value)) {
       if (!mounted) return;
       AppToast.showInfo(context, context.l10n.noVerifiedLink);
@@ -252,6 +256,16 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
       Uri.parse(value),
       mode: LaunchMode.externalApplication,
     );
+    if (opened) {
+      AppAnalytics.instance.track(
+        AnalyticsEvent.schemeAction,
+        interactionId: widget.analyticsInteractionId,
+        properties: {
+          'scheme_id': widget.scheme.id,
+          'action': isApply ? 'apply_link_opened' : 'info_link_opened',
+        },
+      );
+    }
     if (!opened && mounted) {
       AppToast.showWarning(context, context.l10n.couldNotOpenWebsite);
     }
@@ -284,10 +298,7 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
   Widget build(BuildContext context) {
     final rawScheme = _detailedScheme ?? widget.scheme;
     final provider = Provider.of<AppProvider>(context);
-    final LocalizedScheme scheme = _localized(
-      rawScheme,
-      provider.selectedLanguage,
-    );
+    final scheme = rawScheme.toLocalized(provider.selectedLanguage);
 
     return Scaffold(
       backgroundColor: AppColors.surface,
@@ -581,12 +592,18 @@ class _SchemeDetailsScreenState extends State<SchemeDetailsScreen> {
                   provider.bookmarkedIds.contains(widget.scheme.id) ||
                   provider.bookmarkedIds.contains(widget.scheme.schemeCode),
               onBookmarkToggle: () async {
-                if (!await requireAccount(context, feature: SignInFeature.save)) {
+                if (!await requireAccount(
+                  context,
+                  feature: SignInFeature.save,
+                )) {
                   return;
                 }
                 provider.toggleBookmark(widget.scheme.id);
               },
-              onApply: () => _openOfficialUrl(_actionTarget(scheme).url),
+              onApply: () => _openOfficialUrl(
+                _actionTarget(scheme).url,
+                isApply: _actionTarget(scheme).kind == SchemeActionKind.apply,
+              ),
               applyEnabled: _actionTarget(scheme).isEnabled,
               isDirectApply:
                   _actionTarget(scheme).kind == SchemeActionKind.apply,

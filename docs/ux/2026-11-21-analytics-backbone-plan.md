@@ -1,5 +1,7 @@
 # In-app analytics backbone: plan
 
+For the current implementation handoff, use [analytics in the existing admin site](../handoff/analytics-admin-integration.md) and the [proposed mobile analytics API](../backend/mobile-analytics-api.md). The plan below is the earlier design discussion. Its broader collection proposals are outside the initial API.
+
 Written 2026-11-21. **Plan only, no code yet.** App side: this repo. Server side (ingest route, tables, reports): the other dev's `mss-backend` work. The server parts below are a proposed contract, like `PendingEndpoints`.
 
 Names follow the app's own identifiers:
